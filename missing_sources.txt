@@ -1,0 +1,21 @@
+configure.ac:84: error: required file './addmntent.c' not found
+configure.ac:84: error: required file './brk.c' not found
+configure.ac:84: error: required file './btowc.c' not found
+configure.ac:84: error: required file './catclose.c' not found
+configure.ac:84: error: required file './catgets.c' not found
+configure.ac:84: error: required file './catopen.c' not found
+configure.ac:84: error: required file './cryptdysize.c' not found
+configure.ac:84: error: required file './ecvt.c' not found
+configure.ac:84: error: required file './endmntent.c' not found
+configure.ac:84: error: required file './fcloseall.c' not found
+configure.ac:84: error: required file './fcvt.c' not found
+configure.ac:84: error: required file './getmntent.c' not found
+configure.ac:84: error: required file './hasmntopt.c' not found
+configure.ac:84: error: required file './poll.c' not found
+configure.ac:84: error: required file './sbrk.c' not found
+configure.ac:84: error: required file './setmntent.c' not found
+configure.ac:84: error: required file './shmget.c' not found
+configure.ac:84: error: required file './swapoff.c' not found
+configure.ac:84: error: required file './swapon.c' not found
+configure.ac:84: error: required file './wctob.c' not found
+

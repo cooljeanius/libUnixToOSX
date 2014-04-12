@@ -1,0 +1,13 @@
+*DS_Store*
+*.cache
+*.log
+build/*
+*.build
+*.pbxuser
+*.perspectivev3
+Makefile
+*~
+config.h
+confdefs.h
+conftest*
+*.o
