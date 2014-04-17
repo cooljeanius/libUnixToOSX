@@ -429,6 +429,12 @@ if test "x${ac_cv_func_strerror_r}" = "x"; then
   AC_FUNC_STRERROR_R
 fi
 AC_FUNC_STRNLEN
+gl_FUNC_STRSIGNAL
+if test ${HAVE_STRSIGNAL} = 0 || test ${REPLACE_STRSIGNAL} = 1; then
+  AC_LIBOBJ([strsignal])
+  gl_PREREQ_STRSIGNAL
+fi
+gl_STRING_MODULE_INDICATOR([strsignal])
 gl_FUNC_VASNPRINTF
 gl_FUNC_WCTOB
 gl_XALLOC

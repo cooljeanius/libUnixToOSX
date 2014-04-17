@@ -620,14 +620,97 @@ ac_includes_default="\
 #endif"
 
 gl_header_list=
+gl_func_list=
 ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
+host_os
+host_vendor
+host_cpu
+host
+build_os
+build_vendor
+build_cpu
+build
+UNDEFINE_STRTOK_R
+REPLACE_STRTOK_R
+REPLACE_STRSIGNAL
+REPLACE_STRNLEN
+REPLACE_STRNDUP
+REPLACE_STRNCAT
+REPLACE_STRERROR_R
+REPLACE_STRERROR
+REPLACE_STRCHRNUL
+REPLACE_STRCASESTR
+REPLACE_STRSTR
+REPLACE_STRDUP
+REPLACE_STPNCPY
+REPLACE_MEMMEM
+REPLACE_MEMCHR
+HAVE_STRVERSCMP
+HAVE_DECL_STRSIGNAL
+HAVE_DECL_STRERROR_R
+HAVE_DECL_STRTOK_R
+HAVE_STRCASESTR
+HAVE_STRSEP
+HAVE_STRPBRK
+HAVE_DECL_STRNLEN
+HAVE_DECL_STRNDUP
+HAVE_DECL_STRDUP
+HAVE_STRCHRNUL
+HAVE_STPNCPY
+HAVE_STPCPY
+HAVE_RAWMEMCHR
+HAVE_DECL_MEMRCHR
+HAVE_MEMPCPY
+HAVE_DECL_MEMMEM
+HAVE_MEMCHR
+HAVE_FFSLL
+HAVE_FFSL
+HAVE_MBSLEN
+GNULIB_STRVERSCMP
+GNULIB_STRSIGNAL
+GNULIB_STRERROR_R
+GNULIB_STRERROR
+GNULIB_MBSTOK_R
+GNULIB_MBSSEP
+GNULIB_MBSSPN
+GNULIB_MBSPBRK
+GNULIB_MBSCSPN
+GNULIB_MBSCASESTR
+GNULIB_MBSPCASECMP
+GNULIB_MBSNCASECMP
+GNULIB_MBSCASECMP
+GNULIB_MBSSTR
+GNULIB_MBSRCHR
+GNULIB_MBSCHR
+GNULIB_MBSNLEN
+GNULIB_MBSLEN
+GNULIB_STRTOK_R
+GNULIB_STRCASESTR
+GNULIB_STRSTR
+GNULIB_STRSEP
+GNULIB_STRPBRK
+GNULIB_STRNLEN
+GNULIB_STRNDUP
+GNULIB_STRNCAT
+GNULIB_STRDUP
+GNULIB_STRCHRNUL
+GNULIB_STPNCPY
+GNULIB_STPCPY
+GNULIB_RAWMEMCHR
+GNULIB_MEMRCHR
+GNULIB_MEMPCPY
+GNULIB_MEMMEM
+GNULIB_MEMCHR
+GNULIB_FFSLL
+GNULIB_FFSL
 ALLOCA
 ANSI2KNR
 U
 RANLIB
+LN_S
 EGREP
 GREP
 CPP
@@ -1329,6 +1412,10 @@ Program names:
   --program-prefix=PREFIX            prepend PREFIX to installed program names
   --program-suffix=SUFFIX            append SUFFIX to installed program names
   --program-transform-name=PROGRAM   run sed PROGRAM on installed program names
+
+System types:
+  --build=BUILD     configure for building on BUILD [guessed]
+  --host=HOST       cross-compile to build programs to run on HOST [BUILD]
 _ACEOF
 fi
 
@@ -2173,7 +2260,10 @@ fi
 gl_header_list="$gl_header_list wchar.h"
 gl_header_list="$gl_header_list stdarg.h"
 gl_header_list="$gl_header_list stdio.h"
+gl_header_list="$gl_header_list argp.h"
 gl_header_list="$gl_header_list ctype.h"
+gl_func_list="$gl_func_list strerror"
+gl_func_list="$gl_func_list strsignal"
 # Check that the precious variables saved in the cache have kept the same
 # value.
 ac_cache_corrupted=false
@@ -4455,6 +4545,19 @@ $as_echo "$ac_cv_should_define__xopen_source" >&6; }
 
 
 # Checks for programs.
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether ln -s works" >&5
+$as_echo_n "checking whether ln -s works... " >&6; }
+LN_S=$as_ln_s
+if test "$LN_S" = "ln -s"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no, using $LN_S" >&5
+$as_echo "no, using $LN_S" >&6; }
+fi
+
+
 if test -n "$ac_tool_prefix"; then
   # Extract the first word of "${ac_tool_prefix}ranlib", so it can be a program name with args.
 set dummy ${ac_tool_prefix}ranlib; ac_word=$2
@@ -4594,7 +4697,8 @@ do
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-/* Most of the following tests are stolen from RCS 5.7's src/conf.sh.  */
+/* Most of the following tests are stolen from the src/conf.sh file from
+ * RCS 5.7.  */
 struct buf { int x; };
 FILE *(*rcsopen)(struct buf *, struct stat *, int);
 static char *e(p, i)
@@ -4654,6 +4758,284 @@ am_cv_prog_cc_stdc=${ac_cv_prog_cc_stdc}
 if test "x${am_cv_prog_cc_stdc}" = "xno"; then
   as_fn_error $? "the C compiler does NOT handle ANSI-C" "$LINENO" 5
 fi
+
+# Checks for libraries.
+
+
+
+
+
+ ac_argp_save_LIBS="${LIBS}"
+  ac_argp_save_LDFLAGS="${LDFLAGS}"
+  ac_argp_ok=no
+  # First check if we can link with argp.
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for library containing argp_parse" >&5
+$as_echo_n "checking for library containing argp_parse... " >&6; }
+if ${ac_cv_search_argp_parse+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_func_search_save_LIBS=$LIBS
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char argp_parse ();
+int
+main ()
+{
+return argp_parse ();
+  ;
+  return 0;
+}
+_ACEOF
+for ac_lib in '' argp; do
+  if test -z "$ac_lib"; then
+    ac_res="none required"
+  else
+    ac_res=-l$ac_lib
+    LIBS="-l$ac_lib  $ac_func_search_save_LIBS"
+  fi
+  if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_search_argp_parse=$ac_res
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext
+  if ${ac_cv_search_argp_parse+:} false; then :
+  break
+fi
+done
+if ${ac_cv_search_argp_parse+:} false; then :
+
+else
+  ac_cv_search_argp_parse=no
+fi
+rm conftest.$ac_ext
+LIBS=$ac_func_search_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_search_argp_parse" >&5
+$as_echo "$ac_cv_search_argp_parse" >&6; }
+ac_res=$ac_cv_search_argp_parse
+if test "$ac_res" != no; then :
+  test "$ac_res" = "none required" || LIBS="$ac_res $LIBS"
+   if test "x${cross_compiling}" = "xno" -a "x${RPATHFLAG}" != "x"; then
+  ac_success=no
+  if test "$cross_compiling" = yes; then :
+  :
+else
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int main(int argc, char **argv) { return 0; }
+
+_ACEOF
+if ac_fn_c_try_run "$LINENO"; then :
+  ac_success=yes
+else
+  ac_success=no
+fi
+rm -f core *.core core.conftest.* gmon.out bb.out conftest$ac_exeext \
+  conftest.$ac_objext conftest.beam conftest.$ac_ext
+fi
+
+
+  if test "x${ac_success}" = "xno"; then
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking Running simple test program failed. Trying -R flags" >&5
+$as_echo_n "checking Running simple test program failed. Trying -R flags... " >&6; }
+    ac_remaining_dirs=''
+    ac_rpath_save_LDFLAGS="${LDFLAGS}"
+    for d in ${RPATH_CANDIDATE_DIRS}; do
+      if test "x${ac_success}" = "xyes"; then
+  	ac_remaining_dirs="${ac_remaining_dirs} ${d}"
+      else
+  	LDFLAGS="${RPATHFLAG}${d} ${LDFLAGS}"
+  	if test "$cross_compiling" = yes; then :
+  :
+else
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+int main(int argc, char **argv) { return 0; }
+
+_ACEOF
+if ac_fn_c_try_run "$LINENO"; then :
+  ac_success=yes
+  	      ac_rpath_save_LDFLAGS="${LDFLAGS}"
+  	      { $as_echo "$as_me:${as_lineno-$LINENO}: result: adding ${RPATHFLAG}${d}" >&5
+$as_echo "adding ${RPATHFLAG}${d}" >&6; }
+
+else
+  ac_remaining_dirs="${ac_remaining_dirs} ${d}"
+fi
+rm -f core *.core core.conftest.* gmon.out bb.out conftest$ac_exeext \
+  conftest.$ac_objext conftest.beam conftest.$ac_ext
+fi
+
+  	LDFLAGS="${ac_rpath_save_LDFLAGS}"
+      fi
+    done
+    RPATH_CANDIDATE_DIRS=${ac_remaining_dirs}
+  fi
+  if test "x${ac_success}" = "xno"; then
+    { $as_echo "$as_me:${as_lineno-$LINENO}: result: failed" >&5
+$as_echo "failed" >&6; }
+  fi
+fi
+
+
+  :
+
+
+
+
+
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for working argp" >&5
+$as_echo_n "checking for working argp... " >&6; }
+if ${lsh_cv_lib_argp_works+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test "$cross_compiling" = yes; then :
+  lsh_cv_lib_argp_works=no
+else
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+#include <argp.h>
+#include <stdlib.h>
+
+static const struct argp_option
+options[] =
+{
+  { NULL, 0, NULL, 0, NULL, 0 }
+};
+
+struct child_state
+{
+  int n;
+};
+
+static error_t
+child_parser(int key, char *arg, struct argp_state *state)
+{
+  struct child_state *input = (struct child_state *) state->input;
+
+  switch (key) {
+    default:
+      return ARGP_ERR_UNKNOWN;
+    case ARGP_KEY_END:
+      if (!input->n) {
+	input->n = 1;
+      }
+      break;
+  }
+  return 0;
+}
+
+const struct argp child_argp =
+{
+  options,
+  child_parser,
+  NULL, NULL, NULL, NULL, NULL
+};
+
+struct main_state
+{
+  struct child_state child;
+  int m;
+};
+
+static error_t
+main_parser(int key, char *arg, struct argp_state *state)
+{
+  struct main_state *input = (struct main_state *) state->input;
+
+  switch (key) {
+    default:
+      return ARGP_ERR_UNKNOWN;
+    case ARGP_KEY_INIT:
+      state->child_inputs[0] = &input->child;
+      break;
+    case ARGP_KEY_END:
+      if (!input->m) {
+	input->m = input->child.n;
+      }
+      break;
+  }
+  return 0;
+}
+
+static const struct argp_child
+main_children[] =
+{
+  { &child_argp, 0, "", 0 },
+  { NULL, 0, NULL, 0}
+};
+
+static const struct argp
+main_argp =
+{ options, main_parser,
+  NULL,
+  NULL,
+  main_children,
+  NULL, NULL
+};
+
+int main(int argc, char **argv)
+{
+  struct main_state input = { { 0 }, 0 };
+  char *v[2] = { "foo", NULL };
+
+  argp_parse(&main_argp, 1, v, 0, NULL, &input);
+
+  if ((input.m == 1) && (input.child.n == 1)) {
+    return 0;
+  } else {
+    return 1;
+  }
+}
+
+_ACEOF
+if ac_fn_c_try_run "$LINENO"; then :
+  lsh_cv_lib_argp_works=yes
+else
+  lsh_cv_lib_argp_works=no
+fi
+rm -f core *.core core.conftest.* gmon.out bb.out conftest$ac_exeext \
+  conftest.$ac_objext conftest.beam conftest.$ac_ext
+fi
+
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $lsh_cv_lib_argp_works" >&5
+$as_echo "$lsh_cv_lib_argp_works" >&6; }
+
+  if test "x${lsh_cv_lib_argp_works}" = "xyes"; then
+    ac_argp_ok=yes
+  else
+    # Reset link flags:
+    LIBS="${ac_argp_save_LIBS}"
+    LDFLAGS="${ac_argp_save_LDFLAGS}"
+  fi
+
+fi
+
+
+  if test "x${ac_argp_ok}" = "xyes"; then
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: your argp already works, building this version anyways though" >&5
+$as_echo "$as_me: your argp already works, building this version anyways though" >&6;}
+
+  else
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: you do not have a working argp; I assume that that is why you are building this version" >&5
+$as_echo "$as_me: you do not have a working argp; I assume that that is why you are building this version" >&6;}
+
+  fi
+
 
 # Checks for header files.
 for ac_header in libintl.h limits.h malloc.h malloc/malloc.h stddef.h
@@ -4896,12 +5278,67 @@ _ACEOF
 fi
 
 
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for socklen_t in sys/socket.h" >&5
+$as_echo_n "checking for socklen_t in sys/socket.h... " >&6; }
+if ${ac_cv_type_socklen_t+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+#include <sys/socket.h>
+
+_ACEOF
+if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
+  $EGREP "socklen_t" >/dev/null 2>&1; then :
+  ac_cv_type_socklen_t=yes
+else
+  ac_cv_type_socklen_t=no
+fi
+rm -f conftest*
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_type_socklen_t" >&5
+$as_echo "$ac_cv_type_socklen_t" >&6; }
+if test "x${ac_cv_type_socklen_t}" = "xno"; then
+        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for AIX" >&5
+$as_echo_n "checking for AIX... " >&6; }
+        cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+#ifdef _AIX
+ yes_this_is_aix
+#endif /* _AIX */
+
+_ACEOF
+if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
+  $EGREP "yes_this_is_aix" >/dev/null 2>&1; then :
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+$as_echo "#define socklen_t size_t" >>confdefs.h
+
+
+else
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+$as_echo "#define socklen_t int" >>confdefs.h
+
+
+fi
+rm -f conftest*
+
+fi
+
+
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for __attribute__" >&5
 $as_echo_n "checking for __attribute__... " >&6; }
 if ${lsh_cv_c_attribute+:} false; then :
   $as_echo_n "(cached) " >&6
 else
-   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
 #include <stdlib.h>
@@ -4928,6 +5365,7 @@ else
   lsh_cv_c_attribute=no
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $lsh_cv_c_attribute" >&5
 $as_echo "$lsh_cv_c_attribute" >&6; }
@@ -4937,6 +5375,7 @@ if test "x$lsh_cv_c_attribute" = "xyes"; then
   $as_echo "#define HAVE_GCC_ATTRIBUTE 1" >>confdefs.h
 
 fi
+
 
 
 
@@ -5127,6 +5566,8 @@ _ACEOF
 
 fi
 
+
+
 for ac_func in vprintf
 do :
   ac_fn_c_check_func "$LINENO" "vprintf" "ac_cv_func_vprintf"
@@ -5146,16 +5587,331 @@ fi
 done
 
 
-for ac_func in strerror
+
+
+
+
+
+  for ac_func in $gl_func_list
 do :
-  ac_fn_c_check_func "$LINENO" "strerror" "ac_cv_func_strerror"
-if test "x$ac_cv_func_strerror" = xyes; then :
+  as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
+ac_fn_c_check_func "$LINENO" "$ac_func" "$as_ac_var"
+if eval test \"x\$"$as_ac_var"\" = x"yes"; then :
   cat >>confdefs.h <<_ACEOF
-#define HAVE_STRERROR 1
+#define `$as_echo "HAVE_$ac_func" | $as_tr_cpp` 1
 _ACEOF
 
 fi
 done
+
+
+
+
+
+
+      ac_fn_c_check_decl "$LINENO" "sys_errlist" "ac_cv_have_decl_sys_errlist" "$ac_includes_default"
+if test "x$ac_cv_have_decl_sys_errlist" = xyes; then :
+  ac_have_decl=1
+else
+  ac_have_decl=0
+fi
+
+cat >>confdefs.h <<_ACEOF
+#define HAVE_DECL_SYS_ERRLIST $ac_have_decl
+_ACEOF
+
+
+
+  :
+
+
+
+
+
+
+  :
+
+
+
+
+
+
+
+
+
+  GNULIB_FFSL=0;
+  GNULIB_FFSLL=0;
+  GNULIB_MEMCHR=0;
+  GNULIB_MEMMEM=0;
+  GNULIB_MEMPCPY=0;
+  GNULIB_MEMRCHR=0;
+  GNULIB_RAWMEMCHR=0;
+  GNULIB_STPCPY=0;
+  GNULIB_STPNCPY=0;
+  GNULIB_STRCHRNUL=0;
+  GNULIB_STRDUP=0;
+  GNULIB_STRNCAT=0;
+  GNULIB_STRNDUP=0;
+  GNULIB_STRNLEN=0;
+  GNULIB_STRPBRK=0;
+  GNULIB_STRSEP=0;
+  GNULIB_STRSTR=0;
+  GNULIB_STRCASESTR=0;
+  GNULIB_STRTOK_R=0;
+  GNULIB_MBSLEN=0;
+  GNULIB_MBSNLEN=0;
+  GNULIB_MBSCHR=0;
+  GNULIB_MBSRCHR=0;
+  GNULIB_MBSSTR=0;
+  GNULIB_MBSCASECMP=0;
+  GNULIB_MBSNCASECMP=0;
+  GNULIB_MBSPCASECMP=0;
+  GNULIB_MBSCASESTR=0;
+  GNULIB_MBSCSPN=0;
+  GNULIB_MBSPBRK=0;
+  GNULIB_MBSSPN=0;
+  GNULIB_MBSSEP=0;
+  GNULIB_MBSTOK_R=0;
+  GNULIB_STRERROR=0;
+  GNULIB_STRERROR_R=0;
+  GNULIB_STRSIGNAL=0;
+  GNULIB_STRVERSCMP=0;
+  HAVE_MBSLEN=0;
+    HAVE_FFSL=1;
+  HAVE_FFSLL=1;
+  HAVE_MEMCHR=1;
+  HAVE_DECL_MEMMEM=1;
+  HAVE_MEMPCPY=1;
+  HAVE_DECL_MEMRCHR=1;
+  HAVE_RAWMEMCHR=1;
+  HAVE_STPCPY=1;
+  HAVE_STPNCPY=1;
+  HAVE_STRCHRNUL=1;
+  HAVE_DECL_STRDUP=1;
+  HAVE_DECL_STRNDUP=1;
+  HAVE_DECL_STRNLEN=1;
+  HAVE_STRPBRK=1;
+  HAVE_STRSEP=1;
+  HAVE_STRCASESTR=1;
+  HAVE_DECL_STRTOK_R=1;
+  HAVE_DECL_STRERROR_R=1;
+  HAVE_DECL_STRSIGNAL=1;
+  HAVE_STRVERSCMP=1;
+  REPLACE_MEMCHR=0;
+  REPLACE_MEMMEM=0;
+  REPLACE_STPNCPY=0;
+  REPLACE_STRDUP=0;
+  REPLACE_STRSTR=0;
+  REPLACE_STRCASESTR=0;
+  REPLACE_STRCHRNUL=0;
+  REPLACE_STRERROR=0;
+  REPLACE_STRERROR_R=0;
+  REPLACE_STRNCAT=0;
+  REPLACE_STRNDUP=0;
+  REPLACE_STRNLEN=0;
+  REPLACE_STRSIGNAL=0;
+  REPLACE_STRTOK_R=0;
+  UNDEFINE_STRTOK_R=0;
+
+# Make sure we can run config.sub.
+$SHELL "$ac_aux_dir/config.sub" sun4 >/dev/null 2>&1 ||
+  as_fn_error $? "cannot run $SHELL $ac_aux_dir/config.sub" "$LINENO" 5
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking build system type" >&5
+$as_echo_n "checking build system type... " >&6; }
+if ${ac_cv_build+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_build_alias=$build_alias
+test "x$ac_build_alias" = x &&
+  ac_build_alias=`$SHELL "$ac_aux_dir/config.guess"`
+test "x$ac_build_alias" = x &&
+  as_fn_error $? "cannot guess build type; you must specify one" "$LINENO" 5
+ac_cv_build=`$SHELL "$ac_aux_dir/config.sub" $ac_build_alias` ||
+  as_fn_error $? "$SHELL $ac_aux_dir/config.sub $ac_build_alias failed" "$LINENO" 5
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_build" >&5
+$as_echo "$ac_cv_build" >&6; }
+case $ac_cv_build in
+*-*-*) ;;
+*) as_fn_error $? "invalid value of canonical build" "$LINENO" 5;;
+esac
+build=$ac_cv_build
+ac_save_IFS=$IFS; IFS='-'
+set x $ac_cv_build
+shift
+build_cpu=$1
+build_vendor=$2
+shift; shift
+# Remember, the first character of IFS is used to create $*,
+# except with old shells:
+build_os=$*
+IFS=$ac_save_IFS
+case $build_os in *\ *) build_os=`echo "$build_os" | sed 's/ /-/g'`;; esac
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking host system type" >&5
+$as_echo_n "checking host system type... " >&6; }
+if ${ac_cv_host+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test "x$host_alias" = x; then
+  ac_cv_host=$ac_cv_build
+else
+  ac_cv_host=`$SHELL "$ac_aux_dir/config.sub" $host_alias` ||
+    as_fn_error $? "$SHELL $ac_aux_dir/config.sub $host_alias failed" "$LINENO" 5
+fi
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_host" >&5
+$as_echo "$ac_cv_host" >&6; }
+case $ac_cv_host in
+*-*-*) ;;
+*) as_fn_error $? "invalid value of canonical host" "$LINENO" 5;;
+esac
+host=$ac_cv_host
+ac_save_IFS=$IFS; IFS='-'
+set x $ac_cv_host
+shift
+host_cpu=$1
+host_vendor=$2
+shift; shift
+# Remember, the first character of IFS is used to create $*,
+# except with old shells:
+host_os=$*
+IFS=$ac_save_IFS
+case $host_os in *\ *) host_os=`echo "$host_os" | sed 's/ /-/g'`;; esac
+
+
+
+      ac_fn_c_check_decl "$LINENO" "strsignal" "ac_cv_have_decl_strsignal" "$ac_includes_default"
+if test "x$ac_cv_have_decl_strsignal" = xyes; then :
+  ac_have_decl=1
+else
+  ac_have_decl=0
+fi
+
+cat >>confdefs.h <<_ACEOF
+#define HAVE_DECL_STRSIGNAL $ac_have_decl
+_ACEOF
+
+
+
+
+
+
+
+
+  :
+
+
+
+
+
+  if test $ac_cv_have_decl_strsignal = no; then
+    HAVE_DECL_STRSIGNAL=0
+  fi
+
+  for ac_func in strsignal
+do :
+  ac_fn_c_check_func "$LINENO" "strsignal" "ac_cv_func_strsignal"
+if test "x$ac_cv_func_strsignal" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_STRSIGNAL 1
+_ACEOF
+
+fi
+done
+
+  if test $ac_cv_func_strsignal = yes; then
+    HAVE_STRSIGNAL=1
+            { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether strsignal always returns a string" >&5
+$as_echo_n "checking whether strsignal always returns a string... " >&6; }
+if ${gl_cv_func_working_strsignal+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test "$cross_compiling" = yes; then :
+  case "$host_os" in
+            solaris* | aix*) gl_cv_func_working_strsignal=no;;
+            *)               gl_cv_func_working_strsignal="guessing yes";;
+          esac
+else
+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+#include <string.h>
+#include <unistd.h> /* NetBSD 5.0 declares it in wrong header. */
+
+int
+main ()
+{
+int result = 0;
+              char *s = strsignal (-1);
+              if (s == (char *) 0)
+                result |= 1;
+              if (s == (char *) -1)
+                result |= 2;
+              return result;
+
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_run "$LINENO"; then :
+  gl_cv_func_working_strsignal=yes
+else
+  gl_cv_func_working_strsignal=no
+fi
+rm -f core *.core core.conftest.* gmon.out bb.out conftest$ac_exeext \
+  conftest.$ac_objext conftest.beam conftest.$ac_ext
+fi
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $gl_cv_func_working_strsignal" >&5
+$as_echo "$gl_cv_func_working_strsignal" >&6; }
+    if test "$gl_cv_func_working_strsignal" = no; then
+      REPLACE_STRSIGNAL=1
+    fi
+  else
+    HAVE_STRSIGNAL=0
+  fi
+
+
+
+
+
+
+
+
+  :
+
+
+
+
+
+ac_fn_c_check_decl "$LINENO" "sys_siglist" "ac_cv_have_decl_sys_siglist" "$ac_includes_default"
+if test "x$ac_cv_have_decl_sys_siglist" = xyes; then :
+  ac_have_decl=1
+else
+  ac_have_decl=0
+fi
+
+cat >>confdefs.h <<_ACEOF
+#define HAVE_DECL_SYS_SIGLIST $ac_have_decl
+_ACEOF
+ac_fn_c_check_decl "$LINENO" "_sys_siglist" "ac_cv_have_decl__sys_siglist" "$ac_includes_default"
+if test "x$ac_cv_have_decl__sys_siglist" = xyes; then :
+  ac_have_decl=1
+else
+  ac_have_decl=0
+fi
+
+cat >>confdefs.h <<_ACEOF
+#define HAVE_DECL__SYS_SIGLIST $ac_have_decl
+_ACEOF
+
+
+
 
 
 ac_fn_c_check_func "$LINENO" "mempcpy" "ac_cv_func_mempcpy"
@@ -5248,7 +6004,7 @@ rm -f core conftest.err conftest.$ac_objext \
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_func_call_putc_unlocked" >&5
 $as_echo "$ac_cv_func_call_putc_unlocked" >&6; }
-   if test $ac_cv_func_call_putc_unlocked = yes ; then
+   if test $ac_cv_func_call_putc_unlocked = "yes"; then
      cat >>confdefs.h <<_ACEOF
 #define HAVE_PUTC_UNLOCKED 1
 _ACEOF

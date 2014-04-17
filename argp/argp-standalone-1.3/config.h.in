@@ -15,6 +15,9 @@
    */
 #undef HAVE_ALLOCA_H
 
+/* Define to 1 if you have the <argp.h> header file. */
+#undef HAVE_ARGP_H
+
 /* Define to 1 if you have the `asprintf' function. */
 #undef HAVE_ASPRINTF
 
@@ -28,6 +31,22 @@
 /* Define to 1 if you have the declaration of `program_invocation_short_name',
    and to 0 if you don't. */
 #undef HAVE_DECL_PROGRAM_INVOCATION_SHORT_NAME
+
+/* Define to 1 if you have the declaration of `strsignal', and to 0 if you
+   don't. */
+#undef HAVE_DECL_STRSIGNAL
+
+/* Define to 1 if you have the declaration of `sys_errlist', and to 0 if you
+   don't. */
+#undef HAVE_DECL_SYS_ERRLIST
+
+/* Define to 1 if you have the declaration of `sys_siglist', and to 0 if you
+   don't. */
+#undef HAVE_DECL_SYS_SIGLIST
+
+/* Define to 1 if you have the declaration of `_sys_siglist', and to 0 if you
+   don't. */
+#undef HAVE_DECL__SYS_SIGLIST
 
 /* Define to 1 if you don't have `vprintf' but do have `_doprnt.' */
 #undef HAVE_DOPRNT
@@ -115,7 +134,7 @@
 /* Define to 1 if you have the `strdup' function. */
 #undef HAVE_STRDUP
 
-/* Define to 1 if you have the `strerror' function. */
+/* Define to 1 if you have the 'strerror' function. */
 #undef HAVE_STRERROR
 
 /* Define to 1 if you have the <strings.h> header file. */
@@ -129,6 +148,9 @@
 
 /* Define to 1 if you have the `strrchr' function. */
 #undef HAVE_STRRCHR
+
+/* Define to 1 if you have the 'strsignal' function. */
+#undef HAVE_STRSIGNAL
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #undef HAVE_SYS_STAT_H
@@ -284,8 +306,12 @@
 /* Define to `unsigned int' if <sys/types.h> does not define. */
 #undef size_t
 
+/* Length type used by getsockopt */
+#undef socklen_t
+
 /* Define to `int' if <sys/types.h> does not define. */
 #undef ssize_t
+
 
 #if __GNUC__ && HAVE_GCC_ATTRIBUTE
 # define NORETURN __attribute__ ((__noreturn__))
@@ -295,5 +321,53 @@
 # define NORETURN
 # define PRINTF_STYLE(f, a)
 # define UNUSED
-#endif
+#endif /* __GNUC__ && HAVE_GCC_ATTRIBUTE */
+
+
+
+/* AIX requires this to be the first thing in the file.  */
+#ifndef __GNUC__
+# if HAVE_ALLOCA_H
+#  include <alloca.h>
+# else
+#  ifdef _AIX
+ #pragma alloca
+#  else
+#   ifndef alloca /* predefined by HP cc +Olibcalls */
+char *alloca ();
+#   endif /* !alloca */
+#  endif /* _AIX */
+# endif /* HAVE_ALLOCA_H */
+#else /* defined __GNUC__: */
+# if HAVE_ALLOCA_H
+#  include <alloca.h>
+# endif /* HAVE_ALLOCA_H */
+#endif /* !__GNUC__ */
+
+
+
+#if HAVE_STRERROR
+# define STRERROR strerror
+#else
+# define STRERROR(x) (sys_errlist[x])
+#endif /* HAVE_STRERROR */
+
+
+
+#if HAVE_STRSIGNAL
+# define STRSIGNAL strsignal
+#else /* !HAVE_STRSIGNAL */
+# if HAVE_DECL_SYS_SIGLIST
+#  define STRSIGNAL(x) (sys_siglist[x])
+# else
+#  if HAVE_DECL__SYS_SIGLIST
+#   define STRSIGNAL(x) (_sys_siglist[x])
+#  else
+#   define STRSIGNAL(x) "Unknown signal"
+#   if __GNUC__
+#    warning Using dummy STRSIGNAL
+#   endif /* __GNUC__ */
+#  endif /* HAVE_DECL__SYS_SIGLIST */
+# endif /* HAVE_DECL_SYS_SIGLIST */
+#endif /* !HAVE_STRSIGNAL */
 
