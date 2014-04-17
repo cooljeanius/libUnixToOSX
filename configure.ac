@@ -447,6 +447,12 @@ if test "x${ac_cv_func_strerror_r}" = "x"; then
   AC_FUNC_STRERROR_R
 fi
 AC_FUNC_STRNLEN
+gl_FUNC_STRNLEN
+if test ${HAVE_DECL_STRNLEN} = 0 || test ${REPLACE_STRNLEN} = 1; then
+  AC_LIBOBJ([strnlen])
+  gl_PREREQ_STRNLEN
+fi
+gl_STRING_MODULE_INDICATOR([strnlen])
 gl_FUNC_STRSIGNAL
 if test ${HAVE_STRSIGNAL} = 0 || test ${REPLACE_STRSIGNAL} = 1; then
   AC_LIBOBJ([strsignal])

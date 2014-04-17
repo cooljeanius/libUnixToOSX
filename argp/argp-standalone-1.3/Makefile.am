@@ -27,6 +27,7 @@ LIBOBJS = @LIBOBJS@
 
 noinst_LIBRARIES = libargp.a
 check_PROGRAMS = argp-test
+TESTS = $(check_PROGRAMS)
 noinst_HEADERS = argp.h argp-fmtstream.h argp-namefrob.h # argp-comp.h
 
 EXTRA_DIST = mempcpy.c strchrnul.c strndup.c Versions

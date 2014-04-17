@@ -1,2 +1,5 @@
 *deps/*.*o
 */*deps/*.*o
+argp-test
+*.trs
+*.log

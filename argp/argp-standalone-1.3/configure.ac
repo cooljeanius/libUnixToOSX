@@ -14,6 +14,7 @@ if test "x${LIBOBJDIR}" = "x"; then
   # automake implicit rules require the "/" at the end:
   test -z "${LIBOBJDIR}" && export LIBOBJDIR="gnulib_replacement_funcs/"
 fi
+AC_CONFIG_TESTDIR([testsuite])
 AC_CONFIG_HEADERS([config.h])
 
 # GNU libc defaults to supplying the ISO C library functions only. The
@@ -58,6 +59,10 @@ LSH_GCC_ATTRIBUTES
 LSH_FUNC_ALLOCA
 AC_FUNC_MALLOC
 AC_FUNC_REALLOC
+AC_FUNC_STRNLEN
+if test "x${ac_cv_func_strnlen_working}" = "xno"; then
+  AC_LIBOBJ([strnlen])
+fi
 AC_FUNC_VPRINTF
 m4_ifdef([LSH_FUNC_STRERROR],[
 LSH_FUNC_STRERROR
