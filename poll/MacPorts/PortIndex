@@ -1,0 +1,2 @@
+poll-emulator 402
+variants universal portdir devel/poll-emulator description {Library to provide poll(2) functionality} homepage http://software.clapper.org/poll/ epoch 0 platforms {darwin freebsd} name poll-emulator long_description {This package implements the System V poll(2) system call for Unix-like systems that do not support poll.} maintainers nomaintainer license BSD categories devel version 1.5.1 revision 0

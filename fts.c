@@ -1363,67 +1363,68 @@ fts_build (register FTS *sp, int type)
            function.  But when no such function is specified, we can read
            entries in batches that are large enough to help us with inode-
            sorting, yet not so large that we risk exhausting memory.  */
-        size_t max_entries = (sp->fts_compar == NULL
+        size_t max_entries = ((sp->fts_compar == NULL)
                               ? FTS_MAX_READDIR_ENTRIES : SIZE_MAX);
 
         /*
          * Nlinks is the number of possible entries of type directory in the
-         * directory if we're cheating on stat calls, 0 if we're not doing
-         * any stat calls at all, (nlink_t) -1 if we're statting everything.
+         * directory if we are cheating on stat calls, 0 if we are not doing
+         * any stat calls at all, (nlink_t) -1 if we are statting everything.
          */
         if (type == BNAMES) {
-                nlinks = 0;
-                /* Be quiet about nostat, GCC. */
-                nostat = false;
+			nlinks = 0;
+			/* Be quiet about nostat, GCC. */
+			nostat = false;
         } else if (ISSET(FTS_NOSTAT) && ISSET(FTS_PHYSICAL)) {
-                nlinks = (cur->fts_statp->st_nlink
-                          - (ISSET(FTS_SEEDOT) ? 0 : 2));
-                nostat = true;
+			nlinks = ((cur->fts_statp->st_nlink - (ISSET(FTS_SEEDOT)) ? 0 : 2));
+			nostat = true;
         } else {
-                nlinks = (nlink_t)(-1);
-                nostat = false;
+			nlinks = (nlink_t)(-1);
+			nostat = false;
         }
 
         /*
-         * If we're going to need to stat anything or we want to descend
+         * If we are going to need to stat anything or we want to descend
          * and stay in the directory, chdir.  If this fails we keep going,
-         * but set a flag so we don't chdir after the post-order visit.
-         * We won't be able to stat anything, but we can still return the
-         * names themselves.  Note, that since fts_read won't be able to
+         * but set a flag so we do NOT chdir after the post-order visit.
+         * We will NOT be able to stat anything, but we can still return the
+         * names themselves.  Note, that since fts_read will NOT be able to
          * chdir into the directory, it will have to return different file
          * names than before, i.e. "a/b" instead of "b".  Since the node
          * has already been visited in pre-order, have to wait until the
          * post-order visit to return the error.  There is a special case
-         * here, if there was nothing to stat then it's not an error to
+         * here, if there was nothing to stat, then it is not an error to
          * not be able to stat.  This is all fairly nasty.  If a program
          * needed sorted entries or stat information, they had better be
          * checking FTS_NS on the returned nodes.
          */
-        if (continue_readdir)
-          {
+        if (continue_readdir) {
             /* When resuming a short readdir run, we already have
-               the required dirp and dir_fd.  */
+             * the required dirp and dir_fd.  */
             descend = true;
-          }
-        else if (nlinks || type == BREAD) {
+		} else if (nlinks || (type == BREAD)) {
                 if (ISSET(FTS_CWDFD)) {
-                    dir_fd = dup (dir_fd);
+                    dir_fd = dup(dir_fd);
                     if (0 <= dir_fd)
                       set_cloexec_flag(dir_fd, (bool)true);
 				}
                 if (dir_fd < 0 || fts_safe_changedir(sp, cur, dir_fd, NULL)) {
-                        if (nlinks && type == BREAD)
-                                cur->fts_errno = errno;
-                        cur->fts_flags |= FTS_DONTCHDIR;
-                        descend = false;
-                        closedir_and_clear(cur->fts_dirp);
-                        if (ISSET(FTS_CWDFD) && 0 <= dir_fd)
-                                close (dir_fd);
-                        cur->fts_dirp = NULL;
-                } else
-                        descend = true;
-        } else
-                descend = false;
+					if (nlinks && (type == BREAD)) {
+						cur->fts_errno = errno;
+					}
+					cur->fts_flags |= FTS_DONTCHDIR;
+					descend = false;
+					closedir_and_clear(cur->fts_dirp);
+					if (ISSET(FTS_CWDFD) && (0 <= dir_fd)) {
+						close(dir_fd);
+					}
+					cur->fts_dirp = NULL;
+                } else {
+					descend = true;
+				}
+        } else {
+			descend = false;
+		}
 
         /*
          * Figure out the max file name length that can be stored in the

@@ -91,7 +91,7 @@ DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	fileblocks.c getopt1.c isnanl.c vasnprintf.c poll.c strnlen.c \
 	malloc.c chdir-long.c fstat.c itold.c printf-parse.c fstatat.c \
 	getopt.c dup2.c dup.c asnprintf.c fclose.c obstack.h openat.c \
-	obstack_printf.c fflush.c obstack.c alloca.c \
+	obstack_printf.c fflush.c obstack.c stat.c alloca.c \
 	$(include_HEADERS) $(noinst_HEADERS) build-aux/ar-lib \
 	build-aux/compile build-aux/config.guess build-aux/config.sub \
 	build-aux/install-sh build-aux/missing build-aux/ltmain.sh \

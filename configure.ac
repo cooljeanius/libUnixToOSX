@@ -89,6 +89,7 @@ AC_SEARCH_LIBS([dupfd],[c System magic pub gnu iberty])
 AC_MSG_CHECKING([for miscellaneous headers...])
 AC_MSG_RESULT([... ])
 AC_SYS_POSIX_TERMIOS
+AC_HEADER_ASSERT
 AC_HEADER_DIRENT
 AC_HEADER_STAT
 AC_HEADER_STDBOOL dnl# also "_CHECK"s it
@@ -149,6 +150,7 @@ AC_MSG_RESULT([... ])
 AC_SYS_LARGEFILE
 AC_C_BIGENDIAN
 AC_C_CHAR_UNSIGNED
+AC_C_CONST
 if test "x${ac_cv_c_inline}" = "x"; then
   test -z "${ac_cv_c_inline}"
   AC_C_INLINE
@@ -187,6 +189,8 @@ gt_TYPE_WCHAR_T
 gt_TYPE_WINT_T
 AC_MSG_CHECKING([for some structs and struct members...])
 AC_MSG_RESULT([... ])
+AC_STRUCT_DIRENT_D_INO
+AC_STRUCT_DIRENT_D_TYPE
 AC_CHECK_MEMBERS([struct stat.st_blksize])
 AC_STRUCT_ST_BLOCKS
 AC_STRUCT_TIMEZONE dnl# also checks "_STRUCT_TM"
@@ -410,6 +414,7 @@ fi
 gl_MODULE_INDICATOR([realloc-gnu])
 gl_STDLIB_MODULE_INDICATOR([realloc-posix])
 gl_SAVE_CWD
+AC_FUNC_STAT
 gl_FUNC_STRNDUP
 if test ${HAVE_STRNDUP} = 0 || test ${REPLACE_STRNDUP} = 1; then
   AC_LIBOBJ([strndup])

@@ -1461,6 +1461,10 @@
 /* Define to 1 if you have the `statvfs' function. */
 #undef HAVE_STATVFS
 
+/* Define to 1 if `stat' has the bug that it succeeds when given the
+   zero-length file name argument. */
+#undef HAVE_STAT_EMPTY_STRING_BUG
+
 /* Define to 1 if you have the <stdarg.h> header file. */
 #undef HAVE_STDARG_H
 
@@ -1527,6 +1531,12 @@
 
 /* Define to 1 if you have the `strspn' function. */
 #undef HAVE_STRSPN
+
+/* Define to 1 if `d_ino' is a member of `struct dirent'. */
+#undef HAVE_STRUCT_DIRENT_D_INO
+
+/* Define to 1 if `d_type' is a member of `struct dirent'. */
+#undef HAVE_STRUCT_DIRENT_D_TYPE
 
 /* Define to 1 if `f_fstypename' is a member of `struct fsstat'. */
 #undef HAVE_STRUCT_FSSTAT_F_FSTYPENAME
@@ -1800,6 +1810,9 @@
    declares 'struct vmount'. (AIX) */
 #undef MOUNTED_VMOUNT
 
+/* Define to 1 if assertions should be disabled. */
+#undef NDEBUG
+
 /* Define if the vasnprintf implementation needs special code for the 'a' and
    'A' directives. */
 #undef NEED_PRINTF_DIRECTIVE_A
@@ -2068,6 +2081,9 @@
 
 /* Define like PROTOTYPES; this can be used by system headers. */
 #undef __PROTOTYPES
+
+/* Define to empty if `const' does not conform to ANSI C. */
+#undef const
 
 /* Define to `int' if <sys/types.h> doesn't define. */
 #undef gid_t

@@ -1,0 +1,5 @@
+Figure out what to do about extern inline, as it is not supported by
+newer gcc-3.x.
+
+When this project is vendored in to libUnixToOSX, strndup.c is also in
+the top-level directory; figure out which version to use.
