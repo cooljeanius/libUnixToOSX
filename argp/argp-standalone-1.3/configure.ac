@@ -6,9 +6,14 @@ dnl# library.
 AC_PREREQ([2.69])
 AC_INIT([argp],[standalone-1.3])
 AC_CONFIG_SRCDIR([argp-ba.c])
-AM_INIT_AUTOMAKE([1.8 foreign])
-dnl#AC_CONFIG_AUX_DIR([../../build-aux]) dnl# share tools w/parent
+AC_CONFIG_AUX_DIR([../../build-aux]) dnl# share tools w/parent
+AM_INIT_AUTOMAKE([1.8 foreign subdir-objects])
 AC_CONFIG_MACRO_DIR([../../m4]) dnl# inherit macros from parent project
+AC_CONFIG_LIBOBJ_DIR([../..]) dnl# try to share libobjs w/parent
+if test "x${LIBOBJDIR}" = "x"; then
+  # automake implicit rules require the "/" at the end:
+  test -z "${LIBOBJDIR}" && export LIBOBJDIR="gnulib_replacement_funcs/"
+fi
 AC_CONFIG_HEADERS([config.h])
 
 # GNU libc defaults to supplying the ISO C library functions only. The
@@ -51,6 +56,8 @@ LSH_GCC_ATTRIBUTES
 
 # Checks for library functions.
 LSH_FUNC_ALLOCA
+AC_FUNC_MALLOC
+AC_FUNC_REALLOC
 AC_FUNC_VPRINTF
 m4_ifdef([LSH_FUNC_STRERROR],[
 LSH_FUNC_STRERROR
@@ -64,7 +71,7 @@ m4_ifdef([gl_FUNC_STRSIGNAL],[
   ])
 ])
 
-AC_REPLACE_FUNCS([mempcpy strndup strchrnul])
+AC_REPLACE_FUNCS([mempcpy rawmemchr strndup strchrnul])
 # keep autoscan happy:
 if test "x" = "y"; then
   test -x `which autoscan`
@@ -105,7 +112,7 @@ AC_CHECK_FUNCS([fputs_unlocked fwrite_unlocked])
 AC_CHECK_FUNCS([strdup asprintf])
 
 # Other funcs that should just be "CHECK"ed instead of "REPLACE"d:
-AC_CHECK_FUNCS([isascii memchr memmove memset strchr strrchr])
+AC_CHECK_FUNCS([atoi isascii memchr memmove memset strchr strrchr strncmp])
 
 AC_CHECK_DECLS([program_invocation_name, program_invocation_short_name],
                [],[],[[#include <errno.h>]])

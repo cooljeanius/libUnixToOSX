@@ -361,6 +361,12 @@ gl_CHECK_MALLOC_POSIX
 gl_MALLOCA
 AC_FUNC_MBRTOWC
 AC_FUNC_MEMCMP
+gl_FUNC_MEMPCPY
+if test ${HAVE_MEMPCPY} = 0; then
+  AC_LIBOBJ([mempcpy])
+  gl_PREREQ_MEMPCPY
+fi
+gl_STRING_MODULE_INDICATOR([mempcpy])
 gl_FUNC_MEMRCHR
 if test "x${ac_cv_func_memrchr}" = "xno"; then
   AC_LIBOBJ([memrchr])
@@ -404,6 +410,12 @@ gl_FUNC_PRINTF_FREXP
 gl_FUNC_PRINTF_FREXPL
 gl_FUNC_PTSNAME
 gl_FUNC_PTSNAME_R
+gl_FUNC_RAWMEMCHR
+if test ${HAVE_RAWMEMCHR} = 0; then
+  AC_LIBOBJ([rawmemchr])
+  gl_PREREQ_RAWMEMCHR
+fi
+gl_STRING_MODULE_INDICATOR([rawmemchr])
 if test "x${ac_cv_func_realloc_0_nonnull}" = "x"; then
   test -z "${ac_cv_func_realloc_0_nonnull}"
   AC_FUNC_REALLOC
@@ -419,6 +431,12 @@ gl_MODULE_INDICATOR([realloc-gnu])
 gl_STDLIB_MODULE_INDICATOR([realloc-posix])
 gl_SAVE_CWD
 AC_FUNC_STAT
+gl_FUNC_STRCHRNUL
+if test ${HAVE_STRCHRNUL} = 0 || test ${REPLACE_STRCHRNUL} = 1; then
+  AC_LIBOBJ([strchrnul])
+  gl_PREREQ_STRCHRNUL
+fi
+gl_STRING_MODULE_INDICATOR([strchrnul])
 gl_FUNC_STRNDUP
 if test ${HAVE_STRNDUP} = 0 || test ${REPLACE_STRNDUP} = 1; then
   AC_LIBOBJ([strndup])

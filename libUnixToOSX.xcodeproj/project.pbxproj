@@ -167,6 +167,9 @@
 		A531669D18EEF8B00049B90F /* at-func.c in Sources */ = {isa = PBXBuildFile; fileRef = A531669B18EEF8B00049B90F /* at-func.c */; };
 		A531669E18EEF8B00049B90F /* at-func2.c in Sources */ = {isa = PBXBuildFile; fileRef = A531669C18EEF8B00049B90F /* at-func2.c */; };
 		A53166C618EF04A60049B90F /* dup.h in Headers */ = {isa = PBXBuildFile; fileRef = A53166C518EF04A60049B90F /* dup.h */; };
+		A563262E19001FAB0024EB6A /* mempcpy.c in Sources */ = {isa = PBXBuildFile; fileRef = A563262D19001FAB0024EB6A /* mempcpy.c */; };
+		A563263019001FBC0024EB6A /* rawmemchr.c in Sources */ = {isa = PBXBuildFile; fileRef = A563262F19001FBC0024EB6A /* rawmemchr.c */; };
+		A563263219001FD10024EB6A /* strchrnul.c in Sources */ = {isa = PBXBuildFile; fileRef = A563263119001FD10024EB6A /* strchrnul.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -338,6 +341,9 @@
 		A531669B18EEF8B00049B90F /* at-func.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "at-func.c"; sourceTree = "<group>"; };
 		A531669C18EEF8B00049B90F /* at-func2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "at-func2.c"; sourceTree = "<group>"; };
 		A53166C518EF04A60049B90F /* dup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dup.h; sourceTree = "<group>"; };
+		A563262D19001FAB0024EB6A /* mempcpy.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mempcpy.c; sourceTree = "<group>"; };
+		A563262F19001FBC0024EB6A /* rawmemchr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rawmemchr.c; sourceTree = "<group>"; };
+		A563263119001FD10024EB6A /* strchrnul.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = strchrnul.c; sourceTree = "<group>"; };
 		D2AAC0630554660B00DB518D /* liblibUnixToOSX.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = liblibUnixToOSX.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -472,6 +478,7 @@
 				A50A912918EE1E1A0096B616 /* memcmp.c */,
 				A50A912A18EE1E1A0096B616 /* memcmp2.c */,
 				A50A912B18EE1E1A0096B616 /* memcmp2.h */,
+				A563262D19001FAB0024EB6A /* mempcpy.c */,
 				A531667818EEF5560049B90F /* memrchr.c */,
 				A50A912F18EE1E290096B616 /* msvc-inval.c */,
 				A50A913018EE1E290096B616 /* msvc-inval.h */,
@@ -504,6 +511,7 @@
 				A50A915818EE1E3F0096B616 /* printf-parse.h */,
 				A50A915918EE1E3F0096B616 /* progname.c */,
 				A50A915A18EE1E3F0096B616 /* progname.h */,
+				A563262F19001FBC0024EB6A /* rawmemchr.c */,
 				A50A916518EE1E5D0096B616 /* realloc.c */,
 				A50A916618EE1E5D0096B616 /* same-inode.h */,
 				A50A916718EE1E5D0096B616 /* same.c */,
@@ -515,6 +523,7 @@
 				A50A916D18EE1E5D0096B616 /* stat.c */,
 				A50A917718EE1E6D0096B616 /* stdio-impl.h */,
 				A50A917818EE1E6D0096B616 /* stripslash.c */,
+				A563263119001FD10024EB6A /* strchrnul.c */,
 				A50A917918EE1E6D0096B616 /* strndup.c */,
 				A50A917A18EE1E6D0096B616 /* strnlen.c */,
 				A50A917B18EE1E6D0096B616 /* strnlen1.c */,
@@ -799,6 +808,7 @@
 				A50A912818EE1E000096B616 /* malloc.c in Sources */,
 				A50A912C18EE1E1A0096B616 /* memcmp.c in Sources */,
 				A50A912D18EE1E1A0096B616 /* memcmp2.c in Sources */,
+				A563262E19001FAB0024EB6A /* mempcpy.c in Sources */,
 				A531667918EEF5560049B90F /* memrchr.c in Sources */,
 				A50A914018EE1E290096B616 /* msvc-inval.c in Sources */,
 				A50A914218EE1E290096B616 /* msvc-nothrow.c in Sources */,
@@ -818,11 +828,13 @@
 				A50A915F18EE1E3F0096B616 /* printf-frexpl.c in Sources */,
 				A50A916118EE1E3F0096B616 /* printf-parse.c in Sources */,
 				A50A916318EE1E3F0096B616 /* progname.c in Sources */,
+				A563263019001FBC0024EB6A /* rawmemchr.c in Sources */,
 				A50A916E18EE1E5D0096B616 /* realloc.c in Sources */,
 				A50A917018EE1E5D0096B616 /* same.c in Sources */,
 				A50A917218EE1E5D0096B616 /* save-cwd.c in Sources */,
 				A50A917618EE1E5D0096B616 /* stat.c in Sources */,
 				A50A918018EE1E6D0096B616 /* stripslash.c in Sources */,
+				A563263219001FD10024EB6A /* strchrnul.c in Sources */,
 				A50A918118EE1E6D0096B616 /* strndup.c in Sources */,
 				A50A918218EE1E6D0096B616 /* strnlen.c in Sources */,
 				A50A918318EE1E6D0096B616 /* strnlen1.c in Sources */,

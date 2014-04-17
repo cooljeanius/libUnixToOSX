@@ -20,7 +20,7 @@
 
 # inherit macros from parent project:
 ACLOCAL_AMFLAGS = -I../../m4 --system-acdir=/sw/share/gnulib/m4 --install
-AUTOMAKE_OPTIONS = 1.8 foreign
+AUTOMAKE_OPTIONS = 1.8 foreign subdir-objects
 SUBDIRS = . testsuite
 
 LIBOBJS = @LIBOBJS@
