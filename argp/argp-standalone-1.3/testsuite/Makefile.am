@@ -3,7 +3,7 @@ TS_PROGS =
 
 TS_ALL = $(TS_PROGS) $(TS_SH)
 
-noinst_PROGRAMS = $(TS_PROGS) ex1 ex3 ex4
+check_PROGRAMS = $(TS_PROGS) ex1 ex3 ex4
 
 LDADD = ../libargp.a
 

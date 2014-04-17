@@ -154,7 +154,11 @@ AC_C_CONST
 if test "x${ac_cv_c_inline}" = "x"; then
   test -z "${ac_cv_c_inline}"
   AC_C_INLINE
+elif test "x${gl_cv_c_inline_effective}" = "x"; then
+  test -z "${gl_cv_c_inline_effective}"
+  gl_INLINE
 fi
+gl_EXTERN_INLINE
 AC_C_PROTOTYPES
 AC_C_VOLATILE
 gl_CYCLE_CHECK
@@ -471,4 +475,5 @@ AC_CONFIG_FILES([Makefile \
 autoscan/Makefile \
 libftw0/Makefile \
 poll/poll-emulator/Makefile])
+AC_CONFIG_SUBDIRS([argp/argp-standalone-1.3])
 AC_OUTPUT

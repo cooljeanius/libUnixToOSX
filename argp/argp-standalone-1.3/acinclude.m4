@@ -1,26 +1,28 @@
-dnl Try to detect the type of the third arg to getsockname() et al
+dnl# Try to detect the type of the third arg to getsockname() et al:
 AC_DEFUN([LSH_TYPE_SOCKLEN_T],
-[AH_TEMPLATE([socklen_t], [Length type used by getsockopt])
-AC_CACHE_CHECK([for socklen_t in sys/socket.h], ac_cv_type_socklen_t,
-[AC_EGREP_HEADER(socklen_t, sys/socket.h,
-  [ac_cv_type_socklen_t=yes], [ac_cv_type_socklen_t=no])])
-if test $ac_cv_type_socklen_t = no; then
-        AC_MSG_CHECKING(for AIX)
-        AC_EGREP_CPP(yes, [
+[AC_REQUIRE([AC_PROG_EGREP])
+AC_REQUIRE([AC_PROG_CPP])
+AH_TEMPLATE([socklen_t],[Length type used by getsockopt])
+AC_CACHE_CHECK([for socklen_t in sys/socket.h],[ac_cv_type_socklen_t],
+[AC_EGREP_HEADER([socklen_t],[sys/socket.h],
+  [ac_cv_type_socklen_t=yes],[ac_cv_type_socklen_t=no])])
+if test "x${ac_cv_type_socklen_t}" = "xno"; then
+        AC_MSG_CHECKING([for AIX])
+        AC_EGREP_CPP([yes_this_is_aix],[
 #ifdef _AIX
- yes
-#endif
+ yes_this_is_aix
+#endif /* _AIX */
 ],[
-AC_MSG_RESULT(yes)
-AC_DEFINE(socklen_t, size_t)
+AC_MSG_RESULT([yes])
+AC_DEFINE([socklen_t],[size_t])
 ],[
-AC_MSG_RESULT(no)
-AC_DEFINE(socklen_t, int)
+AC_MSG_RESULT([no])
+AC_DEFINE([socklen_t],[int])
 ])
 fi
 ])
 
-dnl LSH_PATH_ADD(path-id, directory)
+dnl# LSH_PATH_ADD([path-id],[directory])
 AC_DEFUN([LSH_PATH_ADD],
 [AC_MSG_CHECKING($2)
 ac_exists=no
@@ -105,8 +107,7 @@ dnl LSH_RPATH_FIX
 AC_DEFUN([LSH_RPATH_FIX],
 [if test $cross_compiling = no -a "x$RPATHFLAG" != x ; then
   ac_success=no
-  AC_TRY_RUN([int main(int argc, char **argv) { return 0; }],
-    ac_success=yes, ac_success=no, :)
+  AC_RUN_IFELSE([AC_LANG_SOURCE([[int main(int argc, char **argv) { return 0; }]])],[ac_success=yes],[ac_success=no],[:])
   
   if test $ac_success = no ; then
     AC_MSG_CHECKING([Running simple test program failed. Trying -R flags])
@@ -119,12 +120,10 @@ dnl echo RPATH_CANDIDATE_DIRS = $RPATH_CANDIDATE_DIRS
       else
   	LDFLAGS="$RPATHFLAG$d $LDFLAGS"
 dnl echo LDFLAGS = $LDFLAGS
-  	AC_TRY_RUN([int main(int argc, char **argv) { return 0; }],
-  	  [ac_success=yes
+  	AC_RUN_IFELSE([AC_LANG_SOURCE([[int main(int argc, char **argv) { return 0; }]])],[ac_success=yes
   	  ac_rpath_save_LDFLAGS="$LDFLAGS"
   	  AC_MSG_RESULT([adding $RPATHFLAG$d])
-  	  ],
-  	  [ac_remaining_dirs="$ac_remaining_dirs $d"], :)
+  	  ],[ac_remaining_dirs="$ac_remaining_dirs $d"],[:])
   	LDFLAGS="$ac_rpath_save_LDFLAGS"
       fi
     done
@@ -163,8 +162,7 @@ AC_DEFUN([LSH_LIB_ARGP],
   [ LSH_RPATH_FIX
     AC_CACHE_CHECK([for working argp],
       lsh_cv_lib_argp_works,
-      [ AC_TRY_RUN(
-[#include <argp.h>
+      [ AC_RUN_IFELSE([AC_LANG_SOURCE([[#include <argp.h>
 #include <stdlib.h>
 
 static const struct argp_option
@@ -257,9 +255,7 @@ int main(int argc, char **argv)
   else
     return 1;
 }
-], lsh_cv_lib_argp_works=yes,
-   lsh_cv_lib_argp_works=no,
-   lsh_cv_lib_argp_works=no)])
+]])],[lsh_cv_lib_argp_works=yes],[lsh_cv_lib_argp_works=no],[lsh_cv_lib_argp_works=no])])
 
   if test x$lsh_cv_lib_argp_works = xyes ; then
     ac_argp_ok=yes
@@ -282,10 +278,9 @@ dnl Check for gcc's __attribute__ construction
 AC_DEFUN([LSH_GCC_ATTRIBUTES],
 [AC_CACHE_CHECK(for __attribute__,
 	       lsh_cv_c_attribute,
-[ AC_TRY_COMPILE([
+[ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
 #include <stdlib.h>
-],
-[
+]], [[
 static void foo(void) __attribute__ ((noreturn));
 
 static void __attribute__ ((noreturn))
@@ -293,9 +288,7 @@ foo(void)
 {
   exit(1);
 }
-],
-lsh_cv_c_attribute=yes,
-lsh_cv_c_attribute=no)])
+]])],[lsh_cv_c_attribute=yes],[lsh_cv_c_attribute=no])])
 
 AH_TEMPLATE([HAVE_GCC_ATTRIBUTE], [Define if the compiler understands __attribute__])
 if test "x$lsh_cv_c_attribute" = "xyes"; then
@@ -328,13 +321,10 @@ AH_BOTTOM(
 
 AC_CACHE_CHECK(for __FUNCTION__,
 	       lsh_cv_c_FUNCTION,
-  [ AC_TRY_COMPILE(,
-      [ #if __GNUC__ == 3
+  [ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[]], [[ #if __GNUC__ == 3
 	#  error __FUNCTION__ is broken in gcc-3
 	#endif
-        void foo(void) { char c = __FUNCTION__[0]; } ],
-      lsh_cv_c_FUNCTION=yes,
-      lsh_cv_c_FUNCTION=no)])
+        void foo(void) { char c = __FUNCTION__[0]; } ]])],[lsh_cv_c_FUNCTION=yes],[lsh_cv_c_FUNCTION=no])])
 
 if test "x$lsh_cv_c_FUNCTION" = "xyes"; then
   AC_DEFINE(HAVE_GCC_FUNCTION)
@@ -442,10 +432,8 @@ AC_CACHE_VAL([ac_cv_header_stdint_t],[
 old_CXXFLAGS="$CXXFLAGS" ; CXXFLAGS=""
 old_CPPFLAGS="$CPPFLAGS" ; CPPFLAGS=""
 old_CFLAGS="$CFLAGS"     ; CFLAGS=""
-AC_TRY_COMPILE([#include <stdint.h>],[int_least32_t v = 0;],
-[ac_cv_stdint_result="(assuming C99 compatible system)"
- ac_cv_header_stdint_t="stdint.h"; ],
-[ac_cv_header_stdint_t=""])
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <stdint.h>]], [[int_least32_t v = 0;]])],[ac_cv_stdint_result="(assuming C99 compatible system)"
+ ac_cv_header_stdint_t="stdint.h"; ],[ac_cv_header_stdint_t=""])
 CXXFLAGS="$old_CXXFLAGS"
 CPPFLAGS="$old_CPPFLAGS"
 CFLAGS="$old_CFLAGS" ])
