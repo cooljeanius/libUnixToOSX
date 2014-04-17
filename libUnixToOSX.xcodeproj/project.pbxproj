@@ -167,9 +167,19 @@
 		A531669D18EEF8B00049B90F /* at-func.c in Sources */ = {isa = PBXBuildFile; fileRef = A531669B18EEF8B00049B90F /* at-func.c */; };
 		A531669E18EEF8B00049B90F /* at-func2.c in Sources */ = {isa = PBXBuildFile; fileRef = A531669C18EEF8B00049B90F /* at-func2.c */; };
 		A53166C618EF04A60049B90F /* dup.h in Headers */ = {isa = PBXBuildFile; fileRef = A53166C518EF04A60049B90F /* dup.h */; };
+		A558DC78190032DD002696E8 /* siglist.h in Headers */ = {isa = PBXBuildFile; fileRef = A558DC77190032DD002696E8 /* siglist.h */; };
 		A563262E19001FAB0024EB6A /* mempcpy.c in Sources */ = {isa = PBXBuildFile; fileRef = A563262D19001FAB0024EB6A /* mempcpy.c */; };
 		A563263019001FBC0024EB6A /* rawmemchr.c in Sources */ = {isa = PBXBuildFile; fileRef = A563262F19001FBC0024EB6A /* rawmemchr.c */; };
 		A563263219001FD10024EB6A /* strchrnul.c in Sources */ = {isa = PBXBuildFile; fileRef = A563263119001FD10024EB6A /* strchrnul.c */; };
+		A563264419002BF30024EB6A /* strsignal.c in Sources */ = {isa = PBXBuildFile; fileRef = A563264319002BF30024EB6A /* strsignal.c */; };
+		A563266A19002CF90024EB6A /* rawmemchr.h in Headers */ = {isa = PBXBuildFile; fileRef = A563266919002CF90024EB6A /* rawmemchr.h */; };
+		A56326861900327C0024EB6A /* lock.c in Sources */ = {isa = PBXBuildFile; fileRef = A563267F1900327C0024EB6A /* lock.c */; };
+		A56326871900327C0024EB6A /* lock.h in Headers */ = {isa = PBXBuildFile; fileRef = A56326801900327C0024EB6A /* lock.h */; };
+		A56326881900327C0024EB6A /* thread.c in Sources */ = {isa = PBXBuildFile; fileRef = A56326811900327C0024EB6A /* thread.c */; };
+		A56326891900327C0024EB6A /* thread.h in Headers */ = {isa = PBXBuildFile; fileRef = A56326821900327C0024EB6A /* thread.h */; };
+		A563268A1900327C0024EB6A /* threadlib.c in Sources */ = {isa = PBXBuildFile; fileRef = A56326831900327C0024EB6A /* threadlib.c */; };
+		A563268B1900327C0024EB6A /* tls.c in Sources */ = {isa = PBXBuildFile; fileRef = A56326841900327C0024EB6A /* tls.c */; };
+		A563268C1900327C0024EB6A /* tls.h in Headers */ = {isa = PBXBuildFile; fileRef = A56326851900327C0024EB6A /* tls.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -341,9 +351,19 @@
 		A531669B18EEF8B00049B90F /* at-func.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "at-func.c"; sourceTree = "<group>"; };
 		A531669C18EEF8B00049B90F /* at-func2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "at-func2.c"; sourceTree = "<group>"; };
 		A53166C518EF04A60049B90F /* dup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dup.h; sourceTree = "<group>"; };
+		A558DC77190032DD002696E8 /* siglist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = siglist.h; sourceTree = "<group>"; };
 		A563262D19001FAB0024EB6A /* mempcpy.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mempcpy.c; sourceTree = "<group>"; };
 		A563262F19001FBC0024EB6A /* rawmemchr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rawmemchr.c; sourceTree = "<group>"; };
 		A563263119001FD10024EB6A /* strchrnul.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = strchrnul.c; sourceTree = "<group>"; };
+		A563264319002BF30024EB6A /* strsignal.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = strsignal.c; sourceTree = "<group>"; };
+		A563266919002CF90024EB6A /* rawmemchr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rawmemchr.h; sourceTree = "<group>"; };
+		A563267F1900327C0024EB6A /* lock.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lock.c; sourceTree = "<group>"; };
+		A56326801900327C0024EB6A /* lock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lock.h; sourceTree = "<group>"; };
+		A56326811900327C0024EB6A /* thread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = thread.c; sourceTree = "<group>"; };
+		A56326821900327C0024EB6A /* thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = thread.h; sourceTree = "<group>"; };
+		A56326831900327C0024EB6A /* threadlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = threadlib.c; sourceTree = "<group>"; };
+		A56326841900327C0024EB6A /* tls.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tls.c; sourceTree = "<group>"; };
+		A56326851900327C0024EB6A /* tls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tls.h; sourceTree = "<group>"; };
 		D2AAC0630554660B00DB518D /* liblibUnixToOSX.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = liblibUnixToOSX.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -456,6 +476,7 @@
 				A50A90FE18EE1DD20096B616 /* getopt.c */,
 				A50A910118EE1DE20096B616 /* getopt1.c */,
 				A50A910218EE1DE20096B616 /* gettext.h */,
+				A563267E1900327C0024EB6A /* glthread */,
 				A50A910318EE1DE20096B616 /* hash-pjw.c */,
 				A50A910418EE1DE20096B616 /* hash-pjw.h */,
 				A50A910518EE1DE20096B616 /* hash-triple.c */,
@@ -512,12 +533,14 @@
 				A50A915918EE1E3F0096B616 /* progname.c */,
 				A50A915A18EE1E3F0096B616 /* progname.h */,
 				A563262F19001FBC0024EB6A /* rawmemchr.c */,
+				A563266919002CF90024EB6A /* rawmemchr.h */,
 				A50A916518EE1E5D0096B616 /* realloc.c */,
 				A50A916618EE1E5D0096B616 /* same-inode.h */,
 				A50A916718EE1E5D0096B616 /* same.c */,
 				A50A916818EE1E5D0096B616 /* same.h */,
 				A50A916918EE1E5D0096B616 /* save-cwd.c */,
 				A50A916A18EE1E5D0096B616 /* save-cwd.h */,
+				A558DC77190032DD002696E8 /* siglist.h */,
 				A50A916B18EE1E5D0096B616 /* stat-macros.h */,
 				A50A916C18EE1E5D0096B616 /* stat-size.h */,
 				A50A916D18EE1E5D0096B616 /* stat.c */,
@@ -528,6 +551,7 @@
 				A50A917A18EE1E6D0096B616 /* strnlen.c */,
 				A50A917B18EE1E6D0096B616 /* strnlen1.c */,
 				A50A917C18EE1E6D0096B616 /* strnlen1.h */,
+				A563264319002BF30024EB6A /* strsignal.c */,
 				A50A917D18EE1E6D0096B616 /* unistd--.h */,
 				A50A917E18EE1E6D0096B616 /* unistd-safer.h */,
 				A50A918718EE1E7D0096B616 /* unlocked-io.h */,
@@ -567,6 +591,20 @@
 			);
 			name = snippet;
 			path = "build-aux/snippet";
+			sourceTree = "<group>";
+		};
+		A563267E1900327C0024EB6A /* glthread */ = {
+			isa = PBXGroup;
+			children = (
+				A563267F1900327C0024EB6A /* lock.c */,
+				A56326801900327C0024EB6A /* lock.h */,
+				A56326811900327C0024EB6A /* thread.c */,
+				A56326821900327C0024EB6A /* thread.h */,
+				A56326831900327C0024EB6A /* threadlib.c */,
+				A56326841900327C0024EB6A /* tls.c */,
+				A56326851900327C0024EB6A /* tls.h */,
+			);
+			path = glthread;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -614,6 +652,7 @@
 				A50A911E18EE1DEE0096B616 /* isnand-nolibm.h in Headers */,
 				A50A912018EE1DEE0096B616 /* isnanf-nolibm.h in Headers */,
 				A50A912218EE1DEE0096B616 /* isnanl-nolibm.h in Headers */,
+				A56326871900327C0024EB6A /* lock.h in Headers */,
 				A50A912E18EE1E1A0096B616 /* memcmp2.h in Headers */,
 				A50A914118EE1E290096B616 /* msvc-inval.h in Headers */,
 				A50A914318EE1E290096B616 /* msvc-nothrow.h in Headers */,
@@ -630,10 +669,13 @@
 				A50A916F18EE1E5D0096B616 /* same-inode.h in Headers */,
 				A50A917118EE1E5D0096B616 /* same.h in Headers */,
 				A50A917318EE1E5D0096B616 /* save-cwd.h in Headers */,
+				A558DC78190032DD002696E8 /* siglist.h in Headers */,
 				A50A917418EE1E5D0096B616 /* stat-macros.h in Headers */,
 				A50A917518EE1E5D0096B616 /* stat-size.h in Headers */,
 				A50A917F18EE1E6D0096B616 /* stdio-impl.h in Headers */,
 				A50A918418EE1E6D0096B616 /* strnlen1.h in Headers */,
+				A56326891900327C0024EB6A /* thread.h in Headers */,
+				A563268C1900327C0024EB6A /* tls.h in Headers */,
 				A50A918518EE1E6D0096B616 /* unistd--.h in Headers */,
 				A50A918618EE1E6D0096B616 /* unistd-safer.h in Headers */,
 				A50A919318EE1E7D0096B616 /* unlocked-io.h in Headers */,
@@ -644,6 +686,7 @@
 				A50A919C18EE1E7D0096B616 /* xsize.h in Headers */,
 				A50A919E18EE1E7D0096B616 /* xstrndup.h in Headers */,
 				A53166C618EF04A60049B90F /* dup.h in Headers */,
+				A563266A19002CF90024EB6A /* rawmemchr.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -672,6 +715,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1DEB914A08733D8E0010E9CD /* Build configuration list for PBXNativeTarget "libUnixToOSX" */;
 			buildPhases = (
+				A563265819002C480024EB6A /* ShellScript */,
 				D2AAC0600554660B00DB518D /* Headers */,
 				D2AAC0610554660B00DB518D /* Sources */,
 				D289988505E68E00004EDB86 /* Frameworks */,
@@ -733,6 +777,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		A563265819002C480024EB6A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n\nexport PATH=/opt/local/bin:/opt/local/sbin:${PATH}\n\nif test \"x${I_ACTUALLY_WANT_TO_READ_THE_MESSAGES}\" = \"x1\"; then\n\tsleep 1\nfi\n\necho \"Environment variables: \"\necho \" \"\n\nenv | uniq | sort | uniq\n\necho \" \"\necho \"Done printing environment, now seeing if we need to regenerate config.h...\"\necho \" \"\n\nif test \"x${I_ACTUALLY_WANT_TO_READ_THE_MESSAGES}\" = \"x1\"; then\n\tsleep 1\nfi\n\nif test ! -e ${SRCROOT}/config.h; then\n\tif test \"x${BUILD_STYLE}\" = \"xRelease\"; then\n\t\t${SRCROOT}/configure --disable-assert\n\telif test \"x${BUILD_STYLE}\" = \"xDebug\"; then\n\t\t${SRCROOT}/configure --disable-silent-rules\n\telse\n\t\t${SRCROOT}/configure\n\tfi\nelse\n\techo \"config.h is already present\"\nfi\n\nif test \"x${I_ACTUALLY_WANT_TO_READ_THE_MESSAGES}\" = \"x1\"; then\n\tsleep 1\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -804,6 +861,7 @@
 				A50A912118EE1DEE0096B616 /* isnanf.c in Sources */,
 				A50A912318EE1DEE0096B616 /* isnanl.c in Sources */,
 				A50A912418EE1DEE0096B616 /* itold.c in Sources */,
+				A56326861900327C0024EB6A /* lock.c in Sources */,
 				A50A912618EE1DFA0096B616 /* lstat.c in Sources */,
 				A50A912818EE1E000096B616 /* malloc.c in Sources */,
 				A50A912C18EE1E1A0096B616 /* memcmp.c in Sources */,
@@ -838,6 +896,10 @@
 				A50A918118EE1E6D0096B616 /* strndup.c in Sources */,
 				A50A918218EE1E6D0096B616 /* strnlen.c in Sources */,
 				A50A918318EE1E6D0096B616 /* strnlen1.c in Sources */,
+				A563264419002BF30024EB6A /* strsignal.c in Sources */,
+				A56326881900327C0024EB6A /* thread.c in Sources */,
+				A563268A1900327C0024EB6A /* threadlib.c in Sources */,
+				A563268B1900327C0024EB6A /* tls.c in Sources */,
 				A50A919418EE1E7D0096B616 /* vasnprintf.c in Sources */,
 				A50A8F4618EC9A3C0096B616 /* wctob.c in Sources */,
 				A50A919818EE1E7D0096B616 /* xalloc-die.c in Sources */,

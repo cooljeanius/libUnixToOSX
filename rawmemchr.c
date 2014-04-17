@@ -20,9 +20,11 @@
 /* Specification.  */
 #include <string.h>
 
+#include "rawmemchr.h"
+
 /* Find the first occurrence of C in S.  */
 void *
-rawmemchr (const void *s, int c_in)
+rawmemchr(const void *s, int c_in)
 {
   /* On 32-bit hardware, choosing longword to be a 32-bit unsigned
      long instead of a 64-bit uintmax_t tends to give better
@@ -108,29 +110,35 @@ rawmemchr (const void *s, int c_in)
      therefore, the read will not cross page boundaries and will not
      cause a fault.  */
 
-  while (1)
-    {
-      longword longword1 = *longword_ptr ^ repeated_c;
+  while (1) {
+      longword longword1 = (*longword_ptr ^ repeated_c);
 
       if ((((longword1 - repeated_one) & ~longword1)
-           & (repeated_one << 7)) != 0)
+           & (repeated_one << 7)) != 0) {
         break;
+	  }
       longword_ptr++;
-    }
+  }
 
-  char_ptr = (const unsigned char *) longword_ptr;
+  char_ptr = (const unsigned char *)longword_ptr;
+
+  /* dummy condition to use value stored to 'char_ptr': */
+  if (char_ptr == NULL) {
+	;
+  }
 
   /* At this point, we know that one of the sizeof (longword) bytes
-     starting at char_ptr is == c.  On little-endian machines, we
-     could determine the first such byte without any further memory
-     accesses, just by looking at the tmp result from the last loop
-     iteration.  But this does not work on big-endian machines.
-     Choose code that works in both cases.  */
+   * starting at char_ptr is == c.  On little-endian machines, we
+   * could determine the first such byte without any further memory
+   * accesses, just by looking at the tmp result from the last loop
+   * iteration.  But this does not work on big-endian machines.
+   * Choose code that works in both cases.  */
 
-  char_ptr = (unsigned char *) longword_ptr;
-  while (*char_ptr != c)
+  char_ptr = (unsigned char *)longword_ptr;
+  while (*char_ptr != c) {
     char_ptr++;
-  return (void *) char_ptr;
+  }
+  return (void *)char_ptr;
 }
 
 /* EOF */

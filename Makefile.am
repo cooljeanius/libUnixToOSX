@@ -1,4 +1,4 @@
-AUTOMAKE_OPTIONS = 1.6 foreign no-dependencies
+AUTOMAKE_OPTIONS = 1.6 foreign no-dependencies subdir-objects
 
 ACLOCAL_AMFLAGS = -I m4 --system-acdir=/sw/share/gnulib/m4 --install
 
@@ -14,7 +14,7 @@ libUnixToOSX_la_LIBADD = $(LTLIBOBJS) $(ALLOCA)
 
 EXTRA_DIST = Readme.md
 
-SUBDIRS = libftw0 autoscan poll/poll-emulator
+SUBDIRS = libftw0 autoscan poll/poll-emulator argp/argp-standalone-1.3
 
 MOSTLYCLEANFILES = .DS_Store
 
@@ -991,3 +991,11 @@ strings.h: strings.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(WARN_ON_USE
 	} > $@-t && \
 	mv $@-t $@
 MOSTLYCLEANFILES += strings.h strings.h-t
+
+libUnixToOSX_la_SOURCES += glthread/lock.h glthread/lock.c
+
+libUnixToOSX_la_SOURCES += glthread/tls.h glthread/tls.c
+
+libUnixToOSX_la_SOURCES += glthread/threadlib.c
+
+libUnixToOSX_la_SOURCES += glthread/thread.h glthread/thread.c

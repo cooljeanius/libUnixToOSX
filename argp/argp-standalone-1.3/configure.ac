@@ -7,7 +7,8 @@ AC_PREREQ([2.69])
 AC_INIT([argp],[standalone-1.3])
 AC_CONFIG_SRCDIR([argp-ba.c])
 AC_CONFIG_AUX_DIR([../../build-aux]) dnl# share tools w/parent
-AM_INIT_AUTOMAKE([1.8 foreign subdir-objects])
+AM_INIT_AUTOMAKE([1.8 foreign no-dependencies subdir-objects])
+AM_MAINTAINER_MODE
 AC_CONFIG_MACRO_DIR([../../m4]) dnl# inherit macros from parent project
 AC_CONFIG_LIBOBJ_DIR([../..]) dnl# try to share libobjs w/parent
 if test "x${LIBOBJDIR}" = "x"; then
@@ -46,6 +47,7 @@ AC_CHECK_HEADERS([libintl.h limits.h malloc.h malloc/malloc.h stddef.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
+AC_C_RESTRICT
 AM_ANSI_C_PROTOTYPES
 gl_INLINE
 gl_EXTERN_INLINE

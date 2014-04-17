@@ -20,7 +20,7 @@
 
 # inherit macros from parent project:
 ACLOCAL_AMFLAGS = -I../../m4 --system-acdir=/sw/share/gnulib/m4 --install
-AUTOMAKE_OPTIONS = 1.8 foreign subdir-objects
+AUTOMAKE_OPTIONS = 1.8 foreign no-dependencies subdir-objects
 SUBDIRS = . testsuite
 
 LIBOBJS = @LIBOBJS@
@@ -40,6 +40,8 @@ libargp_a_SOURCES = argp-ba.c argp-eexst.c argp-fmtstream.c \
 libargp_a_LIBADD = $(LIBOBJS)
 
 argp_test_LDADD = libargp.a
+
+AM_CPPFLAGS = -I../..
 
 ## ---------- ##
 ## ansi2knr.  ##

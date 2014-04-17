@@ -21,7 +21,7 @@ AC_CHECK_FILE([/etc/fstab])
 # automake
 AC_MSG_CHECKING([for some automake things...])
 AC_MSG_RESULT([... ])
-AM_INIT_AUTOMAKE([1.6 foreign no-dependencies])
+AM_INIT_AUTOMAKE([1.6 foreign no-dependencies subdir-objects])
 AM_MAINTAINER_MODE
 AM_PROG_AR
 gl_COMMON_JUST_BODY
@@ -84,6 +84,15 @@ AC_CHECK_LIB([crypt],[crypt],[],[
 ])
 AC_SEARCH_LIBS([crypt],[crypt System crypto c pub gnu iberty])
 AC_SEARCH_LIBS([dupfd],[c System magic pub gnu iberty])
+
+# Threading.
+AC_MSG_CHECKING([for threading library characteristics...])
+AC_MSG_RESULT([... ])
+gl_THREADLIB_EARLY
+gl_LOCK
+gl_THREADLIB
+gl_THREAD
+gl_TLS
 
 # Checks for header files.
 AC_MSG_CHECKING([for miscellaneous headers...])
@@ -157,8 +166,9 @@ if test "x${ac_cv_c_inline}" = "x"; then
 elif test "x${gl_cv_c_inline_effective}" = "x"; then
   test -z "${gl_cv_c_inline_effective}"
   gl_INLINE
+  gl_EXTERN_INLINE
 fi
-gl_EXTERN_INLINE
+AC_C_RESTRICT
 AC_C_PROTOTYPES
 AC_C_VOLATILE
 gl_CYCLE_CHECK

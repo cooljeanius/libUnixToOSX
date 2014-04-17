@@ -19,7 +19,7 @@
 
 #if __GNUC__ >= 3
 @PRAGMA_SYSTEM_HEADER@
-#endif
+#endif /* GCC 3+ */
 @PRAGMA_COLUMNS@
 
 /* The include_next requires a split double-inclusion guard.  */
@@ -34,22 +34,22 @@
 /* MirBSD defines mbslen as a macro.  */
 #if @GNULIB_MBSLEN@ && defined __MirBSD__
 # include <wchar.h>
-#endif
+#endif /* @GNULIB_MBSLEN@ && __MirBSD__ */
 
 /* The __attribute__ feature is available in gcc versions 2.5 and later.
-   The attribute __pure__ was added in gcc 2.96.  */
+ * The attribute __pure__ was added in gcc 2.96.  */
 #if __GNUC__ > 2 || (__GNUC__ == 2 && __GNUC_MINOR__ >= 96)
 # define _GL_ATTRIBUTE_PURE __attribute__ ((__pure__))
 #else
 # define _GL_ATTRIBUTE_PURE /* empty */
-#endif
+#endif /* GCC 2.96+ */
 
 /* NetBSD 5.0 declares strsignal in <unistd.h>, not in <string.h>.  */
 /* But in any case avoid namespace pollution on glibc systems.  */
 #if (@GNULIB_STRSIGNAL@ || defined GNULIB_POSIXCHECK) && defined __NetBSD__ \
     && ! defined __GLIBC__
 # include <unistd.h>
-#endif
+#endif /* (@GNULIB_STRSIGNAL@ || GNULIB_POSIXCHECK) && __NetBSD__ && !__GLIBC__ */
 
 /* The definitions of _GL_FUNCDECL_RPL etc. are copied here.  */
 
@@ -62,30 +62,30 @@
 #if @GNULIB_FFSL@
 # if !@HAVE_FFSL@
 _GL_FUNCDECL_SYS (ffsl, int, (long int i));
-# endif
+# endif /* !@HAVE_FFSL@ */
 _GL_CXXALIAS_SYS (ffsl, int, (long int i));
 _GL_CXXALIASWARN (ffsl);
 #elif defined GNULIB_POSIXCHECK
 # undef ffsl
 # if HAVE_RAW_DECL_FFSL
 _GL_WARN_ON_USE (ffsl, "ffsl is not portable - use the ffsl module");
-# endif
-#endif
+# endif /* HAVE_RAW_DECL_FFSL */
+#endif /* @GNULIB_FFSL@ || GNULIB_POSIXCHECK */
 
 
 /* Find the index of the least-significant set bit.  */
 #if @GNULIB_FFSLL@
 # if !@HAVE_FFSLL@
 _GL_FUNCDECL_SYS (ffsll, int, (long long int i));
-# endif
+# endif /* !@HAVE_FFSLL@ */
 _GL_CXXALIAS_SYS (ffsll, int, (long long int i));
 _GL_CXXALIASWARN (ffsll);
 #elif defined GNULIB_POSIXCHECK
 # undef ffsll
 # if HAVE_RAW_DECL_FFSLL
 _GL_WARN_ON_USE (ffsll, "ffsll is not portable - use the ffsll module");
-# endif
-#endif
+# endif /* HAVE_RAW_DECL_FFSLL */
+#endif /* @GNULIB_FFSLL@ || GNULIB_POSIXCHECK */
 
 
 /* Return the first instance of C within N bytes of S, or NULL.  */
@@ -163,14 +163,14 @@ _GL_WARN_ON_USE (memmem, "memmem is unportable and often quadratic - "
 #endif
 
 /* Copy N bytes of SRC to DEST, return pointer to bytes after the
-   last written byte.  */
+ * last written byte.  */
 #if @GNULIB_MEMPCPY@
 # if ! @HAVE_MEMPCPY@
 _GL_FUNCDECL_SYS (mempcpy, void *,
                   (void *restrict __dest, void const *restrict __src,
                    size_t __n)
                   _GL_ARG_NONNULL ((1, 2)));
-# endif
+# endif /* ! @HAVE_MEMPCPY@ */
 _GL_CXXALIAS_SYS (mempcpy, void *,
                   (void *restrict __dest, void const *restrict __src,
                    size_t __n));
@@ -180,8 +180,8 @@ _GL_CXXALIASWARN (mempcpy);
 # if HAVE_RAW_DECL_MEMPCPY
 _GL_WARN_ON_USE (mempcpy, "mempcpy is unportable - "
                  "use gnulib module mempcpy for portability");
-# endif
-#endif
+# endif /* HAVE_RAW_DECL_MEMPCPY */
+#endif /* @GNULIB_MEMPCPY@ || GNULIB_POSIXCHECK */
 
 /* Search backwards through a block for a byte (specified as an int).  */
 #if @GNULIB_MEMRCHR@
@@ -451,15 +451,15 @@ _GL_WARN_ON_USE (strnlen, "strnlen is unportable - "
 
 #if defined GNULIB_POSIXCHECK
 /* strcspn() assumes the second argument is a list of single-byte characters.
-   Even in this simple case, it does not work with multibyte strings if the
-   locale encoding is GB18030 and one of the characters to be searched is a
-   digit.  */
+ * Even in this simple case, it does not work with multibyte strings if the
+ * locale encoding is GB18030 and one of the characters to be searched is a
+ * digit.  */
 # undef strcspn
 /* Assume strcspn is always declared.  */
 _GL_WARN_ON_USE (strcspn, "strcspn cannot work correctly on character strings "
                  "in multibyte locales - "
                  "use mbscspn if you care about internationalization");
-#endif
+#endif /* GNULIB_POSIXCHECK */
 
 /* Find the first occurrence in S of any character in ACCEPT.  */
 #if @GNULIB_STRPBRK@
@@ -467,10 +467,10 @@ _GL_WARN_ON_USE (strcspn, "strcspn cannot work correctly on character strings "
 _GL_FUNCDECL_SYS (strpbrk, char *, (char const *__s, char const *__accept)
                                    _GL_ATTRIBUTE_PURE
                                    _GL_ARG_NONNULL ((1, 2)));
-# endif
+# endif /* ! @HAVE_STRPBRK */
   /* On some systems, this function is defined as an overloaded function:
-       extern "C" { const char * strpbrk (const char *, const char *); }
-       extern "C++" { char * strpbrk (char *, const char *); }  */
+   *   extern "C" { const char * strpbrk (const char *, const char *); }
+   *   extern "C++" { char * strpbrk (char *, const char *); }  */
 _GL_CXXALIAS_SYS_CAST2 (strpbrk,
                         char *, (char const *__s, char const *__accept),
                         const char *, (char const *__s, char const *__accept));
@@ -481,28 +481,28 @@ _GL_CXXALIASWARN1 (strpbrk, char const *,
                    (char const *__s, char const *__accept));
 # else
 _GL_CXXALIASWARN (strpbrk);
-# endif
+# endif /* glibc 2.10+ && GCC 4.4+ */
 # if defined GNULIB_POSIXCHECK
 /* strpbrk() assumes the second argument is a list of single-byte characters.
-   Even in this simple case, it does not work with multibyte strings if the
-   locale encoding is GB18030 and one of the characters to be searched is a
-   digit.  */
+ * Even in this simple case, it does not work with multibyte strings if the
+ * locale encoding is GB18030 and one of the characters to be searched is a
+ * digit.  */
 #  undef strpbrk
 _GL_WARN_ON_USE (strpbrk, "strpbrk cannot work correctly on character strings "
                  "in multibyte locales - "
                  "use mbspbrk if you care about internationalization");
-# endif
+# endif /* GNULIB_POSIXCHECK */
 #elif defined GNULIB_POSIXCHECK
 # undef strpbrk
 # if HAVE_RAW_DECL_STRPBRK
 _GL_WARN_ON_USE (strpbrk, "strpbrk is unportable - "
                  "use gnulib module strpbrk for portability");
-# endif
-#endif
+# endif /* HAVE_RAW_DECL_STRPBRK */
+#endif /* @GNULIB_STRPBRK@ || GNULIB_POSIXCHECK */
 
 #if defined GNULIB_POSIXCHECK
 /* strspn() assumes the second argument is a list of single-byte characters.
-   Even in this simple case, it cannot work with multibyte strings.  */
+ * Even in this simple case, it cannot work with multibyte strings.  */
 # undef strspn
 /* Assume strspn is always declared.  */
 _GL_WARN_ON_USE (strspn, "strspn cannot work correctly on character strings "
@@ -996,7 +996,7 @@ _GL_CXXALIAS_RPL (strsignal, char *, (int __sig));
 _GL_FUNCDECL_SYS (strsignal, char *, (int __sig));
 #  endif
 /* Need to cast, because on Cygwin 1.5.x systems, the return type is
-   'const char *'.  */
+ * 'const char *'.  */
 _GL_CXXALIAS_SYS_CAST (strsignal, char *, (int __sig));
 # endif
 _GL_CXXALIASWARN (strsignal);
@@ -1027,3 +1027,5 @@ _GL_WARN_ON_USE (strverscmp, "strverscmp is unportable - "
 
 #endif /* _@GUARD_PREFIX@_STRING_H */
 #endif /* _@GUARD_PREFIX@_STRING_H */
+
+/* EOF */

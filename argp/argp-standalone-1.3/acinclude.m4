@@ -299,6 +299,9 @@ AC_DEFUN([LSH_GCC_ATTRIBUTES],
 static void foo(void) __attribute__ ((noreturn));
 
 static void __attribute__ ((noreturn))
+/* FIXME: the autoupdate to "AC\_LANG\_PROGRAM" put this inside "main()";
+ * either move to just "AC\_LANG\_SOURCE" or use the "-fnested-functions"
+ * compiler flag: */
 foo(void)
 {
   exit(1);

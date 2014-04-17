@@ -19,9 +19,11 @@
 /* Specification.  */
 #include <string.h>
 
+#include "rawmemchr.h"
+
 /* Find the first occurrence of C in S or the final NUL byte.  */
 char *
-strchrnul (const char *s, int c_in)
+strchrnul(const char *s, int c_in)
 {
   /* On 32-bit hardware, choosing longword to be a 32-bit unsigned
      long instead of a 64-bit uintmax_t tends to give better
@@ -126,15 +128,23 @@ strchrnul (const char *s, int c_in)
 
   char_ptr = (const unsigned char *) longword_ptr;
 
+  /* dummy condition to use value stored to 'char_ptr': */
+  if (char_ptr == NULL) {
+	;
+  }
+
   /* At this point, we know that one of the sizeof (longword) bytes
-     starting at char_ptr is == 0 or == c.  On little-endian machines,
-     we could determine the first such byte without any further memory
-     accesses, just by looking at the tmp result from the last loop
-     iteration.  But this does not work on big-endian machines.
-     Choose code that works in both cases.  */
+   * starting at char_ptr is == 0 or == c.  On little-endian machines,
+   * we could determine the first such byte without any further memory
+   * accesses, just by looking at the tmp result from the last loop
+   * iteration.  But this does not work on big-endian machines.
+   * Choose code that works in both cases.  */
 
   char_ptr = (unsigned char *) longword_ptr;
-  while (*char_ptr && (*char_ptr != c))
+  while (*char_ptr && (*char_ptr != c)) {
     char_ptr++;
-  return (char *) char_ptr;
+  }
+  return (char *)char_ptr;
 }
+
+/* EOF */
