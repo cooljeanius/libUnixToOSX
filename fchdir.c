@@ -1,18 +1,19 @@
 /* fchdir.c: fchdir replacement.
-   Copyright (C) 2006-2012 Free Software Foundation, Inc.
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-
-   You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+ * Copyright (C) 2006-2012 Free Software Foundation, Inc.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include <config.h>
 
@@ -31,6 +32,7 @@
 
 #include "dosname.h"
 #include "filenamecat.h"
+#include "rpl_misc_funcs.h"
 
 #ifndef REPLACE_OPEN_DIRECTORY
 # define REPLACE_OPEN_DIRECTORY 0
@@ -60,27 +62,28 @@ static size_t dirs_allocated;
 static bool
 ensure_dirs_slot(size_t fd)
 {
-  if (fd < dirs_allocated)
-    free (dirs[fd].name);
-  else
-    {
+  if (fd < dirs_allocated) {
+	  free(dirs[fd].name);
+  } else {
       size_t new_allocated;
       dir_info_t *new_dirs;
 
-      new_allocated = 2 * dirs_allocated + 1;
-      if (new_allocated <= fd)
-        new_allocated = fd + 1;
+      new_allocated = ((2 * dirs_allocated) + 1);
+      if (new_allocated <= fd) {
+		  new_allocated = (fd + 1);
+	  }
       new_dirs =
-        (dirs != NULL
-         ? (dir_info_t *) realloc (dirs, new_allocated * sizeof *dirs)
-         : (dir_info_t *) malloc (new_allocated * sizeof *dirs));
-      if (new_dirs == NULL)
-        return false;
-      memset (new_dirs + dirs_allocated, 0,
-              (new_allocated - dirs_allocated) * sizeof *dirs);
+        ((dirs != NULL)
+         ? (dir_info_t *)realloc(dirs, new_allocated * sizeof *dirs)
+         : (dir_info_t *)malloc(new_allocated * sizeof *dirs));
+      if (new_dirs == NULL) {
+		  return false;
+	  }
+      memset((new_dirs + dirs_allocated), 0,
+			 ((new_allocated - dirs_allocated) * sizeof(*dirs)));
       dirs = new_dirs;
       dirs_allocated = new_allocated;
-    }
+  }
   return true;
 }
 
@@ -93,13 +96,13 @@ get_name(char const *dir)
   int saved_errno;
 
   if (IS_ABSOLUTE_FILE_NAME(dir)) {
-    return strdup(dir);
+	  return strdup(dir);
   }
 
   /* We often encounter "."; treat it as a special case.  */
   cwd = getcwd(NULL, (size_t)0);
   if (!cwd || ((dir[0] == '.') && (dir[1] == '\0'))) {
-    return cwd;
+	  return cwd;
   }
 
   result = mfile_name_concat(cwd, dir, NULL);
@@ -179,16 +182,16 @@ const char *
 _gl_directory_name(int fd)
 {
   if ((0 <= fd) && ((size_t)fd < dirs_allocated) && (dirs[fd].name != NULL)) {
-    return dirs[fd].name;
+	  return dirs[fd].name;
   }
   /* At this point, fd is either invalid, or open but not a directory.
    * If dup2 fails, errno is correctly EBADF.  */
   if (0 <= fd) {
-      if (dup2 (fd, fd) == fd) {
-        errno = ENOTDIR;
+      if (dup2(fd, fd) == fd) {
+		  errno = ENOTDIR;
 	  }
   } else {
-    errno = EBADF;
+	  errno = EBADF;
   }
   return NULL;
 }

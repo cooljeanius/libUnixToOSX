@@ -45,6 +45,9 @@
  * SUCH DAMAGE.
  */
 
+#ifndef __FTS_C__
+#define __FTS_C__ 1 /* so fts-cycle.c can tell when being included from here */
+
 #include <config.h>
 
 #if defined(LIBC_SCCS) && !defined(lint)
@@ -114,14 +117,14 @@ static char sccsid[] = "@(#)fts.c       8.6 (Berkeley) 8/14/94";
 # define DT_LNK 5
 # define DT_REG 6
 # define DT_SOCK 7
-#endif
+#endif /* HAVE_STRUCT_DIRENT_D_TYPE */
 
 #ifndef S_IFLNK
 # define S_IFLNK 0
-#endif
+#endif /* !S_IFLNK */
 #ifndef S_IFSOCK
 # define S_IFSOCK 0
-#endif
+#endif /* !S_IFSOCK */
 
 enum
 {
@@ -133,7 +136,7 @@ enum
 #else
 /* Some systems do NOT have inodes, so fake them to avoid lots of ifdefs.  */
 # define D_INO(dp) NOT_AN_INODE_NUMBER
-#endif
+#endif /* D_INO_IN_DIRENT */
 
 /* If possible (see max_entries, below), read no more than this many directory
  * entries at a time.  Without this limit (i.e., when using non-NULL
@@ -141,14 +144,14 @@ enum
  * of memory, and handling 64M entries would require 16GiB of memory.  */
 #ifndef FTS_MAX_READDIR_ENTRIES
 # define FTS_MAX_READDIR_ENTRIES 100000
-#endif
+#endif /* FTS_MAX_READDIR_ENTRIES */
 
 /* If there are more than this many entries in a directory,
-   and the conditions mentioned below are satisfied, then sort
-   the entries on inode number before any further processing.  */
+ * and the conditions mentioned below are satisfied, then sort
+ * the entries on inode number before any further processing.  */
 #ifndef FTS_INODE_SORT_DIR_ENTRIES_THRESHOLD
 # define FTS_INODE_SORT_DIR_ENTRIES_THRESHOLD 10000
-#endif
+#endif /* FTS_INODE_SORT_DIR_ENTRIES_THRESHOLD */
 
 enum
 {
@@ -175,11 +178,11 @@ enum Fts_stat
 #else
 # undef internal_function
 # define internal_function /* empty */
-#endif
+#endif /* _LIBC */
 
 #ifndef __set_errno
 # define __set_errno(Val) errno = (Val)
-#endif
+#endif /* !__set_errno */
 
 /* If this host provides the openat function, then we can avoid
  * attempting to open "." in some initialization code below.  */
@@ -187,7 +190,7 @@ enum Fts_stat
 # define HAVE_OPENAT_SUPPORT 1
 #else
 # define HAVE_OPENAT_SUPPORT 0
-#endif
+#endif /* HAVE_OPENAT */
 
 #ifdef NDEBUG
 # define fts_assert(expr) ((void) 0)
@@ -217,11 +220,11 @@ static int      fts_safe_changedir (FTS *, FTSENT *, int, const char *)
 
 #ifndef MAX
 # define MAX(a,b) ((a) > (b) ? (a) : (b))
-#endif
+#endif /* !MAX */
 
 #ifndef SIZE_MAX
 # define SIZE_MAX ((size_t) -1)
-#endif
+#endif /* !SIZE_MAX */
 
 #define ISDOT(a)        (a[0] == '.' && (!a[1] || (a[1] == '.' && !a[2])))
 #define STREQ(a, b)     (strcmp (a, b) == 0)
@@ -231,7 +234,7 @@ static int      fts_safe_changedir (FTS *, FTSENT *, int, const char *)
 #define SET(opt)        (sp->fts_options |= (opt))
 
 /* FIXME: FTS_NOCHDIR is now misnamed.
-   Call it FTS_USE_FULL_RELATIVE_FILE_NAMES instead. */
+ * Call it FTS_USE_FULL_RELATIVE_FILE_NAMES instead. */
 #define FCHDIR(sp, fd)                                  \
   (!ISSET(FTS_NOCHDIR) && (ISSET(FTS_CWDFD)             \
                            ? (cwd_advance_fd ((sp), (fd), (bool)true), 0) \
@@ -2080,36 +2083,36 @@ fts_safe_changedir (FTS *sp, FTSENT *p, int fd, char const *dir)
            not "..", diropen's use of O_NOFOLLOW ensures we don't mistakenly
            follow a symlink, so we can avoid the expense of this fstat.  */
         if (ISSET(FTS_LOGICAL) || ! HAVE_WORKING_O_NOFOLLOW
-            || (dir && STREQ (dir, "..")))
-          {
+            || (dir && STREQ (dir, ".."))) {
             struct stat sb;
-            if (fstat(newfd, &sb))
-              {
+            if (fstat(newfd, &sb)) {
                 ret = -1;
                 goto bail;
-              }
+			}
             if (p->fts_statp->st_dev != sb.st_dev
-                || p->fts_statp->st_ino != sb.st_ino)
-              {
-                __set_errno (ENOENT);           /* disinformation */
+                || p->fts_statp->st_ino != sb.st_ino) {
+                __set_errno(ENOENT);           /* disinformation */
                 ret = -1;
                 goto bail;
-              }
-          }
+			}
+		}
 
         if (ISSET(FTS_CWDFD)) {
-            cwd_advance_fd (sp, newfd, ! is_dotdot);
+            cwd_advance_fd(sp, newfd, ! is_dotdot);
             return 0;
 		}
 
         ret = fchdir(newfd);
+
 bail:
         if (fd < 0) {
             int oerrno = errno;
             (void)close(newfd);
-            __set_errno (oerrno);
+            __set_errno(oerrno);
 		}
         return ret;
 }
+
+#endif /* !__FTS_C__ */
 
 /* EOF */

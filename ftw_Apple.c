@@ -40,7 +40,13 @@ int ftw_simple(char *argv[]) {
 		fileStruct = fts_open((char * const *)dirList->fts_link->fts_name,
 							  FTS_PHYSICAL, (void *)result);
 		/* TODO: write an actual compar() function to use in the 3rd argument
-		 * here (see the manpage for fts_open() for reference) */
+		 * here (see the following quote from the  manpage for fts_open() for
+		 * reference: "The argument compar() specifies a user-defined function
+		 * which may be used to order the traversal of the hierarchy. It takes
+		 * two pointers to pointers to FTSENT structures as arguments and should
+		 * return a negative value, zero, or a positive value to indicate if the
+		 * file referenced by its first argument comes before, in any order with
+		 * respect to, or after, the file referenced by its second argument.") */
 		/* (started a stub for it below) */
 
 	} while (dirList->fts_link != NULL);
@@ -58,8 +64,19 @@ int ftw_simple(char *argv[]) {
 /* one of the arguments to fts_open() takes a function pointer to a user-defined
  * comparing function, so try to implement that here: */
 int compar_for_fts_open(const FTSENT **fsthing1, const FTSENT **fsthing2) {
-	/* TODO: use the parameters and actually do something here */
-	return 0;
+	/* really naive, not even sure if comparing them like this even works: */
+	if (fsthing1 < fsthing2) {
+		return -1;
+	} else if (fsthing1 == fsthing2) {
+		return 0;
+	} else if (fsthing1 > fsthing2) {
+		return 1;
+	} else {
+		fprintf(stderr, "compar_for_fts_open(): \
+				the relation between the two entities compared should be '<', '==', or '>'...\
+				not sure how you managed to get something different...");
+		return -255;
+	}
 }
 
 /* EOF */

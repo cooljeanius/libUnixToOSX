@@ -70,8 +70,20 @@ AD_hash(void const *x, size_t table_size)
   return ((uintmax_t)ax->ino % table_size);
 }
 
-/* Set up the cycle-detection machinery.  */
+/* the functions after this are only used when this file is being included from
+ * fts.c, so ignore warnings about them being unused if this file is being
+ * compiled all by itself: */
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 6))
+#  if !defined(__FTS_C__)
+#   define IGNORE_UNUSED_FUNCTIONS \
+     _Pragma ("GCC diagnostic ignored \"-Wunused-function\"")
+IGNORE_UNUSED_FUNCTIONS
+#  endif /* !__FTS_C__ */
+# endif /* GCC 4.6+ */
+#endif /* GCC */
 
+/* Set up the cycle-detection machinery:  */
 static bool
 setup_dir(FTS *fts)
 {
@@ -80,12 +92,12 @@ setup_dir(FTS *fts)
       fts->fts_cycle.ht = hash_initialize((size_t)HT_INITIAL_SIZE, NULL,
 										  AD_hash, AD_compare, free);
       if (! fts->fts_cycle.ht) {
-        return false;
+		  return false;
 	  }
   } else {
       fts->fts_cycle.state = malloc(sizeof *fts->fts_cycle.state);
       if (! fts->fts_cycle.state) {
-        return false;
+		  return false;
 	  }
       cycle_check_init(fts->fts_cycle.state);
   }
@@ -93,18 +105,18 @@ setup_dir(FTS *fts)
   return true;
 }
 
-/* Enter a directory during a file tree walk.  */
-
+/* Enter a directory during a file tree walk:  */
 static bool
 enter_dir(FTS *fts, FTSENT *ent)
 {
   if (fts->fts_options & (FTS_TIGHT_CYCLE_CHECK | FTS_LOGICAL)) {
       struct stat const *st = ent->fts_statp;
-      struct Active_dir *ad = malloc (sizeof *ad);
+      struct Active_dir *ad = malloc(sizeof *ad);
       struct Active_dir *ad_from_table;
 
-      if (!ad)
-        return false;
+      if (!ad) {
+		  return false;
+	  }
 
       ad->dev = st->st_dev;
       ad->ino = st->st_ino;
@@ -116,9 +128,10 @@ enter_dir(FTS *fts, FTSENT *ent)
       ad_from_table = hash_insert(fts->fts_cycle.ht, ad);
 
       if (ad_from_table != ad) {
-          free (ad);
-          if (!ad_from_table)
-            return false;
+          free(ad);
+          if (!ad_from_table) {
+			  return false;
+		  }
 
           /* There was an entry with matching dev/inode already in the table.
            * Record the fact that we've found a cycle.  */
@@ -139,8 +152,7 @@ enter_dir(FTS *fts, FTSENT *ent)
   return true;
 }
 
-/* Leave a directory during a file tree walk.  */
-
+/* Leave a directory during a file tree walk:  */
 static void
 leave_dir(FTS *fts, FTSENT *ent)
 {
@@ -151,19 +163,20 @@ leave_dir(FTS *fts, FTSENT *ent)
       obj.dev = st->st_dev;
       obj.ino = st->st_ino;
       found = hash_delete (fts->fts_cycle.ht, &obj);
-      if (!found)
-        abort();
+      if (!found) {
+		  abort();
+	  }
       free(found);
   } else {
       FTSENT *parent = ent->fts_parent;
-      if (parent != NULL && 0 <= parent->fts_level)
+      if ((parent != NULL) && (0 <= parent->fts_level)) {
         CYCLE_CHECK_REFLECT_CHDIR_UP(fts->fts_cycle.state,
 									 *(parent->fts_statp), *st);
+	  }
   }
 }
 
-/* Free any memory used for cycle detection.  */
-
+/* Free any memory used for cycle detection:  */
 static void
 free_dir(FTS *sp)
 {

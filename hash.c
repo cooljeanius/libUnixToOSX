@@ -1,26 +1,27 @@
-/* hash - hashing table processing.
-
-   Copyright (C) 1998-2004, 2006-2007, 2009-2012 Free Software Foundation, Inc.
-
-   Written by Jim Meyering, 1992.
-
-   This program is free software: you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-
-   You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+/* hash.c - hashing table processing.
+ *
+ * Copyright (C) 1998-2004, 2006-2007, 2009-2012 Free Software Foundation, Inc.
+ *
+ * Written by Jim Meyering, 1992.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /* A generic hash table package.  */
 
 /* Define USE_OBSTACK to 1 if you want the allocator to use obstacks instead
-   of malloc.  If you change USE_OBSTACK, you have to recompile!  */
+ * of malloc.  If you change USE_OBSTACK, you have to recompile!  */
 
 #include <config.h>
 
@@ -37,11 +38,11 @@
 # include "obstack.h"
 # ifndef obstack_chunk_alloc
 #  define obstack_chunk_alloc malloc
-# endif
+# endif /* !obstack_chunk_alloc */
 # ifndef obstack_chunk_free
 #  define obstack_chunk_free free
-# endif
-#endif
+# endif /* !obstack_chunk_free */
+#endif /* USE_OBSTACK */
 
 struct hash_entry
   {
@@ -51,9 +52,9 @@ struct hash_entry
 
 struct hash_table
   {
-    /* The array of buckets starts at BUCKET and extends to BUCKET_LIMIT-1,
-       for a possibility of N_BUCKETS.  Among those, N_BUCKETS_USED buckets
-       are not empty, there are N_ENTRIES active entries in the table.  */
+    /* The array of buckets starts at BUCKET and extends to (BUCKET_LIMIT - 1),
+     * for a possibility of N_BUCKETS.  Among those, N_BUCKETS_USED buckets
+     * are not empty, there are N_ENTRIES active entries in the table.  */
     struct hash_entry *bucket;
     struct hash_entry const *bucket_limit;
     size_t n_buckets;
@@ -64,10 +65,10 @@ struct hash_table
     const Hash_tuning *tuning;
 
     /* Three functions are given to 'hash_initialize', see the documentation
-       block for this function.  In a word, HASHER randomizes a user entry
-       into a number up from 0 up to some maximum minus 1; COMPARATOR returns
-       true if two user entries compare equally; and DATA_FREER is the cleanup
-       function for a user entry.  */
+     * block for this function.  In a word, HASHER randomizes a user entry
+     * into a number up from 0 up to some maximum minus 1; COMPARATOR returns
+     * true if two user entries compare equally; and DATA_FREER is the cleanup
+     * function for a user entry.  */
     Hash_hasher hasher;
     Hash_comparator comparator;
     Hash_data_freer data_freer;
@@ -1208,23 +1209,25 @@ hash_delete (Hash_table *table, const void *entry)
 void
 hash_print (const Hash_table *table)
 {
-  struct hash_entry *bucket = (struct hash_entry *) table->bucket;
+  struct hash_entry *bucket = (struct hash_entry *)table->bucket;
 
-  for ( ; bucket < table->bucket_limit; bucket++)
-    {
+  for (; (bucket < table->bucket_limit); bucket++) {
       struct hash_entry *cursor;
 
-      if (bucket)
-        printf ("%lu:\n", (unsigned long int) (bucket - table->bucket));
+      if (bucket) {
+        printf("%lu:\n", (unsigned long int) (bucket - table->bucket));
+	  }
 
-      for (cursor = bucket; cursor; cursor = cursor->next)
-        {
+      for (cursor = bucket; cursor; cursor = cursor->next) {
           char const *s = cursor->data;
           /* FIXME */
-          if (s)
-            printf ("  %s\n", s);
-        }
-    }
+          if (s) {
+            printf("  %s\n", s);
+		  }
+	  }
+  }
 }
 
 #endif /* TESTING */
+
+/* EOF */

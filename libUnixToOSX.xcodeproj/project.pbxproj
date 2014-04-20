@@ -80,7 +80,7 @@
 		A50A90F518EE1DB60096B616 /* float+.h in Headers */ = {isa = PBXBuildFile; fileRef = A50A90ED18EE1DB60096B616 /* float+.h */; };
 		A50A90F618EE1DB60096B616 /* fpucw.h in Headers */ = {isa = PBXBuildFile; fileRef = A50A90EE18EE1DB60096B616 /* fpucw.h */; };
 		A50A90FA18EE1DC30096B616 /* fts_.h in Headers */ = {isa = PBXBuildFile; fileRef = A50A90F718EE1DC30096B616 /* fts_.h */; };
-		A50A90FB18EE1DC30096B616 /* fts-cycle.c in Sources */ = {isa = PBXBuildFile; fileRef = A50A90F818EE1DC30096B616 /* fts-cycle.c */; };
+		A50A90FB18EE1DC30096B616 /* fts-cycle.c in Sources */ = {isa = PBXBuildFile; fileRef = A50A90F818EE1DC30096B616 /* fts-cycle.c */; settings = {COMPILER_FLAGS = "-Wno-unused-function"; }; };
 		A50A90FC18EE1DC30096B616 /* fts.c in Sources */ = {isa = PBXBuildFile; fileRef = A50A90F918EE1DC30096B616 /* fts.c */; };
 		A50A90FF18EE1DD20096B616 /* getopt_int.h in Headers */ = {isa = PBXBuildFile; fileRef = A50A90FD18EE1DD20096B616 /* getopt_int.h */; };
 		A50A910018EE1DD20096B616 /* getopt.c in Sources */ = {isa = PBXBuildFile; fileRef = A50A90FE18EE1DD20096B616 /* getopt.c */; };
@@ -213,6 +213,7 @@
 		A5A94E9E1904452E005B7143 /* argp-test.c in Sources */ = {isa = PBXBuildFile; fileRef = A558DCB019005691002696E8 /* argp-test.c */; };
 		A5A94EA119044543005B7143 /* libUnixToOSX.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D2AAC0630554660B00DB518D /* libUnixToOSX.dylib */; };
 		A5A94EB1190445E6005B7143 /* libUnixToOSX.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D2AAC0630554660B00DB518D /* libUnixToOSX.dylib */; };
+		A5D4519019046AF500ED9BDA /* rpl_misc_funcs.h in Headers */ = {isa = PBXBuildFile; fileRef = A5D4518F19046AF500ED9BDA /* rpl_misc_funcs.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -459,6 +460,7 @@
 		A56326831900327C0024EB6A /* threadlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = threadlib.c; sourceTree = "<group>"; };
 		A56326841900327C0024EB6A /* tls.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tls.c; sourceTree = "<group>"; };
 		A56326851900327C0024EB6A /* tls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tls.h; sourceTree = "<group>"; };
+		A5D4518F19046AF500ED9BDA /* rpl_misc_funcs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rpl_misc_funcs.h; sourceTree = "<group>"; };
 		D2AAC0630554660B00DB518D /* libUnixToOSX.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libUnixToOSX.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -638,6 +640,7 @@
 				A563262F19001FBC0024EB6A /* rawmemchr.c */,
 				A563266919002CF90024EB6A /* rawmemchr.h */,
 				A50A916518EE1E5D0096B616 /* realloc.c */,
+				A5D4518F19046AF500ED9BDA /* rpl_misc_funcs.h */,
 				A50A916618EE1E5D0096B616 /* same-inode.h */,
 				A50A916718EE1E5D0096B616 /* same.c */,
 				A50A916818EE1E5D0096B616 /* same.h */,
@@ -859,6 +862,7 @@
 				A558DCCD19005691002696E8 /* argp-fmtstream.h in Headers */,
 				A558DCCF19005691002696E8 /* argp-namefrob.h in Headers */,
 				A558DCD419005691002696E8 /* argp.h in Headers */,
+				A5D4519019046AF500ED9BDA /* rpl_misc_funcs.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

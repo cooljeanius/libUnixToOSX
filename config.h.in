@@ -8,6 +8,9 @@
 /* Define if building universal (internal helper macro) */
 #undef AC_APPLE_UNIVERSAL_BUILD
 
+/* The normal alignment of `int', in bytes. */
+#undef ALIGNOF_INT
+
 /* Define to the number of bits in type 'ptrdiff_t'. */
 #undef BITSIZEOF_PTRDIFF_T
 
@@ -1982,6 +1985,9 @@
 /* Define to l, ll, u, ul, ull, etc., as suitable for constants of type
    'sig_atomic_t'. */
 #undef SIG_ATOMIC_T_SUFFIX
+
+/* The size of `int', as computed by sizeof. */
+#undef SIZEOF_INT
 
 /* Define as the maximum value of type 'size_t', if the system doesn't define
    it. */

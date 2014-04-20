@@ -75,6 +75,22 @@ if test "x${LSMOD}" = "x" || test "x${LSMOD}" = "xno"; then
   AC_CHECK_PROG([KMODUNLOAD],[kmodunload])
 fi
 
+# Compiler warnings:
+AC_MSG_CHECKING([which compiler warnings are supported...])
+AC_MSG_RESULT([... ])
+gl_MANYWARN_ALL_GCC([warnings_to_check])
+# even though this next part does nothing currently, it is still useful to
+# have it set up to reserve for future use:
+gl_MANYWARN_COMPLEMENT([actual_warnings_to_check],
+                       [warnings_to_check],[])
+gl_WARN_ADD([${actual_warnings_to_check}])
+# manywarnings.m4 is missing these Apple-gcc-specific flags:
+m4_foreach_w([apple_gcc_warnflag],
+[-Wmost -Wfour-char-constants -Wnewline-eof -Wshorten-64-to-32 -Wextra-tokens -Waltivec-long-deprecated],[
+dnl#FIXME: m4 quoting
+  gl_WARN_ADD([apple_gcc_warning])
+])
+
 # Checks for libraries.
 AC_MSG_CHECKING([for some libraries...])
 AC_MSG_RESULT([... ])
@@ -183,6 +199,8 @@ AC_CHECK_DECLS_ONCE([exit_failure])
 AC_MSG_CHECKING([for some types...])
 AC_MSG_RESULT([... ])
 gl_INTTYPES_INCOMPLETE
+AC_CHECK_SIZEOF([int])
+AC_CHECK_ALIGNOF([int])
 AC_TYPE_INT8_T
 AC_TYPE_INT16_T
 AC_TYPE_INT32_T

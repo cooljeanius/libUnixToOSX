@@ -25,6 +25,8 @@ int dup_safer(int);
 int fd_safer(int);
 int pipe_safer(int[2]);
 
+/* if you do not want to define this just to get these prototypes, there are
+ * other headers that yoou can include that I also put these prototypes in: */
 #if GNULIB_FD_SAFER_FLAG
 int dup_safer_flag(int, int);
 int fd_safer_flag(int, int);
