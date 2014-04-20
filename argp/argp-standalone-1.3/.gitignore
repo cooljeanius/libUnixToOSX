@@ -3,3 +3,5 @@
 argp-test
 *.trs
 *.log
+ansi2knr
+argp-stdint.h

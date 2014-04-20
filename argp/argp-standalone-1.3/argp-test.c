@@ -1,30 +1,31 @@
-/* Test program for argp argument parser
-   Copyright (C) 1997 Free Software Foundation, Inc.
-   This file is part of the GNU C Library.
-   Written by Miles Bader <miles@gnu.ai.mit.edu>.
-
-   The GNU C Library is free software; you can redistribute it and/or
-   modify it under the terms of the GNU Library General Public License as
-   published by the Free Software Foundation; either version 2 of the
-   License, or (at your option) any later version.
-
-   The GNU C Library is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Library General Public License for more details.
-
-   You should have received a copy of the GNU Library General Public
-   License along with the GNU C Library; see the file COPYING.LIB.  If not,
-   write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-   Boston, MA 02111-1307, USA.  */
+/* argp-test.c: Test program for argp argument parser
+ * Copyright (C) 1997 Free Software Foundation, Inc.
+ * This file is part of the GNU C Library.
+ * Written by Miles Bader <miles@gnu.ai.mit.edu>.
+ *
+ * The GNU C Library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * The GNU C Library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with the GNU C Library; see the file COPYING.LIB.  If not,
+ * write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ */
 
 #ifndef _GNU_SOURCE
 # define _GNU_SOURCE	1
-#endif
+#endif /* !_GNU_SOURCE */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+# include <config.h>
+#endif /* HAVE_CONFIG_H */
 
 #include <stdlib.h>
 #include <time.h>
@@ -33,41 +34,48 @@
 
 #include "argp.h"
 
-#if !HAVE_ASPRINTF
-#include <stdarg.h>
+#if (!defined(HAVE_ASPRINTF) || (defined(HAVE_ASPRINTF) && !HAVE_ASPRINTF)) && !defined(asprintf)
+# if (defined(__APPLE__) && ((defined(_ANSI_SOURCE) && (defined(_POSIX_C_SOURCE) || !defined(_DARWIN_C_SOURCE))) || !defined(_STDIO_H_))) || !defined(__APPLE__)
+#  if defined(HAVE_STDARG_H) || defined(__STDC__) || defined(STDC_HEADERS)
+#   include <stdarg.h>
+#  elif defined(HAVE_VARARGS_H)
+#   include <varargs.h>
+#  else
+#   if defined(__GNUC__) && !defined(__STRICT_ANSI__) && !defined(__STDC__)
+#    warning "argp-test.c needs to include a header for variadic macro support"
+#   endif /* __GNUC__ && !__STRICT_ANSI__ && !__STDC__ */
+#  endif /* (HAVE_STDARG_H || __STDC__ || STDC_HEADERS) || HAVE_VARARGS_H */
 
 static int
-asprintf (char **result, const char *format, ...)
+asprintf(char **result, const char *format, ...)
 {
   size_t size;
   char *p;
 
-  for (size = 200, p = NULL;; size *= 2)
-  {
+  for ((size = 200), (p = NULL);; (size *= 2)) {
     va_list args;
     int written;
-    
-    p = realloc(p, size + 1);
-    if (!p)
-    {
+
+    p = realloc(p, (size + 1));
+    if (!p) {
       fprintf(stderr, "Virtual memory exhausted.\n");
       abort();
     }
 
     p[size] = '\0';
-    
+
     va_start(args, format);
     written = vsnprintf(p, size, format, args);
     va_end(args);
 
-    if (written >= 0)
-    {
+    if (written >= 0) {
       *result = p;
       return written;
     }
   }
 }
-#endif /* !HAVE_ASPRINTF */
+# endif /* check based on Apple stdio.h */
+#endif /* !HAVE_ASPRINTF && !asprintf && !_DARWIN_C_SOURCE */
 
 const char *argp_program_version = "argp-test 1.0";
 
@@ -88,8 +96,9 @@ static const char sub_args_doc[] = "STRING...\n-";
 static const char sub_doc[] = "\vThis is the doc string from the sub-arg-parser.";
 
 static error_t
-sub_parse_opt (int key, char *arg, struct argp_state *state UNUSED)
+sub_parse_opt(int key, char *arg, struct argp_state *state /*UNUSED*/)
 {
+#pragma unused (state)
   switch (key)
     {
     case ARGP_KEY_NO_ARGS:
@@ -110,8 +119,9 @@ sub_parse_opt (int key, char *arg, struct argp_state *state UNUSED)
 }
 
 static char *
-sub_help_filter (int key, const char *text, void *input UNUSED)
+sub_help_filter (int key, const char *text, void *input /*UNUSED*/)
 {
+#pragma unused (input)
   if (key == ARGP_KEY_HELP_EXTRA)
     return strdup ("This is some extra text from the sub parser (note that it \
 is preceded by a blank line).");
@@ -182,29 +192,30 @@ parse_opt (int key, char *arg, struct argp_state *state)
 {
   struct params *params = state->input;
 
-  switch (key)
-    {
+  switch (key) {
     case ARGP_KEY_NO_ARGS:
-      printf ("NO ARGS\n");
+      printf("NO ARGS\n");
       break;
 
     case ARGP_KEY_ARG:
-      if (state->arg_num > 0)
-	return ARGP_ERR_UNKNOWN; /* Leave it for the sub-arg parser.  */
+		if (state->arg_num > 0) {
+			return ARGP_ERR_UNKNOWN; /* Leave it for the sub-arg parser.  */
+		}
       printf ("ARG: %s\n", arg);
       break;
 
     case 'f':
-      if (arg)
-	params->foonly = atoi (arg);
-      else
-	params->foonly = params->foonly_default;
+		if (arg) {
+			params->foonly = (unsigned int)atoi(arg);
+		} else {
+			params->foonly = params->foonly_default;
+		}
       popt (key, arg);
       break;
 
     case 'p': case 'P': case OPT_PGRP: case 'x': case 'Q':
     case 'r': case OPT_SESS: case 'z':
-      popt (key, arg);
+      popt(key, arg);
       break;
 
     default:
@@ -214,22 +225,21 @@ parse_opt (int key, char *arg, struct argp_state *state)
 }
 
 static char *
-help_filter (int key, const char *text, void *input)
+help_filter(int key, const char *text, void *input)
 {
   char *new_text;
   struct params *params = input;
 
-  if (key == ARGP_KEY_HELP_POST_DOC && text)
-    {
-      time_t now = time (0);
-      asprintf (&new_text, text, ctime (&now));
-    }
-  else if (key == 'f')
-    /* Show the default for the --foonly option.  */
-    asprintf (&new_text, "%s (ZOT defaults to %x)",
-	      text, params->foonly_default);
-  else
-    new_text = (char *)text;
+  if (key == ARGP_KEY_HELP_POST_DOC && text) {
+      time_t now = time(0);
+      asprintf(&new_text, text, ctime(&now));
+  } else if (key == 'f') {
+	  /* Show the default for the --foonly option.  */
+	  asprintf(&new_text, "%s (ZOT defaults to %x)",
+			   text, params->foonly_default);
+  } else {
+	  new_text = (char *)text;
+  }
 
   return new_text;
 }
@@ -243,12 +253,14 @@ static struct argp argp = {
 };
 
 int
-main (int argc, char **argv)
+main(int argc, char **argv)
 {
   struct params params;
   params.foonly = 0;
-  params.foonly_default = random ();
+  params.foonly_default = (unsigned int)random();
   argp_parse (&argp, argc, argv, 0, 0, &params);
-  printf ("After parsing: foonly = %x\n", params.foonly);
+  printf("After parsing: foonly = %x\n", params.foonly);
   return 0;
 }
+
+/* EOF */

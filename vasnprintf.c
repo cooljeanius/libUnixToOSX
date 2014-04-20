@@ -4897,20 +4897,21 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
 
                         prefix_count = 0;
                         /* Put the additional zeroes after the sign.  */
-                        if (count >= 1
-                            && (*prec_ptr == '-' || *prec_ptr == '+'
-                                || *prec_ptr == ' '))
-                          prefix_count = 1;
+                        if ((count >= 1)
+                            && ((*prec_ptr == '-') || (*prec_ptr == '+')
+                                || (*prec_ptr == ' '))) {
+								prefix_count = 1;
+						}
                         /* Put the additional zeroes after the 0x prefix if
-                           (flags & FLAG_ALT) || (dp->conversion == 'p').  */
-                        else if (count >= 2
-                                 && prec_ptr[0] == '0'
-                                 && (prec_ptr[1] == 'x' || prec_ptr[1] == 'X'))
-                          prefix_count = 2;
+                         * (flags & FLAG_ALT) || (dp->conversion == 'p').  */
+                        else if ((count >= 2) && (prec_ptr[0] == '0')
+                                 && ((prec_ptr[1] == 'x')
+									 || (prec_ptr[1] == 'X'))) {
+									 prefix_count = 2;
+						}
 
-                        move = count - prefix_count;
-                        if (precision > move)
-                          {
+                        move = (count - prefix_count);
+                        if (precision > move) {
                             /* Insert zeroes.  */
                             size_t insert = precision - move;
                             TCHAR_T *prec_end;

@@ -38,6 +38,6 @@ unistd.h
 unused-parameter.h
 warn-on-use.h
 autoscan/autoscan.list
-poll/poll-emulator/pollemu.po
 *(Autosaved)*
 *deps/*.*o
+*.dirstamp

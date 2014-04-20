@@ -11,21 +11,23 @@
 #include <string.h>
 
 char *
-strndup (const char *s, size_t size)
+strndup(const char *s, size_t size)
 {
   char *r;
   char *end = memchr(s, 0, size);
-  
-  if (end)
+
+  if (end) {
     /* Length + 1 */
-    size = end - s + 1;
-  
+    size = (size_t)((end - s) + 1);
+  }
+
   r = malloc(size);
 
-  if (size)
-    {
-      memcpy(r, s, size-1);
-      r[size-1] = '\0';
-    }
+  if (size) {
+      memcpy(r, s, (size - 1));
+      r[(size - 1)] = '\0';
+  }
   return r;
 }
+
+/* EOF */

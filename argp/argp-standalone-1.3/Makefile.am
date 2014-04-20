@@ -43,6 +43,13 @@ argp_test_LDADD = libargp.a
 
 AM_CPPFLAGS = -I../..
 
+DISTCLEANFILES = .DS_Store *~ autoscan.log
+
+.PHONY: distclean-local
+distclean-local:
+	rm -rf autom4te.cache || rmdir autom4te.cache
+	rm -rf .deps || rmdir .deps
+
 ## ---------- ##
 ## ansi2knr.  ##
 ## ---------- ##

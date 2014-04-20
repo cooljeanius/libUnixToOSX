@@ -40,14 +40,15 @@ set_cloexec_flag(int desc, bool value)
 {
 #ifdef F_SETFD
 
-  int flags = fcntl (desc, F_GETFD, 0);
+  int flags = fcntl(desc, F_GETFD, 0);
 
   if (0 <= flags) {
-      int newflags = (value ? flags | FD_CLOEXEC : flags & ~FD_CLOEXEC);
+      int newflags = (value ? (flags | FD_CLOEXEC) : (flags & ~FD_CLOEXEC));
 
       if (flags == newflags
-          || fcntl (desc, F_SETFD, newflags) != -1)
-        return 0;
+          || fcntl(desc, F_SETFD, newflags) != -1) {
+		  return 0;
+	  }
   }
 
   return -1;
@@ -55,15 +56,15 @@ set_cloexec_flag(int desc, bool value)
 #else /* !F_SETFD */
 
   /* Use dup2 to reject invalid file descriptors; the cloexec flag
-     will be unaffected.  */
-  if (desc < 0)
-    {
+   * will be unaffected.  */
+  if (desc < 0) {
       errno = EBADF;
       return -1;
-    }
-  if (dup2 (desc, desc) < 0)
+  }
+  if (dup2 (desc, desc) < 0) {
     /* errno is EBADF here.  */
     return -1;
+  }
 
   /* There is nothing we can do on this kind of platform.  Punt.  */
   return 0;
@@ -72,11 +73,13 @@ set_cloexec_flag(int desc, bool value)
 
 
 /* Duplicates a file handle FD, while marking the copy to be closed
-   prior to exec or spawn.  Returns -1 and sets errno if FD could not
-   be duplicated.  */
+ * prior to exec or spawn.  Returns -1 and sets errno if FD could not
+ * be duplicated.  */
 
 int
-dup_cloexec (int fd)
+dup_cloexec(int fd)
 {
-  return fcntl (fd, F_DUPFD_CLOEXEC, 0);
+  return fcntl(fd, F_DUPFD_CLOEXEC, 0);
 }
+
+/* EOF */

@@ -21,6 +21,9 @@
 /* Define to 1 if you have the `asprintf' function. */
 #undef HAVE_ASPRINTF
 
+/* Define to 1 if you have the <assert.h> header file. */
+#undef HAVE_ASSERT_H
+
 /* Define to 1 if you have the `atoi' function. */
 #undef HAVE_ATOI
 
@@ -54,6 +57,9 @@
 /* Define to 1 if you don't have `vprintf' but do have `_doprnt.' */
 #undef HAVE_DOPRNT
 
+/* Define to 1 if you have the <errno.h> header file. */
+#undef HAVE_ERRNO_H
+
 /* Define to 1 if you have the `flockfile' function. */
 #undef HAVE_FLOCKFILE
 
@@ -65,6 +71,9 @@
 
 /* Define if the compiler understands __attribute__ */
 #undef HAVE_GCC_ATTRIBUTE
+
+/* Define if the compiler understands __FUNCTION__ */
+#undef HAVE_GCC_FUNCTION
 
 /* Define to 1 if the compiler supports one of the keywords 'inline',
    '__inline__', '__inline' and effectively inlines functions marked as such.
@@ -80,8 +89,14 @@
 /* Define to 1 if you have the <libintl.h> header file. */
 #undef HAVE_LIBINTL_H
 
+/* Define to 1 if you have the <libio/libioP.h> header file. */
+#undef HAVE_LIBIO_LIBIOP_H
+
 /* Define to 1 if you have the <limits.h> header file. */
 #undef HAVE_LIMITS_H
+
+/* Define to 1 if you have the <linewrap.h> header file. */
+#undef HAVE_LINEWRAP_H
 
 /* Define to 1 if your system has a GNU libc compatible `malloc' function, and
    to 0 otherwise. */
@@ -175,14 +190,23 @@
 /* Define to 1 if you have the <sys/types.h> header file. */
 #undef HAVE_SYS_TYPES_H
 
+/* Define to 1 if you have the <time.h> header file. */
+#undef HAVE_TIME_H
+
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
+
+/* Define to 1 if you have the <varargs.h> header file. */
+#undef HAVE_VARARGS_H
 
 /* Define to 1 if you have the `vprintf' function. */
 #undef HAVE_VPRINTF
 
 /* Define to 1 if you have the <wchar.h> header file. */
 #undef HAVE_WCHAR_H
+
+/* Define to 1 if assertions should be disabled. */
+#undef NDEBUG
 
 /* Name of package */
 #undef PACKAGE
@@ -208,6 +232,21 @@
 /* Define to 1 if compiler has ANSI C function prototypes */
 #undef PROTOTYPES
 
+/* The size of `char', as computed by sizeof. */
+#undef SIZEOF_CHAR
+
+/* The size of `int', as computed by sizeof. */
+#undef SIZEOF_INT
+
+/* The size of `long', as computed by sizeof. */
+#undef SIZEOF_LONG
+
+/* The size of `short', as computed by sizeof. */
+#undef SIZEOF_SHORT
+
+/* The size of `void*', as computed by sizeof. */
+#undef SIZEOF_VOIDP
+
 /* If using the C implementation of alloca, define if you know the
    direction of stack growth for your system; otherwise it will be
    automatically deduced at runtime.
@@ -218,6 +257,9 @@
 
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
+
+/* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
+#undef TIME_WITH_SYS_TIME
 
 /* Enable extensions on AIX 3, Interix.  */
 #ifndef _ALL_SOURCE
@@ -393,6 +435,14 @@
 # define PRINTF_STYLE(f, a)
 # define UNUSED
 #endif /* __GNUC__ && HAVE_GCC_ATTRIBUTE */
+
+
+
+#if HAVE_GCC_FUNCTION
+# define FUNCTION_NAME __FUNCTION__
+#else
+# define FUNCTION_NAME "Unknown"
+#endif /* HAVE_GCC_FUNCTION */
 
 
 

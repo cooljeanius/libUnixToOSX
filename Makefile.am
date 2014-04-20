@@ -801,8 +801,9 @@ DISTCLEANFILES = .DS_Store *~ autoscan.log
 
 distclean-local:
 	rm -rf autom4te.cache || rmdir autom4te.cache
-	test -d sys && test -z "`ls sys`" && rmdir sys
-	test -d scan_build_output && test -z "`ls scan_build_output`" && rmdir scan_build_output
+	rm -rf .deps || rmdir .deps
+	-(test -d sys && test -z "`ls sys`" && rmdir sys) || test -e sys
+	-(test -d scan_build_output && test -z "`ls scan_build_output`" && rmdir scan_build_output) || test -e scan_build_output
 
 libUnixToOSX_la_SOURCES += fd-hook.c
 
@@ -999,3 +1000,12 @@ libUnixToOSX_la_SOURCES += glthread/tls.h glthread/tls.c
 libUnixToOSX_la_SOURCES += glthread/threadlib.c
 
 libUnixToOSX_la_SOURCES += glthread/thread.h glthread/thread.c
+
+configure.scan:
+	autoscan || (touch configure.scan && mkdir autom4te.cache)
+
+MAINTAINERCLEANFILES = configure.scan
+
+headers: $(BUILT_SOURCES)
+	ls *.h
+.PHONY: headers

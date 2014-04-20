@@ -35,3 +35,6 @@ autoscan.list: $(srcdir)/autoscan.pre Makefile.am $(top_srcdir)/autom4te.cache $
 	  sed -n '/^[^#]/p' $(srcdir)/autoscan.pre; \
 	  $(MY_AUTOM4TE) --verbose --cache '$(top_srcdir)/autom4te.cache' -I$(top_srcdir) -I$(top_srcdir)/m4 -M -l autoconf -t'AN_OUTPUT:$$1: $$2		$$3' \
 	) | LC_ALL=C sort                                      >>autoscan.list
+
+$(top_srcdir)/autom4te.cache:
+	$(MAKE) -C $(top_srcdir) configure.scan

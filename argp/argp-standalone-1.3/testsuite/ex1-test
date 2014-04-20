@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/sh
 
 # Success with no args
 ./ex1 || exit 1

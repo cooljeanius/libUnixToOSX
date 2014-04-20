@@ -102,6 +102,7 @@ install:	all dirs
 clean:
 		rm -f pollemu.po *.o $(LIB) $(SHLIB) $(SHLIB_NOVER) polltest
 distclean:	clean
+mostlyclean:	clean
 
 $(SHLIB):	pollemu.po
 		$(LINK_SHARED) -o $@ $<

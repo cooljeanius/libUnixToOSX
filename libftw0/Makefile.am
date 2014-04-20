@@ -18,7 +18,7 @@ libftw.0.1.0.dylib: ftw.o
 	$(CC) $(AM_LDFLAGS) -install_name ${libdir}/libftw.0.dylib -compatibility_version 1 -current_version 1 -o $@ $<
 
 libftw.0.dylib libftw.dylib: libftw.0.1.0.dylib
-	$(LN_S) $< $@
+	$(LN_S) -f $< $@
 
 libftw.a: ftw.o $(libftw_la_SOURCES)
 	$(AR) $(AM_ARFLAGS) $@ $<

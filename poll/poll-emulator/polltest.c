@@ -56,6 +56,7 @@ int main(int argc, char **argv)
 
 		printf("%2d: Opening \"%s\" for %s ...\n", i, argv[(arg + 1)], strMode);
 		array[i].revents = 0;
+		array[i].events  = 0; /* initialize properly first */
 		array[i].events |= poll_mask;
 		array[i].fd      = open(argv[(arg + 1)], open_mode);
 		if (array[i].fd == -1) {

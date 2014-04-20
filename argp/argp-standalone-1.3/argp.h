@@ -1,4 +1,4 @@
-/* Hierarchial argument parsing.
+/* argp.h: Hierarchial argument parsing.
    Copyright (C) 1995, 96, 97, 98, 99, 2003 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
    Written by Miles Bader <miles@gnu.ai.mit.edu>.
@@ -28,42 +28,43 @@
 #include <errno.h>
 
 #ifndef __THROW
-# define __THROW
-#endif
+# define __THROW /* nothing */
+#endif /* !__THROW */
 
 #ifndef __const
 # define __const const
-#endif
+#endif /* !__const */
 
 #ifndef __error_t_defined
 typedef int error_t;
 # define __error_t_defined
-#endif
+#endif /* !__error_t_defined */
 
-/* FIXME: What's the right way to check for __restrict? Sun's cc seems
-   not to have it. Perhaps it's easiest to just delete the use of
-   __restrict from the prototypes. */
+/* FIXME: What is the right way to check for __restrict? Sun's cc seems
+ * not to have it. Perhaps it is easiest to just delete the use of
+ * __restrict from the prototypes...
+ * (what about the "AC_C_RESTRICT" autoconf macro?) */
 #ifndef __restrict
-# ifndef __GNUC___
+# ifndef __GNUC__
 #  define __restrict
-# endif
-#endif
+# endif /* !__GNUC__ */
+#endif /* !__restrict */
 
-/* NOTE: We can't use the autoconf tests, since this is supposed to be
-   an installed header file and argp's config.h is of course not
-   installed. */
+/* NOTE: We cannot use the autoconf tests, since this is supposed to be
+ * an installed header file and argp's config.h is of course not
+ * installed. */
 #ifndef PRINTF_STYLE
 # if __GNUC__ >= 2
 #  define PRINTF_STYLE(f, a) __attribute__ ((__format__ (__printf__, f, a)))
 # else
 #  define PRINTF_STYLE(f, a)
-# endif
-#endif
+# endif /* GCC 2+ */
+#endif /* !PRINTF_STYLE */
 
 
 #ifdef  __cplusplus
 extern "C" {
-#endif
+#endif /* __cplusplus */
 
 /* A description of a particular option.  A pointer to an array of
    these is passed in the OPTIONS field of an argp structure.  Each option
@@ -592,11 +593,13 @@ __option_is_end (__const struct argp_option *__opt) __THROW
 #  undef __argp_state_help
 #  undef __option_is_short
 #  undef __option_is_end
-# endif
+# endif /* !_LIBC */
 #endif /* Use extern inlines.  */
 
 #ifdef  __cplusplus
 }
-#endif
+#endif /* __cplusplus */
 
 #endif /* argp.h */
+
+/* EOF */

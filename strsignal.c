@@ -107,16 +107,16 @@ strsignal (int signum)
       signum < 0 || signum >= NSIG
       || (desc = INTUSE(_sys_siglist)[signum]) == NULL)
     {
-      char *buffer = getbuffer ();
+      char *buffer = getbuffer();
       int len;
 #ifdef SIGRTMIN
-      if (signum >= SIGRTMIN && signum <= SIGRTMAX)
-        len = __snprintf (buffer, BUFFERSIZ - 1, _("Real-time signal %d"),
-                          signum - (int) SIGRTMIN);
+      if ((signum >= SIGRTMIN) && (signum <= SIGRTMAX))
+        len = __snprintf (buffer, (BUFFERSIZ - 1), _("Real-time signal %d"),
+                          signum - (int)SIGRTMIN);
       else
-#endif
-        len = __snprintf (buffer, BUFFERSIZ - 1, _("Unknown signal %d"),
-                          signum);
+#endif /* SIGRTMIN */
+        len = __snprintf(buffer, (size_t)(BUFFERSIZ - 1),
+						 _("Unknown signal %d"), signum);
       if (len >= BUFFERSIZ)
         buffer = NULL;
       else
@@ -187,7 +187,7 @@ getbuffer (void)
       if (result == NULL)
         {
           /* No buffer allocated so far.  */
-          result = malloc (BUFFERSIZ);
+          result = malloc((size_t)BUFFERSIZ);
           if (result == NULL)
             /* No more memory available.  We use the static buffer.  */
             result = local_buf;

@@ -43,7 +43,13 @@ AC_MSG_NOTICE([you do not have a working argp; I assume that that is why you are
 ])
 
 # Checks for header files.
-AC_CHECK_HEADERS([libintl.h limits.h malloc.h malloc/malloc.h stddef.h])
+AC_HEADER_ASSERT
+AC_HEADER_TIME
+AX_CREATE_STDINT_H([argp-stdint.h],[])
+AC_CHECK_HEADERS([assert.h errno.h libintl.h libio/libioP.h \
+                  limits.h linewrap.h malloc.h malloc/malloc.h \
+                  stddef.h time.h varargs.h])
+# ctype.h and stdarg.h are checked elsewhere
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -56,6 +62,7 @@ AC_TYPE_SSIZE_T
 LSH_TYPE_SOCKLEN_T
 
 LSH_GCC_ATTRIBUTES
+LSH_GCC_FUNCTION_NAME
 
 # Checks for library functions.
 LSH_FUNC_ALLOCA

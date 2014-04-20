@@ -46,6 +46,7 @@ AC_MSG_CHECKING([for some programs...])
 AC_MSG_RESULT([... ])
 AC_PROG_CPP
 AC_PROG_CXX
+AC_PROG_GCC_TRADITIONAL
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MKDIR_P
@@ -168,7 +169,10 @@ elif test "x${gl_cv_c_inline_effective}" = "x"; then
   gl_INLINE
   gl_EXTERN_INLINE
 fi
-AC_C_RESTRICT
+if test "x${ac_cv_c_restrict}" = "x"; then
+  test -z "${ac_cv_c_restrict}"
+  AC_C_RESTRICT
+fi
 AC_C_PROTOTYPES
 AC_C_VOLATILE
 gl_CYCLE_CHECK
@@ -440,6 +444,7 @@ fi
 gl_MODULE_INDICATOR([realloc-gnu])
 gl_STDLIB_MODULE_INDICATOR([realloc-posix])
 gl_SAVE_CWD
+AC_FUNC_SELECT_ARGTYPES
 AC_FUNC_STAT
 gl_FUNC_STRCHRNUL
 if test ${HAVE_STRCHRNUL} = 0 || test ${REPLACE_STRCHRNUL} = 1; then
@@ -470,6 +475,7 @@ if test ${HAVE_STRSIGNAL} = 0 || test ${REPLACE_STRSIGNAL} = 1; then
 fi
 gl_STRING_MODULE_INDICATOR([strsignal])
 gl_FUNC_VASNPRINTF
+AC_FUNC_VPRINTF
 gl_FUNC_WCTOB
 gl_XALLOC
 gl_XSIZE

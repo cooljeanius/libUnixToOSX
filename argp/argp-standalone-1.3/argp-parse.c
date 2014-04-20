@@ -132,7 +132,7 @@ argp_default_parser (int key, char *arg, struct argp_state *state)
       /* Update what we use for messages.  */
 
       state->name = __argp_basename(arg);
-      
+
 #if HAVE_DECL_PROGRAM_INVOCATION_SHORT_NAME
       program_invocation_short_name = state->name;
 #endif
@@ -169,8 +169,9 @@ static const struct argp_option argp_version_options[] =
 };
 
 static error_t
-argp_version_parser (int key, char *arg UNUSED, struct argp_state *state)
+argp_version_parser(int key, char *arg/*UNUSED*/, struct argp_state *state)
 {
+#pragma unused (arg)
   switch (key)
     {
     case 'V':
@@ -245,7 +246,7 @@ struct parser
   const struct argp *argp;
 
   const char *posixly_correct;
-  
+
   /* True if there are only no-option arguments left, which are just
      passed verbatim with ARGP_KEY_ARG. This is set if we encounter a
      quote, or the end of the proper options, but may be cleared again
@@ -290,21 +291,21 @@ struct parser
      use the same type as for state.next. */
   int first_nonopt;
   int last_nonopt;
-  
+
   /* String of all recognized short options. Needed for ARGP_LONG_ONLY. */
   /* FIXME: Perhaps change to a pointer to a suitable bitmap instead? */
   char *short_opts;
 
   /* For parsing combined short options. */
   char *nextchar;
-  
+
   /* States of the various parsing groups.  */
   struct group *groups;
   /* The end of the GROUPS array.  */
   struct group *egroup;
   /* An vector containing storage for the CHILD_INPUTS field in all groups.  */
   void **child_inputs;
-  
+
   /* State block supplied to parsing routines.  */
   struct argp_state state;
 
@@ -317,7 +318,7 @@ static const struct argp_option *
 find_short_option(struct parser *parser, int key, struct group **p)
 {
   struct group *group;
-  
+
   assert(key >= 0);
   assert(isascii(key));
 
@@ -429,27 +430,27 @@ struct parser_convert_state
 };
 
 /* Initialize GROUP from ARGP. If CVT->SHORT_END is non-NULL, short
-   options are recorded in the short options string. Returns the next
-   unused group entry. CVT holds state used during the conversion. */
+ * options are recorded in the short options string. Returns the next
+ * unused group entry. CVT holds state used during the conversion. */
 static struct group *
-convert_options (const struct argp *argp,
-		 struct group *parent, unsigned parent_index,
-		 struct group *group, struct parser_convert_state *cvt)
+convert_options (const struct argp *argp, struct group *parent,
+				 unsigned parent_index, struct group *group,
+				 struct parser_convert_state *cvt)
 {
   const struct argp_option *opt = argp->options;
   const struct argp_child *children = argp->children;
 
-  if (opt || argp->parser)
-    {
+  if (opt || argp->parser) {
       /* This parser needs a group. */
-      if (cvt->short_end)
-	{
-	  /* Record any short options. */
-	  for ( ; !__option_is_end (opt); opt++)
-	    if (__option_is_short(opt))
-	      *cvt->short_end++ = opt->key;
-	}
-      
+      if (cvt->short_end) {
+		  /* Record any short options. */
+		  for (; !__option_is_end(opt); opt++) {
+			  if (opt && __option_is_short(opt)) {
+				  *cvt->short_end++ = (char)opt->key;
+			  }
+		  }
+	  }
+
       group->parser = argp->parser;
       group->argp = argp;
       group->args_processed = 0;
@@ -458,7 +459,7 @@ convert_options (const struct argp *argp,
       group->input = 0;
       group->hook = 0;
       group->child_inputs = 0;
-      
+
       if (children)
 	/* Assign GROUP's CHILD_INPUTS field some space from
 	   CVT->child_inputs_end.*/
@@ -470,17 +471,17 @@ convert_options (const struct argp *argp,
 	  cvt->child_inputs_end += num_children;
 	}
       parent = group++;
-    }
-  else
-    parent = 0;
+  } else {
+	  parent = 0;
+  }
 
-  if (children)
-    {
-      unsigned index = 0;
-      while (children->argp)
-	group =
-	  convert_options (children++->argp, parent, index++, group, cvt);
-    }
+  if (children) {
+      unsigned local_index = 0;
+      while (children->argp) {
+		  group = convert_options(children++->argp, parent, local_index++,
+								  group, cvt);
+	  }
+  }
 
   return group;
 }
@@ -547,8 +548,8 @@ calc_sizes (const struct argp *argp,  struct parser_sizes *szs)
 
 /* Initializes PARSER to parse ARGP in a manner described by FLAGS.  */
 static error_t
-parser_init (struct parser *parser, const struct argp *argp,
-	     int argc, char **argv, int flags, void *input)
+parser_init(struct parser *parser, const struct argp *argp,
+			int argc, char **argv, int flags, void *input)
 {
   error_t err = 0;
   struct group *group;
@@ -564,7 +565,7 @@ parser_init (struct parser *parser, const struct argp *argp,
     parser->ordering = REQUIRE_ORDER;
   else
     parser->ordering = PERMUTE;
-  
+
   szs.short_len = 0;
   szs.num_groups = 0;
   szs.num_child_inputs = 0;
@@ -575,7 +576,7 @@ parser_init (struct parser *parser, const struct argp *argp,
   if (!(flags & ARGP_LONG_ONLY))
     /* We have no use for the short option array. */
     szs.short_len = 0;
-  
+
   /* Lengths of the various bits of storage used by PARSER.  */
 #define GLEN (szs.num_groups + 1) * sizeof (struct group)
 #define CLEN (szs.num_child_inputs * sizeof (void *))
@@ -599,11 +600,11 @@ parser_init (struct parser *parser, const struct argp *argp,
   parser_convert (parser, argp);
 
   memset (&parser->state, 0, sizeof (struct argp_state));
-  
+
   parser->state.root_argp = parser->argp;
   parser->state.argc = argc;
   parser->state.argv = argv;
-  parser->state.flags = flags;
+  parser->state.flags = (unsigned)flags;
   parser->state.err_stream = stderr;
   parser->state.out_stream = stdout;
   parser->state.pstate = parser;
@@ -611,7 +612,7 @@ parser_init (struct parser *parser, const struct argp *argp,
   parser->args_only = 0;
   parser->nextchar = NULL;
   parser->first_nonopt = parser->last_nonopt = 0;
-    
+
   /* Call each parser for the first time, giving it a chance to propagate
      values to child parsers.  */
   if (parser->groups < parser->egroup)
@@ -649,7 +650,7 @@ parser_init (struct parser *parser, const struct argp *argp,
     }
   else
     parser->state.name = __argp_short_program_name(NULL);
-  
+
   return 0;
 }
 
@@ -751,10 +752,10 @@ parser_finalize (struct parser *parser,
    correctly to reflect however many args actually end up being
    consumed. */
 static error_t
-parser_parse_arg (struct parser *parser, char *val)
+parser_parse_arg(struct parser *parser, char *val)
 {
-  /* Save the starting value of NEXT */
-  int index = parser->state.next;
+  /* Save the starting value of NEXT: */
+  int parser_index = parser->state.next;
   error_t err = EBADKEY;
   struct group *group;
   int key = 0;			/* Which of ARGP_KEY_ARG[S] we used.  */
@@ -785,14 +786,16 @@ parser_parse_arg (struct parser *parser, char *val)
 	   consumed.  */
 	parser->state.next = parser->state.argc;
 
-      if (parser->state.next > index)
-	/* Remember that we successfully processed a non-option
-	   argument -- but only if the user hasn't gotten tricky and set
-	   the clock back.  */
-	(--group)->args_processed += (parser->state.next - index);
-      else
-	/* The user wants to reparse some args, so try looking for options again.  */
-	parser->args_only = 0;
+		if (parser->state.next > parser_index) {
+			/* Remember that we successfully processed a non-option
+			 * argument -- but only if the user has NOT gotten tricky and set
+			 * the clock back.  */
+			(--group)->args_processed += (unsigned)(parser->state.next - parser_index);
+		} else {
+			/* The user wants to reparse some args, so try looking for options
+			 * again.  */
+			parser->args_only = 0;
+		}
     }
 
   return err;
@@ -814,7 +817,7 @@ exchange (struct parser *parser)
   int middle = parser->last_nonopt;
   int top = parser->state.next;
   char **argv = parser->state.argv;
-  
+
   char *tem;
 
   /* Exchange the shorter segment with the far end of the longer segment.
@@ -884,7 +887,7 @@ classify_arg(struct parser *parser, char *arg, char **opt)
 	/* Long option, or quote. */
 	if (!arg[2])
 	  return ARG_QUOTE;
-	  
+
 	/* A long option. */
 	if (opt)
 	  *opt = arg + 2;
@@ -914,14 +917,14 @@ classify_arg(struct parser *parser, char *arg, char **opt)
 	       This distinction seems to be the most useful approach. */
 
 	    assert(parser->short_opts);
-	    
+
 	    if (arg[2] || !strchr(parser->short_opts, arg[1]))
 	      return ARG_LONG_ONLY_OPTION;
 	  }
 
 	return ARG_SHORT_OPTION;
       }
-  
+
   else
     return ARG_ARG;
 }
@@ -958,7 +961,7 @@ parser_parse_next (struct parser *parser, int *arg_ebadkey)
       assert(!parser->args_only);
 
       c = *parser->nextchar++;
-      
+
       option = find_short_option(parser, c, &group);
       if (!option)
 	{
@@ -985,7 +988,7 @@ parser_parse_next (struct parser *parser, int *arg_ebadkey)
 	{
 	  value = parser->nextchar;
 	  parser->nextchar = NULL;
-	      
+
 	  if (!value
 	      && !(option->flags & OPTION_ARG_OPTIONAL))
 	    /* We need an mandatory argument. */
@@ -1021,7 +1024,7 @@ parser_parse_next (struct parser *parser, int *arg_ebadkey)
 	    return parser_parse_arg(parser,
 				    parser->state.argv[parser->state.next]);
 	}
-      
+
       if (parser->state.next >= parser->state.argc)
 	/* Almost done. If there are non-options that we skipped
 	   previously, we should process them now. */
@@ -1030,10 +1033,10 @@ parser_parse_next (struct parser *parser, int *arg_ebadkey)
 	  if (parser->first_nonopt != parser->last_nonopt)
 	    {
 	      exchange(parser);
-	      
+
 	      /* Start processing the arguments we skipped previously. */
 	      parser->state.next = parser->first_nonopt;
-	      
+
 	      parser->first_nonopt = parser->last_nonopt = 0;
 
 	      parser->args_only = 1;
@@ -1050,7 +1053,7 @@ parser_parse_next (struct parser *parser, int *arg_ebadkey)
 
 	  char *optstart;
 	  enum arg_type token = classify_arg(parser, arg, &optstart);
-	  
+
 	  switch (token)
 	    {
 	    case ARG_ARG:
@@ -1067,18 +1070,18 @@ parser_parse_next (struct parser *parser, int *arg_ebadkey)
 		    exchange(parser);
 
 		  assert(parser->last_nonopt == parser->state.next);
-		  
+
 		  /* Skip this argument for now. */
 		  parser->state.next++;
-		  parser->last_nonopt = parser->state.next; 
-		  
+		  parser->last_nonopt = parser->state.next;
+
 		  return 0;
 
 		case REQUIRE_ORDER:
 		  /* Implicit quote before the first argument. */
 		   parser->args_only = 1;
 		   return 0;
-		   
+
 		case RETURN_IN_ORDER:
 		  *arg_ebadkey = 1;
 		  return parser_parse_arg(parser, arg);
@@ -1094,7 +1097,7 @@ parser_parse_next (struct parser *parser, int *arg_ebadkey)
 	      if (parser->first_nonopt != parser->last_nonopt)
 		{
 		  exchange(parser);
-		  
+
 		  /* Start processing the skipped and the quoted
 		     arguments. */
 
@@ -1107,7 +1110,7 @@ parser_parse_next (struct parser *parser, int *arg_ebadkey)
 	      else
 		parser->state.quoted = parser->state.next;
 
-	      parser->args_only = 1;	      
+	      parser->args_only = 1;
 	      return 0;
 
 	    case ARG_LONG_ONLY_OPTION:
@@ -1119,7 +1122,7 @@ parser_parse_next (struct parser *parser, int *arg_ebadkey)
 
 		parser->state.next++;
 		option = find_long_option(parser, optstart, &group);
-		
+
 		if (!option)
 		  {
 		    /* NOTE: This includes any "=something" in the output. */
@@ -1134,7 +1137,7 @@ parser_parse_next (struct parser *parser, int *arg_ebadkey)
 		value = strchr(optstart, '=');
 		if (value)
 		  value++;
-		
+
 		if (value && !option->arg)
 		  /* Unexpected argument. */
 		  {
@@ -1154,7 +1157,7 @@ parser_parse_next (struct parser *parser, int *arg_ebadkey)
 		    *arg_ebadkey = 0;
 		    return EBADKEY;
 		  }
-		
+
 		if (option->arg && !value
 		    && !(option->flags & OPTION_ARG_OPTIONAL))
 		  /* We need an mandatory argument. */
@@ -1237,15 +1240,15 @@ __argp_parse (const struct argp *argp, int argc, char **argv, unsigned flags,
     }
 
   /* Construct a parser for these arguments.  */
-  err = parser_init (&parser, argp, argc, argv, flags, input);
+  err = parser_init(&parser, argp, argc, argv, (int)flags, input);
 
-  if (! err)
-    /* Parse! */
-    {
-      while (! err)
-	err = parser_parse_next (&parser, &arg_ebadkey);
-      err = parser_finalize (&parser, err, arg_ebadkey, end_index);
-    }
+  if (! err) {
+	  /* Parse! */
+	  while (! err) {
+		  err = parser_parse_next(&parser, &arg_ebadkey);
+	  }
+      err = parser_finalize(&parser, err, arg_ebadkey, end_index);
+  }
 
   return err;
 }

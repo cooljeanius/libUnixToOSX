@@ -1489,6 +1489,7 @@ WARN_ON_USE_H = warn-on-use.h
 UNUSED_PARAMETER_H = unused-parameter.h
 DISTCLEANFILES = .DS_Store *~ autoscan.log
 MOSTLYCLEANDIRS = build/Debug sys
+MAINTAINERCLEANFILES = configure.scan
 all: $(BUILT_SOURCES) config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -1977,6 +1978,7 @@ maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
 	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
+	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
 clean: clean-recursive
 
 clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
@@ -2730,8 +2732,9 @@ math.h: math.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(
 
 distclean-local:
 	rm -rf autom4te.cache || rmdir autom4te.cache
-	test -d sys && test -z "`ls sys`" && rmdir sys
-	test -d scan_build_output && test -z "`ls scan_build_output`" && rmdir scan_build_output
+	rm -rf .deps || rmdir .deps
+	-(test -d sys && test -z "`ls sys`" && rmdir sys) || test -e sys
+	-(test -d scan_build_output && test -z "`ls scan_build_output`" && rmdir scan_build_output) || test -e scan_build_output
 
 # We need the following in order to create <sys/stat.h> when the system
 # has one that is incomplete.
@@ -2897,6 +2900,13 @@ strings.h: strings.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(WARN_ON_USE
 	      < $(srcdir)/strings.in.h; \
 	} > $@-t && \
 	mv $@-t $@
+
+configure.scan:
+	autoscan || (touch configure.scan && mkdir autom4te.cache)
+
+headers: $(BUILT_SOURCES)
+	ls *.h
+.PHONY: headers
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

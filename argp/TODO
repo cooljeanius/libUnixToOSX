@@ -1,0 +1,3 @@
+See if the gnulib argp functions will conflict with the argp-standalone
+ones at all (using the argp-standalone ones in the Xcode project currently
+at least)

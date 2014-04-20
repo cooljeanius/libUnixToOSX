@@ -22,6 +22,11 @@
 #include "xstrndup.h"
 
 #include <string.h>
+
+#ifndef __STRING_H
+# include "string.h"
+#endif /* !__STRING_H */
+
 #include "xalloc.h"
 
 /* not sure if this "&&" should be an "||" instead: */

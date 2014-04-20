@@ -6,6 +6,20 @@
 	objectVersion = 45;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		A558DD0819005C91002696E8 /* configure */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = A558DD0C19005CAF002696E8 /* Build configuration list for PBXAggregateTarget "configure" */;
+			buildPhases = (
+				A558DD0719005C91002696E8 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = configure;
+			productName = configure;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		A50A8EDC18EC81B90096B616 /* alloc.h in Headers */ = {isa = PBXBuildFile; fileRef = A50A8EDB18EC81B90096B616 /* alloc.h */; };
 		A50A8EDF18EC86C90096B616 /* ftw.h in Headers */ = {isa = PBXBuildFile; fileRef = A50A8EDD18EC86C90096B616 /* ftw.h */; };
@@ -168,6 +182,22 @@
 		A531669E18EEF8B00049B90F /* at-func2.c in Sources */ = {isa = PBXBuildFile; fileRef = A531669C18EEF8B00049B90F /* at-func2.c */; };
 		A53166C618EF04A60049B90F /* dup.h in Headers */ = {isa = PBXBuildFile; fileRef = A53166C518EF04A60049B90F /* dup.h */; };
 		A558DC78190032DD002696E8 /* siglist.h in Headers */ = {isa = PBXBuildFile; fileRef = A558DC77190032DD002696E8 /* siglist.h */; };
+		A558DCCA19005691002696E8 /* argp-ba.c in Sources */ = {isa = PBXBuildFile; fileRef = A558DCA719005691002696E8 /* argp-ba.c */; };
+		A558DCCB19005691002696E8 /* argp-eexst.c in Sources */ = {isa = PBXBuildFile; fileRef = A558DCA819005691002696E8 /* argp-eexst.c */; };
+		A558DCCC19005691002696E8 /* argp-fmtstream.c in Sources */ = {isa = PBXBuildFile; fileRef = A558DCA919005691002696E8 /* argp-fmtstream.c */; };
+		A558DCCD19005691002696E8 /* argp-fmtstream.h in Headers */ = {isa = PBXBuildFile; fileRef = A558DCAA19005691002696E8 /* argp-fmtstream.h */; };
+		A558DCCE19005691002696E8 /* argp-help.c in Sources */ = {isa = PBXBuildFile; fileRef = A558DCAB19005691002696E8 /* argp-help.c */; settings = {COMPILER_FLAGS = "-I../.."; }; };
+		A558DCCF19005691002696E8 /* argp-namefrob.h in Headers */ = {isa = PBXBuildFile; fileRef = A558DCAC19005691002696E8 /* argp-namefrob.h */; };
+		A558DCD019005691002696E8 /* argp-parse.c in Sources */ = {isa = PBXBuildFile; fileRef = A558DCAD19005691002696E8 /* argp-parse.c */; };
+		A558DCD119005691002696E8 /* argp-pv.c in Sources */ = {isa = PBXBuildFile; fileRef = A558DCAE19005691002696E8 /* argp-pv.c */; };
+		A558DCD219005691002696E8 /* argp-pvh.c in Sources */ = {isa = PBXBuildFile; fileRef = A558DCAF19005691002696E8 /* argp-pvh.c */; };
+		A558DCD419005691002696E8 /* argp.h in Headers */ = {isa = PBXBuildFile; fileRef = A558DCB119005691002696E8 /* argp.h */; };
+		A558DCE919005734002696E8 /* ex1-test in Resources */ = {isa = PBXBuildFile; fileRef = A558DCE619005734002696E8 /* ex1-test */; };
+		A558DCEA19005734002696E8 /* permute-test in Resources */ = {isa = PBXBuildFile; fileRef = A558DCE719005734002696E8 /* permute-test */; };
+		A558DCEB19005734002696E8 /* run-tests in Resources */ = {isa = PBXBuildFile; fileRef = A558DCE819005734002696E8 /* run-tests */; };
+		A558DCEC1900578D002696E8 /* ex1.c in Resources */ = {isa = PBXBuildFile; fileRef = A558DCC019005691002696E8 /* ex1.c */; };
+		A558DCED1900578D002696E8 /* ex3.c in Resources */ = {isa = PBXBuildFile; fileRef = A558DCC119005691002696E8 /* ex3.c */; };
+		A558DCEE1900578D002696E8 /* ex4.c in Resources */ = {isa = PBXBuildFile; fileRef = A558DCC219005691002696E8 /* ex4.c */; };
 		A563262E19001FAB0024EB6A /* mempcpy.c in Sources */ = {isa = PBXBuildFile; fileRef = A563262D19001FAB0024EB6A /* mempcpy.c */; };
 		A563263019001FBC0024EB6A /* rawmemchr.c in Sources */ = {isa = PBXBuildFile; fileRef = A563262F19001FBC0024EB6A /* rawmemchr.c */; };
 		A563263219001FD10024EB6A /* strchrnul.c in Sources */ = {isa = PBXBuildFile; fileRef = A563263119001FD10024EB6A /* strchrnul.c */; };
@@ -180,7 +210,48 @@
 		A563268A1900327C0024EB6A /* threadlib.c in Sources */ = {isa = PBXBuildFile; fileRef = A56326831900327C0024EB6A /* threadlib.c */; };
 		A563268B1900327C0024EB6A /* tls.c in Sources */ = {isa = PBXBuildFile; fileRef = A56326841900327C0024EB6A /* tls.c */; };
 		A563268C1900327C0024EB6A /* tls.h in Headers */ = {isa = PBXBuildFile; fileRef = A56326851900327C0024EB6A /* tls.h */; };
+		A5A94E9E1904452E005B7143 /* argp-test.c in Sources */ = {isa = PBXBuildFile; fileRef = A558DCB019005691002696E8 /* argp-test.c */; };
+		A5A94EA119044543005B7143 /* libUnixToOSX.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D2AAC0630554660B00DB518D /* libUnixToOSX.dylib */; };
+		A5A94EB1190445E6005B7143 /* libUnixToOSX.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D2AAC0630554660B00DB518D /* libUnixToOSX.dylib */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A558DD2419005DF1002696E8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A558DD0819005C91002696E8;
+			remoteInfo = configure;
+		};
+		A558DD2619005DFA002696E8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A558DD0219005C37002696E8;
+			remoteInfo = BUILT_SOURCES;
+		};
+		A558DD2819005DFD002696E8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A558DD0819005C91002696E8;
+			remoteInfo = configure;
+		};
+		A5A94EB4190445F0005B7143 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC0620554660B00DB518D;
+			remoteInfo = libUnixToOSX;
+		};
+		A5A94EB6190445F2005B7143 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 08FB7793FE84155DC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC0620554660B00DB518D;
+			remoteInfo = libUnixToOSX;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		A50A8EDB18EC81B90096B616 /* alloc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alloc.h; sourceTree = "<group>"; };
@@ -352,6 +423,30 @@
 		A531669C18EEF8B00049B90F /* at-func2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "at-func2.c"; sourceTree = "<group>"; };
 		A53166C518EF04A60049B90F /* dup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dup.h; sourceTree = "<group>"; };
 		A558DC77190032DD002696E8 /* siglist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = siglist.h; sourceTree = "<group>"; };
+		A558DCA519005691002696E8 /* ansi2knr.1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.man; path = ansi2knr.1; sourceTree = "<group>"; };
+		A558DCA619005691002696E8 /* ansi2knr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ansi2knr.c; sourceTree = "<group>"; };
+		A558DCA719005691002696E8 /* argp-ba.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "argp-ba.c"; sourceTree = "<group>"; };
+		A558DCA819005691002696E8 /* argp-eexst.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "argp-eexst.c"; sourceTree = "<group>"; };
+		A558DCA919005691002696E8 /* argp-fmtstream.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "argp-fmtstream.c"; sourceTree = "<group>"; };
+		A558DCAA19005691002696E8 /* argp-fmtstream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "argp-fmtstream.h"; sourceTree = "<group>"; };
+		A558DCAB19005691002696E8 /* argp-help.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "argp-help.c"; sourceTree = "<group>"; };
+		A558DCAC19005691002696E8 /* argp-namefrob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "argp-namefrob.h"; sourceTree = "<group>"; };
+		A558DCAD19005691002696E8 /* argp-parse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "argp-parse.c"; sourceTree = "<group>"; };
+		A558DCAE19005691002696E8 /* argp-pv.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "argp-pv.c"; sourceTree = "<group>"; };
+		A558DCAF19005691002696E8 /* argp-pvh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "argp-pvh.c"; sourceTree = "<group>"; };
+		A558DCB019005691002696E8 /* argp-test.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "argp-test.c"; sourceTree = "<group>"; };
+		A558DCB119005691002696E8 /* argp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = argp.h; sourceTree = "<group>"; };
+		A558DCB919005691002696E8 /* mempcpy.c */ = {isa = PBXFileReference; fileEncoding = 2147484165; lastKnownFileType = sourcecode.c.c; path = mempcpy.c; sourceTree = "<group>"; };
+		A558DCBA19005691002696E8 /* strchrnul.c */ = {isa = PBXFileReference; fileEncoding = 2147484165; lastKnownFileType = sourcecode.c.c; path = strchrnul.c; sourceTree = "<group>"; };
+		A558DCBB19005691002696E8 /* strndup.c */ = {isa = PBXFileReference; fileEncoding = 2147484165; lastKnownFileType = sourcecode.c.c; path = strndup.c; sourceTree = "<group>"; };
+		A558DCC019005691002696E8 /* ex1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ex1.c; sourceTree = "<group>"; };
+		A558DCC119005691002696E8 /* ex3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ex3.c; sourceTree = "<group>"; };
+		A558DCC219005691002696E8 /* ex4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ex4.c; sourceTree = "<group>"; };
+		A558DCE11900570E002696E8 /* argp-test.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "argp-test.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A558DCE21900570E002696E8 /* argp-test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "argp-test-Info.plist"; sourceTree = "<group>"; };
+		A558DCE619005734002696E8 /* ex1-test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "ex1-test"; sourceTree = "<group>"; };
+		A558DCE719005734002696E8 /* permute-test */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "permute-test"; sourceTree = "<group>"; };
+		A558DCE819005734002696E8 /* run-tests */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "run-tests"; sourceTree = "<group>"; };
 		A563262D19001FAB0024EB6A /* mempcpy.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mempcpy.c; sourceTree = "<group>"; };
 		A563262F19001FBC0024EB6A /* rawmemchr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rawmemchr.c; sourceTree = "<group>"; };
 		A563263119001FD10024EB6A /* strchrnul.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = strchrnul.c; sourceTree = "<group>"; };
@@ -364,7 +459,7 @@
 		A56326831900327C0024EB6A /* threadlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = threadlib.c; sourceTree = "<group>"; };
 		A56326841900327C0024EB6A /* tls.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tls.c; sourceTree = "<group>"; };
 		A56326851900327C0024EB6A /* tls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tls.h; sourceTree = "<group>"; };
-		D2AAC0630554660B00DB518D /* liblibUnixToOSX.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = liblibUnixToOSX.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2AAC0630554660B00DB518D /* libUnixToOSX.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libUnixToOSX.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -372,6 +467,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5A94EB1190445E6005B7143 /* libUnixToOSX.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A558DCDE1900570E002696E8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5A94EA119044543005B7143 /* libUnixToOSX.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,6 +496,7 @@
 				08FB7795FE84155DC02AAC07 /* Source */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
 				A50A8FB618ED96CF0096B616 /* polltest-Info.plist */,
+				A558DCE21900570E002696E8 /* argp-test-Info.plist */,
 			);
 			name = libUnixToOSX;
 			sourceTree = "<group>";
@@ -401,6 +506,7 @@
 			children = (
 				A50A8F4418EC9A3C0096B616 /* alloca.c */,
 				A50A8EDB18EC81B90096B616 /* alloc.h */,
+				A558DCA119005691002696E8 /* argp-standalone */,
 				A50A90A518EE1D4C0096B616 /* asnprintf.c */,
 				A531669B18EEF8B00049B90F /* at-func.c */,
 				A531669C18EEF8B00049B90F /* at-func2.c */,
@@ -468,8 +574,7 @@
 				A50A90F718EE1DC30096B616 /* fts_.h */,
 				A50A90F818EE1DC30096B616 /* fts-cycle.c */,
 				A50A90F918EE1DC30096B616 /* fts.c */,
-				A50A8EDD18EC86C90096B616 /* ftw.h */,
-				A50A8EDE18EC86C90096B616 /* ftw.c */,
+				A558DC9019005655002696E8 /* libftw0 */,
 				A50A8EE518EC86F40096B616 /* ftw_Apple.h */,
 				A50A8EE618EC86F40096B616 /* ftw_Apple.c */,
 				A50A90FD18EE1DD20096B616 /* getopt_int.h */,
@@ -519,9 +624,7 @@
 				A50A913E18EE1E290096B616 /* pathmax.h */,
 				A50A913F18EE1E290096B616 /* pipe-safer.c */,
 				A50A8F4018EC9A3C0096B616 /* poll.c */,
-				A50A8FAA18ED96A80096B616 /* pollemu.c */,
-				A50A8FAB18ED96A80096B616 /* pollemu.h */,
-				A50A8FAC18ED96A80096B616 /* polltest.c */,
+				A558DC9D19005671002696E8 /* poll-emulator */,
 				A50A915118EE1E3F0096B616 /* printf-args.c */,
 				A50A915218EE1E3F0096B616 /* printf-args.h */,
 				A50A915318EE1E3F0096B616 /* printf-frexp.c */,
@@ -573,8 +676,9 @@
 		1AB674ADFE9D54B511CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D2AAC0630554660B00DB518D /* liblibUnixToOSX.dylib */,
+				D2AAC0630554660B00DB518D /* libUnixToOSX.dylib */,
 				A50A8FB518ED96CF0096B616 /* polltest.octest */,
+				A558DCE11900570E002696E8 /* argp-test.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -591,6 +695,71 @@
 			);
 			name = snippet;
 			path = "build-aux/snippet";
+			sourceTree = "<group>";
+		};
+		A558DC9019005655002696E8 /* libftw0 */ = {
+			isa = PBXGroup;
+			children = (
+				A50A8EDD18EC86C90096B616 /* ftw.h */,
+				A50A8EDE18EC86C90096B616 /* ftw.c */,
+			);
+			name = libftw0;
+			sourceTree = "<group>";
+		};
+		A558DC9D19005671002696E8 /* poll-emulator */ = {
+			isa = PBXGroup;
+			children = (
+				A50A8FAA18ED96A80096B616 /* pollemu.c */,
+				A50A8FAB18ED96A80096B616 /* pollemu.h */,
+				A50A8FAC18ED96A80096B616 /* polltest.c */,
+			);
+			name = "poll-emulator";
+			sourceTree = "<group>";
+		};
+		A558DCA119005691002696E8 /* argp-standalone */ = {
+			isa = PBXGroup;
+			children = (
+				A558DCDB190056A9002696E8 /* doc */,
+				A558DCA619005691002696E8 /* ansi2knr.c */,
+				A558DCA719005691002696E8 /* argp-ba.c */,
+				A558DCA819005691002696E8 /* argp-eexst.c */,
+				A558DCA919005691002696E8 /* argp-fmtstream.c */,
+				A558DCAA19005691002696E8 /* argp-fmtstream.h */,
+				A558DCAB19005691002696E8 /* argp-help.c */,
+				A558DCAC19005691002696E8 /* argp-namefrob.h */,
+				A558DCAD19005691002696E8 /* argp-parse.c */,
+				A558DCAE19005691002696E8 /* argp-pv.c */,
+				A558DCAF19005691002696E8 /* argp-pvh.c */,
+				A558DCB019005691002696E8 /* argp-test.c */,
+				A558DCB119005691002696E8 /* argp.h */,
+				A558DCB919005691002696E8 /* mempcpy.c */,
+				A558DCBA19005691002696E8 /* strchrnul.c */,
+				A558DCBB19005691002696E8 /* strndup.c */,
+				A558DCBC19005691002696E8 /* testsuite */,
+			);
+			name = "argp-standalone";
+			path = "argp/argp-standalone-1.3";
+			sourceTree = "<group>";
+		};
+		A558DCBC19005691002696E8 /* testsuite */ = {
+			isa = PBXGroup;
+			children = (
+				A558DCE619005734002696E8 /* ex1-test */,
+				A558DCE719005734002696E8 /* permute-test */,
+				A558DCE819005734002696E8 /* run-tests */,
+				A558DCC019005691002696E8 /* ex1.c */,
+				A558DCC119005691002696E8 /* ex3.c */,
+				A558DCC219005691002696E8 /* ex4.c */,
+			);
+			path = testsuite;
+			sourceTree = "<group>";
+		};
+		A558DCDB190056A9002696E8 /* doc */ = {
+			isa = PBXGroup;
+			children = (
+				A558DCA519005691002696E8 /* ansi2knr.1 */,
+			);
+			name = doc;
 			sourceTree = "<group>";
 		};
 		A563267E1900327C0024EB6A /* glthread */ = {
@@ -687,10 +856,31 @@
 				A50A919E18EE1E7D0096B616 /* xstrndup.h in Headers */,
 				A53166C618EF04A60049B90F /* dup.h in Headers */,
 				A563266A19002CF90024EB6A /* rawmemchr.h in Headers */,
+				A558DCCD19005691002696E8 /* argp-fmtstream.h in Headers */,
+				A558DCCF19005691002696E8 /* argp-namefrob.h in Headers */,
+				A558DCD419005691002696E8 /* argp.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
+
+/* Begin PBXLegacyTarget section */
+		A558DD0219005C37002696E8 /* headers */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = headers;
+			buildConfigurationList = A558DD0B19005CAF002696E8 /* Build configuration list for PBXLegacyTarget "headers" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "$(SRCROOT)";
+			dependencies = (
+				A558DD2519005DF1002696E8 /* PBXTargetDependency */,
+			);
+			name = headers;
+			passBuildSettingsInEnvironment = 1;
+			productName = BUILT_SOURCES;
+		};
+/* End PBXLegacyTarget section */
 
 /* Begin PBXNativeTarget section */
 		A50A8FB418ED96CF0096B616 /* polltest */ = {
@@ -705,17 +895,36 @@
 			buildRules = (
 			);
 			dependencies = (
+				A5A94EB5190445F0005B7143 /* PBXTargetDependency */,
 			);
 			name = polltest;
 			productName = polltest;
 			productReference = A50A8FB518ED96CF0096B616 /* polltest.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
+		A558DCE01900570E002696E8 /* argp-test */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A558DCE51900570F002696E8 /* Build configuration list for PBXNativeTarget "argp-test" */;
+			buildPhases = (
+				A558DCDC1900570E002696E8 /* Resources */,
+				A558DCDD1900570E002696E8 /* Sources */,
+				A558DCDE1900570E002696E8 /* Frameworks */,
+				A558DCDF1900570E002696E8 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A5A94EB7190445F2005B7143 /* PBXTargetDependency */,
+			);
+			name = "argp-test";
+			productName = "argp-test";
+			productReference = A558DCE11900570E002696E8 /* argp-test.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 		D2AAC0620554660B00DB518D /* libUnixToOSX */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1DEB914A08733D8E0010E9CD /* Build configuration list for PBXNativeTarget "libUnixToOSX" */;
 			buildPhases = (
-				A563265819002C480024EB6A /* ShellScript */,
 				D2AAC0600554660B00DB518D /* Headers */,
 				D2AAC0610554660B00DB518D /* Sources */,
 				D289988505E68E00004EDB86 /* Frameworks */,
@@ -723,10 +932,12 @@
 			buildRules = (
 			);
 			dependencies = (
+				A558DD2919005DFD002696E8 /* PBXTargetDependency */,
+				A558DD2719005DFA002696E8 /* PBXTargetDependency */,
 			);
 			name = libUnixToOSX;
 			productName = libUnixToOSX;
-			productReference = D2AAC0630554660B00DB518D /* liblibUnixToOSX.dylib */;
+			productReference = D2AAC0630554660B00DB518D /* libUnixToOSX.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 /* End PBXNativeTarget section */
@@ -750,6 +961,9 @@
 			targets = (
 				D2AAC0620554660B00DB518D /* libUnixToOSX */,
 				A50A8FB418ED96CF0096B616 /* polltest */,
+				A558DCE01900570E002696E8 /* argp-test */,
+				A558DD0219005C37002696E8 /* headers */,
+				A558DD0819005C91002696E8 /* configure */,
 			);
 		};
 /* End PBXProject section */
@@ -759,6 +973,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A558DCDC1900570E002696E8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A558DCE919005734002696E8 /* ex1-test in Resources */,
+				A558DCEA19005734002696E8 /* permute-test in Resources */,
+				A558DCEB19005734002696E8 /* run-tests in Resources */,
+				A558DCEC1900578D002696E8 /* ex1.c in Resources */,
+				A558DCED1900578D002696E8 /* ex3.c in Resources */,
+				A558DCEE1900578D002696E8 /* ex4.c in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -778,7 +1005,7 @@
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
 		};
-		A563265819002C480024EB6A /* ShellScript */ = {
+		A558DCDF1900570E002696E8 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -789,7 +1016,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nexport PATH=/opt/local/bin:/opt/local/sbin:${PATH}\n\nif test \"x${I_ACTUALLY_WANT_TO_READ_THE_MESSAGES}\" = \"x1\"; then\n\tsleep 1\nfi\n\necho \"Environment variables: \"\necho \" \"\n\nenv | uniq | sort | uniq\n\necho \" \"\necho \"Done printing environment, now seeing if we need to regenerate config.h...\"\necho \" \"\n\nif test \"x${I_ACTUALLY_WANT_TO_READ_THE_MESSAGES}\" = \"x1\"; then\n\tsleep 1\nfi\n\nif test ! -e ${SRCROOT}/config.h; then\n\tif test \"x${BUILD_STYLE}\" = \"xRelease\"; then\n\t\t${SRCROOT}/configure --disable-assert\n\telif test \"x${BUILD_STYLE}\" = \"xDebug\"; then\n\t\t${SRCROOT}/configure --disable-silent-rules\n\telse\n\t\t${SRCROOT}/configure\n\tfi\nelse\n\techo \"config.h is already present\"\nfi\n\nif test \"x${I_ACTUALLY_WANT_TO_READ_THE_MESSAGES}\" = \"x1\"; then\n\tsleep 1\nfi\n";
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		A558DD0719005C91002696E8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\n\n# shell script goes here\n\nactually_run_configure() {\n\tif test \"x${BUILD_STYLE}\" = \"xRelease\"; then\n\t\techo \"running ./configure --disable-assert\"\n\t\t${SRCROOT}/configure --disable-assert\n\telif test \"x${BUILD_STYLE}\" = \"xDebug\"; then\n\t\techo \"running ./configure --disable-silent-rules\"\n\t\t${SRCROOT}/configure --disable-silent-rules\n\telse\n\t\techo \"running ./configure\"\n\t\t${SRCROOT}/configure\n\tfi\n}\n\nsleep_conditionally() {\nif test \"x${I_ACTUALLY_WANT_TO_READ_THE_MESSAGES}\" = \"x1\"; then\n\tsleep 1\nfi\n}\n\nexport PATH=/opt/local/bin:/opt/local/sbin:${PATH}\n\nsleep_conditionally\n\necho \"Environment variables: \"\necho \" \"\n\nenv | uniq | sort | uniq\n\necho \" \"\necho \"Done printing environment, now seeing if we need to regenerate config.h...\"\necho \" \"\n\nsleep_conditionally\n\nif test ! -e ${SRCROOT}/config.h; then\n\techo \"yes, we do need to regenerate config.h\"\n\tactually_run_configure\nelse\n\techo \"config.h is already present\"\nfi\n\nsleep_conditionally\n\necho \" \"\necho \"Done checking for config.h, now doing likewise for Makefile...\"\necho \" \"\n\nsleep_conditionally\n\nif test ! -e ${SRCROOT}/Makefile; then\n\techo \"yes, we do need to regenerate Makefile\"\n\tactually_run_configure\nelse\n\techo \"Makefile is already present\"\nfi\n\nsleep_conditionally\n\nexit 0\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -799,6 +1039,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				A50A8FBB18ED96DE0096B616 /* polltest.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A558DCDD1900570E002696E8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5A94E9E1904452E005B7143 /* argp-test.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -905,17 +1153,52 @@
 				A50A919818EE1E7D0096B616 /* xalloc-die.c in Sources */,
 				A50A919B18EE1E7D0096B616 /* xmalloc.c in Sources */,
 				A50A919D18EE1E7D0096B616 /* xstrndup.c in Sources */,
+				A558DCCA19005691002696E8 /* argp-ba.c in Sources */,
+				A558DCCB19005691002696E8 /* argp-eexst.c in Sources */,
+				A558DCCC19005691002696E8 /* argp-fmtstream.c in Sources */,
+				A558DCCE19005691002696E8 /* argp-help.c in Sources */,
+				A558DCD019005691002696E8 /* argp-parse.c in Sources */,
+				A558DCD119005691002696E8 /* argp-pv.c in Sources */,
+				A558DCD219005691002696E8 /* argp-pvh.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A558DD2519005DF1002696E8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A558DD0819005C91002696E8 /* configure */;
+			targetProxy = A558DD2419005DF1002696E8 /* PBXContainerItemProxy */;
+		};
+		A558DD2719005DFA002696E8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A558DD0219005C37002696E8 /* headers */;
+			targetProxy = A558DD2619005DFA002696E8 /* PBXContainerItemProxy */;
+		};
+		A558DD2919005DFD002696E8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A558DD0819005C91002696E8 /* configure */;
+			targetProxy = A558DD2819005DFD002696E8 /* PBXContainerItemProxy */;
+		};
+		A5A94EB5190445F0005B7143 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D2AAC0620554660B00DB518D /* libUnixToOSX */;
+			targetProxy = A5A94EB4190445F0005B7143 /* PBXContainerItemProxy */;
+		};
+		A5A94EB7190445F2005B7143 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D2AAC0620554660B00DB518D /* libUnixToOSX */;
+			targetProxy = A5A94EB6190445F2005B7143 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1DEB914B08733D8E0010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_PREFIX = "";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -933,11 +1216,17 @@
 		1DEB914C08733D8E0010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				EXECUTABLE_PREFIX = lib;
+				"DEBUG_INFORMATION_FORMAT[arch=x86_64]" = dwarf;
 				GCC_MODEL_TUNING = G5;
+				GCC_PREPROCESSOR_DEFINITIONS = "HAVE_CONFIG_H=1";
+				HEADER_SEARCH_PATHS = (
+					.,
+					"build-aux/snippet",
+				);
 				INSTALL_PATH = /usr/local/lib;
+				"LLVM_LTO[arch=i386]" = YES;
+				"LLVM_LTO[arch=x86_64]" = NO;
 				PRODUCT_NAME = libUnixToOSX;
 			};
 			name = Release;
@@ -946,9 +1235,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DEBUGGING_SYMBOLS = full;
+				GCC_ENABLE_EXCEPTIONS = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -980,10 +1273,16 @@
 				GENERATE_PKGINFO_FILE = YES;
 				LD_GENERATE_MAP_FILE = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = (
+					"-g3",
+					"-ggdb3",
+				);
 				PREBINDING = NO;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SDKROOT = macosx10.6;
+				STRIP_INSTALLED_PRODUCT = NO;
+				STRIP_STYLE = "non-global";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -993,11 +1292,38 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				DEBUG_INFORMATION_FORMAT = stabs;
+				GCC_AUTO_VECTORIZATION = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_EXCEPTIONS = YES;
+				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				GCC_ENABLE_SSE41_EXTENSIONS = YES;
+				GCC_ENABLE_SSE42_EXTENSIONS = YES;
+				GCC_ENABLE_SUPPLEMENTAL_SSE3_INSTRUCTIONS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = YES;
+				"GCC_MODEL_PPC64[arch=ppc64]" = YES;
+				"GCC_MODEL_PPC64[arch=x86_64]" = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_STRICT_ALIASING = YES;
+				GCC_UNROLL_LOOPS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_PKGINFO_FILE = YES;
+				LD_GENERATE_MAP_FILE = YES;
+				LLVM_LTO = YES;
+				"LLVM_LTO[arch=i386]" = NO;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "";
+				"OTHER_CFLAGS[arch=x86_64]" = "-g";
 				PREBINDING = NO;
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SDKROOT = macosx10.6;
+				SEPARATE_STRIP = YES;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
@@ -1033,14 +1359,16 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				"DEBUG_INFORMATION_FORMAT[arch=x86_64]" = dwarf;
 				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
 				INFOPLIST_FILE = "polltest-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				"LLVM_LTO[arch=i386]" = YES;
+				"LLVM_LTO[arch=x86_64]" = NO;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Cocoa,
@@ -1050,6 +1378,121 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = polltest;
 				WRAPPER_EXTENSION = octest;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		A558DCE31900570F002696E8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				HEADER_SEARCH_PATHS = (
+					.,
+					..,
+					"build-aux/snippet",
+				);
+				INFOPLIST_FILE = "argp-test-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/build/Release\"",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Cocoa,
+					"-framework",
+					SenTestingKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "argp-test";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		A558DCE41900570F002696E8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				"DEBUG_INFORMATION_FORMAT[arch=x86_64]" = dwarf;
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				HEADER_SEARCH_PATHS = (
+					.,
+					..,
+					"build-aux/snippet",
+				);
+				INFOPLIST_FILE = "argp-test-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/build/Release\"",
+				);
+				LLVM_LTO = NO;
+				"LLVM_LTO[arch=i386]" = YES;
+				"LLVM_LTO[arch=x86_64]" = NO;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Cocoa,
+					"-framework",
+					SenTestingKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "argp-test";
+				WRAPPER_EXTENSION = octest;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		A558DD0319005C37002696E8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = headers;
+			};
+			name = Debug;
+		};
+		A558DD0419005C37002696E8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = BUILT_SOURCES;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		A558DD0919005C91002696E8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = configure;
+			};
+			name = Debug;
+		};
+		A558DD0A19005C91002696E8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = configure;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1080,6 +1523,33 @@
 			buildConfigurations = (
 				A50A8FB718ED96CF0096B616 /* Debug */,
 				A50A8FB818ED96CF0096B616 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A558DCE51900570F002696E8 /* Build configuration list for PBXNativeTarget "argp-test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A558DCE31900570F002696E8 /* Debug */,
+				A558DCE41900570F002696E8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A558DD0B19005CAF002696E8 /* Build configuration list for PBXLegacyTarget "headers" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A558DD0319005C37002696E8 /* Debug */,
+				A558DD0419005C37002696E8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A558DD0C19005CAF002696E8 /* Build configuration list for PBXAggregateTarget "configure" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A558DD0919005C91002696E8 /* Debug */,
+				A558DD0A19005C91002696E8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -18,6 +18,11 @@ LDADD = ../libargp.a
 
 EXTRA_DIST = $(check_SCRIPTS)
 CLEANFILES = test.out
+DISTCLEANFILES = .DS_Store
+
+.PHONY: distclean-local
+distclean-local:
+	rm -rf .deps || rmdir .deps
 
 .PHONY: check-local
 check-local: $(TS_ALL) $(srcdir)/run-tests
