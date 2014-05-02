@@ -16,40 +16,41 @@
  */
 
 /* This file can be parametrized with the following macros:
-     VASNPRINTF         The name of the function being defined.
-     FCHAR_T            The element type of the format string.
-     DCHAR_T            The element type of the destination (result) string.
-     FCHAR_T_ONLY_ASCII Set to 1 to enable verification that all characters
-                        in the format string are ASCII. MUST be set if
-                        FCHAR_T and DCHAR_T are not the same type.
-     DIRECTIVE          Structure denoting a format directive.
-                        Depends on FCHAR_T.
-     DIRECTIVES         Structure denoting the set of format directives of a
-                        format string.  Depends on FCHAR_T.
-     PRINTF_PARSE       Function that parses a format string.
-                        Depends on FCHAR_T.
-     DCHAR_CPY          memcpy like function for DCHAR_T[] arrays.
-     DCHAR_SET          memset like function for DCHAR_T[] arrays.
-     DCHAR_MBSNLEN      mbsnlen like function for DCHAR_T[] arrays.
-     SNPRINTF           The system's snprintf (or similar) function.
-                        This may be either snprintf or swprintf.
-     TCHAR_T            The element type of the argument and result string
-                        of the said SNPRINTF function.  This may be either
-                        char or wchar_t.  The code exploits that
-                        sizeof (TCHAR_T) | sizeof (DCHAR_T) and
-                        alignof (TCHAR_T) <= alignof (DCHAR_T).
-     DCHAR_IS_TCHAR     Set to 1 if DCHAR_T and TCHAR_T are the same type.
-     DCHAR_CONV_FROM_ENCODING A function to convert from char[] to DCHAR[].
-     DCHAR_IS_UINT8_T   Set to 1 if DCHAR_T is uint8_t.
-     DCHAR_IS_UINT16_T  Set to 1 if DCHAR_T is uint16_t.
-     DCHAR_IS_UINT32_T  Set to 1 if DCHAR_T is uint32_t.  */
+ *   VASNPRINTF         The name of the function being defined.
+ *   FCHAR_T            The element type of the format string.
+ *   DCHAR_T            The element type of the destination (result) string.
+ *   FCHAR_T_ONLY_ASCII Set to 1 to enable verification that all characters
+ *                      in the format string are ASCII. MUST be set if
+ *                      FCHAR_T and DCHAR_T are not the same type.
+ *   DIRECTIVE          Structure denoting a format directive.
+ *                      Depends on FCHAR_T.
+ *   DIRECTIVES         Structure denoting the set of format directives of a
+ *                      format string.  Depends on FCHAR_T.
+ *   PRINTF_PARSE       Function that parses a format string.
+ *                      Depends on FCHAR_T.
+ *   DCHAR_CPY          memcpy like function for DCHAR_T[] arrays.
+ *   DCHAR_SET          memset like function for DCHAR_T[] arrays.
+ *   DCHAR_MBSNLEN      mbsnlen like function for DCHAR_T[] arrays.
+ *   SNPRINTF           The system's snprintf (or similar) function.
+ *                      This may be either snprintf or swprintf.
+ *   TCHAR_T            The element type of the argument and result string
+ *                      of the said SNPRINTF function.  This may be either
+ *                      char or wchar_t.  The code exploits that
+ *                      sizeof (TCHAR_T) | sizeof (DCHAR_T) and
+ *                      alignof (TCHAR_T) <= alignof (DCHAR_T).
+ *   DCHAR_IS_TCHAR     Set to 1 if DCHAR_T and TCHAR_T are the same type.
+ *   DCHAR_CONV_FROM_ENCODING A function to convert from char[] to DCHAR[].
+ *   DCHAR_IS_UINT8_T   Set to 1 if DCHAR_T is uint8_t.
+ *   DCHAR_IS_UINT16_T  Set to 1 if DCHAR_T is uint16_t.
+ *   DCHAR_IS_UINT32_T  Set to 1 if DCHAR_T is uint32_t.
+ */
 
 /* Tell glibc's <stdio.h> to provide a prototype for snprintf().
  * This must come before <config.h> because <config.h> may include
  * <features.h>, and once <features.h> has been included, it's too late.  */
 #ifndef _GNU_SOURCE
-# define _GNU_SOURCE    1
-#endif
+# define _GNU_SOURCE 1
+#endif /* !_GNU_SOURCE */
 
 #ifndef VASNPRINTF
 # include <config.h>
@@ -67,13 +68,13 @@
 # endif /* WIDE_CHAR_VERSION */
 #endif /* !VASNPRINTF */
 
-#include <locale.h>     /* localeconv() */
-#include <stdio.h>      /* snprintf(), sprintf() */
-#include <stdlib.h>     /* abort(), malloc(), realloc(), free() */
-#include <string.h>     /* memcpy(), strlen() */
-#include <errno.h>      /* errno */
-#include <limits.h>     /* CHAR_BIT */
-#include <float.h>      /* DBL_MAX_EXP, LDBL_MAX_EXP */
+#include <locale.h> /* for localeconv() */
+#include <stdio.h> /* for snprintf(), sprintf() */
+#include <stdlib.h> /* for abort(), malloc(), realloc(), free() */
+#include <string.h> /* for memcpy(), strlen() */
+#include <errno.h>  /* for errno */
+#include <limits.h> /* for CHAR_BIT */
+#include <float.h>  /* for DBL_MAX_EXP, LDBL_MAX_EXP */
 #if HAVE_NL_LANGINFO
 # include <langinfo.h>
 #endif /* HAVE_NL_LANGINFO */
@@ -85,7 +86,7 @@
 # endif /* WIDE_CHAR_VERSION */
 #endif /* !VASNPRINTF */
 
-/* Checked size_t computations.  */
+/* Checked size_t computations. */
 #include "xsize.h"
 
 #include "verify.h"
@@ -93,33 +94,33 @@
 #if (NEED_PRINTF_DOUBLE || NEED_PRINTF_LONG_DOUBLE) && !defined IN_LIBINTL
 # include <math.h>
 # include "float+.h"
-#endif
+#endif /* (NEED_PRINTF_DOUBLE || NEED_PRINTF_LONG_DOUBLE) && !IN_LIBINTL */
 
 #if (NEED_PRINTF_DOUBLE || NEED_PRINTF_INFINITE_DOUBLE) && !defined IN_LIBINTL
 # include <math.h>
 # include "isnand-nolibm.h"
-#endif
+#endif /* (NEED_PRINTF_DOUBLE || NEED_PRINTF_INFINITE_DOUBLE) && !IN_LIBINTL */
 
 #if (NEED_PRINTF_LONG_DOUBLE || NEED_PRINTF_INFINITE_LONG_DOUBLE) && !defined IN_LIBINTL
 # include <math.h>
 # include "isnanl-nolibm.h"
 # include "fpucw.h"
-#endif
+#endif /* (NEED_PRINTF_LONG_DOUBLE || NEED_PRINTF_INFINITE_DOUBLE) && !IN_LIBINTL */
 
 #if (NEED_PRINTF_DIRECTIVE_A || NEED_PRINTF_DOUBLE) && !defined IN_LIBINTL
 # include <math.h>
 # include "isnand-nolibm.h"
 # include "printf-frexp.h"
-#endif
+#endif /* (NEED_PRINTF_DIRECTIVE_A || NEED_PRINTF_DOUBLE) && !IN_LIBINTL */
 
 #if (NEED_PRINTF_DIRECTIVE_A || NEED_PRINTF_LONG_DOUBLE) && !defined IN_LIBINTL
 # include <math.h>
 # include "isnanl-nolibm.h"
 # include "printf-frexpl.h"
 # include "fpucw.h"
-#endif
+#endif /* (NEED_PRINTF_DIRECTIVE_A || NEED_PRINTF_LONG_DOUBLE) && !IN_LIBINTL */
 
-/* Default parameters.  */
+/* Default parameters. */
 #ifndef VASNPRINTF
 # if WIDE_CHAR_VERSION
 #  define VASNPRINTF vasnwprintf
@@ -143,67 +144,67 @@
 #  define PRINTF_PARSE printf_parse
 #  define DCHAR_CPY memcpy
 #  define DCHAR_SET memset
-# endif
-#endif
+# endif /* WIDE_CHAR_VERSION */
+#endif /* !VASNPRINTF */
 #if WIDE_CHAR_VERSION
   /* TCHAR_T is wchar_t.  */
 # define USE_SNPRINTF 1
 # if HAVE_DECL__SNWPRINTF
    /* On Windows, the function swprintf() has a different signature than
     * on Unix; we use the function _snwprintf() or - on mingw - snwprintf()
-    * instead.  The mingw function snwprintf() has fewer bugs than the
-    * MSVCRT function _snwprintf(), so prefer that.  */
+    * instead. The mingw function snwprintf() has fewer bugs than the
+    * MSVCRT function _snwprintf(), so prefer that. */
 #  if defined __MINGW32__
 #   define SNPRINTF snwprintf
 #  else
 #   define SNPRINTF _snwprintf
-#  endif
+#  endif /* __MINGW32__ */
 # else
-   /* Unix.  */
+   /* Unix. */
 #  define SNPRINTF swprintf
-# endif
-#else
+# endif /* HAVE_DECL__SNWPRINTF */
+#else /* !WIDE_CHAR_VERSION: */
   /* TCHAR_T is char.  */
   /* Use snprintf if it exists under the name 'snprintf' or '_snprintf'.
-   * But don't use it on BeOS, since BeOS snprintf produces no output if the
+   * But do NOT use it on BeOS, since BeOS snprintf produces no output if the
    * size argument is >= 0x3000000.
-   * Also don't use it on Linux libc5, since there snprintf with size = 1
+   * Also do NOT use it on Linux libc5, since there snprintf with size = 1
    * writes any output without bounds, like sprintf.  */
 # if (HAVE_DECL__SNPRINTF || HAVE_SNPRINTF) && !defined __BEOS__ && !(__GNU_LIBRARY__ == 1)
 #  define USE_SNPRINTF 1
 # else
 #  define USE_SNPRINTF 0
-# endif
+# endif /* (HAVE_DECL__SNPRINTF || HAVE_SNPRINTF) && !__BEOS__ && !(__GNU_LIBRARY__ == 1) */
 # if HAVE_DECL__SNPRINTF
-   /* Windows.  The mingw function snprintf() has fewer bugs than the MSVCRT
+   /* Windows. The mingw function snprintf() has fewer bugs than the MSVCRT
     * function _snprintf(), so prefer that.  */
 #  if defined __MINGW32__
 #   define SNPRINTF snprintf
-    /* Here we need to call the native snprintf, not rpl_snprintf.  */
+    /* Here we need to call the native snprintf, not rpl_snprintf. */
 #   undef snprintf
 #  else
 #   define SNPRINTF _snprintf
-#  endif
+#  endif /* __MINGW32__ */
 # else
    /* Unix.  */
 #  define SNPRINTF snprintf
-   /* Here we need to call the native snprintf, not rpl_snprintf.  */
+   /* Here we need to call the native snprintf, not rpl_snprintf. */
 #  undef snprintf
-# endif
-#endif
+# endif /* HAVE_DECL__SNPRINTF */
+#endif /* WIDE_CHAR_VERSION */
 /* Here we need to call the native sprintf, not rpl_sprintf.  */
 #undef sprintf
 
 /* GCC >= 4.0 with -Wall emits unjustified "... may be used uninitialized"
- * warnings in this file.  Use -Dlint to suppress them.  */
+ * warnings in this file. Use -Dlint to suppress them.  */
 #ifdef lint
 # define IF_LINT(Code) Code
 #else
 # define IF_LINT(Code) /* empty */
-#endif
+#endif /* lint */
 
 /* Avoid some warnings from "gcc -Wshadow".
- * This file doesn't use the exp() and remainder() functions.  */
+ * This file does NOT use the exp() and remainder() functions. */
 #undef exp
 #define exp expo
 #undef remainder
@@ -216,14 +217,14 @@
 #  ifndef local_strnlen_defined
 #   define local_strnlen_defined 1
 static size_t
-local_strnlen (const char *string, size_t maxlen)
+local_strnlen(const char *string, size_t maxlen)
 {
-  const char *end = memchr (string, '\0', maxlen);
-  return end ? (size_t) (end - string) : maxlen;
+  const char *end = memchr(string, '\0', maxlen);
+  return (end ? (size_t)(end - string) : maxlen);
 }
-#  endif
-# endif
-#endif
+#  endif /* !local_strnlen_defined */
+# endif  /* HAVE_STRNLEN && !_AIX */
+#endif /* (!USE_SNPRINTF || !HAVE_SNPRINTF_RETVAL_C99) && !WIDE_CHAR_VERSION */
 
 #if (((!USE_SNPRINTF || !HAVE_SNPRINTF_RETVAL_C99) && WIDE_CHAR_VERSION) || ((!USE_SNPRINTF || !HAVE_SNPRINTF_RETVAL_C99 || (NEED_PRINTF_DIRECTIVE_LS && !defined IN_LIBINTL)) && !WIDE_CHAR_VERSION && DCHAR_IS_TCHAR)) && HAVE_WCHAR_T
 # if HAVE_WCSLEN
@@ -236,17 +237,18 @@ local_strnlen (const char *string, size_t maxlen)
 #  ifndef local_wcslen_defined
 #   define local_wcslen_defined 1
 static size_t
-local_wcslen (const wchar_t *s)
+local_wcslen(const wchar_t *s)
 {
   const wchar_t *ptr;
 
-  for (ptr = s; *ptr != (wchar_t) 0; ptr++)
+  for ((ptr = s); (*ptr != (wchar_t)0); ptr++) {
     ;
-  return ptr - s;
+  }
+  return (ptr - s);
 }
-#  endif
-# endif
-#endif
+#  endif /* !local_wcslen_defined */
+# endif /* HAVE_WCSLEN */
+#endif /* a long string of conditions... */
 
 #if (!USE_SNPRINTF || !HAVE_SNPRINTF_RETVAL_C99) && HAVE_WCHAR_T && WIDE_CHAR_VERSION
 # if HAVE_WCSNLEN
@@ -259,20 +261,22 @@ local_wcsnlen (const wchar_t *s, size_t maxlen)
 {
   const wchar_t *ptr;
 
-  for (ptr = s; maxlen > 0 && *ptr != (wchar_t) 0; ptr++, maxlen--)
+  for ((ptr = s); (maxlen > 0) && (*ptr != (wchar_t)0); ptr++, maxlen--) {
     ;
-  return ptr - s;
+  }
+  return (ptr - s);
 }
-#  endif
-# endif
-#endif
+#  endif /* !local_wcsnlen_defined */
+# endif /* HAVE_WCSNLEN */
+#endif /* (!USE_SNPRINTF || !HAVE_SNPRINTF_RETVAL_C99) && HAVE_WCHAR_T && WIDE_CHAR_VERSION */
 
+/* BOOKMARK: reformatting from the top down got to about here.................*/
 #if (NEED_PRINTF_DIRECTIVE_A || NEED_PRINTF_LONG_DOUBLE || NEED_PRINTF_INFINITE_LONG_DOUBLE || NEED_PRINTF_DOUBLE || NEED_PRINTF_INFINITE_DOUBLE) && !defined IN_LIBINTL
 /* Determine the decimal-point character according to the current locale.  */
 # ifndef decimal_point_char_defined
 #  define decimal_point_char_defined 1
 static char
-decimal_point_char (void)
+decimal_point_char(void)
 {
   const char *point;
   /* Determine it in a multithread-safe way.  We know nl_langinfo is
@@ -348,29 +352,23 @@ multiply (mpn_t src1, mpn_t src2, mpn_t *dest)
   size_t len1;
   size_t len2;
 
-  if (src1.nlimbs <= src2.nlimbs)
-    {
+  if (src1.nlimbs <= src2.nlimbs) {
       len1 = src1.nlimbs;
       p1 = src1.limbs;
       len2 = src2.nlimbs;
       p2 = src2.limbs;
-    }
-  else
-    {
+  } else {
       len1 = src2.nlimbs;
       p1 = src2.limbs;
       len2 = src1.nlimbs;
       p2 = src1.limbs;
     }
   /* Now 0 <= len1 <= len2.  */
-  if (len1 == 0)
-    {
+  if (len1 == 0) {
       /* src1 or src2 is zero.  */
       dest->nlimbs = 0;
-      dest->limbs = (mp_limb_t *) malloc (1);
-    }
-  else
-    {
+      dest->limbs = (mp_limb_t *)malloc(1);
+  } else {
       /* Here 1 <= len1 <= len2.  */
       size_t dlen;
       mp_limb_t *dp;
@@ -386,16 +384,15 @@ multiply (mpn_t src1, mpn_t src2, mpn_t *dest)
         {
           mp_limb_t digit1 = p1[i];
           mp_twolimb_t carry = 0;
-          for (j = 0; j < len2; j++)
-            {
+          for (j = 0; j < len2; j++) {
               mp_limb_t digit2 = p2[j];
               carry += (mp_twolimb_t) digit1 * (mp_twolimb_t) digit2;
               carry += dp[i + j];
               dp[i + j] = (mp_limb_t) carry;
               carry = carry >> GMP_LIMB_BITS;
-            }
+		  }
           dp[i + len2] = (mp_limb_t) carry;
-        }
+		}
       /* Normalise.  */
       while (dlen > 0 && dp[dlen - 1] == 0)
         dlen--;
@@ -413,7 +410,7 @@ multiply (mpn_t src1, mpn_t src2, mpn_t *dest)
    Return the allocated memory in case of success, NULL in case of memory
    allocation failure.  */
 static void *
-divide (mpn_t a, mpn_t b, mpn_t *q)
+divide(mpn_t a, mpn_t b, mpn_t *q)
 {
   /* Algorithm:
      First normalise a and b: a=[a[m-1],...,a[0]], b=[b[n-1],...,b[0]]
@@ -502,17 +499,14 @@ divide (mpn_t a, mpn_t b, mpn_t *q)
 
   /* Here m = a_len >= 0 and n = b_len > 0.  */
 
-  if (a_len < b_len)
-    {
+  if (a_len < b_len) {
       /* m<n: trivial case.  q=0, r := copy of a.  */
       r_ptr = roomptr;
       r_len = a_len;
       memcpy (r_ptr, a_ptr, a_len * sizeof (mp_limb_t));
       q_ptr = roomptr + a_len;
       q_len = 0;
-    }
-  else if (b_len == 1)
-    {
+  } else if (b_len == 1) {
       /* n=1: single precision division.
          beta^(m-1) <= a < beta^m  ==>  beta^(m-2) <= a/b < beta^m  */
       r_ptr = roomptr;
@@ -531,21 +525,17 @@ divide (mpn_t a, mpn_t b, mpn_t *q)
             remainder = num % den;
           }
         /* Normalise and store r.  */
-        if (remainder > 0)
-          {
+        if (remainder > 0) {
             r_ptr[0] = remainder;
             r_len = 1;
-          }
-        else
+		} else
           r_len = 0;
         /* Normalise q.  */
         q_len = a_len;
         if (q_ptr[q_len - 1] == 0)
           q_len--;
       }
-    }
-  else
-    {
+  } else {
       /* n>1: multiple precision division.
          beta^(m-1) <= a < beta^m, beta^(n-1) <= b < beta^n  ==>
          beta^(m-n-1) <= a/b < beta^(m-n+1).  */
@@ -554,15 +544,14 @@ divide (mpn_t a, mpn_t b, mpn_t *q)
       {
         mp_limb_t msd = b_ptr[b_len - 1]; /* = b[n-1], > 0 */
         /* Determine s = GMP_LIMB_BITS - integer_length (msd).
-           Code copied from gnulib's integer_length.c.  */
-# if __GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 4)
+         * Code copied from gnulib's integer_length.c.  */
+# if (__GNUC__ > 3) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 4))
         s = __builtin_clz (msd);
 # else
 #  if defined DBL_EXPBIT0_WORD && defined DBL_EXPBIT0_BIT
-        if (GMP_LIMB_BITS <= DBL_MANT_BIT)
-          {
+        if (GMP_LIMB_BITS <= DBL_MANT_BIT) {
             /* Use 'double' operations.
-               Assumes an IEEE 754 'double' implementation.  */
+             * Assumes an IEEE 754 'double' implementation.  */
 #   define DBL_EXP_MASK ((DBL_MAX_EXP - DBL_MIN_EXP) | 7)
 #   define DBL_EXP_BIAS (DBL_EXP_MASK / 2 - 1)
 #   define NWORDS \
@@ -575,64 +564,55 @@ divide (mpn_t a, mpn_t b, mpn_t *q)
             s = GMP_LIMB_BITS
                 - (((m.word[DBL_EXPBIT0_WORD] >> DBL_EXPBIT0_BIT) & DBL_EXP_MASK)
                    - DBL_EXP_BIAS);
-          }
-        else
+		} else
 #   undef NWORDS
 #  endif
           {
             s = 31;
-            if (msd >= 0x10000)
-              {
+            if (msd >= 0x10000) {
                 msd = msd >> 16;
                 s -= 16;
-              }
-            if (msd >= 0x100)
-              {
+			}
+            if (msd >= 0x100) {
                 msd = msd >> 8;
                 s -= 8;
-              }
-            if (msd >= 0x10)
-              {
+			}
+            if (msd >= 0x10) {
                 msd = msd >> 4;
                 s -= 4;
-              }
-            if (msd >= 0x4)
-              {
+			}
+            if (msd >= 0x4) {
                 msd = msd >> 2;
                 s -= 2;
-              }
-            if (msd >= 0x2)
-              {
+			}
+            if (msd >= 0x2) {
                 msd = msd >> 1;
                 s -= 1;
-              }
+			}
           }
 # endif
       }
       /* 0 <= s < GMP_LIMB_BITS.
          Copy b, shifting it left by s bits.  */
-      if (s > 0)
-        {
+      if (s > 0) {
           tmp_roomptr = (mp_limb_t *) malloc (b_len * sizeof (mp_limb_t));
-          if (tmp_roomptr == NULL)
-            {
+          if (tmp_roomptr == NULL) {
               free (roomptr);
               return NULL;
-            }
+		  }
           {
             const mp_limb_t *sourceptr = b_ptr;
             mp_limb_t *destptr = tmp_roomptr;
             mp_twolimb_t accu = 0;
             size_t count;
-            for (count = b_len; count > 0; count--)
-              {
+            for (count = b_len; count > 0; count--) {
                 accu += (mp_twolimb_t) *sourceptr++ << s;
                 *destptr++ = (mp_limb_t) accu;
                 accu = accu >> GMP_LIMB_BITS;
-              }
+			}
             /* accu must be zero, since that was how s was determined.  */
             if (accu != 0)
-              abort ();
+              abort();
           }
           b_ptr = tmp_roomptr;
         }
@@ -641,25 +621,21 @@ divide (mpn_t a, mpn_t b, mpn_t *q)
          At the beginning: r = roomptr[0..a_len],
          at the end: r = roomptr[0..b_len-1], q = roomptr[b_len..a_len]  */
       r_ptr = roomptr;
-      if (s == 0)
-        {
-          memcpy (r_ptr, a_ptr, a_len * sizeof (mp_limb_t));
+      if (s == 0) {
+          memcpy(r_ptr, a_ptr, a_len * sizeof(mp_limb_t));
           r_ptr[a_len] = 0;
-        }
-      else
-        {
+	  } else {
           const mp_limb_t *sourceptr = a_ptr;
           mp_limb_t *destptr = r_ptr;
           mp_twolimb_t accu = 0;
           size_t count;
-          for (count = a_len; count > 0; count--)
-            {
+          for (count = a_len; count > 0; count--) {
               accu += (mp_twolimb_t) *sourceptr++ << s;
               *destptr++ = (mp_limb_t) accu;
               accu = accu >> GMP_LIMB_BITS;
-            }
-          *destptr++ = (mp_limb_t) accu;
-        }
+		  }
+          *destptr++ = (mp_limb_t)accu;
+	  }
       q_ptr = roomptr + b_len;
       q_len = a_len - b_len + 1; /* q will have m-n+1 limbs */
       {
@@ -670,21 +646,17 @@ divide (mpn_t a, mpn_t b, mpn_t *q)
           ((mp_twolimb_t) b_msd << GMP_LIMB_BITS) | b_2msd;
         /* Division loop, traversed m-n+1 times.
            j counts down, b is unchanged, beta/2 <= b[n-1] < beta.  */
-        for (;;)
-          {
+        for (;;) {
             mp_limb_t q_star;
             mp_limb_t c1;
-            if (r_ptr[j + b_len] < b_msd) /* r[j+n] < b[n-1] ? */
-              {
+            if (r_ptr[j + b_len] < b_msd) { /* r[j+n] < b[n-1] ? */
                 /* Divide r[j+n]*beta+r[j+n-1] by b[n-1], no overflow.  */
                 mp_twolimb_t num =
                   ((mp_twolimb_t) r_ptr[j + b_len] << GMP_LIMB_BITS)
                   | r_ptr[j + b_len - 1];
                 q_star = num / b_msd;
                 c1 = num % b_msd;
-              }
-            else
-              {
+			} else {
                 /* Overflow, hence r[j+n]*beta+r[j+n-1] >= beta*b[n-1].  */
                 q_star = (mp_limb_t)~(mp_limb_t)0; /* q* = beta-1 */
                 /* Test whether r[j+n]*beta+r[j+n-1] - (beta-1)*b[n-1] >= beta
@@ -700,7 +672,7 @@ divide (mpn_t a, mpn_t b, mpn_t *q)
                      r[j+n] = b[n-1] and the addition r[j+n-1]+b[n-1] gives a
                      carry.  */
                   goto subtract;
-              }
+			}
             /* q_star = q*,
                c1 = (r[j+n]*beta+r[j+n-1]) - q* * b[n-1] (>=0, <beta).  */
             {
@@ -712,12 +684,11 @@ divide (mpn_t a, mpn_t b, mpn_t *q)
                  Consider c3-c2.  While it is > 0, decrease it by
                  b[n-1]*beta+b[n-2].  Because of b[n-1]*beta+b[n-2] >= beta^2/2
                  this can happen only twice.  */
-              if (c3 > c2)
-                {
+              if (c3 > c2) {
                   q_star = q_star - 1; /* q* := q* - 1 */
                   if (c3 - c2 > b_msdd)
                     q_star = q_star - 1; /* q* := q* - 1 */
-                }
+			  }
             }
             if (q_star > 0)
               subtract:
@@ -744,8 +715,7 @@ divide (mpn_t a, mpn_t b, mpn_t *q)
                 }
                 /* Subtract cr from r_ptr[j + b_len], then forget about
                    r_ptr[j + b_len].  */
-                if (cr > r_ptr[j + b_len])
-                  {
+                if (cr > r_ptr[j + b_len]) {
                     /* Subtraction gave a carry.  */
                     q_star = q_star - 1; /* q* := q* - 1 */
                     /* Add b back.  */
@@ -780,21 +750,19 @@ divide (mpn_t a, mpn_t b, mpn_t *q)
       if (q_ptr[q_len - 1] == 0)
         q_len--;
 # if 0 /* Not needed here, since we need r only to compare it with b/2, and
-          b is shifted left by s bits.  */
+        * b is shifted left by s bits.  */
       /* Shift r right by s bits.  */
-      if (s > 0)
-        {
+      if (s > 0) {
           mp_limb_t ptr = r_ptr + r_len;
           mp_twolimb_t accu = 0;
           size_t count;
-          for (count = r_len; count > 0; count--)
-            {
+          for (count = r_len; count > 0; count--) {
               accu = (mp_twolimb_t) (mp_limb_t) accu << GMP_LIMB_BITS;
               accu += (mp_twolimb_t) *--ptr << (GMP_LIMB_BITS - s);
               *ptr = (mp_limb_t) (accu >> GMP_LIMB_BITS);
-            }
-        }
-# endif
+		  }
+	  }
+# endif /* 0 */
       /* Normalise r.  */
       while (r_len > 0 && r_ptr[r_len - 1] == 0)
         r_len--;
@@ -804,8 +772,7 @@ divide (mpn_t a, mpn_t b, mpn_t *q)
     goto increment_q;
   {
     size_t i;
-    for (i = b_len;;)
-      {
+    for (i = b_len;;) {
         mp_limb_t r_i =
           (i <= r_len && i > 0 ? r_ptr[i - 1] >> (GMP_LIMB_BITS - 1) : 0)
           | (i < r_len ? r_ptr[i] << 1 : 0);
@@ -817,7 +784,7 @@ divide (mpn_t a, mpn_t b, mpn_t *q)
         if (i == 0)
           break;
         i--;
-      }
+	}
   }
   if (q_len > 0 && ((q_ptr[0] & 1) != 0))
     /* q is odd.  */
@@ -844,20 +811,18 @@ divide (mpn_t a, mpn_t b, mpn_t *q)
    order, terminated with a NUL character - in case of success, NULL in case
    of memory allocation failure.  */
 static char *
-convert_to_decimal (mpn_t a, size_t extra_zeroes)
+convert_to_decimal(mpn_t a, size_t extra_zeroes)
 {
   mp_limb_t *a_ptr = a.limbs;
   size_t a_len = a.nlimbs;
   /* 0.03345 is slightly larger than log(2)/(9*log(10)).  */
   size_t c_len = 9 * ((size_t)(a_len * (GMP_LIMB_BITS * 0.03345f)) + 1);
   char *c_ptr = (char *) malloc (xsum (c_len, extra_zeroes));
-  if (c_ptr != NULL)
-    {
+  if (c_ptr != NULL) {
       char *d_ptr = c_ptr;
       for (; extra_zeroes > 0; extra_zeroes--)
         *d_ptr++ = '0';
-      while (a_len > 0)
-        {
+      while (a_len > 0) {
           /* Divide a by 10^9, in-place.  */
           mp_limb_t remainder = 0;
           mp_limb_t *ptr = a_ptr + a_len;
@@ -1070,7 +1035,7 @@ decode_double (double x, int *ep, mpn_t *mp)
    order, terminated with a NUL character - in case of success, NULL in case
    of memory allocation failure.  */
 static char *
-scale10_round_decimal_decoded (int e, mpn_t m, void *memory, int n)
+scale10_round_decimal_decoded(int e, mpn_t m, void *memory, int n)
 {
   int s;
   size_t extra_zeroes;
@@ -1414,10 +1379,10 @@ floorlog10l (long double x)
 # if NEED_PRINTF_DOUBLE
 
 /* Assuming x is finite and > 0:
-   Return an approximation for n with 10^n <= x < 10^(n+1).
-   The approximation is usually the right n, but may be off by 1 sometimes.  */
+ * Return an approximation for n with 10^n <= x < 10^(n+1).
+ * The approximation is usually the right n, but may be off by 1 sometimes. */
 static int
-floorlog10 (double x)
+floorlog10(double x)
 {
   int exp;
   double y;
@@ -1425,87 +1390,80 @@ floorlog10 (double x)
   double l;
 
   /* Split into exponential part and mantissa.  */
-  y = frexp (x, &exp);
-  if (!(y >= 0.0 && y < 1.0))
-    abort ();
-  if (y == 0.0)
+  y = frexp(x, &exp);
+  if (!((y >= 0.0) && (y < 1.0))) {
+	  abort();
+  }
+  if (y == 0.0) {
     return INT_MIN;
-  if (y < 0.5)
-    {
-      while (y < (1.0 / (1 << (GMP_LIMB_BITS / 2)) / (1 << (GMP_LIMB_BITS / 2))))
-        {
-          y *= 1.0 * (1 << (GMP_LIMB_BITS / 2)) * (1 << (GMP_LIMB_BITS / 2));
+  }
+  if (y < 0.5) {
+      while (y < (1.0 / (1 << (GMP_LIMB_BITS / 2)) / (1 << (GMP_LIMB_BITS / 2)))) {
+          y *= (1.0 * (1 << (GMP_LIMB_BITS / 2)) * (1 << (GMP_LIMB_BITS / 2)));
           exp -= GMP_LIMB_BITS;
-        }
-      if (y < (1.0 / (1 << 16)))
-        {
-          y *= 1.0 * (1 << 16);
+	  }
+      if (y < (1.0 / (1 << 16))) {
+          y *= (1.0 * (1 << 16));
           exp -= 16;
-        }
-      if (y < (1.0 / (1 << 8)))
-        {
-          y *= 1.0 * (1 << 8);
+	  }
+      if (y < (1.0 / (1 << 8))) {
+          y *= (1.0 * (1 << 8));
           exp -= 8;
-        }
-      if (y < (1.0 / (1 << 4)))
-        {
+	  }
+      if (y < (1.0 / (1 << 4))) {
           y *= 1.0 * (1 << 4);
           exp -= 4;
-        }
-      if (y < (1.0 / (1 << 2)))
-        {
+	  }
+      if (y < (1.0 / (1 << 2))) {
           y *= 1.0 * (1 << 2);
           exp -= 2;
-        }
-      if (y < (1.0 / (1 << 1)))
-        {
+	  }
+      if (y < (1.0 / (1 << 1))) {
           y *= 1.0 * (1 << 1);
           exp -= 1;
-        }
-    }
-  if (!(y >= 0.5 && y < 1.0))
-    abort ();
+	  }
+  }
+  if (!(y >= 0.5 && y < 1.0)) {
+	  abort();
+  }
   /* Compute an approximation for l = log2(x) = exp + log2(y).  */
   l = exp;
   z = y;
-  if (z < 0.70710678118654752444)
-    {
+  /* wtf at the rest of these: */
+  if (z < 0.70710678118654752444) {
       z *= 1.4142135623730950488;
       l -= 0.5;
-    }
-  if (z < 0.8408964152537145431)
-    {
+  }
+  if (z < 0.8408964152537145431) {
       z *= 1.1892071150027210667;
       l -= 0.25;
-    }
-  if (z < 0.91700404320467123175)
-    {
+  }
+  if (z < 0.91700404320467123175) {
       z *= 1.0905077326652576592;
       l -= 0.125;
-    }
-  if (z < 0.9576032806985736469)
-    {
+  }
+  if (z < 0.9576032806985736469) {
       z *= 1.0442737824274138403;
       l -= 0.0625;
-    }
+  }
   /* Now 0.95 <= z <= 1.01.  */
-  z = 1 - z;
+  z = (1 - z);
   /* log2(1-z) = 1/log(2) * (- z - z^2/2 - z^3/3 - z^4/4 - ...)
-     Four terms are enough to get an approximation with error < 10^-7.  */
+   * Four terms are enough to get an approximation with error < 10^-7. */
   l -= 1.4426950408889634074 * z * (1.0 + z * (0.5 + z * ((1.0 / 3) + z * 0.25)));
   /* Finally multiply with log(2)/log(10), yields an approximation for
-     log10(x).  */
+   * log10(x). */
   l *= 0.30102999566398119523;
   /* Round down to the next integer.  */
-  return (int) l + (l < 0 ? -1 : 0);
+  return ((int)l + ((l < 0) ? -1 : 0));
 }
 
-# endif
+# endif /* NEED_PRINTF_DOUBLE */
 
 /* Tests whether a string of digits consists of exactly PRECISION zeroes and
-   a single '1' digit.  */
+ * a single '1' digit. */
 static int
-is_borderline (const char *digits, size_t precision)
+is_borderline(const char *digits, size_t precision)
 {
   for (; precision > 0; precision--, digits++)
     if (*digits != '0')
@@ -1521,16 +1479,16 @@ is_borderline (const char *digits, size_t precision)
 #if !USE_SNPRINTF || !HAVE_SNPRINTF_RETVAL_C99
 
 /* Use a different function name, to make it possible that the 'wchar_t'
-   parametrization and the 'char' parametrization get compiled in the same
-   translation unit.  */
+ * parametrization and the 'char' parametrization get compiled in the same
+ * translation unit.  */
 # if WIDE_CHAR_VERSION
 #  define MAX_ROOM_NEEDED wmax_room_needed
 # else
 #  define MAX_ROOM_NEEDED max_room_needed
-# endif
+# endif /* WIDE_CHAR_VERSION */
 
 /* Returns the number of TCHAR_T units needed as temporary space for the result
-   of sprintf or SNPRINTF of a single conversion directive.  */
+ * of sprintf or SNPRINTF of a single conversion directive.  */
 static inline size_t
 MAX_ROOM_NEEDED(const arguments *ap, size_t arg_index, FCHAR_T conversion,
 				arg_type type, int flags, size_t width, int has_precision,
@@ -1543,19 +1501,18 @@ MAX_ROOM_NEEDED(const arguments *ap, size_t arg_index, FCHAR_T conversion,
 # if HAVE_LONG_LONG_INT
 	  if ((type == TYPE_LONGLONGINT) || (type == TYPE_ULONGLONGINT)) {
         tmp_length =
-          (unsigned int) (sizeof (unsigned long long) * CHAR_BIT
-                          * 0.30103 /* binary -> decimal */
-                         )
-          + 1; /* turn floor into ceil */
+          ((unsigned int)(sizeof (unsigned long long) * CHAR_BIT
+						  * 0.30103 /* binary -> decimal */)
+           + 1); /* turn floor into ceil */
       } else
 # endif /* HAVE_LONG_LONG_INT */
-      if (type == TYPE_LONGINT || type == TYPE_ULONGINT) {
+      if ((type == TYPE_LONGINT) || (type == TYPE_ULONGINT)) {
         tmp_length =
           (unsigned int) (sizeof (unsigned long) * CHAR_BIT
                           * 0.30103 /* binary -> decimal */
                          )
           + 1; /* turn floor into ceil */
-      else
+      } else
         tmp_length =
           (unsigned int) (sizeof (unsigned int) * CHAR_BIT
                           * 0.30103 /* binary -> decimal */
@@ -1672,10 +1629,10 @@ MAX_ROOM_NEEDED(const arguments *ap, size_t arg_index, FCHAR_T conversion,
 
     case 'c':
 # if HAVE_WINT_T && !WIDE_CHAR_VERSION
-      if (type == TYPE_WIDE_CHAR)
+	  if (type == TYPE_WIDE_CHAR) {
         tmp_length = MB_CUR_MAX;
-      else
-# endif
+      } else
+# endif /* HAVE_WINT_T && !WIDE_CHAR_VERSION */
         tmp_length = 1;
       break;
 
@@ -1733,38 +1690,38 @@ MAX_ROOM_NEEDED(const arguments *ap, size_t arg_index, FCHAR_T conversion,
 
     case 'p':
       tmp_length =
-        (unsigned int) (sizeof (void *) * CHAR_BIT
-                        * 0.25 /* binary -> hexadecimal */
-                       )
+        ((unsigned int)(sizeof(void *) * CHAR_BIT
+                        * 0.25 /* binary -> hexadecimal */)
           + 1 /* turn floor into ceil */
-          + 2; /* account for leading 0x */
+          + 2); /* account for leading 0x */
       break;
 
     default:
-      abort ();
-    }
+      abort();
+  } /* end switch (conversion) */
 
   if (!pad_ourselves) {
 # if ENABLE_UNISTDIO
       /* Padding considers the number of characters, therefore the number of
-         elements after padding may be
-           > max (tmp_length, width)
-         but is certainly
-           <= tmp_length + width.  */
-      tmp_length = xsum (tmp_length, width);
+       *  elements after padding may be
+       *   > max (tmp_length, width)
+       * but is certainly
+       *   <= (tmp_length + width). */
+      tmp_length = xsum(tmp_length, width);
 # else
       /* Padding considers the number of elements, says POSIX.  */
-      if (tmp_length < width)
+      if (tmp_length < width) {
         tmp_length = width;
-# endif
-  }
+	  }
+# endif /* ENABLE_UNISTDIO */
+  } /* end if (!pad_ourselves) */
 
   tmp_length = xsum(tmp_length, 1); /* account for trailing NUL */
 
   return tmp_length;
-}
+} /* should be end of MAX_ROOM_NEEDED function... */
 
-#endif
+#endif /* !USE_SNPRINTF || !HAVE_SNPRINTF_RETVAL_C99 */
 
 DCHAR_T *
 VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
@@ -1773,17 +1730,20 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
   DIRECTIVES d;
   arguments a;
 
-  if (PRINTF_PARSE (format, &d, &a) < 0)
-    /* errno is already set.  */
-    return NULL;
+  if (PRINTF_PARSE(format, &d, &a) < 0) {
+	  /* errno is already set.  */
+	  return NULL;
+  }
 
 #define CLEANUP() \
-  if (d.dir != d.direct_alloc_dir)                                      \
-    free (d.dir);                                                       \
-  if (a.arg != a.direct_alloc_arg)                                      \
-    free (a.arg);
+  if (d.dir != d.direct_alloc_dir) {                                      \
+    free(d.dir);                                                          \
+  }                                                                       \
+  if (a.arg != a.direct_alloc_arg) {                                      \
+    free(a.arg);                                                          \
+  }
 
-  if (PRINTF_FETCHARGS (args, &a) < 0) {
+  if (PRINTF_FETCHARGS(args, &a) < 0) {
       CLEANUP();
       errno = EINVAL;
       return NULL;
@@ -1802,7 +1762,7 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
     size_t length;
 
     /* Allocate a small buffer that will hold a directive passed to
-     * sprintf or snprintf.  */
+     * sprintf or snprintf. */
     buf_neededlength =
       xsum4((size_t)7, d.max_width_length, d.max_precision_length, (size_t)6);
 #if HAVE_ALLOCA
@@ -1812,12 +1772,14 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
 	} else
 #endif /* HAVE_ALLOCA */
       {
-        size_t buf_memsize = xtimes(buf_neededlength, sizeof (TCHAR_T));
-        if (size_overflow_p(buf_memsize))
-          goto out_of_memory_1;
+        size_t buf_memsize = xtimes(buf_neededlength, sizeof(TCHAR_T));
+		if (size_overflow_p(buf_memsize)) {
+			goto out_of_memory_1;
+		}
         buf = (TCHAR_T *)malloc(buf_memsize);
-        if (buf == NULL)
-          goto out_of_memory_1;
+		if (buf == NULL) {
+			goto out_of_memory_1;
+		}
         buf_malloced = buf;
       }
 
@@ -1836,27 +1798,31 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
     /* Ensures that allocated >= needed.  Aborts through a jump to
      * out_of_memory if needed is SIZE_MAX or otherwise too big.  */
 #define ENSURE_ALLOCATION(needed) \
-    if ((needed) > allocated)                                                \
-      {                                                                      \
+    if ((needed) > allocated) {                                              \
         size_t memory_size;                                                  \
         DCHAR_T *memory;                                                     \
                                                                              \
-        allocated = (allocated > 0 ? xtimes (allocated, 2) : 12);            \
-        if ((needed) > allocated)                                            \
+        allocated = ((allocated > 0) ? xtimes(allocated, 2) : 12);           \
+        if ((needed) > allocated) {                                          \
           allocated = (needed);                                              \
-        memory_size = xtimes (allocated, sizeof (DCHAR_T));                  \
-        if (size_overflow_p (memory_size))                                   \
+        }                                                                    \
+        memory_size = xtimes(allocated, sizeof(DCHAR_T));                    \
+        if (size_overflow_p(memory_size)) {                                  \
           goto out_of_memory;                                                \
-        if (result == resultbuf || result == NULL)                           \
-          memory = (DCHAR_T *) malloc (memory_size);                         \
-        else                                                                 \
-          memory = (DCHAR_T *) realloc (result, memory_size);                \
-        if (memory == NULL)                                                  \
+        }                                                                    \
+        if ((result == resultbuf) || (result == NULL)) {                     \
+          memory = (DCHAR_T *)malloc(memory_size);                           \
+        } else {                                                             \
+          memory = (DCHAR_T *)realloc(result, memory_size);                  \
+        }                                                                    \
+        if (memory == NULL) {                                                \
           goto out_of_memory;                                                \
-        if (result == resultbuf && length > 0)                               \
-          DCHAR_CPY (memory, result, length);                                \
+        }                                                                    \
+        if ((result == resultbuf) && (length > 0)) {                         \
+          DCHAR_CPY(memory, result, length);                                 \
+        }                                                                    \
         result = memory;                                                     \
-      }
+	}
 
     for ((cp = format), (i = 0), (dp = &d.dir[0]); ; (cp = dp->dir_end), i++, dp++) {
         if (cp != dp->dir_start) {
@@ -1880,22 +1846,24 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
 			}
 		}
         if (i == d.count) {
-          break;
+			break;
 		}
 
         /* Execute a single directive.  */
         if (dp->conversion == '%') {
             size_t augmented_length;
 
-            if (!(dp->arg_index == ARG_NONE))
-              abort();
+            if (!(dp->arg_index == ARG_NONE)) {
+				abort();
+			}
             augmented_length = xsum(length, (size_t)1);
             ENSURE_ALLOCATION (augmented_length);
             result[length] = '%';
             length = augmented_length;
 		} else {
-            if (!(dp->arg_index != ARG_NONE))
-              abort();
+            if (!(dp->arg_index != ARG_NONE)) {
+				abort();
+			}
 
             if (dp->conversion == 'n') {
                 switch (a.arg[dp->arg_index].type) {
@@ -1918,8 +1886,8 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
 #endif /* HAVE_LONG_LONG_INT */
                   default:
                     abort();
-                  }
-              }
+				}
+			}
 #if ENABLE_UNISTDIO
             /* The unistdio extensions.  */
             else if (dp->conversion == 'U') {
@@ -1936,8 +1904,9 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
                     if (dp->width_arg_index != ARG_NONE) {
                         int arg;
 
-                        if (!(a.arg[dp->width_arg_index].type == TYPE_INT))
-                          abort();
+                        if (!(a.arg[dp->width_arg_index].type == TYPE_INT)) {
+							abort();
+						}
                         arg = a.arg[dp->width_arg_index].a.a_int;
                         if (arg < 0) {
                             /* "A negative field width is taken as a '-' flag
@@ -1950,9 +1919,9 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
 					} else {
                         const FCHAR_T *digitp = dp->width_start;
 
-                        do
-                          width = xsum (xtimes (width, 10), *digitp++ - '0');
-                        while (digitp != dp->width_end);
+                        do {
+							width = xsum(xtimes(width, 10), *digitp++ - '0');
+                        } while (digitp != dp->width_end);
 					}
                     has_width = 1;
 				}
@@ -1963,8 +1932,9 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
                     if (dp->precision_arg_index != ARG_NONE) {
                         int arg;
 
-                        if (!(a.arg[dp->precision_arg_index].type == TYPE_INT))
-                          abort();
+                        if (!(a.arg[dp->precision_arg_index].type == TYPE_INT)) {
+							abort();
+						}
                         arg = a.arg[dp->precision_arg_index].a.a_int;
                         /* "A negative precision is taken as if the precision
                          *  were omitted."  */
@@ -1973,11 +1943,12 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
                             has_precision = 1;
 						}
 					} else {
-                        const FCHAR_T *digitp = dp->precision_start + 1;
+                        const FCHAR_T *digitp = (dp->precision_start + 1);
 
                         precision = 0;
-                        while (digitp != dp->precision_end)
-                          precision = xsum (xtimes (precision, 10), *digitp++ - '0');
+                        while (digitp != dp->precision_end) {
+							precision = xsum(xtimes(precision, 10), (*digitp++ - '0'));
+						}
                         has_precision = 1;
 					}
 				}
@@ -1999,10 +1970,10 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
                                 break;
                               if (count < 0) {
                                   if (!(result == resultbuf || result == NULL))
-                                    free (result);
+                                    free(result);
                                   if (buf_malloced != NULL)
-                                    free (buf_malloced);
-                                  CLEANUP ();
+                                    free(buf_malloced);
+                                  CLEANUP();
                                   errno = EILSEQ;
                                   return NULL;
 							  }
@@ -4586,173 +4557,169 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
 
 #if USE_SNPRINTF
                     int retcount = 0;
-                    size_t maxlen = allocated - length;
+                    size_t maxlen = (allocated - length);
                     /* SNPRINTF can fail if its second argument is
                      * > INT_MAX.  */
-                    if (maxlen > INT_MAX / TCHARS_PER_DCHAR)
-                      maxlen = INT_MAX / TCHARS_PER_DCHAR;
-                    maxlen = maxlen * TCHARS_PER_DCHAR;
+                    if (maxlen > (INT_MAX / TCHARS_PER_DCHAR)) {
+						maxlen = (INT_MAX / TCHARS_PER_DCHAR);
+					}
+                    maxlen = (maxlen * TCHARS_PER_DCHAR);
 # define SNPRINTF_BUF(arg) \
-                    switch (prefix_count)                                   \
-                      {                                                     \
+                    switch (prefix_count) {                                 \
                       case 0:                                               \
-                        retcount = SNPRINTF ((TCHAR_T *) (result + length), \
-                                             maxlen, buf,                   \
-                                             arg, &count);                  \
+                        retcount = SNPRINTF((TCHAR_T *)(result + length),   \
+                                             maxlen, buf, arg, &count);     \
                         break;                                              \
                       case 1:                                               \
-                        retcount = SNPRINTF ((TCHAR_T *) (result + length), \
-                                             maxlen, buf,                   \
-                                             prefixes[0], arg, &count);     \
+                        retcount = SNPRINTF((TCHAR_T *)(result + length),   \
+											maxlen, buf, prefixes[0],       \
+											arg, &count);                   \
                         break;                                              \
                       case 2:                                               \
-                        retcount = SNPRINTF ((TCHAR_T *) (result + length), \
-                                             maxlen, buf,                   \
-                                             prefixes[0], prefixes[1], arg, \
-                                             &count);                       \
+                        retcount = SNPRINTF((TCHAR_T *)(result + length),   \
+											maxlen, buf,                    \
+											prefixes[0], prefixes[1], arg,  \
+											&count);                        \
                         break;                                              \
                       default:                                              \
-                        abort ();                                           \
-                      }
-#else
+                        abort();                                            \
+					}
+#else /* !USE_SNPRINTF: */
 # define SNPRINTF_BUF(arg) \
-                    switch (prefix_count)                                   \
-                      {                                                     \
+                    switch (prefix_count) {                                 \
                       case 0:                                               \
-                        count = sprintf (tmp, buf, arg);                    \
+                        count = sprintf(tmp, buf, arg);                     \
                         break;                                              \
                       case 1:                                               \
-                        count = sprintf (tmp, buf, prefixes[0], arg);       \
+                        count = sprintf(tmp, buf, prefixes[0], arg);        \
                         break;                                              \
                       case 2:                                               \
-                        count = sprintf (tmp, buf, prefixes[0], prefixes[1],\
-                                         arg);                              \
+                        count = sprintf(tmp, buf, prefixes[0], prefixes[1], \
+										arg);                               \
                         break;                                              \
                       default:                                              \
-                        abort ();                                           \
-                      }
-#endif
+                        abort();                                            \
+					}
+#endif /* USE_SNPRINTF */
 
                     errno = 0;
-                    switch (type)
-                      {
+                    switch (type) {
                       case TYPE_SCHAR:
                         {
                           int arg = a.arg[dp->arg_index].a.a_schar;
-                          SNPRINTF_BUF (arg);
+                          SNPRINTF_BUF(arg); /* case TYPE_SCHAR */
                         }
                         break;
                       case TYPE_UCHAR:
                         {
                           unsigned int arg = a.arg[dp->arg_index].a.a_uchar;
-                          SNPRINTF_BUF (arg);
+                          SNPRINTF_BUF(arg); /* case TYPE_UCHAR */
                         }
                         break;
                       case TYPE_SHORT:
                         {
                           int arg = a.arg[dp->arg_index].a.a_short;
-                          SNPRINTF_BUF (arg);
+                          SNPRINTF_BUF(arg); /* case TYPE_SHORT */
                         }
                         break;
                       case TYPE_USHORT:
                         {
                           unsigned int arg = a.arg[dp->arg_index].a.a_ushort;
-                          SNPRINTF_BUF (arg);
+                          SNPRINTF_BUF(arg); /* case TYPE_USHORT */
                         }
                         break;
                       case TYPE_INT:
                         {
                           int arg = a.arg[dp->arg_index].a.a_int;
-                          SNPRINTF_BUF (arg);
+                          SNPRINTF_BUF(arg); /* case TYPE_INT */
                         }
                         break;
                       case TYPE_UINT:
                         {
                           unsigned int arg = a.arg[dp->arg_index].a.a_uint;
-                          SNPRINTF_BUF (arg);
+                          SNPRINTF_BUF(arg); /* case TYPE_UINT */
                         }
                         break;
                       case TYPE_LONGINT:
                         {
                           long int arg = a.arg[dp->arg_index].a.a_longint;
-                          SNPRINTF_BUF (arg);
+                          SNPRINTF_BUF(arg); /* case TYPE_LONGINT */
                         }
                         break;
                       case TYPE_ULONGINT:
                         {
                           unsigned long int arg = a.arg[dp->arg_index].a.a_ulongint;
-                          SNPRINTF_BUF (arg);
+                          SNPRINTF_BUF(arg); /* case TYPE_ULONGINT */
                         }
                         break;
 #if HAVE_LONG_LONG_INT
                       case TYPE_LONGLONGINT:
                         {
                           long long int arg = a.arg[dp->arg_index].a.a_longlongint;
-                          SNPRINTF_BUF (arg);
+                          SNPRINTF_BUF(arg); /* case TYPE_LONGLONGINT */
                         }
                         break;
                       case TYPE_ULONGLONGINT:
                         {
                           unsigned long long int arg = a.arg[dp->arg_index].a.a_ulonglongint;
-                          SNPRINTF_BUF (arg);
+                          SNPRINTF_BUF(arg); /* case TYPE_ULONGLONGINT */
                         }
                         break;
-#endif
+#endif /* HAVE_LONG_LONG_INT */
                       case TYPE_DOUBLE:
                         {
                           double arg = a.arg[dp->arg_index].a.a_double;
-                          SNPRINTF_BUF (arg);
+                          SNPRINTF_BUF(arg); /* case TYPE_DOUBLE */
                         }
                         break;
                       case TYPE_LONGDOUBLE:
                         {
                           long double arg = a.arg[dp->arg_index].a.a_longdouble;
-                          SNPRINTF_BUF (arg);
+                          SNPRINTF_BUF(arg); /* case TYPE_LONGDOUBLE */
                         }
                         break;
                       case TYPE_CHAR:
                         {
                           int arg = a.arg[dp->arg_index].a.a_char;
-                          SNPRINTF_BUF (arg);
+                          SNPRINTF_BUF(arg); /* case TYPE_CHAR */
                         }
                         break;
 #if HAVE_WINT_T
                       case TYPE_WIDE_CHAR:
                         {
                           wint_t arg = a.arg[dp->arg_index].a.a_wide_char;
-                          SNPRINTF_BUF (arg);
+                          SNPRINTF_BUF(arg); /* case TYPE_WIDE_CHAR */
                         }
                         break;
-#endif
+#endif /* HAVE_WINT_T */
                       case TYPE_STRING:
                         {
                           const char *arg = a.arg[dp->arg_index].a.a_string;
-                          SNPRINTF_BUF (arg);
+                          SNPRINTF_BUF(arg); /* case TYPE_STRING */
                         }
                         break;
 #if HAVE_WCHAR_T
                       case TYPE_WIDE_STRING:
                         {
                           const wchar_t *arg = a.arg[dp->arg_index].a.a_wide_string;
-                          SNPRINTF_BUF (arg);
+                          SNPRINTF_BUF(arg); /* case TYPE_WIDE_STRING */
                         }
                         break;
-#endif
+#endif /* HAVE_WCHAR_T */
                       case TYPE_POINTER:
                         {
                           void *arg = a.arg[dp->arg_index].a.a_pointer;
-                          SNPRINTF_BUF (arg);
+                          SNPRINTF_BUF(arg); /* case TYPE_POINTER */
                         }
                         break;
                       default:
-                        abort ();
-                      }
+                        abort();
+					}
 
 #if USE_SNPRINTF
-                    /* Portability: Not all implementations of snprintf()
-                     * are ISO C 99 compliant.  Determine the number of
-                     * bytes that snprintf() has produced or would have
-                     * produced.  */
+                    /* Portability: Not all implementations of snprintf() are
+					 * ISO C 99 compliant. Determine the number of bytes that
+					 * snprintf() has produced or would have produced. */
                     if (count >= 0) {
                         /* Verify that snprintf() has NUL-terminated its
                          * result.  */
@@ -4765,20 +4732,15 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
 							count = retcount;
 						}
 					} else {
-                        /* snprintf() does NOT understand the '%n'
-                         * directive.  */
-                        if (fbp[1] != '\0')
-                          {
-                            /* Don't use the '%n' directive; instead, look
-                               at the snprintf() return value.  */
+                        /* snprintf() does NOT understand the '%n' directive. */
+                        if (fbp[1] != '\0') {
+                            /* Do NOT use the '%n' directive; instead, look
+                             * at the snprintf() return value. */
                             fbp[1] = '\0';
                             continue;
-                          }
-                        else
-                          {
-                            /* Look at the snprintf() return value.  */
-                            if (retcount < 0)
-                              {
+						} else {
+                            /* Look at the snprintf() return value. */
+                            if (retcount < 0) {
 # if !HAVE_SNPRINTF_RETVAL_C99
                                 /* HP-UX 10.20 snprintf() is doubly deficient:
                                    It doesn't understand the '%n' directive,
@@ -4945,111 +4907,106 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
                           }
                       }
 #endif
-
+/* BOOKMARK: reformatting from the bottom up got to about here................*/
 #if !USE_SNPRINTF
-                    if (count >= tmp_length)
+                    if (count >= tmp_length) {
                       /* tmp_length was incorrectly calculated - fix the
-                         code above!  */
-                      abort ();
-#endif
+                       * code above!  */
+                      abort();
+					}
+#endif /* !USE_SNPRINTF */
 
 #if !DCHAR_IS_TCHAR
                     /* Convert from TCHAR_T[] to DCHAR_T[].  */
-                    if (dp->conversion == 'c' || dp->conversion == 's')
-                      {
+                    if (dp->conversion == 'c' || dp->conversion == 's') {
                         /* type = TYPE_CHAR or TYPE_WIDE_CHAR or TYPE_STRING
-                           TYPE_WIDE_STRING.
-                           The result string is not certainly ASCII.  */
+                         * TYPE_WIDE_STRING.
+                         * The result string is not certainly ASCII. */
                         const TCHAR_T *tmpsrc;
                         DCHAR_T *tmpdst;
                         size_t tmpdst_len;
-                        /* This code assumes that TCHAR_T is 'char'.  */
-                        verify (sizeof (TCHAR_T) == 1);
+                        /* This code assumes that TCHAR_T is 'char'. */
+                        verify(sizeof(TCHAR_T) == 1);
 # if USE_SNPRINTF
-                        tmpsrc = (TCHAR_T *) (result + length);
+                        tmpsrc = (TCHAR_T *)(result + length);
 # else
                         tmpsrc = tmp;
-# endif
+# endif /* USE_SNPRINTF */
                         tmpdst =
-                          DCHAR_CONV_FROM_ENCODING (locale_charset (),
-                                                    iconveh_question_mark,
-                                                    tmpsrc, count,
-                                                    NULL,
-                                                    NULL, &tmpdst_len);
-                        if (tmpdst == NULL)
-                          {
+                          DCHAR_CONV_FROM_ENCODING(locale_charset(),
+												   iconveh_question_mark,
+												   tmpsrc, count, NULL, NULL,
+												   &tmpdst_len);
+                        if (tmpdst == NULL) {
                             int saved_errno = errno;
-                            if (!(result == resultbuf || result == NULL))
-                              free (result);
-                            if (buf_malloced != NULL)
-                              free (buf_malloced);
-                            CLEANUP ();
+                            if (!((result == resultbuf) || (result == NULL))) {
+								free(result);
+							}
+                            if (buf_malloced != NULL) {
+								free(buf_malloced);
+							}
+                            CLEANUP();
                             errno = saved_errno;
                             return NULL;
-                          }
-                        ENSURE_ALLOCATION (xsum (length, tmpdst_len));
-                        DCHAR_CPY (result + length, tmpdst, tmpdst_len);
-                        free (tmpdst);
+						}
+                        ENSURE_ALLOCATION(xsum(length, tmpdst_len));
+                        DCHAR_CPY((result + length), tmpdst, tmpdst_len);
+                        free(tmpdst);
                         count = tmpdst_len;
-                      }
-                    else
-                      {
+					} else {
                         /* The result string is ASCII.
-                           Simple 1:1 conversion.  */
+                         * Simple 1:1 conversion.  */
 # if USE_SNPRINTF
-                        /* If sizeof (DCHAR_T) == sizeof (TCHAR_T), it's a
-                           no-op conversion, in-place on the array starting
-                           at (result + length).  */
-                        if (sizeof (DCHAR_T) != sizeof (TCHAR_T))
-# endif
+                        /* If sizeof ((DCHAR_T) == sizeof (TCHAR_T)), it is a
+                         * no-op conversion, in-place on the array starting
+                         * at (result + length).  */
+                        if (sizeof(DCHAR_T) != sizeof(TCHAR_T))
+# endif /* USE_SNPRINTF */
                           {
                             const TCHAR_T *tmpsrc;
                             DCHAR_T *tmpdst;
                             size_t n;
 
 # if USE_SNPRINTF
-                            if (result == resultbuf)
-                              {
-                                tmpsrc = (TCHAR_T *) (result + length);
+                            if (result == resultbuf) {
+                                tmpsrc = (TCHAR_T *)(result + length);
                                 /* ENSURE_ALLOCATION will not move tmpsrc
-                                   (because it's part of resultbuf).  */
-                                ENSURE_ALLOCATION (xsum (length, count));
-                              }
-                            else
-                              {
+                                 * (because it is part of resultbuf). */
+                                ENSURE_ALLOCATION(xsum(length, count));
+							} else {
                                 /* ENSURE_ALLOCATION will move the array
-                                   (because it uses realloc().  */
-                                ENSURE_ALLOCATION (xsum (length, count));
-                                tmpsrc = (TCHAR_T *) (result + length);
-                              }
+                                 * (because it uses realloc()). */
+                                ENSURE_ALLOCATION(xsum(length, count));
+                                tmpsrc = (TCHAR_T *)(result + length);
+							}
 # else
                             tmpsrc = tmp;
-                            ENSURE_ALLOCATION (xsum (length, count));
-# endif
-                            tmpdst = result + length;
-                            /* Copy backwards, because of overlapping.  */
+                            ENSURE_ALLOCATION(xsum(length, count));
+# endif /* USE_SNPRINTF */
+                            tmpdst = (result + length);
+                            /* Copy backwards, because of overlapping. */
                             tmpsrc += count;
                             tmpdst += count;
-                            for (n = count; n > 0; n--)
-                              *--tmpdst = (unsigned char) *--tmpsrc;
+							for ((n = count); (n > 0); n--) {
+								*--tmpdst = (unsigned char)*--tmpsrc;
+							}
                           }
                       }
-#endif
+#endif /* !DCHAR_IS_TCHAR */
 
 #if DCHAR_IS_TCHAR && !USE_SNPRINTF
                     /* Make room for the result.  */
-                    if (count > allocated - length)
-                      {
-                        /* Need at least count elements.  But allocate
-                           proportionally.  */
+                    if (count > allocated - length) {
+                        /* Need at least count elements. But allocate
+                         * proportionally. */
                         size_t n =
-                          xmax (xsum (length, count), xtimes (allocated, 2));
+                          xmax(xsum(length, count), xtimes(allocated, 2));
 
-                        ENSURE_ALLOCATION (n);
-                      }
-#endif
+                        ENSURE_ALLOCATION(n);
+					}
+#endif /* DCHAR_IS_TCHAR && !USE_SNPRINTF */
 
-                    /* Here count <= allocated - length.  */
+                    /* Here (count <= (allocated - length)).  */
 
                     /* Perform padding.  */
 #if !DCHAR_IS_TCHAR || ENABLE_UNISTDIO || NEED_PRINTF_FLAG_LEFTADJUST || NEED_PRINTF_FLAG_ZERO || NEED_PRINTF_UNBOUNDED_PRECISION
@@ -5062,7 +5019,7 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
                         w = DCHAR_MBSNLEN(result + length, count);
 # else
                         /* The width is compared against the number of _bytes_
-                         * of the converted value, says POSIX.  */
+                         * of the converted value, says POSIX. */
                         w = (size_t)count;
 # endif /* ENABLE_UNISTDIO */
                         if (w < width) {
@@ -5070,7 +5027,7 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
 
                             /* Make room for the result.  */
                             if (xsum((size_t)count, pad) > (allocated - length)) {
-                                /* Need at least count + pad elements.  But
+                                /* Need at least count + pad elements. But
                                  * allocate proportionally.  */
                                 size_t n;
 								n = xmax(xsum3(length, (size_t)count, pad),
@@ -5084,7 +5041,7 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
                                 ENSURE_ALLOCATION(n);
 # endif /* USE_SNPRINTF */
 							}
-                            /* Here count + pad <= allocated - length.  */
+                            /* Here ((count + pad) <= (allocated - length)). */
 
                             {
 # if !DCHAR_IS_TCHAR || USE_SNPRINTF
@@ -5117,7 +5074,7 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
                               count = (int)((unsigned long)count + pad); /* = end - rp */
 
                               if (flags & FLAG_LEFT) {
-                                  /* Pad with spaces on the right.  */
+                                  /* Pad with spaces on the right. */
                                   for (; (pad > 0); pad--) {
                                     *p++ = ' ';
 								  }
@@ -5132,7 +5089,7 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
                                     *p++ = '0';
 								  }
 							  } else {
-                                  /* Pad with spaces on the left.  */
+                                  /* Pad with spaces on the left. */
                                   DCHAR_T *q = end;
 
                                   while (p > rp) {
@@ -5147,17 +5104,17 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
 					}
 #endif /* !DCHAR_IS_TCHAR || ENABLE_UNISTDIO || NEED_PRINTF_FLAG_LEFTADJUST || NEED_PRINTF_FLAG_ZERO || NEED_PRINTF_UNBOUNDED_PRECISION */
 
-                    /* Here still count <= allocated - length.  */
+                    /* Here it is still true that (count <= (allocated - length)). */
 
 #if !DCHAR_IS_TCHAR || USE_SNPRINTF
-                    /* The snprintf() result did fit.  */
+                    /* The snprintf() result did fit. */
 #else
-                    /* Append the sprintf() result.  */
+                    /* Append the sprintf() result. */
                     memcpy((result + length), tmp, (count * sizeof(DCHAR_T)));
 #endif /* !DCHAR_IS_TCHAR || USE_SNPRINTF */
 #if !USE_SNPRINTF
 					if (tmp != tmpbuf) {
-                      free(tmp);
+						free(tmp);
 					}
 #endif /* !USE_SNPRINTF */
 
@@ -5167,7 +5124,7 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
                         DCHAR_T *rp = (result + length);
                         size_t rc;
 						for ((rc = count); (rc > 0); rc--, rp++) {
-							if (*rp >= 'a' && *rp <= 'z') {
+							if ((*rp >= 'a') && (*rp <= 'z')) {
 								*rp = (*rp - 'a' + 'A');
 							}
 						}
@@ -5188,42 +5145,47 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
     ENSURE_ALLOCATION(xsum(length, (size_t)1));
     result[length] = '\0';
 
-    if (result != resultbuf && length + 1 < allocated)
-      {
-        /* Shrink the allocated memory if possible.  */
+    if ((result != resultbuf) && ((length + 1) < allocated)) {
+        /* Shrink the allocated memory if possible. */
         DCHAR_T *memory;
 
-        memory = (DCHAR_T *) realloc (result, (length + 1) * sizeof (DCHAR_T));
-        if (memory != NULL)
-          result = memory;
-      }
+        memory = (DCHAR_T *)realloc(result, ((length + 1) * sizeof(DCHAR_T)));
+        if (memory != NULL) {
+			result = memory;
+		}
+	}
 
-    if (buf_malloced != NULL)
-      free (buf_malloced);
-    CLEANUP ();
+	if (buf_malloced != NULL) {
+		free(buf_malloced);
+	}
+    CLEANUP();
     *lengthp = length;
-    /* Note that we can produce a big string of a length > INT_MAX.  POSIX
-       says that snprintf() fails with errno = EOVERFLOW in this case, but
-       that's only because snprintf() returns an 'int'.  This function does
-       not have this limitation.  */
+    /* Note that we can produce a big string of a length > INT_MAX. POSIX
+     * says that snprintf() fails with errno = EOVERFLOW in this case, but
+     * that is only because snprintf() returns an 'int'. This function does
+     * not have this limitation.  */
     return result;
 
 #if USE_SNPRINTF
   overflow:
-    if (!(result == resultbuf || result == NULL))
+	if (!((result == resultbuf) || (result == NULL))) {
       free(result);
-    if (buf_malloced != NULL)
+	}
+	if (buf_malloced != NULL) {
       free(buf_malloced);
+	}
     CLEANUP();
     errno = EOVERFLOW;
     return NULL;
 #endif /* USE_SNPRINTF */
 
   out_of_memory:
-    if (!(result == resultbuf || result == NULL))
+	if (!((result == resultbuf) || (result == NULL))) {
       free(result);
-    if (buf_malloced != NULL)
+	}
+	if (buf_malloced != NULL) {
       free(buf_malloced);
+	}
   out_of_memory_1:
     CLEANUP();
     errno = ENOMEM;
@@ -5235,7 +5197,9 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
 #undef TCHARS_PER_DCHAR
 #undef SNPRINTF
 #undef USE_SNPRINTF
-#undef DCHAR_SET
+#ifdef DCHAR_SET
+# undef DCHAR_SET
+#endif /* DCHAR_SET */
 #undef DCHAR_CPY
 #undef PRINTF_PARSE
 #undef DIRECTIVES
@@ -5245,5 +5209,16 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
 #undef DCHAR_T
 #undef FCHAR_T
 #undef VASNPRINTF
+
+/* some more silencings of '-Wunused-macros' warnings: */
+#ifdef remainder
+# undef remainder
+#endif /* remainder */
+#ifdef exp
+# undef exp
+#endif /* exp */
+#ifdef decimal_point_char_defined
+# undef decimal_point_char_defined
+#endif /* decimal_point_char_defined */
 
 /* EOF (good grief this file is long) */

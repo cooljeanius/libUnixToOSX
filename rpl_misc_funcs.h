@@ -56,6 +56,11 @@ int rpl_fstat(int fd, struct stat *buf);
 void _Qp_itoq(long double *result, int a);
 #endif /* !_Qp_itoq */
 
+/* from setenv.c: */
+#ifndef rpl_setenv
+int rpl_setenv(const char *name, const char *value, int replace);
+#endif /* !rpl_setenv */
+
 #endif /* !__RPL_MISC_FUNCS_H__ */
 
 /* EOF */

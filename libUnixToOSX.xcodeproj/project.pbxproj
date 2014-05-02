@@ -169,6 +169,48 @@
 		A50A921A18EE30E60096B616 /* filenamecat.c in Sources */ = {isa = PBXBuildFile; fileRef = A50A921618EE30E60096B616 /* filenamecat.c */; };
 		A50A921B18EE30E60096B616 /* filenamecat.h in Headers */ = {isa = PBXBuildFile; fileRef = A50A921718EE30E60096B616 /* filenamecat.h */; };
 		A50A921D18EE31C30096B616 /* intprops.h in Headers */ = {isa = PBXBuildFile; fileRef = A50A921C18EE31C30096B616 /* intprops.h */; };
+		A520305F19057DBC00C5B524 /* localcharset.c in Sources */ = {isa = PBXBuildFile; fileRef = A520305A19057DBC00C5B524 /* localcharset.c */; };
+		A520306019057DBC00C5B524 /* localcharset.h in Headers */ = {isa = PBXBuildFile; fileRef = A520305B19057DBC00C5B524 /* localcharset.h */; };
+		A520306119057DBC00C5B524 /* localeconv.c in Sources */ = {isa = PBXBuildFile; fileRef = A520305C19057DBC00C5B524 /* localeconv.c */; };
+		A520306219057DBC00C5B524 /* localename.c in Sources */ = {isa = PBXBuildFile; fileRef = A520305D19057DBC00C5B524 /* localename.c */; };
+		A520306319057DBC00C5B524 /* localename.h in Headers */ = {isa = PBXBuildFile; fileRef = A520305E19057DBC00C5B524 /* localename.h */; };
+		A520306919057E2A00C5B524 /* config.charset in Resources */ = {isa = PBXBuildFile; fileRef = A520306619057E0400C5B524 /* config.charset */; };
+		A520307019057E7D00C5B524 /* ref-add.sin in Resources */ = {isa = PBXBuildFile; fileRef = A520306E19057E7D00C5B524 /* ref-add.sin */; };
+		A520307119057E7D00C5B524 /* ref-del.sin in Resources */ = {isa = PBXBuildFile; fileRef = A520306F19057E7D00C5B524 /* ref-del.sin */; };
+		A520308F190580CF00C5B524 /* relocatable.c in Sources */ = {isa = PBXBuildFile; fileRef = A520308C190580CF00C5B524 /* relocatable.c */; };
+		A5203090190580CF00C5B524 /* relocatable.h in Headers */ = {isa = PBXBuildFile; fileRef = A520308D190580CF00C5B524 /* relocatable.h */; };
+		A5203091190580CF00C5B524 /* relocwrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = A520308E190580CF00C5B524 /* relocwrapper.c */; };
+		A52030B0190596EA00C5B524 /* canonicalize-lgpl.c in Sources */ = {isa = PBXBuildFile; fileRef = A52030AD190596EA00C5B524 /* canonicalize-lgpl.c */; };
+		A52030B1190596EA00C5B524 /* canonicalize.c in Sources */ = {isa = PBXBuildFile; fileRef = A52030AE190596EA00C5B524 /* canonicalize.c */; };
+		A52030B2190596EA00C5B524 /* canonicalize.h in Headers */ = {isa = PBXBuildFile; fileRef = A52030AF190596EA00C5B524 /* canonicalize.h */; };
+		A52030B5190596F800C5B524 /* readlink.c in Sources */ = {isa = PBXBuildFile; fileRef = A52030B3190596F800C5B524 /* readlink.c */; };
+		A52030B6190596F800C5B524 /* readlinkat.c in Sources */ = {isa = PBXBuildFile; fileRef = A52030B4190596F800C5B524 /* readlinkat.c */; };
+		A52030B81905970600C5B524 /* setenv.c in Sources */ = {isa = PBXBuildFile; fileRef = A52030B71905970600C5B524 /* setenv.c */; };
+		A52030C0190599DC00C5B524 /* areadlink-with-size.c in Sources */ = {isa = PBXBuildFile; fileRef = A52030BB190599DC00C5B524 /* areadlink-with-size.c */; };
+		A52030C1190599DC00C5B524 /* areadlink.c in Sources */ = {isa = PBXBuildFile; fileRef = A52030BC190599DC00C5B524 /* areadlink.c */; };
+		A52030C2190599DC00C5B524 /* areadlink.h in Headers */ = {isa = PBXBuildFile; fileRef = A52030BD190599DC00C5B524 /* areadlink.h */; };
+		A52030C3190599DC00C5B524 /* areadlinkat-with-size.c in Sources */ = {isa = PBXBuildFile; fileRef = A52030BE190599DC00C5B524 /* areadlinkat-with-size.c */; };
+		A52030C4190599DC00C5B524 /* areadlinkat.c in Sources */ = {isa = PBXBuildFile; fileRef = A52030BF190599DC00C5B524 /* areadlinkat.c */; };
+		A52030CF19059A3D00C5B524 /* malloca.c in Sources */ = {isa = PBXBuildFile; fileRef = A52030CD19059A3D00C5B524 /* malloca.c */; };
+		A52030D019059A3D00C5B524 /* malloca.h in Headers */ = {isa = PBXBuildFile; fileRef = A52030CE19059A3D00C5B524 /* malloca.h */; };
+		A52030D319059A5D00C5B524 /* file-set.c in Sources */ = {isa = PBXBuildFile; fileRef = A52030D119059A5D00C5B524 /* file-set.c */; };
+		A52030D419059A5D00C5B524 /* file-set.h in Headers */ = {isa = PBXBuildFile; fileRef = A52030D219059A5D00C5B524 /* file-set.h */; };
+		A52030D719059A8000C5B524 /* careadlinkat.c in Sources */ = {isa = PBXBuildFile; fileRef = A52030D519059A8000C5B524 /* careadlinkat.c */; };
+		A52030D819059A8000C5B524 /* careadlinkat.h in Headers */ = {isa = PBXBuildFile; fileRef = A52030D619059A8000C5B524 /* careadlinkat.h */; };
+		A52031611905C2CF00C5B524 /* allocator.c in Sources */ = {isa = PBXBuildFile; fileRef = A520315F1905C2CF00C5B524 /* allocator.c */; };
+		A52031621905C2CF00C5B524 /* allocator.h in Headers */ = {isa = PBXBuildFile; fileRef = A52031601905C2CF00C5B524 /* allocator.h */; };
+		A520317F1905C2F100C5B524 /* xgetcwd.c in Sources */ = {isa = PBXBuildFile; fileRef = A520317D1905C2F100C5B524 /* xgetcwd.c */; };
+		A52031801905C2F100C5B524 /* xgetcwd.h in Headers */ = {isa = PBXBuildFile; fileRef = A520317E1905C2F100C5B524 /* xgetcwd.h */; };
+		A52031891905C35100C5B524 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A52031881905C35100C5B524 /* CoreFoundation.framework */; };
+		A52031C51905C3F000C5B524 /* progreloc.c in Sources */ = {isa = PBXBuildFile; fileRef = A52031C41905C3F000C5B524 /* progreloc.c */; };
+		A52031CD1905C6C000C5B524 /* xreadlink.c in Sources */ = {isa = PBXBuildFile; fileRef = A52031CA1905C6C000C5B524 /* xreadlink.c */; };
+		A52031CE1905C6C000C5B524 /* xreadlink.h in Headers */ = {isa = PBXBuildFile; fileRef = A52031CB1905C6C000C5B524 /* xreadlink.h */; };
+		A52031CF1905C6C000C5B524 /* xreadlinkat.c in Sources */ = {isa = PBXBuildFile; fileRef = A52031CC1905C6C000C5B524 /* xreadlinkat.c */; };
+		A52EF8CB1905573900F6B8CD /* fpending.c in Sources */ = {isa = PBXBuildFile; fileRef = A52EF8C91905573900F6B8CD /* fpending.c */; };
+		A52EF8CC1905573900F6B8CD /* fpending.h in Headers */ = {isa = PBXBuildFile; fileRef = A52EF8CA1905573900F6B8CD /* fpending.h */; };
+		A52EF8D01905574600F6B8CD /* quote.h in Headers */ = {isa = PBXBuildFile; fileRef = A52EF8CD1905574600F6B8CD /* quote.h */; };
+		A52EF8D11905574600F6B8CD /* quotearg.c in Sources */ = {isa = PBXBuildFile; fileRef = A52EF8CE1905574600F6B8CD /* quotearg.c */; };
+		A52EF8D21905574600F6B8CD /* quotearg.h in Headers */ = {isa = PBXBuildFile; fileRef = A52EF8CF1905574600F6B8CD /* quotearg.h */; };
 		A531666018EEF26F0049B90F /* dup2.c in Sources */ = {isa = PBXBuildFile; fileRef = A531665E18EEF26F0049B90F /* dup2.c */; };
 		A531666118EEF26F0049B90F /* dup3.c in Sources */ = {isa = PBXBuildFile; fileRef = A531665F18EEF26F0049B90F /* dup3.c */; };
 		A531667318EEF3D00049B90F /* dup.c in Sources */ = {isa = PBXBuildFile; fileRef = A531667218EEF3D00049B90F /* dup.c */; };
@@ -213,7 +255,21 @@
 		A5A94E9E1904452E005B7143 /* argp-test.c in Sources */ = {isa = PBXBuildFile; fileRef = A558DCB019005691002696E8 /* argp-test.c */; };
 		A5A94EA119044543005B7143 /* libUnixToOSX.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D2AAC0630554660B00DB518D /* libUnixToOSX.dylib */; };
 		A5A94EB1190445E6005B7143 /* libUnixToOSX.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D2AAC0630554660B00DB518D /* libUnixToOSX.dylib */; };
+		A5C41AEF190F443500279181 /* getmntent.c in Sources */ = {isa = PBXBuildFile; fileRef = A5C41AEE190F443500279181 /* getmntent.c */; };
+		A5C41AF9190FCFC400279181 /* mountlist.c in Sources */ = {isa = PBXBuildFile; fileRef = A5C41AF8190FCFC400279181 /* mountlist.c */; };
+		A5C41B01190FD60F00279181 /* mountlist.h in Headers */ = {isa = PBXBuildFile; fileRef = A5C41B00190FD60F00279181 /* mountlist.h */; };
+		A5C41BD919100D3900279181 /* mntent.h in Headers */ = {isa = PBXBuildFile; fileRef = A5C41BD819100D3900279181 /* mntent.h */; };
 		A5D4519019046AF500ED9BDA /* rpl_misc_funcs.h in Headers */ = {isa = PBXBuildFile; fileRef = A5D4518F19046AF500ED9BDA /* rpl_misc_funcs.h */; };
+		A5D451F51905553D00ED9BDA /* closeout.c in Sources */ = {isa = PBXBuildFile; fileRef = A5D451F31905553D00ED9BDA /* closeout.c */; };
+		A5D451F61905553D00ED9BDA /* closeout.h in Headers */ = {isa = PBXBuildFile; fileRef = A5D451F41905553D00ED9BDA /* closeout.h */; };
+		A5D4523B190555E300ED9BDA /* close-stream.c in Sources */ = {isa = PBXBuildFile; fileRef = A5D45239190555E300ED9BDA /* close-stream.c */; };
+		A5D4523C190555E300ED9BDA /* close-stream.h in Headers */ = {isa = PBXBuildFile; fileRef = A5D4523A190555E300ED9BDA /* close-stream.h */; };
+		A5DB80041905587100F38DDF /* c-strcaseeq.h in Headers */ = {isa = PBXBuildFile; fileRef = A5DB80031905587100F38DDF /* c-strcaseeq.h */; };
+		A5DB8014190558B800F38DDF /* c-strcase.h in Headers */ = {isa = PBXBuildFile; fileRef = A5DB8013190558B800F38DDF /* c-strcase.h */; };
+		A5DB80201905592B00F38DDF /* c-ctype.c in Sources */ = {isa = PBXBuildFile; fileRef = A5DB801E1905592B00F38DDF /* c-ctype.c */; };
+		A5DB80211905592B00F38DDF /* c-ctype.h in Headers */ = {isa = PBXBuildFile; fileRef = A5DB801F1905592B00F38DDF /* c-ctype.h */; };
+		A5DB80231905593700F38DDF /* c-strcasecmp.c in Sources */ = {isa = PBXBuildFile; fileRef = A5DB80221905593700F38DDF /* c-strcasecmp.c */; };
+		A5DB80251905593D00F38DDF /* c-strncasecmp.c in Sources */ = {isa = PBXBuildFile; fileRef = A5DB80241905593D00F38DDF /* c-strncasecmp.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -411,6 +467,48 @@
 		A50A921618EE30E60096B616 /* filenamecat.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = filenamecat.c; sourceTree = "<group>"; };
 		A50A921718EE30E60096B616 /* filenamecat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = filenamecat.h; sourceTree = "<group>"; };
 		A50A921C18EE31C30096B616 /* intprops.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = intprops.h; sourceTree = "<group>"; };
+		A520305A19057DBC00C5B524 /* localcharset.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = localcharset.c; sourceTree = "<group>"; };
+		A520305B19057DBC00C5B524 /* localcharset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = localcharset.h; sourceTree = "<group>"; };
+		A520305C19057DBC00C5B524 /* localeconv.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = localeconv.c; sourceTree = "<group>"; };
+		A520305D19057DBC00C5B524 /* localename.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = localename.c; sourceTree = "<group>"; };
+		A520305E19057DBC00C5B524 /* localename.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = localename.h; sourceTree = "<group>"; };
+		A520306619057E0400C5B524 /* config.charset */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = config.charset; sourceTree = "<group>"; };
+		A520306E19057E7D00C5B524 /* ref-add.sin */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "ref-add.sin"; sourceTree = "<group>"; };
+		A520306F19057E7D00C5B524 /* ref-del.sin */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "ref-del.sin"; sourceTree = "<group>"; };
+		A520308C190580CF00C5B524 /* relocatable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = relocatable.c; sourceTree = "<group>"; };
+		A520308D190580CF00C5B524 /* relocatable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = relocatable.h; sourceTree = "<group>"; };
+		A520308E190580CF00C5B524 /* relocwrapper.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = relocwrapper.c; sourceTree = "<group>"; };
+		A52030AD190596EA00C5B524 /* canonicalize-lgpl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "canonicalize-lgpl.c"; sourceTree = "<group>"; };
+		A52030AE190596EA00C5B524 /* canonicalize.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = canonicalize.c; sourceTree = "<group>"; };
+		A52030AF190596EA00C5B524 /* canonicalize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = canonicalize.h; sourceTree = "<group>"; };
+		A52030B3190596F800C5B524 /* readlink.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = readlink.c; sourceTree = "<group>"; };
+		A52030B4190596F800C5B524 /* readlinkat.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = readlinkat.c; sourceTree = "<group>"; };
+		A52030B71905970600C5B524 /* setenv.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = setenv.c; sourceTree = "<group>"; };
+		A52030BB190599DC00C5B524 /* areadlink-with-size.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "areadlink-with-size.c"; sourceTree = "<group>"; };
+		A52030BC190599DC00C5B524 /* areadlink.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = areadlink.c; sourceTree = "<group>"; };
+		A52030BD190599DC00C5B524 /* areadlink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = areadlink.h; sourceTree = "<group>"; };
+		A52030BE190599DC00C5B524 /* areadlinkat-with-size.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "areadlinkat-with-size.c"; sourceTree = "<group>"; };
+		A52030BF190599DC00C5B524 /* areadlinkat.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = areadlinkat.c; sourceTree = "<group>"; };
+		A52030CD19059A3D00C5B524 /* malloca.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = malloca.c; sourceTree = "<group>"; };
+		A52030CE19059A3D00C5B524 /* malloca.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = malloca.h; sourceTree = "<group>"; };
+		A52030D119059A5D00C5B524 /* file-set.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "file-set.c"; sourceTree = "<group>"; };
+		A52030D219059A5D00C5B524 /* file-set.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "file-set.h"; sourceTree = "<group>"; };
+		A52030D519059A8000C5B524 /* careadlinkat.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = careadlinkat.c; sourceTree = "<group>"; };
+		A52030D619059A8000C5B524 /* careadlinkat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = careadlinkat.h; sourceTree = "<group>"; };
+		A520315F1905C2CF00C5B524 /* allocator.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = allocator.c; sourceTree = "<group>"; };
+		A52031601905C2CF00C5B524 /* allocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = allocator.h; sourceTree = "<group>"; };
+		A520317D1905C2F100C5B524 /* xgetcwd.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xgetcwd.c; sourceTree = "<group>"; };
+		A520317E1905C2F100C5B524 /* xgetcwd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xgetcwd.h; sourceTree = "<group>"; };
+		A52031881905C35100C5B524 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		A52031C41905C3F000C5B524 /* progreloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = progreloc.c; sourceTree = "<group>"; };
+		A52031CA1905C6C000C5B524 /* xreadlink.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xreadlink.c; sourceTree = "<group>"; };
+		A52031CB1905C6C000C5B524 /* xreadlink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xreadlink.h; sourceTree = "<group>"; };
+		A52031CC1905C6C000C5B524 /* xreadlinkat.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xreadlinkat.c; sourceTree = "<group>"; };
+		A52EF8C91905573900F6B8CD /* fpending.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fpending.c; sourceTree = "<group>"; };
+		A52EF8CA1905573900F6B8CD /* fpending.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fpending.h; sourceTree = "<group>"; };
+		A52EF8CD1905574600F6B8CD /* quote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = quote.h; sourceTree = "<group>"; };
+		A52EF8CE1905574600F6B8CD /* quotearg.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = quotearg.c; sourceTree = "<group>"; };
+		A52EF8CF1905574600F6B8CD /* quotearg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = quotearg.h; sourceTree = "<group>"; };
 		A531665E18EEF26F0049B90F /* dup2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dup2.c; sourceTree = "<group>"; };
 		A531665F18EEF26F0049B90F /* dup3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dup3.c; sourceTree = "<group>"; };
 		A531667218EEF3D00049B90F /* dup.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dup.c; sourceTree = "<group>"; };
@@ -460,7 +558,21 @@
 		A56326831900327C0024EB6A /* threadlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = threadlib.c; sourceTree = "<group>"; };
 		A56326841900327C0024EB6A /* tls.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tls.c; sourceTree = "<group>"; };
 		A56326851900327C0024EB6A /* tls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tls.h; sourceTree = "<group>"; };
+		A5C41AEE190F443500279181 /* getmntent.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = getmntent.c; sourceTree = "<group>"; };
+		A5C41AF8190FCFC400279181 /* mountlist.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mountlist.c; sourceTree = "<group>"; };
+		A5C41B00190FD60F00279181 /* mountlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mountlist.h; sourceTree = "<group>"; };
+		A5C41BD819100D3900279181 /* mntent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mntent.h; sourceTree = "<group>"; };
 		A5D4518F19046AF500ED9BDA /* rpl_misc_funcs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rpl_misc_funcs.h; sourceTree = "<group>"; };
+		A5D451F31905553D00ED9BDA /* closeout.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = closeout.c; sourceTree = "<group>"; };
+		A5D451F41905553D00ED9BDA /* closeout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = closeout.h; sourceTree = "<group>"; };
+		A5D45239190555E300ED9BDA /* close-stream.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "close-stream.c"; sourceTree = "<group>"; };
+		A5D4523A190555E300ED9BDA /* close-stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "close-stream.h"; sourceTree = "<group>"; };
+		A5DB80031905587100F38DDF /* c-strcaseeq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "c-strcaseeq.h"; sourceTree = "<group>"; };
+		A5DB8013190558B800F38DDF /* c-strcase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "c-strcase.h"; sourceTree = "<group>"; };
+		A5DB801E1905592B00F38DDF /* c-ctype.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "c-ctype.c"; sourceTree = "<group>"; };
+		A5DB801F1905592B00F38DDF /* c-ctype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "c-ctype.h"; sourceTree = "<group>"; };
+		A5DB80221905593700F38DDF /* c-strcasecmp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "c-strcasecmp.c"; sourceTree = "<group>"; };
+		A5DB80241905593D00F38DDF /* c-strncasecmp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "c-strncasecmp.c"; sourceTree = "<group>"; };
 		D2AAC0630554660B00DB518D /* libUnixToOSX.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libUnixToOSX.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -485,6 +597,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A52031891905C35100C5B524 /* CoreFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -497,6 +610,7 @@
 				A50A8FED18ED999E0096B616 /* snippet */,
 				08FB7795FE84155DC02AAC07 /* Source */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
+				A52031871905C33700C5B524 /* Linked Frameworks */,
 				A50A8FB618ED96CF0096B616 /* polltest-Info.plist */,
 				A558DCE21900570E002696E8 /* argp-test-Info.plist */,
 			);
@@ -506,8 +620,15 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				A50A8F4418EC9A3C0096B616 /* alloca.c */,
 				A50A8EDB18EC81B90096B616 /* alloc.h */,
+				A50A8F4418EC9A3C0096B616 /* alloca.c */,
+				A520315F1905C2CF00C5B524 /* allocator.c */,
+				A52031601905C2CF00C5B524 /* allocator.h */,
+				A52030BB190599DC00C5B524 /* areadlink-with-size.c */,
+				A52030BC190599DC00C5B524 /* areadlink.c */,
+				A52030BD190599DC00C5B524 /* areadlink.h */,
+				A52030BE190599DC00C5B524 /* areadlinkat-with-size.c */,
+				A52030BF190599DC00C5B524 /* areadlinkat.c */,
 				A558DCA119005691002696E8 /* argp-standalone */,
 				A50A90A518EE1D4C0096B616 /* asnprintf.c */,
 				A531669B18EEF8B00049B90F /* at-func.c */,
@@ -517,13 +638,29 @@
 				A531669518EEF8610049B90F /* binary-io.h */,
 				A50A90A918EE1D570096B616 /* bitrotate.h */,
 				A50A8F4218EC9A3C0096B616 /* btowc.c */,
+				A5DB801E1905592B00F38DDF /* c-ctype.c */,
+				A5DB801F1905592B00F38DDF /* c-ctype.h */,
+				A5DB8013190558B800F38DDF /* c-strcase.h */,
+				A5DB80221905593700F38DDF /* c-strcasecmp.c */,
+				A5DB80031905587100F38DDF /* c-strcaseeq.h */,
+				A5DB80241905593D00F38DDF /* c-strncasecmp.c */,
+				A52030AD190596EA00C5B524 /* canonicalize-lgpl.c */,
+				A52030AE190596EA00C5B524 /* canonicalize.c */,
+				A52030AF190596EA00C5B524 /* canonicalize.h */,
+				A52030D519059A8000C5B524 /* careadlinkat.c */,
+				A52030D619059A8000C5B524 /* careadlinkat.h */,
 				A50A90AD18EE1D6E0096B616 /* chdir-long.c */,
 				A50A90AE18EE1D6E0096B616 /* chdir-long.h */,
 				A50A90AF18EE1D6E0096B616 /* chdir-safer.c */,
 				A50A90B018EE1D6E0096B616 /* chdir-safer.h */,
 				A50A90B118EE1D6E0096B616 /* cloexec.c */,
 				A50A90B218EE1D6E0096B616 /* cloexec.h */,
+				A5D45239190555E300ED9BDA /* close-stream.c */,
+				A5D4523A190555E300ED9BDA /* close-stream.h */,
 				A50A90B318EE1D6E0096B616 /* close.c */,
+				A5D451F31905553D00ED9BDA /* closeout.c */,
+				A5D451F41905553D00ED9BDA /* closeout.h */,
+				A520306619057E0400C5B524 /* config.charset */,
 				A50A90BB18EE1D7B0096B616 /* creat-safer.c */,
 				A50A90BC18EE1D7B0096B616 /* cycle-check.c */,
 				A50A90BD18EE1D7B0096B616 /* cycle-check.h */,
@@ -561,6 +698,8 @@
 				A531667F18EEF5A80049B90F /* fdopen.c */,
 				A531668018EEF5A80049B90F /* fdopendir.c */,
 				A50A90E918EE1DB60096B616 /* fflush.c */,
+				A52030D119059A5D00C5B524 /* file-set.c */,
+				A52030D219059A5D00C5B524 /* file-set.h */,
 				A50A90EA18EE1DB60096B616 /* fileblocks.c */,
 				A50A921418EE30E60096B616 /* filename.h */,
 				A50A921518EE30E60096B616 /* filenamecat-lgpl.c */,
@@ -568,6 +707,8 @@
 				A50A921718EE30E60096B616 /* filenamecat.h */,
 				A50A90EB18EE1DB60096B616 /* float.c */,
 				A50A90ED18EE1DB60096B616 /* float+.h */,
+				A52EF8C91905573900F6B8CD /* fpending.c */,
+				A52EF8CA1905573900F6B8CD /* fpending.h */,
 				A50A90EE18EE1DB60096B616 /* fpucw.h */,
 				A50A8F6718ECD8AC0096B616 /* freading.c */,
 				A50A8F6818ECD8AC0096B616 /* freading.h */,
@@ -579,6 +720,7 @@
 				A558DC9019005655002696E8 /* libftw0 */,
 				A50A8EE518EC86F40096B616 /* ftw_Apple.h */,
 				A50A8EE618EC86F40096B616 /* ftw_Apple.c */,
+				A5C41AEE190F443500279181 /* getmntent.c */,
 				A50A90FD18EE1DD20096B616 /* getopt_int.h */,
 				A50A90FE18EE1DD20096B616 /* getopt.c */,
 				A50A910118EE1DE20096B616 /* getopt1.c */,
@@ -601,13 +743,23 @@
 				A50A911A18EE1DEE0096B616 /* isnanl-nolibm.h */,
 				A50A911B18EE1DEE0096B616 /* isnanl.c */,
 				A50A911C18EE1DEE0096B616 /* itold.c */,
+				A520305A19057DBC00C5B524 /* localcharset.c */,
+				A520305B19057DBC00C5B524 /* localcharset.h */,
+				A520305C19057DBC00C5B524 /* localeconv.c */,
+				A520305D19057DBC00C5B524 /* localename.c */,
+				A520305E19057DBC00C5B524 /* localename.h */,
 				A50A912518EE1DFA0096B616 /* lstat.c */,
 				A50A912718EE1E000096B616 /* malloc.c */,
+				A52030CD19059A3D00C5B524 /* malloca.c */,
+				A52030CE19059A3D00C5B524 /* malloca.h */,
 				A50A912918EE1E1A0096B616 /* memcmp.c */,
 				A50A912A18EE1E1A0096B616 /* memcmp2.c */,
 				A50A912B18EE1E1A0096B616 /* memcmp2.h */,
 				A563262D19001FAB0024EB6A /* mempcpy.c */,
 				A531667818EEF5560049B90F /* memrchr.c */,
+				A5C41BD819100D3900279181 /* mntent.h */,
+				A5C41AF8190FCFC400279181 /* mountlist.c */,
+				A5C41B00190FD60F00279181 /* mountlist.h */,
 				A50A912F18EE1E290096B616 /* msvc-inval.c */,
 				A50A913018EE1E290096B616 /* msvc-inval.h */,
 				A50A913118EE1E290096B616 /* msvc-nothrow.c */,
@@ -637,15 +789,27 @@
 				A50A915818EE1E3F0096B616 /* printf-parse.h */,
 				A50A915918EE1E3F0096B616 /* progname.c */,
 				A50A915A18EE1E3F0096B616 /* progname.h */,
+				A52031C41905C3F000C5B524 /* progreloc.c */,
+				A52EF8CD1905574600F6B8CD /* quote.h */,
+				A52EF8CE1905574600F6B8CD /* quotearg.c */,
+				A52EF8CF1905574600F6B8CD /* quotearg.h */,
 				A563262F19001FBC0024EB6A /* rawmemchr.c */,
 				A563266919002CF90024EB6A /* rawmemchr.h */,
+				A52030B3190596F800C5B524 /* readlink.c */,
+				A52030B4190596F800C5B524 /* readlinkat.c */,
 				A50A916518EE1E5D0096B616 /* realloc.c */,
+				A520306E19057E7D00C5B524 /* ref-add.sin */,
+				A520306F19057E7D00C5B524 /* ref-del.sin */,
+				A520308C190580CF00C5B524 /* relocatable.c */,
+				A520308D190580CF00C5B524 /* relocatable.h */,
+				A520308E190580CF00C5B524 /* relocwrapper.c */,
 				A5D4518F19046AF500ED9BDA /* rpl_misc_funcs.h */,
 				A50A916618EE1E5D0096B616 /* same-inode.h */,
 				A50A916718EE1E5D0096B616 /* same.c */,
 				A50A916818EE1E5D0096B616 /* same.h */,
 				A50A916918EE1E5D0096B616 /* save-cwd.c */,
 				A50A916A18EE1E5D0096B616 /* save-cwd.h */,
+				A52030B71905970600C5B524 /* setenv.c */,
 				A558DC77190032DD002696E8 /* siglist.h */,
 				A50A916B18EE1E5D0096B616 /* stat-macros.h */,
 				A50A916C18EE1E5D0096B616 /* stat-size.h */,
@@ -668,7 +832,12 @@
 				A50A918C18EE1E7D0096B616 /* xalloc-die.c */,
 				A50A918D18EE1E7D0096B616 /* xalloc-oversized.h */,
 				A50A918E18EE1E7D0096B616 /* xalloc.h */,
+				A520317D1905C2F100C5B524 /* xgetcwd.c */,
+				A520317E1905C2F100C5B524 /* xgetcwd.h */,
 				A50A918F18EE1E7D0096B616 /* xmalloc.c */,
+				A52031CA1905C6C000C5B524 /* xreadlink.c */,
+				A52031CB1905C6C000C5B524 /* xreadlink.h */,
+				A52031CC1905C6C000C5B524 /* xreadlinkat.c */,
 				A50A919018EE1E7D0096B616 /* xsize.h */,
 				A50A919118EE1E7D0096B616 /* xstrndup.c */,
 				A50A919218EE1E7D0096B616 /* xstrndup.h */,
@@ -698,6 +867,14 @@
 			);
 			name = snippet;
 			path = "build-aux/snippet";
+			sourceTree = "<group>";
+		};
+		A52031871905C33700C5B524 /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A52031881905C35100C5B524 /* CoreFoundation.framework */,
+			);
+			name = "Linked Frameworks";
 			sourceTree = "<group>";
 		};
 		A558DC9019005655002696E8 /* libftw0 */ = {
@@ -787,11 +964,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				A50A8EDC18EC81B90096B616 /* alloc.h in Headers */,
+				A52031621905C2CF00C5B524 /* allocator.h in Headers */,
+				A52030C2190599DC00C5B524 /* areadlink.h in Headers */,
 				A531669618EEF8610049B90F /* binary-io.h in Headers */,
 				A50A90AC18EE1D570096B616 /* bitrotate.h in Headers */,
+				A5DB80211905592B00F38DDF /* c-ctype.h in Headers */,
+				A5DB8014190558B800F38DDF /* c-strcase.h in Headers */,
+				A5DB80041905587100F38DDF /* c-strcaseeq.h in Headers */,
+				A52030B2190596EA00C5B524 /* canonicalize.h in Headers */,
+				A52030D819059A8000C5B524 /* careadlinkat.h in Headers */,
 				A50A90B518EE1D6E0096B616 /* chdir-long.h in Headers */,
 				A50A90B718EE1D6E0096B616 /* chdir-safer.h in Headers */,
 				A50A90B918EE1D6E0096B616 /* cloexec.h in Headers */,
+				A5D4523C190555E300ED9BDA /* close-stream.h in Headers */,
+				A5D451F61905553D00ED9BDA /* closeout.h in Headers */,
 				A50A90CB18EE1D7B0096B616 /* cycle-check.h in Headers */,
 				A50A90CC18EE1D7B0096B616 /* dev-ino.h in Headers */,
 				A50A90CD18EE1D7B0096B616 /* dirent--.h in Headers */,
@@ -799,6 +985,7 @@
 				A50A90CF18EE1D7B0096B616 /* dirent-safer.h in Headers */,
 				A50A90D318EE1D7B0096B616 /* dirname.h in Headers */,
 				A50A90D418EE1D7B0096B616 /* dosname.h in Headers */,
+				A53166C618EF04A60049B90F /* dup.h in Headers */,
 				A50A8F7518ECD9C60096B616 /* dysize.h in Headers */,
 				A50A90DD18EE1D960096B616 /* error.h in Headers */,
 				A50A90DF18EE1D960096B616 /* exitfail.h in Headers */,
@@ -806,9 +993,11 @@
 				A50A90E418EE1DA60096B616 /* fcntl--.h in Headers */,
 				A50A90E518EE1DA60096B616 /* fcntl-safer.h in Headers */,
 				A50A921118EE30810096B616 /* fd-hook.h in Headers */,
+				A52030D419059A5D00C5B524 /* file-set.h in Headers */,
 				A50A921818EE30E60096B616 /* filename.h in Headers */,
 				A50A921B18EE30E60096B616 /* filenamecat.h in Headers */,
 				A50A90F518EE1DB60096B616 /* float+.h in Headers */,
+				A52EF8CC1905573900F6B8CD /* fpending.h in Headers */,
 				A50A90F618EE1DB60096B616 /* fpucw.h in Headers */,
 				A50A8F6A18ECD8AC0096B616 /* freading.h in Headers */,
 				A50A90FA18EE1DC30096B616 /* fts_.h in Headers */,
@@ -824,8 +1013,12 @@
 				A50A911E18EE1DEE0096B616 /* isnand-nolibm.h in Headers */,
 				A50A912018EE1DEE0096B616 /* isnanf-nolibm.h in Headers */,
 				A50A912218EE1DEE0096B616 /* isnanl-nolibm.h in Headers */,
+				A520306019057DBC00C5B524 /* localcharset.h in Headers */,
+				A520306319057DBC00C5B524 /* localename.h in Headers */,
 				A56326871900327C0024EB6A /* lock.h in Headers */,
+				A52030D019059A3D00C5B524 /* malloca.h in Headers */,
 				A50A912E18EE1E1A0096B616 /* memcmp2.h in Headers */,
+				A5C41B01190FD60F00279181 /* mountlist.h in Headers */,
 				A50A914118EE1E290096B616 /* msvc-inval.h in Headers */,
 				A50A914318EE1E290096B616 /* msvc-nothrow.h in Headers */,
 				A50A914618EE1E290096B616 /* obstack.h in Headers */,
@@ -838,6 +1031,11 @@
 				A50A916018EE1E3F0096B616 /* printf-frexpl.h in Headers */,
 				A50A916218EE1E3F0096B616 /* printf-parse.h in Headers */,
 				A50A916418EE1E3F0096B616 /* progname.h in Headers */,
+				A52EF8D01905574600F6B8CD /* quote.h in Headers */,
+				A52EF8D21905574600F6B8CD /* quotearg.h in Headers */,
+				A5203090190580CF00C5B524 /* relocatable.h in Headers */,
+				A563266A19002CF90024EB6A /* rawmemchr.h in Headers */,
+				A5D4519019046AF500ED9BDA /* rpl_misc_funcs.h in Headers */,
 				A50A916F18EE1E5D0096B616 /* same-inode.h in Headers */,
 				A50A917118EE1E5D0096B616 /* same.h in Headers */,
 				A50A917318EE1E5D0096B616 /* save-cwd.h in Headers */,
@@ -855,14 +1053,14 @@
 				A50A919618EE1E7D0096B616 /* verify.h in Headers */,
 				A50A919918EE1E7D0096B616 /* xalloc-oversized.h in Headers */,
 				A50A919A18EE1E7D0096B616 /* xalloc.h in Headers */,
+				A52031801905C2F100C5B524 /* xgetcwd.h in Headers */,
+				A52031CE1905C6C000C5B524 /* xreadlink.h in Headers */,
 				A50A919C18EE1E7D0096B616 /* xsize.h in Headers */,
 				A50A919E18EE1E7D0096B616 /* xstrndup.h in Headers */,
-				A53166C618EF04A60049B90F /* dup.h in Headers */,
-				A563266A19002CF90024EB6A /* rawmemchr.h in Headers */,
 				A558DCCD19005691002696E8 /* argp-fmtstream.h in Headers */,
 				A558DCCF19005691002696E8 /* argp-namefrob.h in Headers */,
 				A558DCD419005691002696E8 /* argp.h in Headers */,
-				A5D4519019046AF500ED9BDA /* rpl_misc_funcs.h in Headers */,
+				A5C41BD919100D3900279181 /* mntent.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -932,6 +1130,7 @@
 				D2AAC0600554660B00DB518D /* Headers */,
 				D2AAC0610554660B00DB518D /* Sources */,
 				D289988505E68E00004EDB86 /* Frameworks */,
+				A520306D19057E3A00C5B524 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -977,6 +1176,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A520306D19057E3A00C5B524 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A520306919057E2A00C5B524 /* config.charset in Resources */,
+				A520307019057E7D00C5B524 /* ref-add.sin in Resources */,
+				A520307119057E7D00C5B524 /* ref-del.sin in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1059,16 +1268,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				A50A8F4C18EC9A3C0096B616 /* alloca.c in Sources */,
+				A52031611905C2CF00C5B524 /* allocator.c in Sources */,
+				A52030C0190599DC00C5B524 /* areadlink-with-size.c in Sources */,
+				A52030C1190599DC00C5B524 /* areadlink.c in Sources */,
+				A52030C3190599DC00C5B524 /* areadlinkat-with-size.c in Sources */,
+				A52030C4190599DC00C5B524 /* areadlinkat.c in Sources */,
 				A50A90A618EE1D4C0096B616 /* asnprintf.c in Sources */,
 				A531669D18EEF8B00049B90F /* at-func.c in Sources */,
 				A531669E18EEF8B00049B90F /* at-func2.c in Sources */,
 				A50A90AA18EE1D570096B616 /* basename-lgpl.c in Sources */,
 				A50A90AB18EE1D570096B616 /* basename.c in Sources */,
 				A50A8F4A18EC9A3C0096B616 /* btowc.c in Sources */,
+				A5DB80201905592B00F38DDF /* c-ctype.c in Sources */,
+				A5DB80231905593700F38DDF /* c-strcasecmp.c in Sources */,
+				A5DB80251905593D00F38DDF /* c-strncasecmp.c in Sources */,
+				A52030B0190596EA00C5B524 /* canonicalize-lgpl.c in Sources */,
+				A52030B1190596EA00C5B524 /* canonicalize.c in Sources */,
+				A52030D719059A8000C5B524 /* careadlinkat.c in Sources */,
 				A50A90B418EE1D6E0096B616 /* chdir-long.c in Sources */,
 				A50A90B618EE1D6E0096B616 /* chdir-safer.c in Sources */,
 				A50A90B818EE1D6E0096B616 /* cloexec.c in Sources */,
+				A5D4523B190555E300ED9BDA /* close-stream.c in Sources */,
 				A50A90BA18EE1D6E0096B616 /* close.c in Sources */,
+				A5D451F51905553D00ED9BDA /* closeout.c in Sources */,
 				A50A90C918EE1D7B0096B616 /* creat-safer.c in Sources */,
 				A50A90CA18EE1D7B0096B616 /* cycle-check.c in Sources */,
 				A50A90D118EE1D7B0096B616 /* dirname-lgpl.c in Sources */,
@@ -1091,10 +1313,12 @@
 				A531668118EEF5A80049B90F /* fdopen.c in Sources */,
 				A531668218EEF5A80049B90F /* fdopendir.c in Sources */,
 				A50A90F118EE1DB60096B616 /* fflush.c in Sources */,
+				A52030D319059A5D00C5B524 /* file-set.c in Sources */,
 				A50A90F218EE1DB60096B616 /* fileblocks.c in Sources */,
 				A50A921918EE30E60096B616 /* filenamecat-lgpl.c in Sources */,
 				A50A921A18EE30E60096B616 /* filenamecat.c in Sources */,
 				A50A90F318EE1DB60096B616 /* float.c in Sources */,
+				A52EF8CB1905573900F6B8CD /* fpending.c in Sources */,
 				A50A8F6918ECD8AC0096B616 /* freading.c in Sources */,
 				A531667C18EEF57B0049B90F /* fstat.c in Sources */,
 				A531667D18EEF57B0049B90F /* fstatat.c in Sources */,
@@ -1102,6 +1326,7 @@
 				A50A90FC18EE1DC30096B616 /* fts.c in Sources */,
 				A50A8EE018EC86C90096B616 /* ftw.c in Sources */,
 				A50A8EE818EC86F40096B616 /* ftw_Apple.c in Sources */,
+				A5C41AEF190F443500279181 /* getmntent.c in Sources */,
 				A50A910018EE1DD20096B616 /* getopt.c in Sources */,
 				A50A910B18EE1DE20096B616 /* getopt1.c in Sources */,
 				A50A910D18EE1DE20096B616 /* hash-pjw.c in Sources */,
@@ -1113,13 +1338,18 @@
 				A50A912118EE1DEE0096B616 /* isnanf.c in Sources */,
 				A50A912318EE1DEE0096B616 /* isnanl.c in Sources */,
 				A50A912418EE1DEE0096B616 /* itold.c in Sources */,
+				A520305F19057DBC00C5B524 /* localcharset.c in Sources */,
+				A520306119057DBC00C5B524 /* localeconv.c in Sources */,
+				A520306219057DBC00C5B524 /* localename.c in Sources */,
 				A56326861900327C0024EB6A /* lock.c in Sources */,
 				A50A912618EE1DFA0096B616 /* lstat.c in Sources */,
 				A50A912818EE1E000096B616 /* malloc.c in Sources */,
+				A52030CF19059A3D00C5B524 /* malloca.c in Sources */,
 				A50A912C18EE1E1A0096B616 /* memcmp.c in Sources */,
 				A50A912D18EE1E1A0096B616 /* memcmp2.c in Sources */,
 				A563262E19001FAB0024EB6A /* mempcpy.c in Sources */,
 				A531667918EEF5560049B90F /* memrchr.c in Sources */,
+				A5C41AF9190FCFC400279181 /* mountlist.c in Sources */,
 				A50A914018EE1E290096B616 /* msvc-inval.c in Sources */,
 				A50A914218EE1E290096B616 /* msvc-nothrow.c in Sources */,
 				A50A914418EE1E290096B616 /* obstack_printf.c in Sources */,
@@ -1138,10 +1368,17 @@
 				A50A915F18EE1E3F0096B616 /* printf-frexpl.c in Sources */,
 				A50A916118EE1E3F0096B616 /* printf-parse.c in Sources */,
 				A50A916318EE1E3F0096B616 /* progname.c in Sources */,
+				A52031C51905C3F000C5B524 /* progreloc.c in Sources */,
+				A52EF8D11905574600F6B8CD /* quotearg.c in Sources */,
 				A563263019001FBC0024EB6A /* rawmemchr.c in Sources */,
+				A52030B5190596F800C5B524 /* readlink.c in Sources */,
+				A52030B6190596F800C5B524 /* readlinkat.c in Sources */,
 				A50A916E18EE1E5D0096B616 /* realloc.c in Sources */,
+				A520308F190580CF00C5B524 /* relocatable.c in Sources */,
+				A5203091190580CF00C5B524 /* relocwrapper.c in Sources */,
 				A50A917018EE1E5D0096B616 /* same.c in Sources */,
 				A50A917218EE1E5D0096B616 /* save-cwd.c in Sources */,
+				A52030B81905970600C5B524 /* setenv.c in Sources */,
 				A50A917618EE1E5D0096B616 /* stat.c in Sources */,
 				A50A918018EE1E6D0096B616 /* stripslash.c in Sources */,
 				A563263219001FD10024EB6A /* strchrnul.c in Sources */,
@@ -1155,7 +1392,10 @@
 				A50A919418EE1E7D0096B616 /* vasnprintf.c in Sources */,
 				A50A8F4618EC9A3C0096B616 /* wctob.c in Sources */,
 				A50A919818EE1E7D0096B616 /* xalloc-die.c in Sources */,
+				A520317F1905C2F100C5B524 /* xgetcwd.c in Sources */,
 				A50A919B18EE1E7D0096B616 /* xmalloc.c in Sources */,
+				A52031CD1905C6C000C5B524 /* xreadlink.c in Sources */,
+				A52031CF1905C6C000C5B524 /* xreadlinkat.c in Sources */,
 				A50A919D18EE1E7D0096B616 /* xstrndup.c in Sources */,
 				A558DCCA19005691002696E8 /* argp-ba.c in Sources */,
 				A558DCCB19005691002696E8 /* argp-eexst.c in Sources */,
@@ -1207,7 +1447,10 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = "HAVE_CONFIG_H=1";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"HAVE_CONFIG_H=1",
+					"EXEEXT=\\\"\\\"",
+				);
 				HEADER_SEARCH_PATHS = (
 					.,
 					"build-aux/snippet",

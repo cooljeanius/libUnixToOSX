@@ -73,10 +73,13 @@ int compar_for_fts_open(const FTSENT **fsthing1, const FTSENT **fsthing2) {
 		return 1;
 	} else {
 		fprintf(stderr, "compar_for_fts_open(): \
-				the relation between the two entities compared should be '<', '==', or '>'...\
+				the relation between the 2 entities compared should be '<', '==', or '>'...\
 				not sure how you managed to get something different...");
 		return -255;
 	}
 }
+
+/* tried some functions to compare based on the members of FTSENT, but
+ * that led to errors... */
 
 /* EOF */

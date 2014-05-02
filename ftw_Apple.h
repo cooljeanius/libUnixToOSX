@@ -14,6 +14,8 @@
 #include <ftw.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 /* prototypes: */
 int ftw_simple(char *argv[]);

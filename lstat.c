@@ -21,7 +21,9 @@
 /* If the user's config.h happens to include <sys/stat.h>, let it include only
  * the system's <sys/stat.h> here, so that orig_lstat does NOT recurse to
  * rpl_lstat.  */
-#define __need_system_sys_stat_h
+#ifndef __need_system_sys_stat_h
+# define __need_system_sys_stat_h 1
+#endif /* !__need_system_sys_stat_h */
 #include <config.h>
 
 #if !HAVE_LSTAT
@@ -97,5 +99,10 @@ rpl_lstat(const char *file, struct stat *sbuf)
 }
 
 #endif /* HAVE_LSTAT */
+
+/* Silence a warning from '-Wunused-macros': */
+#ifdef __need_system_sys_stat_h
+# undef __need_system_sys_stat_h
+#endif /* __need_system_sys_stat_h */
 
 /* EOF */

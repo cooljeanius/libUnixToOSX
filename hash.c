@@ -539,9 +539,8 @@ check_tuning (Hash_table *table)
 }
 
 /* Compute the size of the bucket array for the given CANDIDATE and
-   TUNING, or return 0 if there is no possible way to allocate that
-   many entries.  */
-
+ * TUNING, or return 0 if there is no possible way to allocate that
+ * many entries.  */
 static size_t _GL_ATTRIBUTE_PURE
 compute_bucket_size(size_t candidate, const Hash_tuning *tuning)
 {
@@ -549,7 +548,7 @@ compute_bucket_size(size_t candidate, const Hash_tuning *tuning)
       float new_candidate;
 	  new_candidate = (float)(candidate / tuning->growth_threshold);
       if (SIZE_MAX <= new_candidate) {
-        return 0;
+		  return 0;
 	  }
       candidate = (size_t)new_candidate;
   }

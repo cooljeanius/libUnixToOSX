@@ -75,12 +75,12 @@ at_func2(int fd1, char const *file1,
    * Try some optimizations to reduce fd to AT_FDCWD, or to at least
    * avoid converting an absolute name or doing a double chdir.
    */
-  if ((fd1 == AT_FDCWD || IS_ABSOLUTE_FILE_NAME(file1))
-      && (fd2 == AT_FDCWD || IS_ABSOLUTE_FILE_NAME(file2))) {
-	  return func (file1, file2); /* Case 0-2, 4-6, 8-10.  */
+  if (((fd1 == AT_FDCWD) || IS_ABSOLUTE_FILE_NAME(file1))
+      && ((fd2 == AT_FDCWD) || IS_ABSOLUTE_FILE_NAME(file2))) {
+	  return func(file1, file2); /* Case 0-2, 4-6, 8-10. */
   }
 
-  /* If /proc/self/fd works, we don't need any stat or chdir.  */
+  /* If /proc/self/fd works, we do NOT need any stat or chdir. */
   {
     char proc_buf1[OPENAT_BUFFER_SIZE];
     char *proc_file1 = (((fd1 == AT_FDCWD) || IS_ABSOLUTE_FILE_NAME(file1))
@@ -89,113 +89,108 @@ at_func2(int fd1, char const *file1,
     if (proc_file1) {
         char proc_buf2[OPENAT_BUFFER_SIZE];
         char *proc_file2 = (((fd2 == AT_FDCWD) || IS_ABSOLUTE_FILE_NAME(file2))
-                            ? (char *) file2
-                            : openat_proc_name (proc_buf2, fd2, file2));
+                            ? (char *)file2
+                            : openat_proc_name(proc_buf2, fd2, file2));
         if (proc_file2) {
             int proc_result = func(proc_file1, proc_file2);
             int proc_errno = errno;
             if ((proc_file1 != proc_buf1) && (proc_file1 != file1)) {
-              free(proc_file1);
+				free(proc_file1);
 			}
             if ((proc_file2 != proc_buf2) && (proc_file2 != file2)) {
-              free(proc_file2);
+				free(proc_file2);
 			}
             /* If the syscall succeeds, or if it fails with an unexpected
-             * errno value, then return right away.  Otherwise, fall through
+             * errno value, then return right away. Otherwise, fall through
              * and resort to using save_cwd/restore_cwd.  */
             if (0 <= proc_result) {
-              return proc_result;
+				return proc_result;
 			}
-            if (! EXPECTED_ERRNO (proc_errno)) {
+            if (! EXPECTED_ERRNO(proc_errno)) {
                 errno = proc_errno;
                 return proc_result;
 			}
 		} else if ((proc_file1 != proc_buf1) && (proc_file1 != file1)) {
-          free(proc_file1);
+			free(proc_file1);
 		}
-      }
+	}
   }
 
-  /* Cases 3, 7, 11-15 remain.  Time to normalize directory fds, if
+  /* Cases 3, 7, 11-15 remain. Time to normalize directory fds, if
    * possible.  */
-  if (IS_ABSOLUTE_FILE_NAME(file1)) {
-    fd1 = AT_FDCWD; /* Case 11 reduced to 3.  */
-  } else if (IS_ABSOLUTE_FILE_NAME(file2)) {
-    fd2 = AT_FDCWD; /* Case 14 reduced to 12.  */
+  if ((file1 != NULL) && IS_ABSOLUTE_FILE_NAME(file1)) {
+	  fd1 = AT_FDCWD; /* Case 11 reduced to 3. */
+  } else if ((file2 != NULL) && IS_ABSOLUTE_FILE_NAME(file2)) {
+	  fd2 = AT_FDCWD; /* Case 14 reduced to 12. */
   }
 
-  /* Cases 3, 7, 12, 13, 15 remain.  */
+  /* Cases 3, 7, 12, 13, 15 remain. */
 
-  if (fd1 == AT_FDCWD) /* Cases 3, 7.  */
-    {
-      if (stat(".", &st1) == -1 || fstat(fd2, &st2) == -1)
-        return -1;
-      if (!S_ISDIR (st2.st_mode))
-        {
+  if (fd1 == AT_FDCWD) { /* Cases 3, 7. */
+	  if ((stat(".", &st1) == -1) || (fstat(fd2, &st2) == -1)) {
+		  return -1;
+	  }
+      if (!S_ISDIR(st2.st_mode)) {
           errno = ENOTDIR;
           return -1;
-        }
-      if (SAME_INODE (st1, st2)) /* Reduced to cases 1, 5.  */
-        return func (file1, file2);
-    }
-  else if (fd2 == AT_FDCWD) /* Cases 12, 13.  */
-    {
-      if (stat (".", &st2) == -1 || fstat (fd1, &st1) == -1)
-        return -1;
-      if (!S_ISDIR (st1.st_mode))
-        {
+	  }
+	  if (SAME_INODE(st1, st2)) { /* Reduced to cases 1, 5. */
+		  return func(file1, file2);
+	  }
+  } else if (fd2 == AT_FDCWD) { /* Cases 12, 13. */
+      if ((stat(".", &st2) == -1) || (fstat(fd1, &st1) == -1)) {
+		  return -1;
+	  }
+      if (!S_ISDIR(st1.st_mode)) {
           errno = ENOTDIR;
           return -1;
-        }
-      if (SAME_INODE (st1, st2)) /* Reduced to cases 4, 5.  */
-        return func (file1, file2);
-    }
-  else if (fd1 != fd2) /* Case 15b.  */
-    {
-      if (fstat (fd1, &st1) == -1 || fstat (fd2, &st2) == -1)
-        return -1;
-      if (!S_ISDIR (st1.st_mode) || !S_ISDIR (st2.st_mode))
-        {
+	  }
+      if (SAME_INODE(st1, st2)) { /* Reduced to cases 4, 5. */
+		  return func(file1, file2);
+	  }
+  } else if (fd1 != fd2) { /* Case 15b. */
+      if ((fstat(fd1, &st1) == -1) || (fstat(fd2, &st2) == -1)) {
+		  return -1;
+	  }
+      if (!S_ISDIR(st1.st_mode) || !S_ISDIR(st2.st_mode)) {
           errno = ENOTDIR;
           return -1;
-        }
-      if (SAME_INODE (st1, st2)) /* Reduced to case 15a.  */
-        {
+	  }
+      if (SAME_INODE (st1, st2)) { /* Reduced to case 15a. */
           fd2 = fd1;
-          if (stat (".", &st1) == 0 && SAME_INODE (st1, st2))
-            return func (file1, file2); /* Further reduced to case 5.  */
-        }
-    }
-  else /* Case 15a.  */
-    {
-      if (fstat (fd1, &st1) == -1)
-        return -1;
-      if (!S_ISDIR (st1.st_mode))
-        {
+          if ((stat(".", &st1) == 0) && SAME_INODE(st1, st2)) {
+			  return func (file1, file2); /* Further reduced to case 5. */
+		  }
+	  }
+  } else { /* Case 15a. */
+      if (fstat(fd1, &st1) == -1) {
+		  return -1;
+	  }
+      if (!S_ISDIR(st1.st_mode)) {
           errno = ENOTDIR;
           return -1;
-        }
-      if (stat (".", &st2) == 0 && SAME_INODE (st1, st2))
-        return func (file1, file2); /* Reduced to case 5.  */
-    }
+	  }
+      if ((stat(".", &st2) == 0) && SAME_INODE(st1, st2)) {
+		  return func(file1, file2); /* Reduced to case 5. */
+	  }
+  }
 
-  /* Cases 3, 7, 12, 13, 15a, 15b remain.  With all reductions in
-     place, it is time to start changing directories.  */
+  /* Cases 3, 7, 12, 13, 15a, 15b remain. With all reductions in
+   * place, it is time to start changing directories.  */
 
-  if (save_cwd (&saved_cwd) != 0)
-    openat_save_fail (errno);
+  if (save_cwd(&saved_cwd) != 0) {
+	  openat_save_fail(errno);
+  }
 
-  if (fd1 != AT_FDCWD && fd2 != AT_FDCWD && fd1 != fd2) /* Case 15b.  */
-    {
-      if (fchdir (fd1) != 0)
-        {
+  if ((fd1 != AT_FDCWD) && (fd2 != AT_FDCWD) && (fd1 != fd2)) { /* Case 15b. */
+      if (fchdir(fd1) != 0) {
           saved_errno = errno;
-          free_cwd (&saved_cwd);
+          free_cwd(&saved_cwd);
           errno = saved_errno;
           return -1;
-        }
-      fd1 = AT_FDCWD; /* Reduced to case 7.  */
-    }
+	  }
+      fd1 = AT_FDCWD; /* Reduced to case 7. */
+  }
 
   /* Cases 3, 7, 12, 13, 15a remain.  Convert one relative name to
    * absolute, if necessary.  */
@@ -203,31 +198,29 @@ at_func2(int fd1, char const *file1,
   file1_alt = (char *)file1;
   file2_alt = (char *)file2;
 
-  if (fd1 == AT_FDCWD && !IS_ABSOLUTE_FILE_NAME (file1)) /* Case 7.  */
-    {
+  /* Case 7. */
+  if ((fd1 == AT_FDCWD) && (file1 != NULL) && !IS_ABSOLUTE_FILE_NAME(file1)) {
       /* It would be nicer to use:
-       * file1_alt = file_name_concat (xgetcwd (), file1, NULL);
+       * file1_alt = file_name_concat(xgetcwd(), file1, NULL);
        * but libraries should not call xalloc_die.  */
       char *cwd = getcwd(NULL, (size_t)0);
       if (!cwd) {
           saved_errno = errno;
-          free_cwd (&saved_cwd);
+          free_cwd(&saved_cwd);
           errno = saved_errno;
           return -1;
 	  }
       file1_alt = mfile_name_concat(cwd, file1, NULL);
-      if (!file1_alt)
-        {
+      if (!file1_alt) {
           saved_errno = errno;
           free(cwd);
           free_cwd(&saved_cwd);
           errno = saved_errno;
           return -1;
-        }
+	  }
       free(cwd); /* Reduced to case 3.  */
-    }
-  else if (fd2 == AT_FDCWD && !IS_ABSOLUTE_FILE_NAME (file2)) /* Case 13.  */
-    {
+  } else if ((fd2 == AT_FDCWD) && (file2 != NULL) && !IS_ABSOLUTE_FILE_NAME(file2)) {
+	  /* Case 13. */
       char *cwd = getcwd(NULL, (size_t)0);
       if (!cwd) {
           saved_errno = errno;
@@ -244,38 +237,41 @@ at_func2(int fd1, char const *file1,
           return -1;
 	  }
       free(cwd); /* Reduced to case 12.  */
-    }
+  }
 
-  /* Cases 3, 12, 15a remain.  Change to the correct directory.  */
-  if (fchdir (fd1 == AT_FDCWD ? fd2 : fd1) != 0)
-    {
+  /* Cases 3, 12, 15a remain. Change to the correct directory.  */
+  if (fchdir((fd1 == AT_FDCWD) ? fd2 : fd1) != 0) {
       saved_errno = errno;
-      free_cwd (&saved_cwd);
-      if (file1 != file1_alt)
-        free(file1_alt);
-      else if (file2 != file2_alt)
-        free(file2_alt);
+      free_cwd(&saved_cwd);
+      if (file1 != file1_alt) {
+		  free(file1_alt);
+	  } else if (file2 != file2_alt) {
+		  free(file2_alt);
+	  }
       errno = saved_errno;
       return -1;
-    }
+  }
 
-  /* Finally safe to perform the user's function, then clean up.  */
+  /* Finally safe to perform the user's function, then clean up. */
 
-  err = func (file1_alt, file2_alt);
-  saved_errno = (err < 0 ? errno : 0);
+  err = func(file1_alt, file2_alt);
+  saved_errno = ((err < 0) ? errno : 0);
 
-  if (file1 != file1_alt)
-    free(file1_alt);
-  else if (file2 != file2_alt)
-    free(file2_alt);
+  if (file1 != file1_alt) {
+	  free(file1_alt);
+  } else if (file2 != file2_alt) {
+	  free(file2_alt);
+  }
 
-  if (restore_cwd(&saved_cwd) != 0)
-    openat_restore_fail(errno);
+  if (restore_cwd(&saved_cwd) != 0) {
+	  openat_restore_fail(errno);
+  }
 
   free_cwd(&saved_cwd);
 
-  if (saved_errno)
-    errno = saved_errno;
+  if (saved_errno) {
+	  errno = saved_errno;
+  }
   return err;
 }
 #undef CALL_FUNC

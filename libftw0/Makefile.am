@@ -1,4 +1,8 @@
-AM_CFLAGS = -fno-common
+## automake Makefile for libUnixToOSX/libftw0
+
+## WARN_CFLAGS is subst-ed by all the calls to "gl_WARN_ADD":
+AM_WARNFLAGS = $(WARN_CFLAGS)
+AM_CFLAGS = -fno-common $(AM_WARNFLAGS)
 AM_CPPFLAGS = -I.
 AM_ARFLAGS = r
 AM_LDFLAGS = -dynamiclib

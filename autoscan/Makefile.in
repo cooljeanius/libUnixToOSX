@@ -80,7 +80,6 @@ am__make_keepgoing = (target_option=k; $(am__make_running_with_option))
 pkgdatadir = $(datadir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
-pkglibexecdir = $(libexecdir)/@PACKAGE@
 am__cd = CDPATH="$${ZSH_VERSION+.}$(PATH_SEPARATOR)" && cd
 install_sh_DATA = $(install_sh) -c -m 644
 install_sh_PROGRAM = $(install_sh) -c
@@ -102,38 +101,45 @@ DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/alloca.m4 \
 	$(top_srcdir)/m4/autoscan-warnings-for-OSX.m4 \
-	$(top_srcdir)/m4/btowc.m4 $(top_srcdir)/m4/chdir-long.m4 \
-	$(top_srcdir)/m4/chdir-safer.m4 $(top_srcdir)/m4/close.m4 \
-	$(top_srcdir)/m4/codeset.m4 $(top_srcdir)/m4/cycle-check.m4 \
+	$(top_srcdir)/m4/btowc.m4 $(top_srcdir)/m4/canonicalize.m4 \
+	$(top_srcdir)/m4/chdir-long.m4 $(top_srcdir)/m4/chdir-safer.m4 \
+	$(top_srcdir)/m4/close-stream.m4 $(top_srcdir)/m4/close.m4 \
+	$(top_srcdir)/m4/closeout.m4 $(top_srcdir)/m4/codeset.m4 \
+	$(top_srcdir)/m4/configmake.m4 $(top_srcdir)/m4/cycle-check.m4 \
 	$(top_srcdir)/m4/dirent-safer.m4 $(top_srcdir)/m4/dirent_h.m4 \
 	$(top_srcdir)/m4/dirname.m4 \
 	$(top_srcdir)/m4/double-slash-root.m4 $(top_srcdir)/m4/dup.m4 \
 	$(top_srcdir)/m4/dup2-obsolete.m4 $(top_srcdir)/m4/dup2.m4 \
 	$(top_srcdir)/m4/dup3.m4 $(top_srcdir)/m4/eealloc.m4 \
-	$(top_srcdir)/m4/error.m4 $(top_srcdir)/m4/exponentd.m4 \
-	$(top_srcdir)/m4/exponentf.m4 $(top_srcdir)/m4/exponentl.m4 \
-	$(top_srcdir)/m4/extensions.m4 \
+	$(top_srcdir)/m4/environ.m4 $(top_srcdir)/m4/error.m4 \
+	$(top_srcdir)/m4/exponentd.m4 $(top_srcdir)/m4/exponentf.m4 \
+	$(top_srcdir)/m4/exponentl.m4 $(top_srcdir)/m4/extensions.m4 \
 	$(top_srcdir)/m4/extern-inline.m4 $(top_srcdir)/m4/fchdir.m4 \
 	$(top_srcdir)/m4/fclose.m4 $(top_srcdir)/m4/fcntl-o.m4 \
 	$(top_srcdir)/m4/fcntl-safer.m4 $(top_srcdir)/m4/fcntl_h.m4 \
 	$(top_srcdir)/m4/fdopen.m4 $(top_srcdir)/m4/fdopendir.m4 \
 	$(top_srcdir)/m4/fflush.m4 $(top_srcdir)/m4/filenamecat.m4 \
-	$(top_srcdir)/m4/float_h.m4 $(top_srcdir)/m4/frexp.m4 \
-	$(top_srcdir)/m4/frexpl.m4 $(top_srcdir)/m4/fstat.m4 \
-	$(top_srcdir)/m4/fstatat.m4 $(top_srcdir)/m4/fts.m4 \
+	$(top_srcdir)/m4/float_h.m4 $(top_srcdir)/m4/fpending.m4 \
+	$(top_srcdir)/m4/frexp.m4 $(top_srcdir)/m4/frexpl.m4 \
+	$(top_srcdir)/m4/fstat.m4 $(top_srcdir)/m4/fstatat.m4 \
+	$(top_srcdir)/m4/fstypename.m4 $(top_srcdir)/m4/fts.m4 \
 	$(top_srcdir)/m4/functions_extra.m4 $(top_srcdir)/m4/getopt.m4 \
-	$(top_srcdir)/m4/gnulib-common.m4 \
+	$(top_srcdir)/m4/glibc21.m4 $(top_srcdir)/m4/gnulib-common.m4 \
+	$(top_srcdir)/m4/gnulib-tool.m4 \
 	$(top_srcdir)/m4/headers_extra.m4 $(top_srcdir)/m4/i-ring.m4 \
 	$(top_srcdir)/m4/include_next.m4 $(top_srcdir)/m4/inline.m4 \
-	$(top_srcdir)/m4/intmax_t.m4 $(top_srcdir)/m4/inttypes.m4 \
-	$(top_srcdir)/m4/inttypes_h.m4 $(top_srcdir)/m4/ioctl.m4 \
-	$(top_srcdir)/m4/isnan.m4 $(top_srcdir)/m4/isnand.m4 \
-	$(top_srcdir)/m4/isnanf.m4 $(top_srcdir)/m4/isnanl.m4 \
-	$(top_srcdir)/m4/langinfo_h.m4 $(top_srcdir)/m4/largefile.m4 \
+	$(top_srcdir)/m4/intlmacosx.m4 $(top_srcdir)/m4/intmax_t.m4 \
+	$(top_srcdir)/m4/inttypes.m4 $(top_srcdir)/m4/inttypes_h.m4 \
+	$(top_srcdir)/m4/ioctl.m4 $(top_srcdir)/m4/isnan.m4 \
+	$(top_srcdir)/m4/isnand.m4 $(top_srcdir)/m4/isnanf.m4 \
+	$(top_srcdir)/m4/isnanl.m4 $(top_srcdir)/m4/langinfo_h.m4 \
+	$(top_srcdir)/m4/largefile.m4 $(top_srcdir)/m4/lcmessage.m4 \
 	$(top_srcdir)/m4/ldd.m4 $(top_srcdir)/m4/ldexpl.m4 \
 	$(top_srcdir)/m4/lib-ld.m4 $(top_srcdir)/m4/lib-link.m4 \
 	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/libtool.m4 \
-	$(top_srcdir)/m4/locale-fr.m4 $(top_srcdir)/m4/lock.m4 \
+	$(top_srcdir)/m4/localcharset.m4 $(top_srcdir)/m4/locale-fr.m4 \
+	$(top_srcdir)/m4/locale_h.m4 $(top_srcdir)/m4/localeconv.m4 \
+	$(top_srcdir)/m4/localename.m4 $(top_srcdir)/m4/lock.m4 \
 	$(top_srcdir)/m4/longlong.m4 $(top_srcdir)/m4/ls-mntd-fs.m4 \
 	$(top_srcdir)/m4/lstat.m4 $(top_srcdir)/m4/ltoptions.m4 \
 	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
@@ -142,8 +148,9 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/alloca.m4 \
 	$(top_srcdir)/m4/math_h.m4 $(top_srcdir)/m4/mbrtowc.m4 \
 	$(top_srcdir)/m4/mempcpy.m4 $(top_srcdir)/m4/memrchr.m4 \
 	$(top_srcdir)/m4/mmap-anon.m4 $(top_srcdir)/m4/mode_t.m4 \
-	$(top_srcdir)/m4/msvc-inval.m4 $(top_srcdir)/m4/multiarch.m4 \
-	$(top_srcdir)/m4/nl_langinfo.m4 $(top_srcdir)/m4/nocrash.m4 \
+	$(top_srcdir)/m4/mountlist.m4 $(top_srcdir)/m4/msvc-inval.m4 \
+	$(top_srcdir)/m4/multiarch.m4 $(top_srcdir)/m4/nl_langinfo.m4 \
+	$(top_srcdir)/m4/nocrash.m4 \
 	$(top_srcdir)/m4/obstack-printf-posix.m4 \
 	$(top_srcdir)/m4/obstack-printf.m4 $(top_srcdir)/m4/off_t.m4 \
 	$(top_srcdir)/m4/onceonly.m4 $(top_srcdir)/m4/openat.m4 \
@@ -152,16 +159,20 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/alloca.m4 \
 	$(top_srcdir)/m4/printf-frexpl.m4 $(top_srcdir)/m4/printf.m4 \
 	$(top_srcdir)/m4/ptsname.m4 $(top_srcdir)/m4/ptsname_r.m4 \
 	$(top_srcdir)/m4/pty.m4 $(top_srcdir)/m4/pty_h.m4 \
-	$(top_srcdir)/m4/rawmemchr.m4 $(top_srcdir)/m4/realloc.m4 \
-	$(top_srcdir)/m4/same.m4 $(top_srcdir)/m4/save-cwd.m4 \
+	$(top_srcdir)/m4/quote.m4 $(top_srcdir)/m4/quotearg.m4 \
+	$(top_srcdir)/m4/rawmemchr.m4 $(top_srcdir)/m4/readlink.m4 \
+	$(top_srcdir)/m4/readlinkat.m4 $(top_srcdir)/m4/realloc.m4 \
+	$(top_srcdir)/m4/relocatable-lib.m4 \
+	$(top_srcdir)/m4/relocatable.m4 $(top_srcdir)/m4/same.m4 \
+	$(top_srcdir)/m4/save-cwd.m4 $(top_srcdir)/m4/setenv.m4 \
 	$(top_srcdir)/m4/size_max.m4 $(top_srcdir)/m4/socketlib.m4 \
 	$(top_srcdir)/m4/sockets.m4 $(top_srcdir)/m4/socklen.m4 \
-	$(top_srcdir)/m4/stdint.m4 $(top_srcdir)/m4/stdint_h.m4 \
-	$(top_srcdir)/m4/stdio_h.m4 $(top_srcdir)/m4/stdlib_h.m4 \
-	$(top_srcdir)/m4/strchrnul.m4 $(top_srcdir)/m4/string_h.m4 \
-	$(top_srcdir)/m4/strings_h.m4 $(top_srcdir)/m4/strndup.m4 \
-	$(top_srcdir)/m4/strnlen.m4 $(top_srcdir)/m4/strsignal.m4 \
-	$(top_srcdir)/m4/sys_ioctl_h.m4 \
+	$(top_srcdir)/m4/stddef_h.m4 $(top_srcdir)/m4/stdint.m4 \
+	$(top_srcdir)/m4/stdint_h.m4 $(top_srcdir)/m4/stdio_h.m4 \
+	$(top_srcdir)/m4/stdlib_h.m4 $(top_srcdir)/m4/strchrnul.m4 \
+	$(top_srcdir)/m4/string_h.m4 $(top_srcdir)/m4/strings_h.m4 \
+	$(top_srcdir)/m4/strndup.m4 $(top_srcdir)/m4/strnlen.m4 \
+	$(top_srcdir)/m4/strsignal.m4 $(top_srcdir)/m4/sys_ioctl_h.m4 \
 	$(top_srcdir)/m4/sys_siglist.m4 \
 	$(top_srcdir)/m4/sys_socket_h.m4 \
 	$(top_srcdir)/m4/sys_stat_h.m4 $(top_srcdir)/m4/termios_h.m4 \
@@ -172,8 +183,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/alloca.m4 \
 	$(top_srcdir)/m4/warnings.m4 $(top_srcdir)/m4/wchar_h.m4 \
 	$(top_srcdir)/m4/wchar_t.m4 $(top_srcdir)/m4/wctob.m4 \
 	$(top_srcdir)/m4/wint_t.m4 $(top_srcdir)/m4/xalloc.m4 \
-	$(top_srcdir)/m4/xsize.m4 $(top_srcdir)/m4/xstrndup.m4 \
-	$(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/xgetcwd.m4 $(top_srcdir)/m4/xsize.m4 \
+	$(top_srcdir)/m4/xstrndup.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/build-aux/mkinstalldirs
@@ -232,6 +243,7 @@ am__installdirs = "$(DESTDIR)$(autoscanlibdir)"
 DATA = $(nodist_autoscanlib_DATA)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
+pkglibexecdir = @pkglibexecdir@
 ACLOCAL = @ACLOCAL@
 ALLOCA = @ALLOCA@
 ALLOCA_H = @ALLOCA_H@
@@ -268,6 +280,7 @@ EXEEXT = @EXEEXT@
 FGREP = @FGREP@
 FLOAT_H = @FLOAT_H@
 GETOPT_H = @GETOPT_H@
+GLIBC21 = @GLIBC21@
 GNULIB_ACCEPT = @GNULIB_ACCEPT@
 GNULIB_ACCEPT4 = @GNULIB_ACCEPT4@
 GNULIB_ACOSF = @GNULIB_ACOSF@
@@ -305,6 +318,7 @@ GNULIB_DPRINTF = @GNULIB_DPRINTF@
 GNULIB_DUP = @GNULIB_DUP@
 GNULIB_DUP2 = @GNULIB_DUP2@
 GNULIB_DUP3 = @GNULIB_DUP3@
+GNULIB_DUPLOCALE = @GNULIB_DUPLOCALE@
 GNULIB_ENVIRON = @GNULIB_ENVIRON@
 GNULIB_EUIDACCESS = @GNULIB_EUIDACCESS@
 GNULIB_EXP2 = @GNULIB_EXP2@
@@ -407,6 +421,7 @@ GNULIB_LDEXPL = @GNULIB_LDEXPL@
 GNULIB_LINK = @GNULIB_LINK@
 GNULIB_LINKAT = @GNULIB_LINKAT@
 GNULIB_LISTEN = @GNULIB_LISTEN@
+GNULIB_LOCALECONV = @GNULIB_LOCALECONV@
 GNULIB_LOG = @GNULIB_LOG@
 GNULIB_LOG10 = @GNULIB_LOG10@
 GNULIB_LOG10F = @GNULIB_LOG10F@
@@ -522,6 +537,7 @@ GNULIB_SEND = @GNULIB_SEND@
 GNULIB_SENDTO = @GNULIB_SENDTO@
 GNULIB_SETENV = @GNULIB_SETENV@
 GNULIB_SETHOSTNAME = @GNULIB_SETHOSTNAME@
+GNULIB_SETLOCALE = @GNULIB_SETLOCALE@
 GNULIB_SETSOCKOPT = @GNULIB_SETSOCKOPT@
 GNULIB_SHUTDOWN = @GNULIB_SHUTDOWN@
 GNULIB_SIGNBIT = @GNULIB_SIGNBIT@
@@ -729,6 +745,7 @@ HAVE_DIRENT_H = @HAVE_DIRENT_H@
 HAVE_DPRINTF = @HAVE_DPRINTF@
 HAVE_DUP2 = @HAVE_DUP2@
 HAVE_DUP3 = @HAVE_DUP3@
+HAVE_DUPLOCALE = @HAVE_DUPLOCALE@
 HAVE_EUIDACCESS = @HAVE_EUIDACCESS@
 HAVE_EXPF = @HAVE_EXPF@
 HAVE_EXPL = @HAVE_EXPL@
@@ -909,6 +926,7 @@ HAVE_UTIMENSAT = @HAVE_UTIMENSAT@
 HAVE_VASPRINTF = @HAVE_VASPRINTF@
 HAVE_VDPRINTF = @HAVE_VDPRINTF@
 HAVE_WCHAR_H = @HAVE_WCHAR_H@
+HAVE_WCHAR_T = @HAVE_WCHAR_T@
 HAVE_WCPCPY = @HAVE_WCPCPY@
 HAVE_WCPNCPY = @HAVE_WCPNCPY@
 HAVE_WCRTOMB = @HAVE_WCRTOMB@
@@ -943,16 +961,19 @@ HAVE_WMEMCPY = @HAVE_WMEMCPY@
 HAVE_WMEMMOVE = @HAVE_WMEMMOVE@
 HAVE_WMEMSET = @HAVE_WMEMSET@
 HAVE_WS2TCPIP_H = @HAVE_WS2TCPIP_H@
+HAVE_XLOCALE_H = @HAVE_XLOCALE_H@
 HAVE__EXIT = @HAVE__EXIT@
 INCLUDE_NEXT = @INCLUDE_NEXT@
 INCLUDE_NEXT_AS_FIRST_DIRECTIVE = @INCLUDE_NEXT_AS_FIRST_DIRECTIVE@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_PROGRAM_ENV = @INSTALL_PROGRAM_ENV@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 INT32_MAX_LT_INTMAX_MAX = @INT32_MAX_LT_INTMAX_MAX@
 INT64_MAX_EQ_LONG_MAX = @INT64_MAX_EQ_LONG_MAX@
+INTL_MACOSX_LIBS = @INTL_MACOSX_LIBS@
 ISNAND_LIBM = @ISNAND_LIBM@
 ISNANF_LIBM = @ISNANF_LIBM@
 ISNANL_LIBM = @ISNANL_LIBM@
@@ -978,6 +999,7 @@ LIBTOOL = @LIBTOOL@
 LIB_POLL = @LIB_POLL@
 LIPO = @LIPO@
 LN_S = @LN_S@
+LOCALCHARSET_TESTS_ENVIRONMENT = @LOCALCHARSET_TESTS_ENVIRONMENT@
 LOCALE_FR = @LOCALE_FR@
 LSMOD = @LSMOD@
 LTLIBMULTITHREAD = @LTLIBMULTITHREAD@
@@ -994,9 +1016,11 @@ NEXT_AS_FIRST_DIRECTIVE_FLOAT_H = @NEXT_AS_FIRST_DIRECTIVE_FLOAT_H@
 NEXT_AS_FIRST_DIRECTIVE_GETOPT_H = @NEXT_AS_FIRST_DIRECTIVE_GETOPT_H@
 NEXT_AS_FIRST_DIRECTIVE_INTTYPES_H = @NEXT_AS_FIRST_DIRECTIVE_INTTYPES_H@
 NEXT_AS_FIRST_DIRECTIVE_LANGINFO_H = @NEXT_AS_FIRST_DIRECTIVE_LANGINFO_H@
+NEXT_AS_FIRST_DIRECTIVE_LOCALE_H = @NEXT_AS_FIRST_DIRECTIVE_LOCALE_H@
 NEXT_AS_FIRST_DIRECTIVE_MATH_H = @NEXT_AS_FIRST_DIRECTIVE_MATH_H@
 NEXT_AS_FIRST_DIRECTIVE_POLL_H = @NEXT_AS_FIRST_DIRECTIVE_POLL_H@
 NEXT_AS_FIRST_DIRECTIVE_PTY_H = @NEXT_AS_FIRST_DIRECTIVE_PTY_H@
+NEXT_AS_FIRST_DIRECTIVE_STDDEF_H = @NEXT_AS_FIRST_DIRECTIVE_STDDEF_H@
 NEXT_AS_FIRST_DIRECTIVE_STDINT_H = @NEXT_AS_FIRST_DIRECTIVE_STDINT_H@
 NEXT_AS_FIRST_DIRECTIVE_STRINGS_H = @NEXT_AS_FIRST_DIRECTIVE_STRINGS_H@
 NEXT_AS_FIRST_DIRECTIVE_STRING_H = @NEXT_AS_FIRST_DIRECTIVE_STRING_H@
@@ -1012,9 +1036,11 @@ NEXT_FLOAT_H = @NEXT_FLOAT_H@
 NEXT_GETOPT_H = @NEXT_GETOPT_H@
 NEXT_INTTYPES_H = @NEXT_INTTYPES_H@
 NEXT_LANGINFO_H = @NEXT_LANGINFO_H@
+NEXT_LOCALE_H = @NEXT_LOCALE_H@
 NEXT_MATH_H = @NEXT_MATH_H@
 NEXT_POLL_H = @NEXT_POLL_H@
 NEXT_PTY_H = @NEXT_PTY_H@
+NEXT_STDDEF_H = @NEXT_STDDEF_H@
 NEXT_STDINT_H = @NEXT_STDINT_H@
 NEXT_STRINGS_H = @NEXT_STRINGS_H@
 NEXT_STRING_H = @NEXT_STRING_H@
@@ -1046,6 +1072,13 @@ PTHREAD_H_DEFINES_STRUCT_TIMESPEC = @PTHREAD_H_DEFINES_STRUCT_TIMESPEC@
 PTRDIFF_T_SUFFIX = @PTRDIFF_T_SUFFIX@
 PTY_LIB = @PTY_LIB@
 RANLIB = @RANLIB@
+RELOCATABLE = @RELOCATABLE@
+RELOCATABLE_BUILD_DIR = @RELOCATABLE_BUILD_DIR@
+RELOCATABLE_CONFIG_H_DIR = @RELOCATABLE_CONFIG_H_DIR@
+RELOCATABLE_LDFLAGS = @RELOCATABLE_LDFLAGS@
+RELOCATABLE_LIBRARY_PATH = @RELOCATABLE_LIBRARY_PATH@
+RELOCATABLE_SRC_DIR = @RELOCATABLE_SRC_DIR@
+RELOCATABLE_STRIP = @RELOCATABLE_STRIP@
 REPLACE_BTOWC = @REPLACE_BTOWC@
 REPLACE_CALLOC = @REPLACE_CALLOC@
 REPLACE_CANONICALIZE_FILE_NAME = @REPLACE_CANONICALIZE_FILE_NAME@
@@ -1061,6 +1094,7 @@ REPLACE_DIRFD = @REPLACE_DIRFD@
 REPLACE_DPRINTF = @REPLACE_DPRINTF@
 REPLACE_DUP = @REPLACE_DUP@
 REPLACE_DUP2 = @REPLACE_DUP2@
+REPLACE_DUPLOCALE = @REPLACE_DUPLOCALE@
 REPLACE_EXP2 = @REPLACE_EXP2@
 REPLACE_EXP2L = @REPLACE_EXP2L@
 REPLACE_EXPM1 = @REPLACE_EXPM1@
@@ -1120,6 +1154,7 @@ REPLACE_LCHOWN = @REPLACE_LCHOWN@
 REPLACE_LDEXPL = @REPLACE_LDEXPL@
 REPLACE_LINK = @REPLACE_LINK@
 REPLACE_LINKAT = @REPLACE_LINKAT@
+REPLACE_LOCALECONV = @REPLACE_LOCALECONV@
 REPLACE_LOCALTIME_R = @REPLACE_LOCALTIME_R@
 REPLACE_LOG = @REPLACE_LOG@
 REPLACE_LOG10 = @REPLACE_LOG10@
@@ -1159,6 +1194,7 @@ REPLACE_MODFL = @REPLACE_MODFL@
 REPLACE_NAN = @REPLACE_NAN@
 REPLACE_NANOSLEEP = @REPLACE_NANOSLEEP@
 REPLACE_NL_LANGINFO = @REPLACE_NL_LANGINFO@
+REPLACE_NULL = @REPLACE_NULL@
 REPLACE_OBSTACK_PRINTF = @REPLACE_OBSTACK_PRINTF@
 REPLACE_OPEN = @REPLACE_OPEN@
 REPLACE_OPENAT = @REPLACE_OPENAT@
@@ -1188,6 +1224,7 @@ REPLACE_ROUND = @REPLACE_ROUND@
 REPLACE_ROUNDF = @REPLACE_ROUNDF@
 REPLACE_ROUNDL = @REPLACE_ROUNDL@
 REPLACE_SETENV = @REPLACE_SETENV@
+REPLACE_SETLOCALE = @REPLACE_SETLOCALE@
 REPLACE_SIGNBIT = @REPLACE_SIGNBIT@
 REPLACE_SIGNBIT_USING_GCC = @REPLACE_SIGNBIT_USING_GCC@
 REPLACE_SLEEP = @REPLACE_SLEEP@
@@ -1211,6 +1248,7 @@ REPLACE_STRSTR = @REPLACE_STRSTR@
 REPLACE_STRTOD = @REPLACE_STRTOD@
 REPLACE_STRTOIMAX = @REPLACE_STRTOIMAX@
 REPLACE_STRTOK_R = @REPLACE_STRTOK_R@
+REPLACE_STRUCT_LCONV = @REPLACE_STRUCT_LCONV@
 REPLACE_SYMLINK = @REPLACE_SYMLINK@
 REPLACE_TIMEGM = @REPLACE_TIMEGM@
 REPLACE_TMPFILE = @REPLACE_TMPFILE@
@@ -1242,6 +1280,7 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 SIG_ATOMIC_T_SUFFIX = @SIG_ATOMIC_T_SUFFIX@
 SIZE_T_SUFFIX = @SIZE_T_SUFFIX@
+STDDEF_H = @STDDEF_H@
 STDINT_H = @STDINT_H@
 STRIP = @STRIP@
 SYS_IOCTL_H_HAVE_WINSOCK2_H = @SYS_IOCTL_H_HAVE_WINSOCK2_H@
@@ -1282,6 +1321,8 @@ datarootdir = @datarootdir@
 docdir = @docdir@
 dvidir = @dvidir@
 exec_prefix = @exec_prefix@
+gt_cv_c_wchar_t = @gt_cv_c_wchar_t@
+gt_cv_c_wint_t = @gt_cv_c_wint_t@
 host = @host@
 host_alias = @host_alias@
 host_cpu = @host_cpu@
@@ -1293,6 +1334,7 @@ infodir = @infodir@
 install_sh = @install_sh@
 libdir = @libdir@
 libexecdir = @libexecdir@
+lispdir = @lispdir@
 localedir = @localedir@
 localstatedir = @localstatedir@
 mandir = @mandir@
@@ -1541,11 +1583,11 @@ uninstall-am: uninstall-nodist_autoscanlibDATA
 # $(top_srcdir)/m4/autoscan-warnings-for-OSX.m4:
 autoscan.list: $(srcdir)/autoscan.pre Makefile.am $(top_srcdir)/autom4te.cache $(top_srcdir)/aclocal.m4
 	echo '# Automatically Generated: do not edit this file' >autoscan.list
-	sed '/^[#]/!q' $(srcdir)/autoscan.pre                  >>autoscan.list
+	$(SED) '/^[#]/!q' $(srcdir)/autoscan.pre >>autoscan.list
 	( \
-	  sed -n '/^[^#]/p' $(srcdir)/autoscan.pre; \
+	  $(SED) -n '/^[^#]/p' $(srcdir)/autoscan.pre; \
 	  $(MY_AUTOM4TE) --verbose --cache '$(top_srcdir)/autom4te.cache' -I$(top_srcdir) -I$(top_srcdir)/m4 -M -l autoconf -t'AN_OUTPUT:$$1: $$2		$$3' \
-	) | LC_ALL=C sort                                      >>autoscan.list
+	) | LC_ALL=C sort >>autoscan.list
 
 $(top_srcdir)/autom4te.cache:
 	$(MAKE) -C $(top_srcdir) configure.scan

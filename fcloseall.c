@@ -24,11 +24,20 @@
  * an array and iterating through the array. */
 
 int fcloseall(void) {
-	int succeeded;
+	int succeeded; /* return value */
+	FILE *fds_to_close[3]; /* the size being hardcoded to '3' is temporary */
+	int i; /* loop counter */
 	succeeded = 0;
-	succeeded += fclose(stdin);
-	succeeded += fclose(stdout);
-	succeeded += fclose(stderr);
+	fds_to_close[0] = stdin;
+	fds_to_close[1] = stdout;
+	fds_to_close[2] = stderr;
+	/* max iterations being hardcoded to '3' is temporary: */
+	for ((i = 0); (i < 3); i++) {
+		succeeded += fclose(fds_to_close[i]);
+	}
+	if (succeeded != 0) {
+		succeeded = EOF;
+	}
 	return succeeded;
 }
 

@@ -1,30 +1,31 @@
-/* Parse printf format string.
-   Copyright (C) 1999, 2002-2003, 2005, 2007, 2010-2012 Free Software
-   Foundation, Inc.
-
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2, or (at your option)
-   any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-
-   You should have received a copy of the GNU General Public License along
-   with this program; if not, see <http://www.gnu.org/licenses/>.  */
+/* printf-parse.h: Parse printf format string.
+ * Copyright (C) 1999, 2002-2003, 2005, 2007, 2010-2012 Free Software
+ * Foundation, Inc.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef _PRINTF_PARSE_H
 #define _PRINTF_PARSE_H
 
 /* This file can be parametrized with the following macros:
-     ENABLE_UNISTDIO    Set to 1 to enable the unistdio extensions.
-     STATIC             Set to 'static' to declare the function static.  */
+ *   ENABLE_UNISTDIO    Set to 1 to enable the unistdio extensions.
+ *   STATIC             Set to 'static' to declare the function static.  */
 
 #if HAVE_FEATURES_H
 # include <features.h> /* for __GLIBC__, __UCLIBC__ */
-#endif
+#endif /* HAVE_FEATURES_H */
 
 #include "printf-args.h"
 
@@ -36,20 +37,20 @@
 #define FLAG_SPACE       8      /* space flag */
 #define FLAG_ALT        16      /* # flag */
 #define FLAG_ZERO       32
-#if __GLIBC__ >= 2 && !defined __UCLIBC__
+#if (__GLIBC__ >= 2) && !defined __UCLIBC__
 # define FLAG_LOCALIZED 64      /* I flag, uses localized digits */
-#endif
+#endif /* glibc 2+ */
 
 /* arg_index value indicating that no argument is consumed.  */
 #define ARG_NONE        (~(size_t)0)
 
 /* xxx_directive: A parsed directive.
-   xxx_directives: A parsed format string.  */
+ * xxx_directives: A parsed format string. */
 
-/* Number of directly allocated directives (no malloc() needed).  */
+/* Number of directly allocated directives (no malloc() needed). */
 #define N_DIRECT_ALLOC_DIRECTIVES 7
 
-/* A parsed directive.  */
+/* A parsed directive. */
 typedef struct
 {
   const char* dir_start;
@@ -66,7 +67,7 @@ typedef struct
 }
 char_directive;
 
-/* A parsed format string.  */
+/* A parsed format string. */
 typedef struct
 {
   size_t count;
@@ -79,7 +80,7 @@ char_directives;
 
 #if ENABLE_UNISTDIO
 
-/* A parsed directive.  */
+/* A parsed directive. */
 typedef struct
 {
   const uint8_t* dir_start;
@@ -96,7 +97,7 @@ typedef struct
 }
 u8_directive;
 
-/* A parsed format string.  */
+/* A parsed format string. */
 typedef struct
 {
   size_t count;
@@ -124,7 +125,7 @@ typedef struct
 }
 u16_directive;
 
-/* A parsed format string.  */
+/* A parsed format string. */
 typedef struct
 {
   size_t count;
@@ -135,7 +136,7 @@ typedef struct
 }
 u16_directives;
 
-/* A parsed directive.  */
+/* A parsed directive. */
 typedef struct
 {
   const uint32_t* dir_start;
@@ -152,7 +153,7 @@ typedef struct
 }
 u32_directive;
 
-/* A parsed format string.  */
+/* A parsed format string. */
 typedef struct
 {
   size_t count;
@@ -163,31 +164,33 @@ typedef struct
 }
 u32_directives;
 
-#endif
+#endif /* ENABLE_UNISTDIO */
 
 
 /* Parses the format string.  Fills in the number N of directives, and fills
-   in directives[0], ..., directives[N-1], and sets directives[N].dir_start
-   to the end of the format string.  Also fills in the arg_type fields of the
-   arguments and the needed count of arguments.  */
+ * in directives[0], ..., directives[N-1], and sets directives[N].dir_start
+ * to the end of the format string.  Also fills in the arg_type fields of the
+ * arguments and the needed count of arguments.  */
 #if ENABLE_UNISTDIO
 extern int
-       ulc_printf_parse (const char *format, char_directives *d, arguments *a);
+       ulc_printf_parse(const char *format, char_directives *d, arguments *a);
 extern int
-       u8_printf_parse (const uint8_t *format, u8_directives *d, arguments *a);
+       u8_printf_parse(const uint8_t *format, u8_directives *d, arguments *a);
 extern int
-       u16_printf_parse (const uint16_t *format, u16_directives *d,
-                         arguments *a);
+       u16_printf_parse(const uint16_t *format, u16_directives *d,
+						arguments *a);
 extern int
-       u32_printf_parse (const uint32_t *format, u32_directives *d,
-                         arguments *a);
+       u32_printf_parse(const uint32_t *format, u32_directives *d,
+						arguments *a);
 #else
 # ifdef STATIC
 STATIC
 # else
 extern
-# endif
-int printf_parse (const char *format, char_directives *d, arguments *a);
-#endif
+# endif /* STATIC */
+int printf_parse(const char *format, char_directives *d, arguments *a);
+#endif /* ENABLE_UNISTDIO */
 
 #endif /* _PRINTF_PARSE_H */
+
+/* EOF */

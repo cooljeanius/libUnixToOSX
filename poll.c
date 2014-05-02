@@ -19,9 +19,11 @@
    with this program; if not, see <http://www.gnu.org/licenses/>.  */
 
 /* Tell gcc not to warn about the (nfd < 0) tests, below.  */
-#if (__GNUC__ == 4 && 3 <= __GNUC_MINOR__) || 4 < __GNUC__
-# pragma GCC diagnostic ignored "-Wtype-limits"
-#endif /* GCC 4.3+ */
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if ((__GNUC__ == 4) && (3 <= __GNUC_MINOR__)) || (4 < __GNUC__)
+#  pragma GCC diagnostic ignored "-Wtype-limits"
+# endif /* GCC 4.3+ */
+#endif /* any gcc */
 
 #include <config.h>
 #include <alloca.h>

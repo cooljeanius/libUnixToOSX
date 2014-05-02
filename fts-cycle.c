@@ -76,9 +76,7 @@ AD_hash(void const *x, size_t table_size)
 #if defined(__GNUC__) && defined(__GNUC_MINOR__)
 # if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 6))
 #  if !defined(__FTS_C__)
-#   define IGNORE_UNUSED_FUNCTIONS \
-     _Pragma ("GCC diagnostic ignored \"-Wunused-function\"")
-IGNORE_UNUSED_FUNCTIONS
+#   pragma GCC diagnostic ignored "-Wunused-function"
 #  endif /* !__FTS_C__ */
 # endif /* GCC 4.6+ */
 #endif /* GCC */

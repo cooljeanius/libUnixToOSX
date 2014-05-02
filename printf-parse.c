@@ -1,86 +1,87 @@
-/* Formatted output to strings.
-   Copyright (C) 1999-2000, 2002-2003, 2006-2012 Free Software Foundation, Inc.
-
-   This program is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2, or (at your option)
-   any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
-
-   You should have received a copy of the GNU General Public License along
-   with this program; if not, see <http://www.gnu.org/licenses/>.  */
+/* printf-parse.c: Formatted output to strings.
+ * Copyright (C) 1999-2000, 2002-2003, 2006-2012 Free Software Foundation, Inc.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, see <http://www.gnu.org/licenses/>. */
 
 /* This file can be parametrized with the following macros:
-     CHAR_T             The element type of the format string.
-     CHAR_T_ONLY_ASCII  Set to 1 to enable verification that all characters
-                        in the format string are ASCII.
-     DIRECTIVE          Structure denoting a format directive.
-                        Depends on CHAR_T.
-     DIRECTIVES         Structure denoting the set of format directives of a
-                        format string.  Depends on CHAR_T.
-     PRINTF_PARSE       Function that parses a format string.
-                        Depends on CHAR_T.
-     STATIC             Set to 'static' to declare the function static.
-     ENABLE_UNISTDIO    Set to 1 to enable the unistdio extensions.  */
+ *   CHAR_T             The element type of the format string.
+ *   CHAR_T_ONLY_ASCII  Set to 1 to enable verification that all characters
+ *                      in the format string are ASCII.
+ *   DIRECTIVE          Structure denoting a format directive.
+ *                      Depends on CHAR_T.
+ *   DIRECTIVES         Structure denoting the set of format directives of a
+ *                      format string.  Depends on CHAR_T.
+ *   PRINTF_PARSE       Function that parses a format string.
+ *                      Depends on CHAR_T.
+ *   STATIC             Set to 'static' to declare the function static.
+ *   ENABLE_UNISTDIO    Set to 1 to enable the unistdio extensions.
+ */
 
 #ifndef PRINTF_PARSE
 # include <config.h>
-#endif
+#endif /* !PRINTF_PARSE */
 
-/* Specification.  */
+/* Specification. */
 #ifndef PRINTF_PARSE
 # include "printf-parse.h"
-#endif
+#endif /* !PRINTF_PARSE */
 
-/* Default parameters.  */
+/* Default parameters. */
 #ifndef PRINTF_PARSE
 # define PRINTF_PARSE printf_parse
 # define CHAR_T char
 # define DIRECTIVE char_directive
 # define DIRECTIVES char_directives
-#endif
+#endif /* !PRINTF_PARSE */
 
-/* Get size_t, NULL.  */
+/* Get size_t, NULL. */
 #include <stddef.h>
 
 /* Get intmax_t.  */
 #if defined IN_LIBINTL || defined IN_LIBASPRINTF
 # if HAVE_STDINT_H_WITH_UINTMAX
 #  include <stdint.h>
-# endif
+# endif /* HAVE_STDINT_H_WITH_UINTMAX */
 # if HAVE_INTTYPES_H_WITH_UINTMAX
 #  include <inttypes.h>
-# endif
+# endif /* HAVE_INTTYPES_H_WITH_UINTMAX */
 #else
 # include <stdint.h>
-#endif
+#endif /* IN_LIBINTL || IN_LIBASPRINTF */
 
-/* malloc(), realloc(), free().  */
+/* malloc(), realloc(), free(). */
 #include <stdlib.h>
 
-/* memcpy().  */
+/* memcpy(). */
 #include <string.h>
 
-/* errno.  */
+/* errno. */
 #include <errno.h>
 
-/* Checked size_t computations.  */
+/* Checked size_t computations. */
 #include "xsize.h"
 
 #if CHAR_T_ONLY_ASCII
-/* c_isascii().  */
+/* c_isascii(). */
 # include "c-ctype.h"
-#endif
+#endif /* CHAR_T_ONLY_ASCII */
 
 #ifdef STATIC
 STATIC
-#endif
+#endif /* STATIC */
 int
-PRINTF_PARSE (const CHAR_T *format, DIRECTIVES *d, arguments *a)
+PRINTF_PARSE(const CHAR_T *format, DIRECTIVES *d, arguments *a)
 {
   const CHAR_T *cp = format;    /* pointer into format */
   size_t arg_posn = 0;          /* number of regular arguments consumed */

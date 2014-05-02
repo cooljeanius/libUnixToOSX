@@ -2,7 +2,9 @@ AUTOMAKE_OPTIONS = 1.6 foreign no-dependencies subdir-objects
 
 ACLOCAL_AMFLAGS = -I m4 --system-acdir=/sw/share/gnulib/m4 --install
 
-AM_CFLAGS = -Wall -Wimplicit
+## WARN_CFLAGS is subst-ed by all the calls to "gl_WARN_ADD":
+AM_WARNFLAGS = $(WARN_CFLAGS)
+AM_CFLAGS = $(AM_WARNFLAGS)
 
 lib_LTLIBRARIES = libUnixToOSX.la
 
@@ -17,6 +19,10 @@ EXTRA_DIST = Readme.md
 SUBDIRS = libftw0 autoscan poll/poll-emulator argp/argp-standalone-1.3
 
 MOSTLYCLEANFILES = .DS_Store
+
+CLEANFILES = .DS_Store
+
+SUFFIXES = .c .lo .o .h
 
 BUILT_SOURCES = config.h
 
@@ -52,7 +58,7 @@ BUILT_SOURCES += c++defs.h
 # off.
 c++defs.h: $(top_srcdir)/build-aux/snippet/c++defs.h
 	$(AM_V_GEN)rm -f $@-t $@ && \
-	sed -n -e '/_GL_CXXDEFS/,$$p' \
+	$(SED) -n -e '/_GL_CXXDEFS/,$$p' \
 	  < $(top_srcdir)/build-aux/snippet/c++defs.h \
 	  > $@-t && \
 	mv $@-t $@
@@ -71,7 +77,7 @@ BUILT_SOURCES += arg-nonnull.h
 # header cut off.
 arg-nonnull.h: $(top_srcdir)/build-aux/snippet/arg-nonnull.h
 	$(AM_V_GEN)rm -f $@-t $@ && \
-	sed -n -e '/GL_ARG_NONNULL/,$$p' \
+	$(SED) -n -e '/GL_ARG_NONNULL/,$$p' \
 	  < $(top_srcdir)/build-aux/snippet/arg-nonnull.h \
 	  > $@-t && \
 	mv $@-t $@
@@ -85,7 +91,7 @@ BUILT_SOURCES += warn-on-use.h
 # header cut off.
 warn-on-use.h: $(top_srcdir)/build-aux/snippet/warn-on-use.h
 	$(AM_V_GEN)rm -f $@-t $@ && \
-	sed -n -e '/^.ifndef/,$$p' \
+	$(SED) -n -e '/^.ifndef/,$$p' \
 	  < $(top_srcdir)/build-aux/snippet/warn-on-use.h \
 	  > $@-t && \
 	mv $@-t $@
@@ -98,7 +104,7 @@ WARN_ON_USE_H = warn-on-use.h
 fcntl.h: fcntl.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
 	$(AM_V_GEN)rm -f $@-t $@ && \
 	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */'; \
-	  sed -e 's|@''GUARD_PREFIX''@|${gl_include_guard_prefix}|g' \
+	  $(SED) -e 's|@''GUARD_PREFIX''@|${gl_include_guard_prefix}|g' \
 	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
 	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
 	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
@@ -127,7 +133,7 @@ BUILT_SOURCES += $(GETOPT_H)
 getopt.h: getopt.in.h $(top_builddir)/config.status $(ARG_NONNULL_H)
 	$(AM_V_GEN)rm -f $@-t $@ && \
 	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */'; \
-	  sed -e 's|@''GUARD_PREFIX''@|${gl_include_guard_prefix}|g' \
+	  $(SED) -e 's|@''GUARD_PREFIX''@|${gl_include_guard_prefix}|g' \
 	      -e 's|@''HAVE_GETOPT_H''@|$(HAVE_GETOPT_H)|g' \
 	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
 	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
@@ -146,7 +152,7 @@ BUILT_SOURCES += poll.h
 poll.h: poll.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(WARN_ON_USE_H)
 	$(AM_V_GEN)rm -f $@-t $@ && \
 	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */'; \
-	  sed -e 's|@''GUARD_PREFIX''@|${gl_include_guard_prefix}|g' \
+	  $(SED) -e 's|@''GUARD_PREFIX''@|${gl_include_guard_prefix}|g' \
 	      -e 's|@''HAVE_POLL_H''@|$(HAVE_POLL_H)|g' \
 	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
 	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
@@ -169,7 +175,7 @@ BUILT_SOURCES += dirent.h
 dirent.h: dirent.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
 	$(AM_V_GEN)rm -f $@-t $@ && \
 	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */'; \
-	  sed -e 's|@''GUARD_PREFIX''@|${gl_include_guard_prefix}|g' \
+	  $(SED) -e 's|@''GUARD_PREFIX''@|${gl_include_guard_prefix}|g' \
 	      -e 's|@''HAVE_DIRENT_H''@|$(HAVE_DIRENT_H)|g' \
 	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
 	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
@@ -215,7 +221,7 @@ BUILT_SOURCES += unused-parameter.h
 # copyright header cut off.
 unused-parameter.h: $(top_srcdir)/build-aux/snippet/unused-parameter.h
 	$(AM_V_GEN)rm -f $@-t $@ && \
-	sed -n -e '/GL_UNUSED_PARAMETER/,$$p' \
+	$(SED) -n -e '/GL_UNUSED_PARAMETER/,$$p' \
 	  < $(top_srcdir)/build-aux/snippet/unused-parameter.h \
 	  > $@-t && \
 	mv $@-t $@
@@ -232,7 +238,7 @@ BUILT_SOURCES += unistd.h
 unistd.h: unistd.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
 	$(AM_V_GEN)rm -f $@-t $@ && \
 	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */'; \
-	  sed -e 's|@''GUARD_PREFIX''@|${gl_include_guard_prefix}|g' \
+	  $(SED) -e 's|@''GUARD_PREFIX''@|${gl_include_guard_prefix}|g' \
 	      -e 's|@''HAVE_UNISTD_H''@|$(HAVE_UNISTD_H)|g' \
 	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
 	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
@@ -289,7 +295,7 @@ unistd.h: unistd.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H
 	      -e 's/@''GNULIB_USLEEP''@/$(GNULIB_USLEEP)/g' \
 	      -e 's/@''GNULIB_WRITE''@/$(GNULIB_WRITE)/g' \
 	      < $(srcdir)/unistd.in.h | \
-	  sed -e 's|@''HAVE_CHOWN''@|$(HAVE_CHOWN)|g' \
+	  $(SED) -e 's|@''HAVE_CHOWN''@|$(HAVE_CHOWN)|g' \
 	      -e 's|@''HAVE_DUP2''@|$(HAVE_DUP2)|g' \
 	      -e 's|@''HAVE_DUP3''@|$(HAVE_DUP3)|g' \
 	      -e 's|@''HAVE_EUIDACCESS''@|$(HAVE_EUIDACCESS)|g' \
@@ -332,7 +338,7 @@ unistd.h: unistd.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H
 	      -e 's|@''HAVE_OS_H''@|$(HAVE_OS_H)|g' \
 	      -e 's|@''HAVE_SYS_PARAM_H''@|$(HAVE_SYS_PARAM_H)|g' \
 	  | \
-	  sed -e 's|@''REPLACE_CHOWN''@|$(REPLACE_CHOWN)|g' \
+	  $(SED) -e 's|@''REPLACE_CHOWN''@|$(REPLACE_CHOWN)|g' \
 	      -e 's|@''REPLACE_CLOSE''@|$(REPLACE_CLOSE)|g' \
 	      -e 's|@''REPLACE_DUP''@|$(REPLACE_DUP)|g' \
 	      -e 's|@''REPLACE_DUP2''@|$(REPLACE_DUP2)|g' \
@@ -398,7 +404,7 @@ BUILT_SOURCES += inttypes.h
 inttypes.h: inttypes.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(WARN_ON_USE_H) $(ARG_NONNULL_H)
 	$(AM_V_GEN)rm -f $@-t $@ && \
 	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */'; \
-	  sed -e 's/@''HAVE_INTTYPES_H''@/$(HAVE_INTTYPES_H)/g' \
+	  $(SED) -e 's/@''HAVE_INTTYPES_H''@/$(HAVE_INTTYPES_H)/g' \
 	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
 	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
 	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
@@ -436,7 +442,7 @@ BUILT_SOURCES += math.h
 math.h: math.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
 	$(AM_V_GEN)rm -f $@-t $@ && \
 	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */' && \
-	  sed -e 's|@''GUARD_PREFIX''@|${gl_include_guard_prefix}|g' \
+	  $(SED) -e 's|@''GUARD_PREFIX''@|${gl_include_guard_prefix}|g' \
 	      -e 's|@''INCLUDE_NEXT_AS_FIRST_DIRECTIVE''@|$(INCLUDE_NEXT_AS_FIRST_DIRECTIVE)|g' \
 	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
 	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
@@ -486,7 +492,7 @@ math.h: math.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(
 	      -e 's/@''GNULIB_HYPOTF''@/$(GNULIB_HYPOTF)/g' \
 	      -e 's/@''GNULIB_HYPOTL''@/$(GNULIB_HYPOTL)/g' \
 	      < $(srcdir)/math.in.h | \
-	  sed -e 's/@''GNULIB_ILOGB''@/$(GNULIB_ILOGB)/g' \
+	  $(SED) -e 's/@''GNULIB_ILOGB''@/$(GNULIB_ILOGB)/g' \
 	      -e 's/@''GNULIB_ILOGBF''@/$(GNULIB_ILOGBF)/g' \
 	      -e 's/@''GNULIB_ILOGBL''@/$(GNULIB_ILOGBL)/g' \
 	      -e 's/@''GNULIB_ISFINITE''@/$(GNULIB_ISFINITE)/g' \
@@ -538,7 +544,7 @@ math.h: math.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(
 	      -e 's/@''GNULIB_TRUNCF''@/$(GNULIB_TRUNCF)/g' \
 	      -e 's/@''GNULIB_TRUNCL''@/$(GNULIB_TRUNCL)/g' \
 	  | \
-	  sed -e 's|@''HAVE_ACOSF''@|$(HAVE_ACOSF)|g' \
+	  $(SED) -e 's|@''HAVE_ACOSF''@|$(HAVE_ACOSF)|g' \
 	      -e 's|@''HAVE_ACOSL''@|$(HAVE_ACOSL)|g' \
 	      -e 's|@''HAVE_ASINF''@|$(HAVE_ASINF)|g' \
 	      -e 's|@''HAVE_ASINL''@|$(HAVE_ASINL)|g' \
@@ -635,7 +641,7 @@ math.h: math.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(
 	      -e 's|@''HAVE_DECL_TRUNCF''@|$(HAVE_DECL_TRUNCF)|g' \
 	      -e 's|@''HAVE_DECL_TRUNCL''@|$(HAVE_DECL_TRUNCL)|g' \
 	  | \
-	  sed -e 's|@''REPLACE_CBRTF''@|$(REPLACE_CBRTF)|g' \
+	  $(SED) -e 's|@''REPLACE_CBRTF''@|$(REPLACE_CBRTF)|g' \
 	      -e 's|@''REPLACE_CBRTL''@|$(REPLACE_CBRTL)|g' \
 	      -e 's|@''REPLACE_CEIL''@|$(REPLACE_CEIL)|g' \
 	      -e 's|@''REPLACE_CEILF''@|$(REPLACE_CEILF)|g' \
@@ -714,7 +720,7 @@ if GL_GENERATE_STDINT_H
 stdint.h: stdint.in.h $(top_builddir)/config.status
 	$(AM_V_GEN)rm -f $@-t $@ && \
 	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */'; \
-	  sed -e 's|@''GUARD_PREFIX''@|${gl_include_guard_prefix}|g' \
+	  $(SED) -e 's|@''GUARD_PREFIX''@|${gl_include_guard_prefix}|g' \
 	      -e 's/@''HAVE_STDINT_H''@/$(HAVE_STDINT_H)/g' \
 	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
 	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
@@ -780,7 +786,7 @@ if GL_GENERATE_FLOAT_H
 float.h: float.in.h $(top_builddir)/config.status
 	$(AM_V_GEN)rm -f $@-t $@ && \
 	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */' && \
-	  sed -e 's|@''GUARD_PREFIX''@|${gl_include_guard_prefix}|g' \
+	  $(SED) -e 's|@''GUARD_PREFIX''@|${gl_include_guard_prefix}|g' \
 	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
 	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
 	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
@@ -825,7 +831,7 @@ sys/stat.h: sys_stat.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNU
 	$(AM_V_at)$(MKDIR_P) sys
 	$(AM_V_GEN)rm -f $@-t $@ && \
 	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */'; \
-	  sed -e 's|@''GUARD_PREFIX''@|${gl_include_guard_prefix}|g' \
+	  $(SED) -e 's|@''GUARD_PREFIX''@|${gl_include_guard_prefix}|g' \
 	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
 	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
 	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
@@ -883,7 +889,7 @@ BUILT_SOURCES += string.h
 string.h: string.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
 	$(AM_V_GEN)rm -f $@-t $@ && \
 	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */' && \
-	  sed -e 's|@''GUARD_PREFIX''@|${gl_include_guard_prefix}|g' \
+	  $(SED) -e 's|@''GUARD_PREFIX''@|${gl_include_guard_prefix}|g' \
 	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
 	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
 	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
@@ -926,7 +932,7 @@ string.h: string.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H
 	      -e 's/@''GNULIB_STRSIGNAL''@/$(GNULIB_STRSIGNAL)/g' \
 	      -e 's/@''GNULIB_STRVERSCMP''@/$(GNULIB_STRVERSCMP)/g' \
 	      < $(srcdir)/string.in.h | \
-	  sed -e 's|@''HAVE_FFSL''@|$(HAVE_FFSL)|g' \
+	  $(SED) -e 's|@''HAVE_FFSL''@|$(HAVE_FFSL)|g' \
 	      -e 's|@''HAVE_FFSLL''@|$(HAVE_FFSLL)|g' \
 	      -e 's|@''HAVE_MBSLEN''@|$(HAVE_MBSLEN)|g' \
 	      -e 's|@''HAVE_MEMCHR''@|$(HAVE_MEMCHR)|g' \
@@ -977,7 +983,7 @@ BUILT_SOURCES += strings.h
 strings.h: strings.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(WARN_ON_USE_H) $(ARG_NONNULL_H)
 	$(AM_V_GEN)rm -f $@-t $@ && \
 	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */' && \
-	  sed -e 's|@''GUARD_PREFIX''@|${gl_include_guard_prefix}|g' \
+	  $(SED) -e 's|@''GUARD_PREFIX''@|${gl_include_guard_prefix}|g' \
 	      -e 's|@''HAVE_STRINGS_H''@|$(HAVE_STRINGS_H)|g' \
 	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
 	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
@@ -1011,3 +1017,219 @@ MAINTAINERCLEANFILES = configure.scan
 headers: $(BUILT_SOURCES)
 	ls *.h
 .PHONY: headers
+
+libUnixToOSX_la_SOURCES += c-ctype.h c-ctype.c
+
+libUnixToOSX_la_SOURCES += c-strcase.h c-strcasecmp.c c-strncasecmp.c
+
+BUILT_SOURCES += locale.h
+
+# We need the following in order to create <locale.h> when the system
+# does NOT have one that provides all definitions.
+locale.h: locale.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
+	$(AM_V_GEN)rm -f $@-t $@ && \
+	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */' && \
+	  $(SED) -e 's|@''GUARD_PREFIX''@|${gl_include_guard_prefix}|g' \
+	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
+	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
+	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
+	      -e 's|@''NEXT_LOCALE_H''@|$(NEXT_LOCALE_H)|g' \
+	      -e 's/@''GNULIB_LOCALECONV''@/$(GNULIB_LOCALECONV)/g' \
+	      -e 's/@''GNULIB_SETLOCALE''@/$(GNULIB_SETLOCALE)/g' \
+	      -e 's/@''GNULIB_DUPLOCALE''@/$(GNULIB_DUPLOCALE)/g' \
+	      -e 's|@''HAVE_DUPLOCALE''@|$(HAVE_DUPLOCALE)|g' \
+	      -e 's|@''HAVE_XLOCALE_H''@|$(HAVE_XLOCALE_H)|g' \
+	      -e 's|@''REPLACE_LOCALECONV''@|$(REPLACE_LOCALECONV)|g' \
+	      -e 's|@''REPLACE_SETLOCALE''@|$(REPLACE_SETLOCALE)|g' \
+	      -e 's|@''REPLACE_DUPLOCALE''@|$(REPLACE_DUPLOCALE)|g' \
+	      -e 's|@''REPLACE_STRUCT_LCONV''@|$(REPLACE_STRUCT_LCONV)|g' \
+	      -e '/definitions of _GL_FUNCDECL_RPL/r $(CXXDEFS_H)' \
+	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
+	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
+	      < $(srcdir)/locale.in.h; \
+	} > $@-t && \
+	mv $@-t $@
+MOSTLYCLEANFILES += locale.h locale.h-t
+
+libUnixToOSX_la_SOURCES += localcharset.h localcharset.c
+
+# We need the following in order to install a simple file in $(libdir)
+# which is shared with other installed packages. We use a list of
+# referencing packages so that "make uninstall" will remove the file if
+# and only if it is not used by another installed package.
+# On systems with glibc-2.1 or newer, the file is redundant, therefore we
+# avoid installing it.
+
+all-local: charset.alias ref-add.sed ref-del.sed
+
+charset_alias = $(DESTDIR)$(libdir)/charset.alias
+charset_tmp = $(DESTDIR)$(libdir)/charset.tmp
+install-exec-local: install-exec-localcharset
+install-exec-localcharset: all-local
+	if test $(GLIBC21) = no; then \
+	  case '$(host_os)' in \
+	    darwin[56]*) \
+	      need_charset_alias=true ;; \
+	    darwin* | cygwin* | mingw* | pw32* | cegcc*) \
+	      need_charset_alias=false ;; \
+	    *) \
+	      need_charset_alias=true ;; \
+	  esac ; \
+	else \
+	  need_charset_alias=false ; \
+	fi ; \
+	if $$need_charset_alias; then \
+	  $(mkinstalldirs) $(DESTDIR)$(libdir) ; \
+	fi ; \
+	if test -f $(charset_alias); then \
+	  $(SED) -f ref-add.sed $(charset_alias) > $(charset_tmp) ; \
+	  $(INSTALL_DATA) $(charset_tmp) $(charset_alias) ; \
+	  rm -f $(charset_tmp) ; \
+	else \
+	  if $$need_charset_alias; then \
+	    $(SED) -f ref-add.sed charset.alias > $(charset_tmp) ; \
+	    $(INSTALL_DATA) $(charset_tmp) $(charset_alias) ; \
+	    rm -f $(charset_tmp) ; \
+	  fi ; \
+	fi
+
+uninstall-local: uninstall-localcharset
+uninstall-localcharset: all-local
+	if test -f $(charset_alias); then \
+	  $(SED) -f ref-del.sed $(charset_alias) > $(charset_tmp); \
+	  if $(GREP) '^# Packages using this file: $$' $(charset_tmp) \
+	      > /dev/null; then \
+	    rm -f $(charset_alias); \
+	  else \
+	    $(INSTALL_DATA) $(charset_tmp) $(charset_alias); \
+	  fi; \
+	  rm -f $(charset_tmp); \
+	fi
+
+charset.alias: config.charset
+	$(AM_V_GEN)rm -f t-$@ $@ && \
+	$(SHELL) $(srcdir)/config.charset '$(host)' > t-$@ && \
+	mv t-$@ $@
+
+SUFFIXES += .sed .sin
+.sin.sed:
+	$(AM_V_GEN)rm -f t-$@ $@ && \
+	$(SED) -e '/^#/d' -e 's/@''PACKAGE''@/$(PACKAGE)/g' $< > t-$@ && \
+	mv t-$@ $@
+
+CLEANFILES += charset.alias ref-add.sed ref-del.sed
+
+TESTS_ENVIRONMENT = CC="$(CC)"
+
+TESTS_ENVIRONMENT += @LOCALCHARSET_TESTS_ENVIRONMENT@
+
+libUnixToOSX_la_SOURCES += localename.c
+
+libUnixToOSX_la_SOURCES += quotearg.c
+
+libUnixToOSX_la_SOURCES += close-stream.c
+
+libUnixToOSX_la_SOURCES += closeout.c
+
+check_PROGRAMS = chdirlongtest
+
+chdirlongtest_SOURCES = chdir-long.c chdir-long.h
+
+chdirlongtest_LDADD = libUnixToOSX.la
+
+chdirlongtest_CPPFLAGS = -DTEST_CHDIR=1
+
+chdirlongtest_CFLAGS = -O
+
+BUILT_SOURCES += $(STDDEF_H)
+
+# We need the following in order to create <stddef.h> when the system
+# does NOT have one that works with the given compiler.
+if GL_GENERATE_STDDEF_H
+stddef.h: stddef.in.h $(top_builddir)/config.status
+	$(AM_V_GEN)rm -f $@-t $@ && \
+	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */' && \
+	  $(SED) -e 's|@''GUARD_PREFIX''@|${gl_include_guard_prefix}|g' \
+	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
+	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
+	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
+	      -e 's|@''NEXT_STDDEF_H''@|$(NEXT_STDDEF_H)|g' \
+	      -e 's|@''HAVE_WCHAR_T''@|$(HAVE_WCHAR_T)|g' \
+	      -e 's|@''REPLACE_NULL''@|$(REPLACE_NULL)|g' \
+	      < $(srcdir)/stddef.in.h; \
+	} > $@-t && \
+	mv $@-t $@
+else
+stddef.h: $(top_builddir)/config.status
+	rm -f $@
+endif
+MOSTLYCLEANFILES += stddef.h stddef.h-t
+
+# Listed in the same order as the GNU makefile conventions, and
+# provided by autoconf 2.59c+.
+# The Automake-defined pkg* macros are appended, in the order
+# listed in the Automake 1.10a+ documentation.
+configmake.h: Makefile
+	$(AM_V_GEN)rm -f $@-t && \
+	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */'; \
+	  echo '#define PREFIX "$(prefix)"'; \
+	  echo '#define EXEC_PREFIX "$(exec_prefix)"'; \
+	  echo '#define BINDIR "$(bindir)"'; \
+	  echo '#define SBINDIR "$(sbindir)"'; \
+	  echo '#define LIBEXECDIR "$(libexecdir)"'; \
+	  echo '#define DATAROOTDIR "$(datarootdir)"'; \
+	  echo '#define DATADIR "$(datadir)"'; \
+	  echo '#define SYSCONFDIR "$(sysconfdir)"'; \
+	  echo '#define SHAREDSTATEDIR "$(sharedstatedir)"'; \
+	  echo '#define LOCALSTATEDIR "$(localstatedir)"'; \
+	  echo '#define INCLUDEDIR "$(includedir)"'; \
+	  echo '#define OLDINCLUDEDIR "$(oldincludedir)"'; \
+	  echo '#define DOCDIR "$(docdir)"'; \
+	  echo '#define INFODIR "$(infodir)"'; \
+	  echo '#define HTMLDIR "$(htmldir)"'; \
+	  echo '#define DVIDIR "$(dvidir)"'; \
+	  echo '#define PDFDIR "$(pdfdir)"'; \
+	  echo '#define PSDIR "$(psdir)"'; \
+	  echo '#define LIBDIR "$(libdir)"'; \
+	  echo '#define LISPDIR "$(lispdir)"'; \
+	  echo '#define LOCALEDIR "$(localedir)"'; \
+	  echo '#define MANDIR "$(mandir)"'; \
+	  echo '#define MANEXT "$(manext)"'; \
+	  echo '#define PKGDATADIR "$(pkgdatadir)"'; \
+	  echo '#define PKGINCLUDEDIR "$(pkgincludedir)"'; \
+	  echo '#define PKGLIBDIR "$(pkglibdir)"'; \
+	  echo '#define PKGLIBEXECDIR "$(pkglibexecdir)"'; \
+	} | $(SED) '/""/d' > $@-t && \
+	mv -f $@-t $@
+
+BUILT_SOURCES += configmake.h
+CLEANFILES += configmake.h configmake.h-t
+
+DEFS = @DEFS@ -DUNIXTOOSX=1
+DEFS += -DEXEEXT=\"@EXEEXT@\"
+
+libUnixToOSX_la_SOURCES += canonicalize.c
+
+libUnixToOSX_la_SOURCES += areadlink.c
+
+libUnixToOSX_la_SOURCES += areadlink-with-size.c
+
+libUnixToOSX_la_SOURCES += areadlinkat.c
+
+libUnixToOSX_la_SOURCES += areadlinkat-with-size.c
+
+libUnixToOSX_la_SOURCES += careadlinkat.c
+
+libUnixToOSX_la_SOURCES += file-set.c
+
+libUnixToOSX_la_SOURCES += malloca.c
+
+libUnixToOSX_la_SOURCES += allocator.c
+
+libUnixToOSX_la_SOURCES += xgetcwd.c
+
+libUnixToOSX_la_SOURCES += progname.h progname.c
+
+libUnixToOSX_la_SOURCES += xreadlink.c
+
+libUnixToOSX_la_SOURCES += xreadlinkat.c
