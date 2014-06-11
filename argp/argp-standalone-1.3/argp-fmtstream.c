@@ -58,7 +58,8 @@ argp_fmtstream_t
 __argp_make_fmtstream(FILE *stream, size_t lmargin, size_t rmargin,
 					  ssize_t wmargin)
 {
-	argp_fmtstream_t fs = malloc(sizeof(struct argp_fmtstream));
+	argp_fmtstream_t fs;
+	fs = (argp_fmtstream_t)malloc(sizeof(struct argp_fmtstream));
 	if (fs) {
 		fs->stream = stream;
 
@@ -68,7 +69,7 @@ __argp_make_fmtstream(FILE *stream, size_t lmargin, size_t rmargin,
 		fs->point_col = 0;
 		fs->point_offs = 0;
 
-		fs->buf = malloc((size_t)INIT_BUF_SIZE);
+		fs->buf = (char *)malloc((size_t)INIT_BUF_SIZE);
 		if (! fs->buf) {
 			free(fs);
 			fs = 0;
@@ -133,7 +134,7 @@ __argp_fmtstream_update(argp_fmtstream_t fs)
 		}
 
 		len = (size_t)(fs->p - buf);
-		nl = memchr(buf, '\n', len);
+		nl = (char *)memchr(buf, '\n', len);
 
 		if (fs->point_col < 0) {
 			fs->point_col = 0;
@@ -325,7 +326,7 @@ __argp_fmtstream_ensure(struct argp_fmtstream *fs, size_t amount)
 			char *new_buf;
 
 			new_size = ((size_t)(fs->end - fs->buf) + amount);
-			new_buf = realloc(fs->buf, new_size);
+			new_buf = (char *)realloc(fs->buf, new_size);
 
 			if (! new_buf) {
 				__set_errno(ENOMEM);

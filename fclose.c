@@ -29,9 +29,8 @@
 
 #undef fclose
 
-#if HAVE_MSVC_INVALID_PARAMETER_HANDLER
-static int
-fclose_nothrow (FILE *fp)
+#if defined(HAVE_MSVC_INVALID_PARAMETER_HANDLE) && HAVE_MSVC_INVALID_PARAMETER_HANDLER
+static int fclose_nothrow(FILE *fp)
 {
   int result;
 
@@ -75,7 +74,7 @@ rpl_fclose (FILE *fp)
 
   /* fclose() calls close(), but we need to also invoke all hooks that our
      overridden close() function invokes.  See lib/close.c.  */
-#if WINDOWS_SOCKETS
+#if defined(WINDOWS_SOCKETS) && WINDOWS_SOCKETS
   /* Call the overridden close(), then the original fclose().
      Note about multithread-safety: There is a race condition where some
      other thread could open fd between our close and fclose.  */
@@ -85,10 +84,10 @@ rpl_fclose (FILE *fp)
   fclose_nothrow (fp); /* will fail with errno = EBADF,
                           if we did not lose a race */
 
-#else /* !WINDOWS_SOCKETS */
+#else /* !WINDOWS_SOCKETS: */
   /* Call fclose() and invoke all hooks of the overridden close().  */
 
-# if REPLACE_FCHDIR
+# if defined(REPLACE_FCHDIR) && REPLACE_FCHDIR
   /* Note about multithread-safety: There is a race condition here as well.
      Some other thread could open fd between our calls to fclose and
      _gl_unregister_fd.  */

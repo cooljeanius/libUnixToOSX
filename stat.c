@@ -77,7 +77,7 @@ orig_stat (const char *filename, struct stat *buf)
 #include "dosname.h"
 #include "verify.h"
 
-#if REPLACE_FUNC_STAT_DIR
+#if defined(REPLACE_FUNC_STAT_DIR) && REPLACE_FUNC_STAT_DIR
 # include "pathmax.h"
   /* The only known systems where REPLACE_FUNC_STAT_DIR is needed also
    * have a constant PATH_MAX.  */
@@ -95,11 +95,10 @@ orig_stat (const char *filename, struct stat *buf)
 #ifndef rpl_stat
 int rpl_stat(char const *name, struct stat *st);
 #endif /* !rpl_stat */
-int
-rpl_stat(char const *name, struct stat *st)
+int rpl_stat(char const *name, struct stat *st)
 {
   int result = orig_stat (name, st);
-#if REPLACE_FUNC_STAT_FILE
+#if defined(REPLACE_FUNC_STAT_FILE) && REPLACE_FUNC_STAT_FILE
   /* Solaris 9 mistakenly succeeds when given a non-directory with a
    * trailing slash.  */
   if ((result == 0) && !S_ISDIR(st->st_mode)) {
@@ -110,8 +109,8 @@ rpl_stat(char const *name, struct stat *st)
 	  }
   }
 #endif /* REPLACE_FUNC_STAT_FILE */
-#if REPLACE_FUNC_STAT_DIR
 
+#if defined(REPLACE_FUNC_STAT_DIR) && REPLACE_FUNC_STAT_DIR
   if ((result == -1) && (errno == ENOENT)) {
       /* Due to mingw's oddities, there are some directories (like
        * c:\) where stat() only succeeds with a trailing slash, and

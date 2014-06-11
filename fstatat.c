@@ -28,13 +28,13 @@
 #include <sys/stat.h>
 #undef __need_system_sys_stat_h
 
-#if HAVE_FSTATAT
+#if defined(HAVE_FSTATAT) && HAVE_FSTATAT
 static inline int
-orig_fstatat (int fd, char const *filename, struct stat *buf, int flags)
+orig_fstatat(int fd, char const *filename, struct stat *buf, int flags)
 {
-  return fstatat (fd, filename, buf, flags);
+  return fstatat(fd, filename, buf, flags);
 }
-#endif
+#endif /* HAVE_FSTATAT */
 
 /* Write "sys/stat.h" here, not <sys/stat.h>, otherwise OSF/1 5.1 DTK cc
    eliminates this include because of the preliminary #include <sys/stat.h>
@@ -45,7 +45,7 @@ orig_fstatat (int fd, char const *filename, struct stat *buf, int flags)
 #include <fcntl.h>
 #include <string.h>
 
-#if HAVE_FSTATAT && HAVE_WORKING_FSTATAT_ZERO_FLAG
+#if (defined(HAVE_FSTATAT) && HAVE_FSTATAT) && HAVE_WORKING_FSTATAT_ZERO_FLAG
 
 # ifndef LSTAT_FOLLOWS_SLASHED_SYMLINK
 #  define LSTAT_FOLLOWS_SLASHED_SYMLINK 0
@@ -97,18 +97,17 @@ rpl_fstatat (int fd, char const *file, struct stat *st, int flag)
    because the preprocessor sees a use of a macro that requires two
    arguments but is only given one.  Hence, we need an inline
    forwarder to get past the preprocessor.  */
-static inline int
-stat_func (char const *name, struct stat *st)
+static inline int stat_func (char const *name, struct stat *st)
 {
-  return stat (name, st);
+  return stat(name, st);
 }
 
 /* Likewise, if there is no native 'lstat', then the gnulib
-   <sys/stat.h> defined it as stat, which also needs adjustment.  */
-# if !HAVE_LSTAT
+   <sys/stat.h> defined it as stat, which also needs adjustment. */
+# if !defined(HAVE_LSTAT) || (defined(HAVE_LSTAT) && !HAVE_LSTAT)
 #  undef lstat
 #  define lstat stat_func
-# endif
+# endif /* !HAVE_LSTAT */
 
 /* Replacement for Solaris' function by the same name.
    <http://www.google.com/search?q=fstatat+site:docs.sun.com>

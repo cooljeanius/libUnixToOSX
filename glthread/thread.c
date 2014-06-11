@@ -38,7 +38,7 @@ const gl_thread_t gl_null_thread /* = { .p = NULL } */;
 
 /* ========================================================================= */
 
-#if USE_WINDOWS_THREADS
+#if defined(USE_WINDOWS_THREADS) && USE_WINDOWS_THREADS
 # include <process.h>
 /* -------------------------- gl_thread_t datatype -------------------------- */
 

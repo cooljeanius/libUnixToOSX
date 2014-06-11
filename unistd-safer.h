@@ -27,12 +27,12 @@ int pipe_safer(int[2]);
 
 /* if you do not want to define this just to get these prototypes, there are
  * other headers that yoou can include that I also put these prototypes in: */
-#if GNULIB_FD_SAFER_FLAG
+#if defined(GNULIB_FD_SAFER_FLAG) && GNULIB_FD_SAFER_FLAG
 int dup_safer_flag(int, int);
 int fd_safer_flag(int, int);
 #endif /* GNULIB_FD_SAFER_FLAG */
 
-#if GNULIB_PIPE2_SAFER
+#if defined(GNULIB_PIPE2_SAFER) && GNULIB_PIPE2_SAFER
 int pipe2_safer(int[2], int);
 #endif /* GNULIB_PIPE2_SAFER */
 

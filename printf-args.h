@@ -1,4 +1,4 @@
-/* Decomposed printf argument list.
+/* printf-args.h: Decomposed printf argument list.
    Copyright (C) 1999, 2002-2003, 2006-2007, 2011-2012 Free Software
    Foundation, Inc.
 
@@ -79,7 +79,7 @@ typedef enum
 #if HAVE_LONG_LONG_INT
 , TYPE_COUNT_LONGLONGINT_POINTER
 #endif
-#if ENABLE_UNISTDIO
+#if defined(ENABLE_UNISTDIO) && ENABLE_UNISTDIO
   /* The unistdio extensions.  */
 , TYPE_U8_STRING
 , TYPE_U16_STRING
@@ -124,7 +124,7 @@ typedef struct
 #if HAVE_LONG_LONG_INT
     long long int *             a_count_longlongint_pointer;
 #endif
-#if ENABLE_UNISTDIO
+#if defined(ENABLE_UNISTDIO) && ENABLE_UNISTDIO
     /* The unistdio extensions.  */
     const uint8_t *             a_u8_string;
     const uint16_t *            a_u16_string;
@@ -147,12 +147,14 @@ typedef struct
 arguments;
 
 
-/* Fetch the arguments, putting them into a. */
+/* Fetch the arguments, putting them into a: */
 #ifdef STATIC
 STATIC
 #else
 extern
-#endif
-int PRINTF_FETCHARGS (va_list args, arguments *a);
+#endif /* STATIC */
+int PRINTF_FETCHARGS(va_list args, arguments *a);
 
 #endif /* _PRINTF_ARGS_H */
+
+/* EOF */

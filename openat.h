@@ -27,7 +27,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 
-#if !HAVE_OPENAT
+#if !defined(HAVE_OPENAT) || (defined(HAVE_OPENAT) && !HAVE_OPENAT)
 
 int openat_permissive(int fd, char const *file, int flags, mode_t mode,
 					  int *cwd_errno);
@@ -55,51 +55,39 @@ _Noreturn void openat_save_fail(int);
  * fchownat(..., 0) or fchownat(..., AT_SYMLINK_NOFOLLOW).  */
 
 #if GNULIB_FCHOWNAT
-
-static inline int
-chownat(int fd, char const *file, uid_t owner, gid_t group)
+static inline int chownat(int fd, char const *file, uid_t owner, gid_t group)
 {
-  return fchownat (fd, file, owner, group, 0);
+  return fchownat(fd, file, owner, group, 0);
 }
 
-static inline int
-lchownat(int fd, char const *file, uid_t owner, gid_t group)
+static inline int lchownat(int fd, char const *file, uid_t owner, gid_t group)
 {
-  return fchownat (fd, file, owner, group, AT_SYMLINK_NOFOLLOW);
+  return fchownat(fd, file, owner, group, AT_SYMLINK_NOFOLLOW);
 }
-
 #endif /* GNULIB_FCHOWNAT */
 
-#if GNULIB_FCHMODAT
-
-static inline int
-chmodat (int fd, char const *file, mode_t mode)
+#if defined(GNULIB_FCHMODAT) && GNULIB_FCHMODAT
+static inline int chmodat(int fd, char const *file, mode_t mode)
 {
-  return fchmodat(fd, file, mode, 0);
+  return fchmodat(fd, file, (mode_t)mode, 0);
 }
 
-static inline int
-lchmodat (int fd, char const *file, mode_t mode)
+static inline int lchmodat(int fd, char const *file, mode_t mode)
 {
-  return fchmodat(fd, file, mode, AT_SYMLINK_NOFOLLOW);
+  return fchmodat(fd, file, (mode_t)mode, AT_SYMLINK_NOFOLLOW);
 }
-
 #endif /* GNULIB_FCHMODAT */
 
 #if GNULIB_FSTATAT
-
-static inline int
-statat(int fd, char const *name, struct stat *st)
+static inline int statat(int fd, char const *name, struct stat *st)
 {
   return fstatat(fd, name, st, 0);
 }
 
-static inline int
-lstatat (int fd, char const *name, struct stat *st)
+static inline int lstatat (int fd, char const *name, struct stat *st)
 {
   return fstatat(fd, name, st, AT_SYMLINK_NOFOLLOW);
 }
-
 #endif /* GNULIB_FSTATAT */
 
 /* For now, there are no wrappers named laccessat or leuidaccessat,

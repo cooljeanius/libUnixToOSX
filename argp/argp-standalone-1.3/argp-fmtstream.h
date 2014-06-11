@@ -32,7 +32,7 @@
 
 # include "argp.h"
 
-# if _LIBC || (defined (HAVE_FLOCKFILE) && defined(HAVE_PUTC_UNLOCKED) \
+# if (defined(_LIBC) && _LIBC) || (defined (HAVE_FLOCKFILE) && defined(HAVE_PUTC_UNLOCKED) \
 && defined (HAVE_FPUTS_UNLOCKED) && defined (HAVE_FWRITE_UNLOCKED) )
 /* Use locking funxtions */
 #  define FLOCKFILE(f) flockfile(f)
@@ -49,9 +49,9 @@
 #  define FWRITE_UNLOCKED(b, s, n, f) fwrite((b), (size_t)(s), (size_t)(n), (f))
 # endif /* No thread safe i/o */
 
-# if (_LIBC - 0 && !defined (USE_IN_LIBIO)) \
-|| (defined (__GNU_LIBRARY__) && defined (HAVE_LINEWRAP_H))
-/* line_wrap_stream is available, so use that.  */
+# if ((defined(_LIBC) && (_LIBC - 0)) && !defined(USE_IN_LIBIO)) \
+     || (defined(__GNU_LIBRARY__) && defined(HAVE_LINEWRAP_H))
+/* line_wrap_stream is available, so use that: */
 #  define ARGP_FMTSTREAM_USE_LINEWRAP
 # endif
 

@@ -1,34 +1,34 @@
-/* Hook for making making file descriptor functions close(), ioctl() extensible.
-   Copyright (C) 2009-2012 Free Software Foundation, Inc.
-
-   This program is free software: you can redistribute it and/or modify it
-   under the terms of the GNU Lesser General Public License as published
-   by the Free Software Foundation; either version 3 of the License, or
-   (at your option) any later version.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-   Lesser General Public License for more details.
-
-   You should have received a copy of the GNU Lesser General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
-
+/* fd-hook.h: Hook for making making file descriptor functions close(), ioctl()
+ * extensible.
+ * Copyright (C) 2009-2012 Free Software Foundation, Inc.
+ *
+ * This program is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published
+ * by the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef FD_HOOK_H
 #define FD_HOOK_H
 
 #ifdef __cplusplus
 extern "C" {
-#endif
+#endif /* __cplusplus */
 
 
 /* Currently, this entire code is only needed for the handling of sockets
-   on native Windows platforms.  */
-#if WINDOWS_SOCKETS
+ * on native Windows platforms: */
+#if defined(WINDOWS_SOCKETS) && WINDOWS_SOCKETS
 
-
-/* Type of function that closes FD.  */
+/* Type of function that closes FD: */
 typedef int (*gl_close_fn) (int fd);
 
 /* Type of function that applies a control request to FD.  */
@@ -105,15 +105,15 @@ extern int execute_all_ioctl_hooks (gl_ioctl_fn primary,
 extern void register_fd_hook (close_hook_fn close_hook, ioctl_hook_fn ioctl_hook,
                               struct fd_hook *link);
 
-/* Removes a hook from the list of file descriptor hooks.  */
+/* Removes a hook from the list of file descriptor hooks: */
 extern void unregister_fd_hook (struct fd_hook *link);
 
-
-#endif
-
+#endif /* WINDOWS_SOCKETS */
 
 #ifdef __cplusplus
 }
-#endif
+#endif /* __cplusplus */
 
 #endif /* FD_HOOK_H */
+
+/* EOF */

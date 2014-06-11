@@ -31,7 +31,14 @@
 #else /* !_LIBC */
 # include "gettext.h"
 # define _(msgid) gettext (msgid)
-# define N_(msgid) gettext_noop (msgid)
+# if defined(__GNUC__) && defined(__GNUC_MINOR__)
+#  if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 2))
+#   pragma GCC diagnostic ignored "-Wunused-macros"
+#  endif /* GCC 4.2+ */
+# endif /* gcc */
+# if !defined(N_)
+#  define N_(msgid) gettext_noop (msgid)
+# endif /* !(N_) */
 #endif /* _LIBC */
 
 #ifdef _LIBC
@@ -171,30 +178,28 @@ free_key_mem (void *mem)
 }
 
 
-/* Return the buffer to be used.  */
-static char *
-getbuffer (void)
+/* Return the buffer to be used: */
+static char *getbuffer(void)
 {
   char *result;
 
-  if (static_buf != NULL)
-    result = static_buf;
-  else
-    {
-      /* We don't use the static buffer and so we have a key.  Use it
-         to get the thread-specific buffer.  */
-      result = __libc_getspecific (key);
-      if (result == NULL)
-        {
-          /* No buffer allocated so far.  */
-          result = malloc((size_t)BUFFERSIZ);
-          if (result == NULL)
-            /* No more memory available.  We use the static buffer.  */
-            result = local_buf;
-          else
-            __libc_setspecific (key, result);
-        }
-    }
+  if (static_buf != NULL) {
+	  result = static_buf;
+  } else {
+      /* We do NOT use the static buffer and so we have a key. Use it to get
+	   * the thread-specific buffer.  */
+      result = (char *)__libc_getspecific (key);
+      if (result == NULL) {
+          /* No buffer allocated so far: */
+          result = (char *)malloc((size_t)BUFFERSIZ);
+          if (result == NULL) {
+			  /* No more memory available. We use the static buffer: */
+			  result = local_buf;
+          } else {
+			  __libc_setspecific(key, result);
+		  }
+	  }
+  }
 
   return result;
 }

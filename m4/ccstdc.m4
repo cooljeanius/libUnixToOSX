@@ -37,20 +37,20 @@
 # program @code{ansi2knr}, which comes with Ghostscript.
 # @end defmac
 
-AC_DEFUN([AM_REDONE_PROG_CC_STDC],
-[AC_REQUIRE([AC_PROG_CC])
+AC_DEFUN([AM_REDONE_PROG_CC_STDC],[
+AC_REQUIRE([AC_PROG_CC])dnl
 AC_BEFORE([$0],[AC_C_INLINE])
 AC_BEFORE([$0],[AC_C_CONST])
 dnl# Force this before AC_PROG_CPP.  Some cpp's, eg on HPUX, require
 dnl# a magic option to avoid problems with ANSI preprocessor commands
 dnl# like #elif.
-dnl# FIXME: cannot do this because then AC_USE_SYSTEM_EXTENSIONS will NOT work due to a
-dnl# circular dependency.
+dnl# FIXME: cannot do this because then AC_USE_SYSTEM_EXTENSIONS will NOT
+dnl# work due to a circular dependency.
 dnl#AC_BEFORE([$0],[AC_PROG_CPP])
 AC_CHECK_HEADERS_ONCE([stdarg.h stdio.h])
 AC_MSG_CHECKING([for ${CC-cc} option to accept ANSI C])
-AC_CACHE_VAL([am_new_cv_prog_cc_stdc],
-[am_new_cv_prog_cc_stdc=no
+AC_CACHE_VAL([am_new_cv_prog_cc_stdc],[
+am_new_cv_prog_cc_stdc=no
 ac_save_CC="${CC}"
 # Do NOT try gcc -ansi; that turns off useful extensions and
 # breaks some systems' header files.
@@ -77,24 +77,24 @@ static char *e(p, i)
 {
   return p[i];
 }
-static char *f (char *(*g)(char **, int), char **p, ...)
+static char *f(char *(*g)(char **, int), char **p, ...)
 {
   char *s;
   va_list v;
   va_start(v,p);
-  s = g(p, va_arg (v, int));
+  s = g(p, va_arg(v, int));
   va_end(v);
   return s;
 }
-int test (int i, double x);
+int test(int i, double x);
 struct s1 {int (*f)(int a);};
 struct s2 {int (*f)(double a);};
-int pairnames (int, char **, FILE *(*)(struct buf *, struct stat *, int), int, int);
+int pairnames(int, char **, FILE *(*)(struct buf *, struct stat *, int), int, int);
 int argc;
 char **argv;
 ]],[[
 return f (e, argv, 0) != argv[0]  ||  f (e, argv, 1) != argv[1];
-]])],[am_new_cv_prog_cc_stdc="$ac_arg"; break],[])
+]])],[am_new_cv_prog_cc_stdc="${ac_arg}"; break],[])
 done
 CC="${ac_save_CC}"
 ])

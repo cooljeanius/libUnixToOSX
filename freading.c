@@ -21,17 +21,17 @@
 
 #include "stdio-impl.h"
 
-/* Don't use glibc's __freading function in glibc < 2.7, see
-   <http://sourceware.org/bugzilla/show_bug.cgi?id=4359>  */
-#if !(HAVE___FREADING && (!defined __GLIBC__ || defined __UCLIBC__ || __GLIBC__ > 2 || (__GLIBC__ == 2 && __GLIBC_MINOR__ >= 7)))
+/* Do NOT use glibc's __freading function in glibc < 2.7, see
+ * <http://sourceware.org/bugzilla/show_bug.cgi?id=4359>  */
+#if !((defined(HAVE___FREADING) && HAVE___FREADING) && \
+      (!defined(__GLIBC__) || defined(__UCLIBC__) || (__GLIBC__ > 2) || ((__GLIBC__ == 2) && (__GLIBC_MINOR__ >= 7))))
 
-bool
-freading (FILE *fp)
+bool freading(FILE *fp)
 {
   /* Most systems provide FILE as a struct and the necessary bitmask in
      <stdio.h>, because they need it for implementing getc() and putc() as
      fast macros.  */
-# if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
+# if defined _IO_ftrylockfile || (defined(__GNU_LIBRARY__) && (__GNU_LIBRARY__ == 1)) /* GNU libc, BeOS, Haiku, Linux libc5 */
   return ((fp->_flags & _IO_NO_WRITES) != 0
           || ((fp->_flags & (_IO_NO_READS | _IO_CURRENTLY_PUTTING)) == 0
               && fp->_IO_read_base != NULL));

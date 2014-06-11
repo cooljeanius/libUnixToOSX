@@ -59,9 +59,9 @@
 # include <alloca.h>
 #endif /* !IN_LIBINTL */
 
-/* Specification.  */
+/* Specification: */
 #ifndef VASNPRINTF
-# if WIDE_CHAR_VERSION
+# if defined(WIDE_CHAR_VERSION) && WIDE_CHAR_VERSION
 #  include "vasnwprintf.h"
 # else
 #  include "vasnprintf.h"
@@ -79,7 +79,7 @@
 # include <langinfo.h>
 #endif /* HAVE_NL_LANGINFO */
 #ifndef VASNPRINTF
-# if WIDE_CHAR_VERSION
+# if defined(WIDE_CHAR_VERSION) && WIDE_CHAR_VERSION
 #  include "wprintf-parse.h"
 # else
 #  include "printf-parse.h"
@@ -91,21 +91,24 @@
 
 #include "verify.h"
 
-#if (NEED_PRINTF_DOUBLE || NEED_PRINTF_LONG_DOUBLE) && !defined IN_LIBINTL
+#if ((defined(NEED_PRINTF_DOUBLE) && NEED_PRINTF_DOUBLE) || \
+     (defined(NEED_PRINTF_LONG_DOUBLE) && NEED_PRINTF_LONG_DOUBLE)) && !defined IN_LIBINTL
 # include <math.h>
 # include "float+.h"
 #endif /* (NEED_PRINTF_DOUBLE || NEED_PRINTF_LONG_DOUBLE) && !IN_LIBINTL */
 
-#if (NEED_PRINTF_DOUBLE || NEED_PRINTF_INFINITE_DOUBLE) && !defined IN_LIBINTL
+#if ((defined(NEED_PRINTF_DOUBLE) && NEED_PRINTF_DOUBLE) || \
+     (defined(NEED_PRINTF_INFINITE_DOUBLE) && NEED_PRINTF_INFINITE_DOUBLE)) && !defined IN_LIBINTL
 # include <math.h>
 # include "isnand-nolibm.h"
 #endif /* (NEED_PRINTF_DOUBLE || NEED_PRINTF_INFINITE_DOUBLE) && !IN_LIBINTL */
 
-#if (NEED_PRINTF_LONG_DOUBLE || NEED_PRINTF_INFINITE_LONG_DOUBLE) && !defined IN_LIBINTL
+#if ((defined(NEED_PRINTF_LONG_DOUBLE) && NEED_PRINTF_LONG_DOUBLE) || \
+     (defined(NEED_PRINTF_INFINITE_LONG_DOUBLE) && NEED_PRINTF_INFINITE_LONG_DOUBLE)) && !defined IN_LIBINTL
 # include <math.h>
 # include "isnanl-nolibm.h"
 # include "fpucw.h"
-#endif /* (NEED_PRINTF_LONG_DOUBLE || NEED_PRINTF_INFINITE_DOUBLE) && !IN_LIBINTL */
+#endif /* (NEED_PRINTF_LONG_DOUBLE || NEED_PRINTF_INFINITE_LONG_DOUBLE) && !IN_LIBINTL */
 
 #if (NEED_PRINTF_DIRECTIVE_A || NEED_PRINTF_DOUBLE) && !defined IN_LIBINTL
 # include <math.h>
@@ -122,7 +125,7 @@
 
 /* Default parameters. */
 #ifndef VASNPRINTF
-# if WIDE_CHAR_VERSION
+# if defined(WIDE_CHAR_VERSION) && WIDE_CHAR_VERSION
 #  define VASNPRINTF vasnwprintf
 #  define FCHAR_T wchar_t
 #  define DCHAR_T wchar_t
@@ -146,7 +149,7 @@
 #  define DCHAR_SET memset
 # endif /* WIDE_CHAR_VERSION */
 #endif /* !VASNPRINTF */
-#if WIDE_CHAR_VERSION
+#if defined(WIDE_CHAR_VERSION) && WIDE_CHAR_VERSION
   /* TCHAR_T is wchar_t.  */
 # define USE_SNPRINTF 1
 # if HAVE_DECL__SNWPRINTF
@@ -170,7 +173,8 @@
    * size argument is >= 0x3000000.
    * Also do NOT use it on Linux libc5, since there snprintf with size = 1
    * writes any output without bounds, like sprintf.  */
-# if (HAVE_DECL__SNPRINTF || HAVE_SNPRINTF) && !defined __BEOS__ && !(__GNU_LIBRARY__ == 1)
+# if (HAVE_DECL__SNPRINTF || HAVE_SNPRINTF) && !defined __BEOS__ && \
+     (!defined(__GNU_LIBRARY__) || (defined(__GNU_LIBRARY__) && !(__GNU_LIBRARY__ == 1)))
 #  define USE_SNPRINTF 1
 # else
 #  define USE_SNPRINTF 0
@@ -226,7 +230,10 @@ local_strnlen(const char *string, size_t maxlen)
 # endif  /* HAVE_STRNLEN && !_AIX */
 #endif /* (!USE_SNPRINTF || !HAVE_SNPRINTF_RETVAL_C99) && !WIDE_CHAR_VERSION */
 
-#if (((!USE_SNPRINTF || !HAVE_SNPRINTF_RETVAL_C99) && WIDE_CHAR_VERSION) || ((!USE_SNPRINTF || !HAVE_SNPRINTF_RETVAL_C99 || (NEED_PRINTF_DIRECTIVE_LS && !defined IN_LIBINTL)) && !WIDE_CHAR_VERSION && DCHAR_IS_TCHAR)) && HAVE_WCHAR_T
+#if (((!USE_SNPRINTF || !HAVE_SNPRINTF_RETVAL_C99) && WIDE_CHAR_VERSION) || \
+     ((!USE_SNPRINTF || !HAVE_SNPRINTF_RETVAL_C99 || \
+       ((defined(NEED_PRINTF_DIRECTIVE_LS) && NEED_PRINTF_DIRECTIVE_LS) && !defined IN_LIBINTL)) && \
+      !WIDE_CHAR_VERSION && DCHAR_IS_TCHAR)) && HAVE_WCHAR_T
 # if HAVE_WCSLEN
 #  define local_wcslen wcslen
 # else
@@ -279,18 +286,18 @@ static char
 decimal_point_char(void)
 {
   const char *point;
-  /* Determine it in a multithread-safe way.  We know nl_langinfo is
-     multithread-safe on glibc systems and Mac OS X systems, but is not required
-     to be multithread-safe by POSIX.  sprintf(), however, is multithread-safe.
-     localeconv() is rarely multithread-safe.  */
-#  if HAVE_NL_LANGINFO && (__GLIBC__ || defined __UCLIBC__ || (defined __APPLE__ && defined __MACH__))
-  point = nl_langinfo (RADIXCHAR);
+  /* Determine it in a multithread-safe way. We know nl_langinfo is
+   * multithread-safe on glibc systems and Mac OS X systems, but is not required
+   * to be multithread-safe by POSIX. sprintf(), however, is multithread-safe.
+   * localeconv() is rarely multithread-safe.  */
+#  if HAVE_NL_LANGINFO && ((defined(__GLIBC__) && __GLIBC__) || defined(__UCLIBC__) || (defined(__APPLE__) && defined(__MACH__)))
+  point = nl_langinfo(RADIXCHAR);
 #  elif 1
   char pointbuf[5];
-  sprintf (pointbuf, "%#.0f", 1.0);
+  sprintf(pointbuf, "%#.0f", 1.0);
   point = &pointbuf[1];
 #  else
-  point = localeconv () -> decimal_point;
+  point = localeconv()->decimal_point;
 #  endif
   /* The decimal point is always a single byte: either '.' or ','.  */
   return (point[0] != '\0' ? point[0] : '.');
@@ -298,30 +305,23 @@ decimal_point_char(void)
 # endif
 #endif
 
-#if NEED_PRINTF_INFINITE_DOUBLE && !NEED_PRINTF_DOUBLE && !defined IN_LIBINTL
-
-/* Equivalent to !isfinite(x) || x == 0, but does not require libm.  */
-static int
-is_infinite_or_zero (double x)
+#if (defined(NEED_PRINTF_INFINITE_DOUBLE) && NEED_PRINTF_INFINITE_DOUBLE) && !NEED_PRINTF_DOUBLE && !defined IN_LIBINTL
+/* Equivalent to !isfinite(x) || (x == 0), but does not require libm: */
+static int is_infinite_or_zero(double x)
 {
-  return isnand (x) || x + x == x;
+  return (isnand(x) || ((x + x) == x));
 }
-
 #endif
 
-#if NEED_PRINTF_INFINITE_LONG_DOUBLE && !NEED_PRINTF_LONG_DOUBLE && !defined IN_LIBINTL
-
-/* Equivalent to !isfinite(x) || x == 0, but does not require libm.  */
-static int
-is_infinite_or_zerol (long double x)
+#if (defined(NEED_PRINTF_INFINITE_LONG_DOUBLE) && NEED_PRINTF_INFINITE_LONG_DOUBLE) && !NEED_PRINTF_LONG_DOUBLE && !defined IN_LIBINTL
+/* Equivalent to !isfinite(x) || (x == 0), but does not require libm: */
+static int is_infinite_or_zerol(long double x)
 {
-  return isnanl (x) || x + x == x;
+  return (isnanl(x) || ((x + x) == x));
 }
-
 #endif
 
-#if (NEED_PRINTF_LONG_DOUBLE || NEED_PRINTF_DOUBLE) && !defined IN_LIBINTL
-
+#if ((defined(NEED_PRINTF_LONG_DOUBLE) && NEED_PRINTF_LONG_DOUBLE) || (defined(NEED_PRINTF_DOUBLE) && NEED_PRINTF_DOUBLE)) && !defined IN_LIBINTL
 /* Converting 'long double' to decimal without rare rounding bugs requires
    real bignums.  We use the naming conventions of GNU gmp, but vastly simpler
    (and slower) algorithms.  */
@@ -1888,8 +1888,8 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
                     abort();
 				}
 			}
-#if ENABLE_UNISTDIO
-            /* The unistdio extensions.  */
+#if defined(ENABLE_UNISTDIO) && ENABLE_UNISTDIO
+            /* The unistdio extensions: */
             else if (dp->conversion == 'U') {
                 arg_type type = a.arg[dp->arg_index].type;
                 int flags = dp->flags;
@@ -2305,7 +2305,7 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
                   }
               }
 #endif
-#if (!USE_SNPRINTF || !HAVE_SNPRINTF_RETVAL_C99 || (NEED_PRINTF_DIRECTIVE_LS && !defined IN_LIBINTL)) && HAVE_WCHAR_T
+#if (!USE_SNPRINTF || !HAVE_SNPRINTF_RETVAL_C99 || ((defined(NEED_PRINTF_DIRECTIVE_LS) && NEED_PRINTF_DIRECTIVE_LS) && !defined IN_LIBINTL)) && HAVE_WCHAR_T
             else if ((dp->conversion == 's')
 # if WIDE_CHAR_VERSION
                      && (a.arg[dp->arg_index].type != TYPE_WIDE_STRING)
@@ -3006,7 +3006,7 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
 							  }
 							}
 							*p++ = dp->conversion - 'A' + 'P';
-#  if WIDE_CHAR_VERSION
+#  if defined(WIDE_CHAR_VERSION) && WIDE_CHAR_VERSION
                               {
                                 static const wchar_t decimal_format[] =
                                   { '%', '+', 'd', '\0' };
@@ -3132,8 +3132,8 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
 								  }
                                 }
                               }
-                              *p++ = dp->conversion - 'A' + 'P';
-#  if WIDE_CHAR_VERSION
+                              *p++ = (dp->conversion - 'A' + 'P');
+#  if defined(WIDE_CHAR_VERSION) && WIDE_CHAR_VERSION
                               {
                                 static const wchar_t decimal_format[] =
                                   { '%', '+', 'd', '\0' };
@@ -3220,7 +3220,10 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
                 }
               }
 #endif
-#if (NEED_PRINTF_INFINITE_DOUBLE || NEED_PRINTF_DOUBLE || NEED_PRINTF_INFINITE_LONG_DOUBLE || NEED_PRINTF_LONG_DOUBLE) && !defined IN_LIBINTL
+#if ((defined(NEED_PRINTF_INFINITE_DOUBLE) && NEED_PRINTF_INFINITE_DOUBLE) || \
+     (defined(NEED_PRINTF_DOUBLE) && NEED_PRINTF_DOUBLE) || \
+     (defined(NEED_PRINTF_INFINITE_LONG_DOUBLE) && NEED_PRINTF_INFINITE_LONG_DOUBLE) || \
+     (defined(NEED_PRINTF_LONG_DOUBLE) && NEED_PRINTF_LONG_DOUBLE)) && !defined IN_LIBINTL
             else if ((dp->conversion == 'f' || dp->conversion == 'F'
                       || dp->conversion == 'e' || dp->conversion == 'E'
                       || dp->conversion == 'g' || dp->conversion == 'G'
@@ -4239,22 +4242,25 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
             else {
                 arg_type type = a.arg[dp->arg_index].type;
                 int flags = dp->flags;
-#if !USE_SNPRINTF || !HAVE_SNPRINTF_RETVAL_C99 || !DCHAR_IS_TCHAR || ENABLE_UNISTDIO || NEED_PRINTF_FLAG_LEFTADJUST || NEED_PRINTF_FLAG_ZERO || NEED_PRINTF_UNBOUNDED_PRECISION
+#if !USE_SNPRINTF || !HAVE_SNPRINTF_RETVAL_C99 || !DCHAR_IS_TCHAR || \
+    (defined(ENABLE_UNISTDIO) && ENABLE_UNISTDIO) || \
+    (defined(NEED_PRINTF_FLAG_LEFTADJUST) && NEED_PRINTF_FLAG_LEFTADJUST) || NEED_PRINTF_FLAG_ZERO || NEED_PRINTF_UNBOUNDED_PRECISION
                 int has_width;
                 size_t width;
 #endif
-#if !USE_SNPRINTF || !HAVE_SNPRINTF_RETVAL_C99 || NEED_PRINTF_UNBOUNDED_PRECISION
+#if !USE_SNPRINTF || !HAVE_SNPRINTF_RETVAL_C99 || \
+    (defined(NEED_PRINTF_UNBOUNDED_PRECISION) && NEED_PRINTF_UNBOUNDED_PRECISION)
                 int has_precision;
                 size_t precision;
 #endif
-#if NEED_PRINTF_UNBOUNDED_PRECISION
+#if defined(NEED_PRINTF_UNBOUNDED_PRECISION) && NEED_PRINTF_UNBOUNDED_PRECISION
                 int prec_ourselves;
 #else
 #               define prec_ourselves 0
 #endif
-#if NEED_PRINTF_FLAG_LEFTADJUST
+#if defined(NEED_PRINTF_FLAG_LEFTADJUST) && NEED_PRINTF_FLAG_LEFTADJUST
 #               define pad_ourselves 1
-#elif !DCHAR_IS_TCHAR || ENABLE_UNISTDIO || NEED_PRINTF_FLAG_ZERO || NEED_PRINTF_UNBOUNDED_PRECISION
+#elif !DCHAR_IS_TCHAR || (defined(ENABLE_UNISTDIO) && ENABLE_UNISTDIO) || NEED_PRINTF_FLAG_ZERO || NEED_PRINTF_UNBOUNDED_PRECISION
                 int pad_ourselves;
 #else
 #               define pad_ourselves 0
@@ -4269,7 +4275,10 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
                 TCHAR_T *tmp;
 #endif /* !USE_SNPRINTF */
 
-#if !USE_SNPRINTF || !HAVE_SNPRINTF_RETVAL_C99 || !DCHAR_IS_TCHAR || ENABLE_UNISTDIO || NEED_PRINTF_FLAG_LEFTADJUST || NEED_PRINTF_FLAG_ZERO || NEED_PRINTF_UNBOUNDED_PRECISION
+#if !USE_SNPRINTF || !HAVE_SNPRINTF_RETVAL_C99 || !DCHAR_IS_TCHAR || \
+    (defined(ENABLE_UNISTDIO) && ENABLE_UNISTDIO) || \
+    (defined(NEED_PRINTF_FLAG_LEFTADJUST) && NEED_PRINTF_FLAG_LEFTADJUST) || \
+    NEED_PRINTF_FLAG_ZERO || NEED_PRINTF_UNBOUNDED_PRECISION
                 has_width = 0;
                 width = 0;
                 if (dp->width_start != dp->width_end) {
@@ -4299,7 +4308,8 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
 				}
 #endif /* !USE_SNPRINTF || !HAVE_SNPRINTF_RETVAL_C99 || !DCHAR_IS_TCHAR || ENABLE_UNISTDIO || NEED_PRINTF_FLAG_LEFTADJUST || NEED_PRINTF_FLAG_ZERO || NEED_PRINTF_UNBOUNDED_PRECISION */
 
-#if !USE_SNPRINTF || !HAVE_SNPRINTF_RETVAL_C99 || NEED_PRINTF_UNBOUNDED_PRECISION
+#if !USE_SNPRINTF || !HAVE_SNPRINTF_RETVAL_C99 || \
+    (defined(NEED_PRINTF_UNBOUNDED_PRECISION) && NEED_PRINTF_UNBOUNDED_PRECISION)
                 has_precision = 0;
                 precision = 6;
                 if (dp->precision_start != dp->precision_end) {
@@ -4326,8 +4336,8 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
 				}
 #endif /* !USE_SNPRINTF || !HAVE_SNPRINTF_RETVAL_C99 || NEED_PRINTF_UNBOUNDED_PRECISION */
 
-                /* Decide whether to handle the precision ourselves.  */
-#if NEED_PRINTF_UNBOUNDED_PRECISION
+                /* Decide whether to handle the precision ourselves: */
+#if defined(NEED_PRINTF_UNBOUNDED_PRECISION) && NEED_PRINTF_UNBOUNDED_PRECISION
                 switch (dp->conversion) {
                   case 'd': case 'i': case 'u':
                   case 'o':
@@ -4340,10 +4350,12 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
 				}
 #endif /* NEED_PRINTF_FLAG_ZERO */
 
-                /* Decide whether to perform the padding ourselves.  */
-#if !NEED_PRINTF_FLAG_LEFTADJUST && (!DCHAR_IS_TCHAR || ENABLE_UNISTDIO || NEED_PRINTF_FLAG_ZERO || NEED_PRINTF_UNBOUNDED_PRECISION)
+                /* Decide whether to perform the padding ourselves: */
+#if (!defined(NEED_PRINTF_FLAG_LEFTADJUST) || (defined(NEED_PRINTF_FLAG_LEFTADJUST) && !NEED_PRINTF_FLAG_LEFTADJUST)) \
+    && (!DCHAR_IS_TCHAR || (defined(ENABLE_UNISTDIO) && ENABLE_UNISTDIO) || \
+        NEED_PRINTF_FLAG_ZERO || NEED_PRINTF_UNBOUNDED_PRECISION)
                 switch (dp->conversion) {
-# if !DCHAR_IS_TCHAR || ENABLE_UNISTDIO
+# if !DCHAR_IS_TCHAR || (defined(ENABLE_UNISTDIO) && ENABLE_UNISTDIO)
                   /* If we need conversion from TCHAR_T[] to DCHAR_T[], we need
                    * to perform the padding after this conversion.  Functions
                    * with unistdio extensions perform the padding based on
@@ -4385,11 +4397,10 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
 				}
 #endif /* !USE_SNPRINTF */
 
-                /* Construct the format string for calling snprintf or
-                 * sprintf.  */
+                /* Construct the format string for calling snprintf/sprintf: */
                 fbp = buf;
                 *fbp++ = '%';
-#if NEED_PRINTF_FLAG_GROUPING
+#if defined(NEED_PRINTF_FLAG_GROUPING) && NEED_PRINTF_FLAG_GROUPING
                 /* The underlying implementation does NOT support the ' flag.
                  * Produce no grouping characters in this case; this is
                  * acceptable because the grouping is locale dependent.  */
@@ -4405,7 +4416,7 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
                   *fbp++ = ' ';
                 if (flags & FLAG_ALT)
                   *fbp++ = '#';
-#if __GLIBC__ >= 2 && !defined __UCLIBC__
+#if (defined(__GLIBC__) && (__GLIBC__ >= 2)) && !defined(__UCLIBC__)
                 if (flags & FLAG_LOCALIZED)
                   *fbp++ = 'I';
 #endif /* __GLIBC__ 2+ */
@@ -4477,14 +4488,15 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
                   default:
                     break;
                   }
-#if NEED_PRINTF_DIRECTIVE_F
+#if defined(NEED_PRINTF_DIRECTIVE_F) && NEED_PRINTF_DIRECTIVE_F
 				if (dp->conversion == 'F') {
                   *fbp = 'f';
                 } else
 #endif /* NEED_PRINTF_DIRECTIVE_F */
                   *fbp = dp->conversion;
 #if USE_SNPRINTF
-# if !(((__GLIBC__ > 2 || (__GLIBC__ == 2 && __GLIBC_MINOR__ >= 3)) && !defined __UCLIBC__) || ((defined _WIN32 || defined __WIN32__) && ! defined __CYGWIN__))
+# if !((((defined(__GLIBC__) && ((__GLIBC__ > 2) || (defined(__GLIBC_MINOR__) && ((__GLIBC__ == 2) && (__GLIBC_MINOR__ >= 3)))))) && !defined __UCLIBC__) || \
+       ((defined _WIN32 || defined __WIN32__) && ! defined __CYGWIN__))
                 fbp[1] = '%';
                 fbp[2] = 'n';
                 fbp[3] = '\0';
@@ -4844,7 +4856,7 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
                       }
 #endif /* USE_SNPRINTF */
 
-#if NEED_PRINTF_UNBOUNDED_PRECISION
+#if defined(NEED_PRINTF_UNBOUNDED_PRECISION) && NEED_PRINTF_UNBOUNDED_PRECISION
                     if (prec_ourselves)
                       {
                         /* Handle the precision.  */
@@ -5009,10 +5021,11 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
                     /* Here (count <= (allocated - length)).  */
 
                     /* Perform padding.  */
-#if !DCHAR_IS_TCHAR || ENABLE_UNISTDIO || NEED_PRINTF_FLAG_LEFTADJUST || NEED_PRINTF_FLAG_ZERO || NEED_PRINTF_UNBOUNDED_PRECISION
+#if !DCHAR_IS_TCHAR || (defined(ENABLE_UNISTDIO) && ENABLE_UNISTDIO) || \
+    (defined(NEED_PRINTF_FLAG_LEFTADJUST) && NEED_PRINTF_FLAG_LEFTADJUST) || NEED_PRINTF_FLAG_ZERO || NEED_PRINTF_UNBOUNDED_PRECISION
                     if (pad_ourselves && has_width) {
                         size_t w;
-# if ENABLE_UNISTDIO
+# if defined(ENABLE_UNISTDIO) && ENABLE_UNISTDIO
                         /* Outside POSIX, it is preferable to compare the width
                          * against the number of _characters_ of the converted
                          * value.  */
@@ -5052,7 +5065,7 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
                               DCHAR_T *p = (rp + count);
                               DCHAR_T *end = (p + pad);
                               DCHAR_T *pad_ptr;
-# if !DCHAR_IS_TCHAR || ENABLE_UNISTDIO
+# if !DCHAR_IS_TCHAR || (defined(ENABLE_UNISTDIO) && ENABLE_UNISTDIO)
                               if ((dp->conversion == 'c')
                                   || (dp->conversion == 's')) {
                                 /* No zero-padding for string directives.  */
@@ -5118,7 +5131,7 @@ VASNPRINTF(DCHAR_T *resultbuf, size_t *lengthp,
 					}
 #endif /* !USE_SNPRINTF */
 
-#if NEED_PRINTF_DIRECTIVE_F
+#if defined(NEED_PRINTF_DIRECTIVE_F) && NEED_PRINTF_DIRECTIVE_F
                     if (dp->conversion == 'F') {
                         /* Convert the %f result to upper case for %F.  */
                         DCHAR_T *rp = (result + length);

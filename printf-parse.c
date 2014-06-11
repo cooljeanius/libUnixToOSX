@@ -72,7 +72,7 @@
 /* Checked size_t computations. */
 #include "xsize.h"
 
-#if CHAR_T_ONLY_ASCII
+#if defined(CHAR_T_ONLY_ASCII) && CHAR_T_ONLY_ASCII
 /* c_isascii(). */
 # include "c-ctype.h"
 #endif /* CHAR_T_ONLY_ASCII */
@@ -192,7 +192,7 @@ PRINTF_PARSE(const CHAR_T *format, DIRECTIVES *d, arguments *a)
                   dp->flags |= FLAG_ZERO;
                   cp++;
 			  }
-#if __GLIBC__ >= 2 && !defined __UCLIBC__
+#if (defined(__GLIBC__) && (__GLIBC__ >= 2)) && !defined __UCLIBC__
               else if (*cp == 'I') {
                   dp->flags |= FLAG_LOCALIZED;
                   cp++;
@@ -485,7 +485,7 @@ PRINTF_PARSE(const CHAR_T *format, DIRECTIVES *d, arguments *a)
                   else
                     type = TYPE_COUNT_INT_POINTER;
                   break;
-#if ENABLE_UNISTDIO
+#if defined(ENABLE_UNISTDIO) && ENABLE_UNISTDIO
                 /* The unistdio extensions.  */
                 case 'U':
                   if (flags >= 16)
@@ -540,7 +540,7 @@ PRINTF_PARSE(const CHAR_T *format, DIRECTIVES *d, arguments *a)
               d->dir = memory;
 		  }
         }
-#if CHAR_T_ONLY_ASCII
+#if defined(CHAR_T_ONLY_ASCII) && CHAR_T_ONLY_ASCII
       else if (!c_isascii (c)) {
           /* Non-ASCII character.  Not supported.  */
           goto error;

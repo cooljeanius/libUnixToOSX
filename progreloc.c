@@ -20,9 +20,9 @@
 # define __PROGRELOC_C__ 1
 
 # if defined(__GNUC__) && defined(__GNUC_MINOR__)
-#  if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 6))
+#  if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 2))
 #   pragma GCC diagnostic ignored "-Wunused-macros"
-#  endif /* GCC 4.6+ */
+#  endif /* GCC 4.2+ */
 # endif /* gcc */
 # define _GL_USE_STDLIB_ALLOC 1
 # include <config.h>
@@ -348,7 +348,7 @@ set_program_name_and_installdir(const char *argv0,
 		size_t argv0_len = strlen(argv0);
 		const size_t exeext_len = (sizeof(EXEEXT) - sizeof(""));
 		if (argv0_len > (4 + exeext_len)) {
-			if (memcmp((argv0 + argv0_len - exeext_len - 4), ".bin", 4) == 0) {
+			if (memcmp((argv0 + argv0_len - exeext_len - 4), ".bin", (size_t)4L) == 0) {
 				if (sizeof(EXEEXT) > sizeof("")) {
 					/* Compare using an inlined copy of c_strncasecmp(), because
 					 * the filenames may have undergone a case conversion since

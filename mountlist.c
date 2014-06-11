@@ -209,7 +209,7 @@
 # define MOUNTED_GETMNTTBL 1
 #endif /* DOLPHIN */
 
-#if HAVE_SYS_MNTENT_H
+#if defined(HAVE_SYS_MNTENT_H) && HAVE_SYS_MNTENT_H
 /* This is to get MNTOPT_IGNORE on e.g. SVR4. */
 # include <sys/mntent.h>
 #endif /* HAVE_SYS_MNTENT_H */
@@ -601,7 +601,7 @@ read_file_system_list(bool need_fs_type)
     for (; (entries-- > 0); fsp++) {
         char *fs_type = fsp_to_string(fsp);
 
-        me = xmalloc(sizeof(*me));
+        me = (struct mount_entry *)xmalloc(sizeof(*me));
         me->me_devname = xstrdup(fsp->f_mntfromname);
         me->me_mountdir = xstrdup(fsp->f_mntonname);
         me->me_type = fs_type;
@@ -633,7 +633,7 @@ read_file_system_list(bool need_fs_type)
 		return NULL;
 	}
     for (; (entries-- > 0); fsp++) {
-        me = xmalloc(sizeof(*me));
+        me = (struct mount_entry *)xmalloc(sizeof(*me));
         me->me_devname = xstrdup(fsp->f_mntfromname);
         me->me_mountdir = xstrdup(fsp->f_mntonname);
         me->me_type = xstrdup(fsp->f_fstypename);

@@ -18,9 +18,9 @@
    write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
    Boston, MA 02111-1307, USA.  */
 
-#if !_LIBC
+#if !defined(_LIBC) || (defined(_LIBC) && !_LIBC)
 /* This code is written for inclusion in gnu-libc, and uses names in the
-   namespace reserved for libc.  If we're not compiling in libc, define those
+   namespace reserved for libc.  If we are not compiling in libc, define those
    names to be the normal ones instead.  */
 
 /* argp-parse functions */

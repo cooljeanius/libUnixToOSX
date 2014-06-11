@@ -41,9 +41,8 @@
 
 #undef _get_osfhandle
 
-#if HAVE_MSVC_INVALID_PARAMETER_HANDLER
-intptr_t
-_gl_nothrow_get_osfhandle(int fd)
+#if defined(HAVE_MSVC_INVALID_PARAMETER_HANDLER) && HAVE_MSVC_INVALID_PARAMETER_HANDLER
+intptr_t _gl_nothrow_get_osfhandle(int fd)
 {
   intptr_t result;
 

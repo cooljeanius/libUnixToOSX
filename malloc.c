@@ -18,14 +18,21 @@
 
 /* written by Jim Meyering and Bruno Haible */
 
-#define _GL_USE_STDLIB_ALLOC 1
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 2))
+#  pragma GCC diagnostic ignored "-Wunused-macros"
+# endif /* GCC 4.2+ */
+#endif /* gcc */
+#ifndef _GL_USE_STDLIB_ALLOC
+# define _GL_USE_STDLIB_ALLOC 1
+#endif /* !_GL_USE_STDLIB_ALLOC */
 #include <config.h>
 /* Only the AC_FUNC_MALLOC macro defines 'malloc' already in config.h. */
 #ifdef malloc
 # define NEED_MALLOC_GNU 1
 # undef malloc
 /* Whereas the gnulib module 'malloc-gnu' defines HAVE_MALLOC_GNU. */
-#elif GNULIB_MALLOC_GNU && !HAVE_MALLOC_GNU
+#elif (defined(GNULIB_MALLOC_GNU) && GNULIB_MALLOC_GNU) && !HAVE_MALLOC_GNU
 # define NEED_MALLOC_GNU 1
 #endif /* malloc || (GNULIB_MALLOC_GNU && !HAVE_MALLOC_GNU) */
 
@@ -37,15 +44,14 @@
  * If N is zero, allocate a 1-byte block. */
 
 #ifndef rpl_malloc
-/* prototype */
+/* prototype: */
 void *rpl_malloc(size_t n);
 #endif /* !rpl_malloc */
-void *
-rpl_malloc(size_t n)
+void *rpl_malloc(size_t n)
 {
   void *result;
 
-#if NEED_MALLOC_GNU
+#if defined(NEED_MALLOC_GNU) && NEED_MALLOC_GNU
 	if (n == 0) {
 		n = 1;
 	}

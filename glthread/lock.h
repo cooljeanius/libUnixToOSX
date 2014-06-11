@@ -1,4 +1,4 @@
-/* Locking in multithreaded situations.
+/* glthread/lock.h: Locking in multithreaded situations.
    Copyright (C) 2005-2012 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
@@ -83,7 +83,7 @@
 
 /* ========================================================================= */
 
-#if USE_POSIX_THREADS
+#if defined(USE_POSIX_THREADS) && USE_POSIX_THREADS
 
 /* Use the POSIX threads library.  */
 
@@ -93,7 +93,7 @@
 extern "C" {
 # endif
 
-# if PTHREAD_IN_USE_DETECTION_HARD
+# if defined(PTHREAD_IN_USE_DETECTION_HARD) && PTHREAD_IN_USE_DETECTION_HARD
 
 /* The pthread_in_use() detection needs to be done at runtime.  */
 #  define pthread_in_use() \
@@ -102,7 +102,7 @@ extern int glthread_in_use (void);
 
 # endif
 
-# if USE_POSIX_THREADS_WEAK
+# if defined(USE_POSIX_THREADS_WEAK) && USE_POSIX_THREADS_WEAK
 
 /* Use weak references to the POSIX threads library.  */
 
@@ -143,14 +143,14 @@ extern int glthread_in_use (void);
 #   pragma weak pthread_self
 #  endif
 
-#  if !PTHREAD_IN_USE_DETECTION_HARD
+#  if !defined(PTHREAD_IN_USE_DETECTION_HARD) || (defined(PTHREAD_IN_USE_DETECTION_HARD) && !PTHREAD_IN_USE_DETECTION_HARD)
 #   pragma weak pthread_cancel
 #   define pthread_in_use() (pthread_cancel != NULL)
 #  endif
 
 # else
 
-#  if !PTHREAD_IN_USE_DETECTION_HARD
+#  if !defined(PTHREAD_IN_USE_DETECTION_HARD) || (defined(PTHREAD_IN_USE_DETECTION_HARD) && !PTHREAD_IN_USE_DETECTION_HARD)
 #   define pthread_in_use() 1
 #  endif
 
@@ -376,7 +376,7 @@ extern int glthread_once_singlethreaded (pthread_once_t *once_control);
 
 /* ========================================================================= */
 
-#if USE_PTH_THREADS
+#if defined(USE_PTH_THREADS) && USE_PTH_THREADS
 
 /* Use the GNU Pth threads library.  */
 
@@ -484,7 +484,7 @@ extern int glthread_once_singlethreaded (pth_once_t *once_control);
 
 /* ========================================================================= */
 
-#if USE_SOLARIS_THREADS
+#if defined(USE_SOLARIS_THREADS) && USE_SOLARIS_THREADS
 
 /* Use the old Solaris threads library.  */
 
@@ -613,7 +613,7 @@ extern int glthread_once_singlethreaded (gl_once_t *once_control);
 
 /* ========================================================================= */
 
-#if USE_WINDOWS_THREADS
+#if defined(USE_WINDOWS_THREADS) && USE_WINDOWS_THREADS
 
 # define WIN32_LEAN_AND_MEAN  /* avoid including junk */
 # include <windows.h>
@@ -914,14 +914,15 @@ typedef int gl_once_t;
 
 /* -------------------------- gl_once_t datatype -------------------------- */
 
-#define gl_once(NAME, INITFUNCTION) \
-   do                                           \
-     {                                          \
-       if (glthread_once (&NAME, INITFUNCTION)) \
-         abort ();                              \
-     }                                          \
-   while (0)
+#define gl_once(NAME, INITFUNCTION)              \
+   do {                                          \
+       if (glthread_once(&NAME, INITFUNCTION)) { \
+         abort();                                \
+       }                                         \
+   } while (0)
 
 /* ========================================================================= */
 
 #endif /* _LOCK_H */
+
+/* EOF */

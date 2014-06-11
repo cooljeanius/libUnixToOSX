@@ -29,49 +29,58 @@
 
 #define STREQ(a, b) (strcmp (a, b) == 0)
 
-/* Hash an F_triple, and *do* consider the file name.  */
-size_t
-triple_hash (void const *x, size_t table_size)
+/* Hash an F_triple, and *do* consider the file name: */
+size_t triple_hash(void const *x, size_t table_size)
 {
-  struct F_triple const *p = x;
-  size_t tmp = hash_pjw (p->name, table_size);
+	struct F_triple const *p;
+	size_t tmp;
 
-  /* Ignoring the device number here should be fine.  */
-  return (tmp ^ p->st_ino) % table_size;
+	p = (const struct F_triple *)x;
+	tmp = hash_pjw(p->name, table_size);
+
+	/* Ignoring the device number here should be fine: */
+	return ((tmp ^ p->st_ino) % table_size);
 }
 
-/* Hash an F_triple, without considering the file name.  */
-size_t
-triple_hash_no_name (void const *x, size_t table_size)
+/* Hash an F_triple, without considering the file name: */
+size_t triple_hash_no_name(void const *x, size_t table_size)
 {
-  struct F_triple const *p = x;
+	struct F_triple const *p;
 
-  /* Ignoring the device number here should be fine.  */
-  return p->st_ino % table_size;
+	p = (const struct F_triple *)x;
+
+	/* Ignoring the device number here should be fine: */
+	return (p->st_ino % table_size);
 }
 
-/* Compare two F_triple structs.  */
-bool
-triple_compare (void const *x, void const *y)
+/* Compare two F_triple structs: */
+bool triple_compare(void const *x, void const *y)
 {
-  struct F_triple const *a = x;
-  struct F_triple const *b = y;
-  return (SAME_INODE (*a, *b) && same_name (a->name, b->name)) ? true : false;
+  struct F_triple const *a;
+  struct F_triple const *b;
+
+  a = (const struct F_triple *)x;
+  b = (const struct F_triple *)y;
+  return ((SAME_INODE(*a, *b) && same_name (a->name, b->name)) ? true : false);
 }
 
-bool
-triple_compare_ino_str (void const *x, void const *y)
+bool triple_compare_ino_str(void const *x, void const *y)
 {
-  struct F_triple const *a = x;
-  struct F_triple const *b = y;
-  return (SAME_INODE (*a, *b) && STREQ (a->name, b->name)) ? true : false;
+  struct F_triple const *a;
+  struct F_triple const *b;
+
+  a = (const struct F_triple *)x;
+  b = (const struct F_triple *)y;
+  return ((SAME_INODE(*a, *b) && STREQ(a->name, b->name)) ? true : false);
 }
 
-/* Free an F_triple.  */
-void
-triple_free (void *x)
+/* Free an F_triple: */
+void triple_free(void *x)
 {
-  struct F_triple *a = x;
-  free (a->name);
-  free (a);
+  struct F_triple *a;
+  a = (struct F_triple *)x;
+  free(a->name);
+  free(a);
 }
+
+/* EOF */

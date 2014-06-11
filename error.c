@@ -18,7 +18,7 @@
 
 /* Written by David MacKenzie <djm@gnu.ai.mit.edu>. */
 
-#if !_LIBC
+#if !defined(_LIBC) || (defined(_LIBC) && !_LIBC)
 # include <config.h>
 #endif /* !_LIBC */
 
@@ -29,7 +29,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#if !_LIBC && ENABLE_NLS
+#if (!defined(_LIBC) || (defined(_LIBC) && !_LIBC)) && (defined(ENABLE_NLS) && ENABLE_NLS)
 # include "gettext.h"
 # define _(msgid) gettext (msgid)
 #endif /* !_LIBC && ENABLE_NLS */
@@ -41,7 +41,7 @@
 # include <wchar.h>
 # define mbsrtowcs __mbsrtowcs
 #else
-# ifdef HAVE_LIBINTL_H
+# if defined(HAVE_LIBINTL_H) && (defined(ENABLE_NLS) && ENABLE_NLS)
 #  include <libintl.h>
 # endif /* HAVE_LIBINTL_H */
 #endif /* _LIBC */
@@ -138,10 +138,9 @@ extern char *program_name;
 # endif /* __STRICT_ANSI__ */
 #endif /* !INLINECALL */
 
-#if !_LIBC
+#if !defined(_LIBC) || (defined(_LIBC) && !_LIBC)
 /* Return non-zero if FD is open.  */
-static INLINECALL int
-is_open(int fd)
+static INLINECALL int is_open(int fd)
 {
 # if (defined _WIN32 || defined __WIN32__) && ! defined __CYGWIN__
   /* On native Windows: The initial state of unassigned standard file
@@ -157,14 +156,13 @@ is_open(int fd)
 }
 #endif /* !_LIBC */
 
-static INLINECALL void
-flush_stdout(void)
+static INLINECALL void flush_stdout(void)
 {
   int should_do_fflush = 1;
-#if !_LIBC
+#if !defined(_LIBC) || (defined(_LIBC) && !_LIBC)
   int stdout_fd;
 
-# if GNULIB_FREOPEN_SAFER
+# if defined(GNULIB_FREOPEN_SAFER) && GNULIB_FREOPEN_SAFER
   /* Use of gnulib's freopen-safer module normally ensures that
    *   fileno (stdout) == 1
    * whenever stdout is open. */
@@ -196,7 +194,7 @@ print_errno_message(int errnum)
 
 #if defined HAVE_STRERROR_R || _LIBC
   char errbuf[1024];
-# if STRERROR_R_CHAR_P || _LIBC
+# if (defined(STRERROR_R_CHAR_P) && STRERROR_R_CHAR_P) || (defined(_LIBC) && _LIBC)
   s = __strerror_r(errnum, errbuf, sizeof errbuf);
 # else
 	if (__strerror_r(errnum, errbuf, sizeof errbuf) == 0) {
@@ -209,24 +207,24 @@ print_errno_message(int errnum)
   s = strerror(errnum);
 #endif /* HAVE_STRERROR_R || _LIBC */
 
-#if !_LIBC
+#if !defined(_LIBC) || (defined(_LIBC) && !_LIBC)
 	if (! s) {
 		s = _("Unknown system error");
 	}
 #endif /* !_LIBC */
 
-#if _LIBC
+#if defined(_LIBC) && _LIBC
   __fxprintf(NULL, ": %s", s);
 #else
   fprintf(stderr, ": %s", s);
 #endif /* _LIBC */
 }
 
-static void
-error_tail (int status, int errnum, const char *message, va_list args)
+static void error_tail(int status, int errnum, const char *message,
+					   va_list args)
 {
   int should_do_vprintf = 1;
-#if _LIBC
+#if defined(_LIBC) && _LIBC
   if (_IO_fwide(stderr, 0) > 0) {
 # define ALLOCA_LIMIT 2000
       size_t len = (strlen(message) + 1);
@@ -300,7 +298,7 @@ error_tail (int status, int errnum, const char *message, va_list args)
 	if (errnum) {
 		print_errno_message (errnum);
 	}
-#if _LIBC
+#if defined(_LIBC) && _LIBC
   __fxprintf(NULL, "\n");
 #else
   putc('\n', stderr);
@@ -335,7 +333,7 @@ error(int status, int errnum, const char *message, ...)
 	if (error_print_progname) {
 		(*error_print_progname)();
 	} else {
-#if _LIBC
+#if defined(_LIBC) && _LIBC
       __fxprintf(NULL, "%s: ", program_name);
 #else
       fprintf(stderr, "%s: ", program_name);
@@ -392,14 +390,14 @@ error_at_line(int status, int errnum, const char *file_name,
 	if (error_print_progname) {
 		(*error_print_progname)();
 	} else {
-#if _LIBC
+#if defined(_LIBC) && _LIBC
       __fxprintf(NULL, "%s:", program_name);
 #else
       fprintf(stderr, "%s:", program_name);
 #endif /* _LIBC */
     }
 
-#if _LIBC
+#if defined(_LIBC) && _LIBC
   __fxprintf(NULL, ((file_name != NULL) ? "%s:%d: " : " "),
 			 file_name, line_number);
 #else

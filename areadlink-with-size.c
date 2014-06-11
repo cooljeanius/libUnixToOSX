@@ -68,7 +68,8 @@ areadlink_with_size(char const *file, size_t size)
   while (1) {
       ssize_t r;
       size_t link_length;
-      char *buffer = malloc(buf_size);
+      char *buffer;
+	  buffer = (char *)malloc(buf_size);
 
 	  if (buffer == NULL) {
         return NULL;

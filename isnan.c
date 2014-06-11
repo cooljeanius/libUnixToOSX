@@ -93,16 +93,16 @@ extern int rpl_isnanf(float x);
 #define EXP_MASK ((MAX_EXP - MIN_EXP) | 7)
 
 #define NWORDS \
-  ((sizeof (DOUBLE) + sizeof (unsigned int) - 1) / sizeof (unsigned int))
+  ((sizeof(DOUBLE) + sizeof(unsigned int) - 1) / sizeof(unsigned int))
 typedef union { DOUBLE value; unsigned int word[NWORDS]; } memory_double;
 
-int
-FUNC(DOUBLE x)
+int FUNC(DOUBLE x)
 {
 #ifdef KNOWN_EXPBIT0_LOCATION
 # if defined USE_LONG_DOUBLE && \
   ((defined(__ia64) && (LDBL_MANT_DIG == 64)) || (defined(__x86_64) || defined(__x86_64__) || defined(__amd64) || defined(__amd64__)) || \
-   (defined __i386 || defined __i386__ || defined _I386 || defined _M_IX86 || defined _X86_)) && !HAVE_SAME_LONG_DOUBLE_AS_DOUBLE
+   (defined __i386 || defined __i386__ || defined _I386 || defined _M_IX86 || defined _X86_)) && \
+  (!defined(HAVE_SAME_LONG_DOUBLE_AS_DOUBLE) || (defined(HAVE_SAME_LONG_DOUBLE_AS_DOUBLE) && !HAVE_SAME_LONG_DOUBLE_AS_DOUBLE))
   /* Special CPU dependent code is needed to treat bit patterns outside the
    * IEEE 754 specification (such as Pseudo-NaNs, Pseudo-Infinities,
    * Pseudo-Zeroes, Unnormalized Numbers, and Pseudo-Denormals) as NaNs.
@@ -176,25 +176,26 @@ FUNC(DOUBLE x)
   /* The configuration did not find sufficient information.  Give up about
    * the signaling NaNs, handle only the quiet NaNs.  */
   if (x == x) {
-# if defined USE_LONG_DOUBLE && \
+# if defined(USE_LONG_DOUBLE) && \
   ((defined(__ia64) && (LDBL_MANT_DIG == 64)) || (defined(__x86_64) || defined(__x86_64__) || defined(__amd64) || defined(__amd64__)) || \
-   (defined __i386 || defined __i386__ || defined _I386 || defined _M_IX86 || defined _X86_)) && !HAVE_SAME_LONG_DOUBLE_AS_DOUBLE
-      /* Detect any special bit patterns that pass ==; see comment above.  */
+   (defined(__i386) || defined(__i386__) || defined(_I386) || defined(_M_IX86) || defined(_X86_))) && \
+  (!defined(HAVE_SAME_LONG_DOUBLE_AS_DOUBLE) || (defined(HAVE_SAME_LONG_DOUBLE_AS_DOUBLE) && !HAVE_SAME_LONG_DOUBLE_AS_DOUBLE))
+      /* Detect any special bit patterns that pass ==; see comment above. */
       memory_double m1;
       memory_double m2;
 
-      memset (&m1.value, 0, SIZE);
-      memset (&m2.value, 0, SIZE);
+      memset(&m1.value, 0, SIZE);
+      memset(&m2.value, 0, SIZE);
       m1.value = x;
       m2.value = (x + (x ? 0.0L : -0.0L));
-	  if (memcmp (&m1.value, &m2.value, SIZE) != 0) {
-        return 1;
+	  if (memcmp(&m1.value, &m2.value, SIZE) != 0) {
+		  return 1;
 	  }
 # endif /* arch check */
       return 0;
-    } else {
+  } else {
       return 1;
-	}
+  }
 #endif /* KNOWN_EXPBIT0_LOCATION */
 }
 #else /* __ISNAN_C__ already defined: */

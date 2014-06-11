@@ -49,7 +49,8 @@ char *canonicalize_filename_mode(const char *, canonicalize_mode_t);
 /* prototype for function from canonicalize-lgpl.c: */
 #ifndef __canonicalize_file_name
 /* same set of conditions that canonicalize-lgpl.c uses: */
-# if !HAVE_CANONICALIZE_FILE_NAME || !FUNC_REALPATH_WORKS || defined _LIBC
+# if (!defined(HAVE_CANONICALIZE_FILE_NAME) || (defined(HAVE_CANONICALIZE_FILE_NAME) && !HAVE_CANONICALIZE_FILE_NAME)) \
+     || !FUNC_REALPATH_WORKS || defined _LIBC
 #  ifdef _LIBC
 #   include <shlib-compat.h>
 #  else

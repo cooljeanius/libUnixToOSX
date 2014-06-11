@@ -1,4 +1,4 @@
-/* Invoke fcntl-like functions, but avoid some glitches.
+/* fcntl-safer.h: Invoke fcntl-like functions, but avoid some glitches.
 
    Copyright (C) 2005, 2009-2012 Free Software Foundation, Inc.
 
@@ -25,3 +25,5 @@ int creat_safer (char const *, mode_t);
 #if GNULIB_OPENAT_SAFER
 int openat_safer (int, char const *, int, ...);
 #endif
+
+/* EOF */

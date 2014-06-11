@@ -25,16 +25,14 @@
 /* Use the POSIX threads library.  */
 # include <pthread.h>
 # include <stdlib.h>
-# if PTHREAD_IN_USE_DETECTION_HARD
-/* The function to be executed by a dummy thread.  */
-static void *
-dummy_thread_func(void *arg)
+# if defined(PTHREAD_IN_USE_DETECTION_HARD) && PTHREAD_IN_USE_DETECTION_HARD
+/* The function to be executed by a dummy thread: */
+static void *dummy_thread_func(void *arg)
 {
   return arg;
 }
 
-int
-glthread_in_use(void)
+int glthread_in_use(void)
 {
   static int tested;
   static int result; /* 1: linked with -lpthread, 0: only with libc */

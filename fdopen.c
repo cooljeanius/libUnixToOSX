@@ -24,13 +24,13 @@
 
 #include "rpl_misc_funcs.h"
 
-#if HAVE_MSVC_INVALID_PARAMETER_HANDLER
+#if defined(HAVE_MSVC_INVALID_PARAMETER_HANDLER) && HAVE_MSVC_INVALID_PARAMETER_HANDLER
 # include "msvc-inval.h"
 #endif /* HAVE_MSVC_INVALID_PARAMETER_HANDLER */
 
 #undef fdopen
 
-#if HAVE_MSVC_INVALID_PARAMETER_HANDLER
+#if defined(HAVE_MSVC_INVALID_PARAMETER_HANDLER) && HAVE_MSVC_INVALID_PARAMETER_HANDLER
 static FILE *
 fdopen_nothrow(int fd, const char *mode)
 {

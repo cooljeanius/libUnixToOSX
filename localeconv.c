@@ -20,13 +20,11 @@
 /* Specification.  */
 #include <locale.h>
 
-#if HAVE_STRUCT_LCONV_DECIMAL_POINT
+#if defined(HAVE_STRUCT_LCONV_DECIMAL_POINT) && HAVE_STRUCT_LCONV_DECIMAL_POINT
 
 /* Override for platforms where 'struct lconv' lacks the int_p_*, int_n_*
- * members.  */
-
-struct lconv *
-localeconv(void)
+ * members: */
+struct lconv *localeconv(void)
 {
   static struct lconv result;
 # undef lconv

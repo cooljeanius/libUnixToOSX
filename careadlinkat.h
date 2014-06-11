@@ -55,7 +55,7 @@ char *careadlinkat (int fd, char const *filename,
 /* Suitable values for careadlinkat's FD and PREADLINKAT arguments,
    when doing a plain readlink:
    Pass FD = AT_FDCWD and PREADLINKAT = careadlinkatcwd.  */
-#if HAVE_READLINKAT
+#if defined(HAVE_READLINKAT) && HAVE_READLINKAT
 /* AT_FDCWD is declared in <fcntl.h>.  */
 #else
 /* Define AT_FDCWD independently, so that the careadlinkat module does

@@ -1,4 +1,4 @@
-/* Retrieve information about a FILE stream.
+/* freading.h: Retrieve information about a FILE stream.
    Copyright (C) 2007-2012 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -32,7 +32,8 @@
 
    STREAM must not be wide-character oriented.  */
 
-#if HAVE___FREADING && (!defined __GLIBC__ || defined __UCLIBC__ || __GLIBC__ > 2 || (__GLIBC__ == 2 && __GLIBC_MINOR__ >= 7))
+#if (defined(HAVE___FREADING) && HAVE___FREADING) && \
+    (!defined __GLIBC__ || defined __UCLIBC__ || (__GLIBC__ > 2) || ((__GLIBC__ == 2) && (__GLIBC_MINOR__ >= 7)))
 /* Solaris >= 7, not glibc >= 2.2, but glibc >= 2.7, or musl libc  */
 
 # include <stdio_ext.h>

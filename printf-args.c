@@ -34,8 +34,7 @@
 #ifdef STATIC
 STATIC
 #endif /* STATIC */
-int
-PRINTF_FETCHARGS(va_list args, arguments *a)
+int PRINTF_FETCHARGS(va_list args, arguments *a)
 {
   size_t i;
   argument *ap;
@@ -143,8 +142,8 @@ PRINTF_FETCHARGS(va_list args, arguments *a)
         ap->a.a_count_longlongint_pointer = va_arg(args, long long int *);
         break;
 #endif /* HAVE_LONG_LONG_INT */
-#if ENABLE_UNISTDIO
-      /* The unistdio extensions.  */
+#if defined(ENABLE_UNISTDIO) && ENABLE_UNISTDIO
+      /* The unistdio extensions: */
       case TYPE_U8_STRING:
         ap->a.a_u8_string = va_arg(args, const uint8_t *);
         /* A null pointer is an invalid argument for "%U", but in practice
@@ -179,10 +178,12 @@ PRINTF_FETCHARGS(va_list args, arguments *a)
 		}
         break;
 #endif /* ENABLE_UNISTDIO */
+	  case TYPE_NONE:
+		/* (not sure what to do here, so just fall through) */ ;
       default:
         /* Unknown type.  */
         return -1;
-      }
+	}
   }
   return 0;
 }

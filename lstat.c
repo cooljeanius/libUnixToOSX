@@ -26,7 +26,7 @@
 #endif /* !__need_system_sys_stat_h */
 #include <config.h>
 
-#if !HAVE_LSTAT
+#if !defined(HAVE_LSTAT) || (defined(HAVE_LSTAT) && !HAVE_LSTAT)
 /* On systems that lack symlinks, our replacement <sys/stat.h> already
  * defined lstat as stat, so there is nothing further to do other than
  * avoid an empty file.  */

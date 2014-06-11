@@ -1,4 +1,4 @@
-/* Like fcntl.h, but redefine some names to avoid glitches.
+/* fcntl--.h: Like fcntl.h, but redefine some names to avoid glitches.
 
    Copyright (C) 2005, 2009-2012 Free Software Foundation, Inc.
 
@@ -30,3 +30,5 @@
 # undef openat
 # define openat openat_safer
 #endif
+
+/* EOF */

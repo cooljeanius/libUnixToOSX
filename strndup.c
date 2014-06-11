@@ -33,18 +33,20 @@
 size_t strnlen(const char *string, size_t maxlen);
 #endif /* !strnlen */
 
-char *
-strndup(char const *s, size_t n)
+char *strndup(char const *s, size_t n)
 {
-  size_t len = strnlen(s, n);
-  char *new = malloc(len + 1);
+  size_t len;
+  char *new;
+
+  len = strnlen(s, n);
+  new = (char *)malloc(len + 1);
 
   if (new == NULL) {
-    return NULL;
+	  return NULL;
   }
 
   new[len] = '\0';
-  return memcpy(new, s, len);
+  return (char *)memcpy((char *)new, s, len);
 }
 
 /* EOF */

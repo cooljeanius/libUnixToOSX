@@ -27,7 +27,7 @@
 
 #include "careadlinkat.h"
 
-#if HAVE_READLINKAT
+#if defined(HAVE_READLINKAT) && HAVE_READLINKAT
 
 /* Call readlinkat to get the symbolic link value of FILENAME relative to FD.
    Return a pointer to that NUL-terminated string in malloc'd storage.

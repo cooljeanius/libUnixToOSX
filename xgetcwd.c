@@ -28,14 +28,16 @@
 #include "xalloc.h"
 
 /* Return the current directory, newly allocated.
-   Upon an out-of-memory error, call xalloc_die.
-   Upon any other type of error, return NULL.  */
-
-char *
-xgetcwd (void)
+ * Upon an out-of-memory error, call xalloc_die.
+ * Upon any other type of error, return NULL.  */
+char *xgetcwd(void)
 {
-  char *cwd = getcwd (NULL, 0);
-  if (! cwd && errno == ENOMEM)
-    xalloc_die ();
+  char *cwd;
+  cwd = getcwd(NULL, (size_t)0L);
+  if (! cwd && (errno == ENOMEM)) {
+	  xalloc_die();
+  }
   return cwd;
 }
+
+/* EOF */

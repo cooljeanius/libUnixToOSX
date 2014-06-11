@@ -27,7 +27,7 @@
 
 #include "dirname.h"
 
-#if ! HAVE_MEMPCPY && ! defined mempcpy
+#if (!defined(HAVE_MEMPCPY) || (defined(HAVE_MEMPCPY) && !HAVE_MEMPCPY)) && !defined mempcpy
 # define mempcpy(D, S, N) ((void *) ((char *) memcpy (D, S, N) + (N)))
 #endif
 
@@ -58,7 +58,7 @@ longest_relative_suffix (char const *f)
    Return NULL if malloc fails.  */
 
 char *
-mfile_name_concat (char const *dir, char const *abase, char **base_in_result)
+mfile_name_concat(char const *dir, char const *abase, char **base_in_result)
 {
   char const *dirbase = last_component (dir);
   size_t dirbaselen = base_len (dirbase);
@@ -68,21 +68,25 @@ mfile_name_concat (char const *dir, char const *abase, char **base_in_result)
   char const *base = longest_relative_suffix(abase);
   size_t baselen = strlen(base);
 
-  char *p_concat = malloc(dirlen + needs_separator + baselen + 1);
+  char *p_concat;
   char *p;
+
+  p_concat = (char *)malloc(dirlen + needs_separator + baselen + 1);
 
   if (p_concat == NULL)
     return NULL;
 
-  p = mempcpy (p_concat, dir, dirlen);
+  p = (char *)mempcpy(p_concat, dir, dirlen);
   *p = DIRECTORY_SEPARATOR;
   p += needs_separator;
 
   if (base_in_result)
-    *base_in_result = p - IS_ABSOLUTE_FILE_NAME (abase);
+    *base_in_result = (p - IS_ABSOLUTE_FILE_NAME(abase));
 
-  p = mempcpy (p, base, baselen);
+  p = (char *)mempcpy(p, base, baselen);
   *p = '\0';
 
   return p_concat;
 }
+
+/* EOF */

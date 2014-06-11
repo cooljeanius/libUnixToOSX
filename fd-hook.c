@@ -26,7 +26,7 @@
 
 /* Currently, this entire code is only needed for the handling of sockets
  * on native Windows platforms.  */
-#if WINDOWS_SOCKETS
+#if defined(WINDOWS_SOCKETS) && WINDOWS_SOCKETS
 
 /* The first and last link in the doubly linked list.
  * Initially the list is empty.  */

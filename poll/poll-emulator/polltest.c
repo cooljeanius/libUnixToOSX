@@ -1,5 +1,8 @@
 /* $Id$ */
-/* polltest.c */
+/* polltest.c: simple test-case for the poll-emulator package */
+/* License: not sure? The rest of the poll-emulator package has a BSD-style
+ * license, but I am also using this file with a bunch of gnulib sources, which
+ * are all GPL... */
 
 #include <stdio.h>
 #include <sys/types.h>
@@ -42,9 +45,9 @@ int main(int argc, char **argv)
     for ((arg = 1), (i = 0); (arg < argc); (arg += 2), i++) {
 		int open_mode;
 		short poll_mask;
-		char *strMode;
+		const char *strMode;
 
-		if (argv[arg][0]  == 'r') {
+		if (argv[arg][0] == 'r') {
 			open_mode = O_RDONLY;
 			poll_mask = POLLIN;
 			strMode   = "reading";
@@ -90,7 +93,7 @@ int main(int argc, char **argv)
 		}
     }
 
-    exit (0);
+    exit(0);
 }
 
 /* EOF */

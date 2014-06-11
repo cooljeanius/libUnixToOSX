@@ -29,7 +29,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#if HAVE_READLINKAT
+#if defined(HAVE_READLINKAT) && HAVE_READLINKAT
 
 # ifndef SSIZE_MAX
 #  define SSIZE_MAX ((ssize_t) (SIZE_MAX / 2))

@@ -51,8 +51,8 @@ char *alloca ();
  * test... */
 
 #ifndef _
-/* This is for other GNU distributions with internationalized messages.  */
-# if defined HAVE_LIBINTL_H || defined _LIBC
+/* This is for other GNU distributions with internationalized messages: */
+# if (defined(HAVE_LIBINTL_H) && (defined(ENABLE_NLS) && ENABLE_NLS)) || defined _LIBC
 #  include <libintl.h>
 #  ifdef _LIBC
 #   undef dgettext
@@ -91,18 +91,18 @@ char *alloca ();
 # define STRERROR strerror
 #endif /* !_LIBC */
 
-#if !_LIBC
-# if !HAVE_STRNDUP
+#if !defined(_LIBC) || (defined(_LIBC) && !_LIBC)
+# if (!defined(HAVE_STRNDUP) || (defined(HAVE_STRNDUP) && !HAVE_STRNDUP)) && !defined(strndup)
 char *strndup(const char *s, size_t size);
-# endif /* !HAVE_STRNDUP */
+# endif /* !HAVE_STRNDUP && !strndup */
 
-# if !HAVE_MEMPCPY
+# if (!defined(HAVE_MEMPCPY) || (defined(HAVE_MEMPCPY) && !HAVE_MEMPCPY)) && !defined(mempcpy)
 void *mempcpy(void *to, const void *from, size_t size);
-# endif /* !HAVE_MEMPCPY */
+# endif /* !HAVE_MEMPCPY && !mempcpy */
 
-# if !HAVE_STRCHRNUL
+# if (!defined(HAVE_STRCHRNUL) || (defined(HAVE_STRCHRNUL) && !HAVE_STRCHRNUL)) && !defined(strchrnul)
 char *strchrnul(const char *s, int c);
-# endif /* !HAVE_STRCHRNUL */
+# endif /* !HAVE_STRCHRNUL && !strchrnul */
 
 #endif /* !_LIBC */
 
@@ -437,71 +437,76 @@ struct hol
   struct hol_cluster *clusters;
 };
 
-/* Create a struct hol from the options in ARGP.  CLUSTER is the
-   hol_cluster in which these entries occur, or 0, if at the root.  */
-static struct hol *
-make_hol (const struct argp *argp, struct hol_cluster *cluster)
+/* Create a struct hol from the options in ARGP.  CLUSTER is the hol_cluster
+ * in which these entries occur, or 0, if at the root: */
+static struct hol *make_hol(const struct argp *argp,
+							struct hol_cluster *cluster)
 {
   char *so;
   const struct argp_option *o;
-  const struct argp_option *opts = argp->options;
+  const struct argp_option *opts;
   struct hol_entry *entry;
-  unsigned num_short_options = 0;
-  struct hol *hol = malloc (sizeof (struct hol));
+  unsigned num_short_options;
+  struct hol *hol;
 
-  assert (hol);
+  opts = argp->options;
+  num_short_options = 0;
+  hol = (struct hol *)malloc(sizeof(struct hol));
+
+  assert(hol);
 
   hol->num_entries = 0;
   hol->clusters = 0;
 
-  if (opts)
-    {
+  if (opts) {
       int cur_group = 0;
 
       /* The first option must not be an alias.  */
-      assert (! oalias (opts));
+      assert(! oalias(opts));
 
       /* Calculate the space needed.  */
-      for (o = opts; ! oend (o); o++)
-	{
-	  if (! oalias (o))
-	    hol->num_entries++;
-	  if (oshort (o))
-	    num_short_options++;	/* This is an upper bound.  */
-	}
-
-      hol->entries = malloc(sizeof(struct hol_entry) * hol->num_entries);
-      hol->short_options = malloc((size_t)(num_short_options + 1));
-
-      assert (hol->entries && hol->short_options);
-
-      /* Fill in the entries.  */
-      so = hol->short_options;
-      for (o = opts, entry = hol->entries; ! oend (o); entry++)
-	{
-	  entry->opt = o;
-	  entry->num = 0;
-	  entry->short_options = so;
-	  entry->group = cur_group =
-	    o->group
-	    ? o->group
-	    : ((!o->name && !o->key)
-	       ? cur_group + 1
-	       : cur_group);
-	  entry->cluster = cluster;
-	  entry->argp = argp;
-
-	  do {
-	      entry->num++;
-	      if (oshort(o) && ! find_char((char)o->key, hol->short_options, so)) {
-			  /* O has a valid short option which hasn't already been used.*/
-			  *so++ = (char)o->key;
+      for ((o = opts); ! oend(o); o++) {
+		  if (! oalias (o)) {
+			  hol->num_entries++;
 		  }
-	      o++;
-	  } while (! oend(o) && oalias(o));
-	}
-      *so = '\0';		/* null terminated so we can find the length */
-    }
+		  if (oshort (o)) {
+			  num_short_options++; /* This is an upper bound.  */
+		  }
+	  }
+
+      hol->entries = (struct hol_entry *)malloc(sizeof(struct hol_entry) * hol->num_entries);
+      hol->short_options = (char *)malloc((size_t)(num_short_options + 1));
+
+      assert(hol->entries && hol->short_options);
+
+      /* Fill in the entries: */
+      so = hol->short_options;
+      for ((o = opts), (entry = hol->entries); ! oend(o); entry++) {
+		  entry->opt = o;
+		  entry->num = 0;
+		  entry->short_options = so;
+		  entry->group = cur_group =
+			(o->group
+			 ? o->group
+			 : ((!o->name && !o->key)
+				? (cur_group + 1)
+				: cur_group));
+		  entry->cluster = cluster;
+		  entry->argp = argp;
+
+		  do {
+			  entry->num++;
+			  if (oshort(o) && ! find_char((char)o->key,
+										   hol->short_options, so)) {
+				  /* O has a valid short option which has NOT already
+				   * been used. */
+				  *so++ = (char)o->key;
+			  }
+			  o++;
+		  } while (! oend(o) && oalias(o));
+	  }
+      *so = '\0'; /* null terminated so we can find the length. */
+  }
 
   return hol;
 }
@@ -513,7 +518,8 @@ static struct hol_cluster *
 hol_add_cluster (struct hol *hol, int group, const char *header, int hol_index,
 				 struct hol_cluster *parent, const struct argp *argp)
 {
-  struct hol_cluster *cl = malloc(sizeof(struct hol_cluster));
+  struct hol_cluster *cl;
+  cl = (struct hol_cluster *)malloc(sizeof(struct hol_cluster));
   if (cl) {
       cl->group = group;
       cl->header = header;
@@ -738,10 +744,9 @@ canon_doc_option (const char **name)
 }
 
 /* Order ENTRY1 & ENTRY2 by the order which they should appear in a help
-   listing.  */
-static int
-hol_entry_cmp (const struct hol_entry *entry1,
-	       const struct hol_entry *entry2)
+ * listing: */
+static int hol_entry_cmp(const struct hol_entry *entry1,
+						 const struct hol_entry *entry2)
 {
   /* The group numbers by which the entries should be ordered; if either is
      in a cluster, then this is just the group within the cluster.  */
@@ -816,11 +821,11 @@ hol_entry_cmp (const struct hol_entry *entry1,
     return group_cmp (group1, group2, 0);
 }
 
-/* Version of hol_entry_cmp with correct signature for qsort.  */
-static int
-hol_entry_qcmp (const void *entry1_v, const void *entry2_v)
+/* Version of hol_entry_cmp with correct signature for qsort: */
+static int hol_entry_qcmp(const void *entry1_v, const void *entry2_v)
 {
-  return hol_entry_cmp (entry1_v, entry2_v);
+  return hol_entry_cmp((const struct hol_entry *)entry1_v,
+					   (const struct hol_entry *)entry2_v);
 }
 
 /* Sort HOL by group and alphabetically by option name (with short options
@@ -867,9 +872,9 @@ hol_append (struct hol *hol, struct hol *more)
 		  char *short_options;
 
 		  num_entries = (hol->num_entries + more->num_entries);
-		  entries = malloc(num_entries * sizeof(struct hol_entry));
+		  entries = (struct hol_entry *)malloc(num_entries * sizeof(struct hol_entry));
 		  hol_so_len = (unsigned)strlen(hol->short_options);
-		  short_options = malloc(hol_so_len + strlen(more->short_options) + 1);
+		  short_options = (char *)malloc(hol_so_len + strlen(more->short_options) + 1);
 		  __mempcpy(__mempcpy(entries, hol->entries,
 							  (hol->num_entries * sizeof(struct hol_entry))),
 					more->entries,
@@ -1096,18 +1101,19 @@ hol_entry_help(struct hol_entry *entry, const struct argp_state *state,
   unsigned num;
   const struct argp_option *real = entry->opt, *opt;
   char *so = entry->short_options;
-  int have_long_opt = 0;	/* We have any long options.  */
-  /* Saved margins.  */
+  int have_long_opt = 0; /* We have any long options. */
+  /* Saved margins: */
   int old_lm;
   int old_wm;
 
+  /* Decent initializers are a GNU extension, so do NOT use it here. */
+  struct pentry_state pest;
+
   old_lm = (int)__argp_fmtstream_set_lmargin(stream, (size_t)0);
   old_wm = (int)__argp_fmtstream_wmargin(stream);
-  /* PEST is a state block holding some of our variables that we'd like to
+  /* PEST is a state block holding some of our variables that we would like to
    * share with helper functions.  */
 
-  /* Decent initializers are a GNU extension, so don't use it here. */
-  struct pentry_state pest;
   pest.entry = entry;
   pest.stream = stream;
   pest.hhstate = hhstate;
@@ -1267,7 +1273,8 @@ add_argless_short_opt(const struct argp_option *opt,
 					  const char *domain /*UNUSED*/, void *cookie)
 {
 #pragma unused (domain)
-  char **snao_end = cookie;
+  char **snao_end;
+  snao_end = (char **)cookie;
   if (!(opt->arg || real->arg)
       && !((opt->flags | real->flags) & OPTION_NO_USAGE)) {
 	  *(*snao_end)++ = (char)opt->key;
@@ -1283,16 +1290,20 @@ usage_argful_short_opt(const struct argp_option *opt,
 					   const char *domain /*UNUSED*/, void *cookie)
 {
 #pragma unused (domain)
-  argp_fmtstream_t stream = cookie;
+  argp_fmtstream_t stream;
   const char *my_arg = opt->arg;
   int flags = (opt->flags | real->flags);
+
+  stream = (argp_fmtstream_t)cookie;
 
   if (! my_arg) {
 	  my_arg = real->arg;
   }
 
   if (my_arg && !(flags & OPTION_NO_USAGE)) {
+#if !defined(__clang_analyzer__)
       my_arg = dgettext(domain, my_arg);
+#endif /* !__clang_analyzer__ */
 
       if (flags & OPTION_ARG_OPTIONAL) {
 		  __argp_fmtstream_printf(stream, " [-%c[%s]]", opt->key, my_arg);
@@ -1314,9 +1325,11 @@ usage_long_opt(const struct argp_option *opt, const struct argp_option *real,
 			   const char *domain /*UNUSED*/, void *cookie)
 {
 #pragma unused (domain)
-  argp_fmtstream_t stream = cookie;
+  argp_fmtstream_t stream;
   const char *u_arg = opt->arg;
   int flags = (opt->flags | real->flags);
+
+  stream = (argp_fmtstream_t)cookie;
 
   if (! u_arg) {
     u_arg = real->arg;
@@ -1324,7 +1337,9 @@ usage_long_opt(const struct argp_option *opt, const struct argp_option *real,
 
   if (!(flags & OPTION_NO_USAGE)) {
       if (u_arg) {
+#if !defined(__clang_analyzer__)
 		  u_arg = dgettext(domain, u_arg);
+#endif /* !__clang_analyzer__ */
 		  if (flags & OPTION_ARG_OPTIONAL) {
 			  __argp_fmtstream_printf(stream, " [--%s[=%s]]", opt->name, u_arg);
 		  } else {
@@ -1342,12 +1357,14 @@ usage_long_opt(const struct argp_option *opt, const struct argp_option *real,
 static void
 hol_usage (struct hol *hol, argp_fmtstream_t stream)
 {
-  if (hol->num_entries > 0)
-    {
+  if (hol->num_entries > 0) {
       unsigned nentries;
       struct hol_entry *entry;
-      char *short_no_arg_opts = alloca (strlen (hol->short_options) + 1);
-      char *snao_end = short_no_arg_opts;
+      char *short_no_arg_opts;
+      char *snao_end;
+
+	  short_no_arg_opts = (char *)alloca(strlen (hol->short_options) + 1);
+	  snao_end = short_no_arg_opts;
 
       /* First we put a list of short options without arguments.  */
       for (entry = hol->entries, nentries = hol->num_entries
@@ -1355,11 +1372,10 @@ hol_usage (struct hol *hol, argp_fmtstream_t stream)
 	   ; entry++, nentries--)
 	hol_entry_short_iterate (entry, add_argless_short_opt,
 				 entry->argp->argp_domain, &snao_end);
-      if (snao_end > short_no_arg_opts)
-	{
-	  *snao_end++ = 0;
-	  __argp_fmtstream_printf (stream, " [-%s]", short_no_arg_opts);
-	}
+      if (snao_end > short_no_arg_opts) {
+		  *snao_end++ = 0;
+		  __argp_fmtstream_printf(stream, " [-%s]", short_no_arg_opts);
+	  }
 
       /* Now a list of short options *with* arguments.  */
       for (entry = hol->entries, nentries = hol->num_entries
@@ -1618,7 +1634,9 @@ _help(const struct argp *argp, const struct argp_state *state, FILE *stream,
 	  /* Print a short `Usage:' message.  */
       int first_pattern = 1, more_patterns;
       size_t num_pattern_levels = argp_args_levels(argp);
-      char *pattern_levels = alloca(num_pattern_levels);
+      char *pattern_levels;
+
+	  pattern_levels = (char *)alloca(num_pattern_levels);
 
       memset(pattern_levels, 0, num_pattern_levels);
 
@@ -1737,11 +1755,11 @@ char *__argp_basename(char *name)
   return short_name ? short_name + 1 : name;
 }
 
-char *
-__argp_short_program_name(const struct argp_state *state)
+char *__argp_short_program_name(const struct argp_state *state)
 {
-  if (state)
+  if (state) {
     return state->name;
+  }
 #if HAVE_DECL_PROGRAM_INVOCATION_SHORT_NAME
   return program_invocation_short_name;
 #elif HAVE_DECL_PROGRAM_INVOCATION_NAME
@@ -1750,10 +1768,10 @@ __argp_short_program_name(const struct argp_state *state)
   /* FIXME: What now? Miles suggests that it is better to use NULL,
    * but currently the value is passed on directly to fputs_unlocked,
    * so that requires more changes. */
-# if __GNUC__ && !__STRICT_ANSI__ && !__STDC__
+# if __GNUC__ && (!defined(__STRICT_ANSI__) || (defined(__STRICT_ANSI__) && !__STRICT_ANSI__)) && !__STDC__
 #  warning "No reasonable value to return"
 # endif /* __GNUC__ && !__STRICT_ANSI__ && !__STDC__ */
-  return "";
+  return (char *)"";
 #endif /* !HAVE_DECL_PROGRAM_INVOCATION_NAME */
 }
 

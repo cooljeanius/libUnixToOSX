@@ -71,3 +71,12 @@ configmake.h-t
 ./scan_build_output
 float.h
 float.h-t
+stdbool.h
+stdbool.h-t
+stdio.h
+stdio.h-t
+signal.h
+signal.h-t
+
+# dist stuff:
+libunixtoosx-*.*.*/*

@@ -25,7 +25,7 @@ int ftw_simple(char *argv[]) {
 		FTSENT *fileInfo;
 		void *result;
 
-		fileInfo = fts_read(dirList->fts_pointer);
+		fileInfo = (FTSENT *)fts_read((FTS *)dirList->fts_pointer);
 
 		/* dummy condition to use value stored to 'fileInfo': */
 		if (fileInfo == 0) {

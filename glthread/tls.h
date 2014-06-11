@@ -1,4 +1,4 @@
-/* Thread-local storage in multithreaded situations.
+/* glthread/tls.h: Thread-local storage in multithreaded situations.
    Copyright (C) 2005, 2007-2012 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -48,22 +48,22 @@
 
 /* ========================================================================= */
 
-#if USE_POSIX_THREADS
+#if defined(USE_POSIX_THREADS) && USE_POSIX_THREADS
 
 /* Use the POSIX threads library.  */
 
 # include <pthread.h>
 
-# if PTHREAD_IN_USE_DETECTION_HARD
+# if defined(PTHREAD_IN_USE_DETECTION_HARD) && PTHREAD_IN_USE_DETECTION_HARD
 
 /* The pthread_in_use() detection needs to be done at runtime.  */
 #  define pthread_in_use() \
-     glthread_in_use ()
-extern int glthread_in_use (void);
+     glthread_in_use()
+extern int glthread_in_use(void);
 
 # endif
 
-# if USE_POSIX_THREADS_WEAK
+# if defined(USE_POSIX_THREADS_WEAK) && USE_POSIX_THREADS_WEAK
 
 /* Use weak references to the POSIX threads library.  */
 
@@ -75,14 +75,14 @@ extern int glthread_in_use (void);
 #   pragma weak pthread_self
 #  endif
 
-#  if !PTHREAD_IN_USE_DETECTION_HARD
+#  if !defined(PTHREAD_IN_USE_DETECTION_HARD) || (defined(PTHREAD_IN_USE_DETECTION_HARD) && !PTHREAD_IN_USE_DETECTION_HARD)
 #   pragma weak pthread_cancel
 #   define pthread_in_use() (pthread_cancel != NULL)
 #  endif
 
 # else
 
-#  if !PTHREAD_IN_USE_DETECTION_HARD
+#  if !defined(PTHREAD_IN_USE_DETECTION_HARD) || (defined(PTHREAD_IN_USE_DETECTION_HARD) && !PTHREAD_IN_USE_DETECTION_HARD)
 #   define pthread_in_use() 1
 #  endif
 
@@ -115,7 +115,7 @@ typedef union
 
 /* ========================================================================= */
 
-#if USE_PTH_THREADS
+#if defined(USE_PTH_THREADS) && USE_PTH_THREADS
 
 /* Use the GNU Pth threads library.  */
 
@@ -168,7 +168,7 @@ typedef union
 
 /* ========================================================================= */
 
-#if USE_SOLARIS_THREADS
+#if defined(USE_SOLARIS_THREADS) && USE_SOLARIS_THREADS
 
 /* Use the old Solaris threads library.  */
 
@@ -220,7 +220,7 @@ extern void *glthread_tls_get_multithreaded (thread_key_t key);
 
 /* ========================================================================= */
 
-#if USE_WINDOWS_THREADS
+#if defined(USE_WINDOWS_THREADS) && USE_WINDOWS_THREADS
 
 # define WIN32_LEAN_AND_MEAN  /* avoid including junk */
 # include <windows.h>

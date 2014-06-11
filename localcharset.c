@@ -69,7 +69,7 @@
 # include <os2.h>
 #endif /* OS2 */
 
-#if ENABLE_RELOCATABLE
+#if defined(ENABLE_RELOCATABLE) && ENABLE_RELOCATABLE
 # include "relocatable.h"
 #else
 /* only used in this case (so far): */

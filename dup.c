@@ -27,15 +27,14 @@
 
 #undef dup
 
-#if HAVE_MSVC_INVALID_PARAMETER_HANDLER
-static inline int
-dup_nothrow(int fd)
+#if defined(HAVE_MSVC_INVALID_PARAMETER_HANDLER) && HAVE_MSVC_INVALID_PARAMETER_HANDLER
+static inline int dup_nothrow(int fd)
 {
 	int result;
 
 	TRY_MSVC_INVAL
     {
-		result = dup (fd);
+		result = dup(fd);
     }
 	CATCH_MSVC_INVAL
     {
@@ -51,14 +50,14 @@ dup_nothrow(int fd)
 #endif
 
 
-int
-rpl_dup(int fd)
+int rpl_dup(int fd)
 {
-	int result = dup_nothrow (fd);
-#if REPLACE_FCHDIR
-	if (result >= 0)
-		result = _gl_register_dup (fd, result);
-#endif
+	int result = dup_nothrow(fd);
+#if defined(REPLACE_FCHDIR) && REPLACE_FCHDIR
+	if (result >= 0) {
+		result = _gl_register_dup(fd, result);
+	}
+#endif /* REPLACE_FCHDIR */
 	return result;
 }
 

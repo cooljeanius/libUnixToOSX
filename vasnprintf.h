@@ -1,4 +1,4 @@
-/* vsprintf with automatic memory allocation.
+/* vasnprintf.h: vsprintf with automatic memory allocation.
    Copyright (C) 2002-2004, 2007-2012 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
@@ -29,7 +29,7 @@
    We enable _GL_ATTRIBUTE_FORMAT only if these are supported too, because
    gnulib and libintl do '#define printf __printf__' when they override
    the 'printf' function.  */
-#if __GNUC__ > 2 || (__GNUC__ == 2 && __GNUC_MINOR__ >= 7)
+#if (__GNUC__ > 2) || ((__GNUC__ == 2) && (__GNUC_MINOR__ >= 7))
 # define _GL_ATTRIBUTE_FORMAT(spec) __attribute__ ((__format__ spec))
 #else
 # define _GL_ATTRIBUTE_FORMAT(spec) /* empty */
@@ -63,7 +63,7 @@ extern "C" {
                 free (output);
             }
   */
-#if REPLACE_VASNPRINTF
+#if defined(REPLACE_VASNPRINTF) && REPLACE_VASNPRINTF
 # define asnprintf rpl_asnprintf
 # define vasnprintf rpl_vasnprintf
 #endif

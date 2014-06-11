@@ -28,13 +28,13 @@ extern "C" {
 # define ENABLE_RELOCATABLE 1
 #endif /* __APPLE__ && !ENABLE_RELOCATABLE */
 
-/* This can be enabled through the configure --enable-relocatable option.  */
+/* This can be enabled through the configure --enable-relocatable option: */
 #if ENABLE_RELOCATABLE
 
 /* When building a DLL, we must export some functions.  Note that because
  * this is a private .h file, we do NOT need to use __declspec(dllimport)
  * in any case.  */
-#if HAVE_VISIBILITY && BUILDING_DLL
+#if (defined(HAVE_VISIBILITY) && HAVE_VISIBILITY) && BUILDING_DLL
 # define RELOCATABLE_DLL_EXPORTED __attribute__((__visibility__("default")))
 #elif defined _MSC_VER && BUILDING_DLL
 # define RELOCATABLE_DLL_EXPORTED __declspec(dllexport)

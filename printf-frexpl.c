@@ -18,15 +18,14 @@
 
 #include <config.h>
 
-#if HAVE_SAME_LONG_DOUBLE_AS_DOUBLE
+#if defined(HAVE_SAME_LONG_DOUBLE_AS_DOUBLE) && HAVE_SAME_LONG_DOUBLE_AS_DOUBLE
 
-/* Specification.  */
+/* Specification: */
 # include "printf-frexpl.h"
 
 # include "printf-frexp.h"
 
-long double
-printf_frexpl(long double x, int *expptr)
+long double printf_frexpl(long double x, int *expptr)
 {
   return printf_frexp(x, expptr);
 }

@@ -141,7 +141,8 @@ chdir_long(char *dir)
         int err;
         /* Find next slash.
          * We already know that dir[2] is neither a slash nor '\0'.  */
-        char *slash = memchr((dir + 3), '/', (size_t)(dir_end - (dir + 3)));
+        char *slash;
+		slash = (char *)memchr((dir + 3), '/', (size_t)(dir_end - (dir + 3)));
         if (slash == NULL) {
             errno = ENAMETOOLONG;
             return -1;
@@ -168,7 +169,8 @@ chdir_long(char *dir)
         /* Find a slash that is PATH_MAX or fewer bytes away from dir.
          * I.e. see if there is a slash that will give us a name of
          * length (PATH_MAX - 1) or less.  */
-        char *slash = memrchr(dir, '/', (size_t)PATH_MAX);
+        char *slash;
+		slash = (char *)memrchr(dir, '/', (size_t)PATH_MAX);
         if (slash == NULL) {
             errno = ENAMETOOLONG;
             return -1;
@@ -208,7 +210,7 @@ chdir_long(char *dir)
   }
 }
 
-#if TEST_CHDIR
+#if defined(TEST_CHDIR) && TEST_CHDIR
 
 # include "closeout.h"
 # include "error.h"

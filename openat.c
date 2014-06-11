@@ -22,14 +22,14 @@
 #define __need_system_fcntl_h
 #include <config.h>
 
-/* Get the original definition of open.  It might be defined as a macro.  */
+/* Get the original definition of open. It might be defined as a macro. */
 #include <fcntl.h>
 #include <sys/types.h>
 #undef __need_system_fcntl_h
 
-#if HAVE_OPENAT
-static inline int
-orig_openat (int fd, char const *filename, int flags, mode_t mode)
+#if defined(HAVE_OPENAT) && HAVE_OPENAT
+static inline int orig_openat(int fd, char const *filename, int flags,
+							  mode_t mode)
 {
   return openat (fd, filename, flags, mode);
 }
@@ -48,11 +48,10 @@ orig_openat (int fd, char const *filename, int flags, mode_t mode)
 #include <sys/stat.h>
 #include <errno.h>
 
-#if HAVE_OPENAT
+#if defined(HAVE_OPENAT) && HAVE_OPENAT
 
-/* Like openat, but work around Solaris 9 bugs with trailing slash.  */
-int
-rpl_openat (int dfd, char const *filename, int flags, ...)
+/* Like openat, but work around Solaris 9 bugs with trailing slash: */
+int rpl_openat(int dfd, char const *filename, int flags, ...)
 {
   mode_t mode;
   int fd;

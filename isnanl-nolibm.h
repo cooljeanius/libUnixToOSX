@@ -18,10 +18,10 @@
 #ifndef __ISNANL_NOLIBM_H__
 #define __ISNANL_NOLIBM_H__ 1
 
-#if HAVE_ISNANL_IN_LIBC
+#if defined(HAVE_ISNANL_IN_LIBC) && HAVE_ISNANL_IN_LIBC
 /* Get declaration of isnan macro or (older) isnanl function.  */
 # include <math.h>
-# if __GNUC__ >= 4
+# if defined(__GNUC__) && (__GNUC__ >= 4)
    /* GCC 4.0 and newer provides three built-ins for isnan.  */
 #  undef isnanl
 #  define isnanl(x) __builtin_isnanl ((long double)(x))

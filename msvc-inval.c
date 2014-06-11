@@ -20,7 +20,7 @@
 /* Specification.  */
 #include "msvc-inval.h"
 
-#if HAVE_MSVC_INVALID_PARAMETER_HANDLER \
+#if (defined(HAVE_MSVC_INVALID_PARAMETER_HANDLER) && HAVE_MSVC_INVALID_PARAMETER_HANDLER) \
     && !(MSVC_INVALID_PARAMETER_HANDLING == SANE_LIBRARY_HANDLING)
 
 /* Get _invalid_parameter_handler type and _set_invalid_parameter_handler

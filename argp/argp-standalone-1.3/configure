@@ -4421,6 +4421,7 @@ done
 
 
 
+
   unset ac_cv_header_minix_config_h
   for ac_header in minix/config.h
 do :
@@ -4431,7 +4432,7 @@ if test "x$ac_cv_header_minix_config_h" = xyes; then :
 _ACEOF
  MINIX=yes
 else
-  MINIX=
+  MINIX=""
 fi
 
 done
@@ -4440,12 +4441,9 @@ done
 
 $as_echo "#define _POSIX_SOURCE 1" >>confdefs.h
 
-
 $as_echo "#define _POSIX_1_SOURCE 2" >>confdefs.h
 
-
 $as_echo "#define _MINIX 1" >>confdefs.h
-
 
 $as_echo "#define _NETBSD_SOURCE 1" >>confdefs.h
 
@@ -4483,18 +4481,12 @@ $as_echo "$ac_cv_safe_to_define___extensions__" >&6; }
     $as_echo "#define __EXTENSIONS__ 1" >>confdefs.h
 
   $as_echo "#define _ALL_SOURCE 1" >>confdefs.h
-
   $as_echo "#define _DARWIN_C_SOURCE 1" >>confdefs.h
-
   $as_echo "#define _GNU_SOURCE 1" >>confdefs.h
-
   $as_echo "#define _POSIX_PTHREAD_SEMANTICS 1" >>confdefs.h
-
   $as_echo "#define _TANDEM_SOURCE 1" >>confdefs.h
 
-
   :
-
 
 
 
@@ -4508,7 +4500,6 @@ _ACEOF
 
 
 fi
-
   { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether _XOPEN_SOURCE should be defined" >&5
 $as_echo_n "checking whether _XOPEN_SOURCE should be defined... " >&6; }
 if ${ac_cv_should_define__xopen_source+:} false; then :
@@ -4693,7 +4684,8 @@ $as_echo_n "checking for ${CC-cc} option to accept ANSI C... " >&6; }
 if ${am_new_cv_prog_cc_stdc+:} false; then :
   $as_echo_n "(cached) " >&6
 else
-  am_new_cv_prog_cc_stdc=no
+
+am_new_cv_prog_cc_stdc=no
 ac_save_CC="${CC}"
 # Do NOT try gcc -ansi; that turns off useful extensions and
 # breaks some systems' header files.
@@ -4722,19 +4714,19 @@ static char *e(p, i)
 {
   return p[i];
 }
-static char *f (char *(*g)(char **, int), char **p, ...)
+static char *f(char *(*g)(char **, int), char **p, ...)
 {
   char *s;
   va_list v;
   va_start(v,p);
-  s = g(p, va_arg (v, int));
+  s = g(p, va_arg(v, int));
   va_end(v);
   return s;
 }
-int test (int i, double x);
+int test(int i, double x);
 struct s1 {int (*f)(int a);};
 struct s2 {int (*f)(double a);};
-int pairnames (int, char **, FILE *(*)(struct buf *, struct stat *, int), int, int);
+int pairnames(int, char **, FILE *(*)(struct buf *, struct stat *, int), int, int);
 int argc;
 char **argv;
 
@@ -4749,7 +4741,7 @@ return f (e, argv, 0) != argv[0]  ||  f (e, argv, 1) != argv[1];
 }
 _ACEOF
 if ac_fn_c_try_compile "$LINENO"; then :
-  am_new_cv_prog_cc_stdc="$ac_arg"; break
+  am_new_cv_prog_cc_stdc="${ac_arg}"; break
 fi
 rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
 done

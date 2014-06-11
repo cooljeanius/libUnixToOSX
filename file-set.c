@@ -25,41 +25,37 @@
 /* Record file, FILE, and dev/ino from *STATS, in the hash table, HT.
    If HT is NULL, return immediately.
    If memory allocation fails, exit immediately.  */
-void
-record_file (Hash_table *ht, char const *file, struct stat const *stats)
+void record_file (Hash_table *ht, char const *file, struct stat const *stats)
 {
   struct F_triple *ent;
 
   if (ht == NULL)
     return;
 
-  ent = xmalloc (sizeof *ent);
-  ent->name = xstrdup (file);
+  ent = (struct F_triple *)xmalloc(sizeof *ent);
+  ent->name = xstrdup(file);
   ent->st_ino = stats->st_ino;
   ent->st_dev = stats->st_dev;
 
   {
-    struct F_triple *ent_from_table = hash_insert (ht, ent);
-    if (ent_from_table == NULL)
-      {
-        /* Insertion failed due to lack of memory.  */
-        xalloc_die ();
-      }
+	struct F_triple *ent_from_table;
+	ent_from_table = (struct F_triple *)hash_insert(ht, ent);
+    if (ent_from_table == NULL) {
+        /* Insertion failed due to lack of memory: */
+        xalloc_die();
+	}
 
-    if (ent_from_table != ent)
-      {
+    if (ent_from_table != ent) {
         /* There was alread a matching entry in the table, so ENT was
-           not inserted.  Free it.  */
-        triple_free (ent);
-      }
+		 * not inserted. Free it: */
+        triple_free(ent);
+	}
   }
 }
 
-/* Return true if there is an entry in hash table, HT,
-   for the file described by FILE and STATS.  */
-bool
-seen_file (Hash_table const *ht, char const *file,
-           struct stat const *stats)
+/* Return true if there is an entry in hash table, HT, for the file
+ * described by FILE and STATS: */
+bool seen_file(Hash_table const *ht, char const *file, struct stat const *stats)
 {
   struct F_triple new_ent;
 

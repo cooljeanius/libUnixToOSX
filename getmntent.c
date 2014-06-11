@@ -69,7 +69,7 @@ static struct mntent *getmntent_replacement(FILE *f)
     char *p, *start;
 
     do {
-        if (!fgets(buf, sizeof(buf), f)) {
+        if (!fgets(buf, (int)sizeof(buf), f)) {
 			return NULL;
 		}
         p = strchr(buf, '\n');
@@ -78,7 +78,7 @@ static struct mntent *getmntent_replacement(FILE *f)
         } else {
 			/* Partially unread line, move file ptr to end: */
             char tmp[1024];
-            while (fgets(tmp, sizeof(tmp), f)) {
+            while (fgets(tmp, (int)sizeof(tmp), f)) {
                 if (strchr(tmp, '\n')) {
 					break;
 				}

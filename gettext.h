@@ -19,7 +19,7 @@
 #define _LIBGETTEXT_H 1
 
 /* NLS can be disabled through the configure --disable-nls option.  */
-#if ENABLE_NLS
+#if defined(ENABLE_NLS) && ENABLE_NLS
 
 /* Get declarations of GNU message catalog functions.  */
 # include <libintl.h>
@@ -53,7 +53,7 @@
  * it now, to make later inclusions of <libintl.h> a NOP.  */
 #if defined(__cplusplus) && defined(__GNUG__) && (__GNUC__ >= 3)
 # include <cstdlib>
-# if (__GLIBC__ >= 2 && !defined __UCLIBC__) || _GLIBCXX_HAVE_LIBINTL_H
+# if ((__GLIBC__ >= 2) && !defined __UCLIBC__) || _GLIBCXX_HAVE_LIBINTL_H
 #  include <libintl.h>
 # endif /* glibc 2+ */
 #endif /* g++ 3.3+ */

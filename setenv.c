@@ -17,7 +17,7 @@
  */
 
 /* includes common to both halves of the file: */
-#if !_LIBC
+#if !defined(_LIBC) || (defined(_LIBC) && !_LIBC)
 # define _GL_USE_STDLIB_ALLOC 1
 # include <config.h>
 #endif /* !_LIBC */
@@ -37,23 +37,23 @@
 #endif /* !__set_errno */
 
 #include <string.h>
-#if _LIBC || HAVE_UNISTD_H
+#if (defined(_LIBC) && _LIBC) || HAVE_UNISTD_H
 # include <unistd.h>
 #endif /* _LIBC || HAVE_UNISTD_H */
 
-#if !_LIBC
+#if !defined(_LIBC) || (defined(_LIBC) && !_LIBC)
 # include "malloca.h"
 #endif /* !_LIBC */
 
 /* first half of the file actually implements the setenv() function: */
-#if _LIBC || !HAVE_SETENV || (defined(__GNUC__) && defined(__APPLE__))
+#if (defined(_LIBC) && _LIBC) || !HAVE_SETENV || (defined(__GNUC__) && defined(__APPLE__))
 
-# if !_LIBC
+# if !defined(_LIBC) || (defined(_LIBC) && !_LIBC)
 #  define __environ environ
 # endif /* !_LIBC */
 
-# if _LIBC
-/* This lock protects against simultaneous modifications of 'environ'. */
+# if defined(_LIBC) && _LIBC
+/* This lock protects against simultaneous modifications of 'environ': */
 #  ifdef HAVE_BITS_LIBC_LOCK_H
 #   include <bits/libc-lock.h>
 #  else
@@ -266,7 +266,7 @@ __add_to_environ(const char *name, const char *value, const char *combined,
 			(void)__mempcpy(__mempcpy(__mempcpy(new_value, name, namelen), "=", 1),
 							value, vallen);
 #  else
-			new_value = malloca(namelen + 1 + vallen);
+			new_value = (char *)malloca(namelen + 1 + vallen);
 			if (new_value == NULL) {
 				__set_errno(ENOMEM);
 				UNLOCK;
@@ -416,7 +416,7 @@ rpl_setenv(const char *name, const char *value, int replace)
 		if (!STREQ(tmp, value)) {
 			int saved_errno;
 			size_t len = strlen(value);
-			tmp = malloca(len + 2);
+			tmp = (char *)malloca(len + 2);
 			/* Since leading '=' is eaten, double it up.  */
 			*tmp = '=';
 			memcpy((tmp + 1), value, (len + 1));

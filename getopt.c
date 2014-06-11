@@ -518,8 +518,9 @@ _getopt_internal_r (int argc, char **argv, const char *optstring,
                      || pfound->flag != p->flag
                      || pfound->val != p->val)
               {
-                /* Second or later nonexact match found.  */
-                struct option_list *newp = malloc (sizeof (*newp));
+                /* Second or later nonexact match found: */
+				struct option_list *newp;
+				newp = (struct option_list *)malloc(sizeof(*newp));
                 newp->p = p;
                 newp->next = ambig_list;
                 ambig_list = newp;
@@ -1146,7 +1147,7 @@ _getopt_internal (int argc, char **argv, const char *optstring,
 
 /* glibc gets a LSB-compliant getopt.
    Standalone applications get a POSIX-compliant getopt.  */
-#if _LIBC
+#if defined(_LIBC) && _LIBC
 enum { POSIXLY_CORRECT = 0 };
 #else
 enum { POSIXLY_CORRECT = 1 };

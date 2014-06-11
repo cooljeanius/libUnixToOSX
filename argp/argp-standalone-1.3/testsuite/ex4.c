@@ -139,7 +139,7 @@ int main(int argc, char **argv)
   /* Default values. */
   arguments.silent = 0;
   arguments.verbose = 0;
-  arguments.output_file = "-";
+  arguments.output_file = (char *)"-";
   arguments.repeat_count = 1;
   arguments.abort = 0;
 

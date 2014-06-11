@@ -29,19 +29,18 @@ typedef int tls_c_posix_dummy_t;
 
 /* ========================================================================= */
 
-#if USE_PTH_THREADS
+#if defined(USE_PTH_THREADS) && USE_PTH_THREADS
 typedef int tls_c_pth_dummy_t;
 #endif /* USE_PTH_THREADS */
 
 /* ========================================================================= */
 
-#if USE_SOLARIS_THREADS
-/* Use the old Solaris threads library.  */
+#if defined(USE_SOLARIS_THREADS) && USE_SOLARIS_THREADS
+/* Use the old Solaris threads library. */
 
 /* ------------------------- gl_tls_key_t datatype ------------------------- */
 
-void *
-glthread_tls_get_multithreaded(thread_key_t key)
+void *glthread_tls_get_multithreaded(thread_key_t key)
 {
   void *value;
 
@@ -54,7 +53,7 @@ glthread_tls_get_multithreaded(thread_key_t key)
 
 /* ========================================================================= */
 
-#if USE_WINDOWS_THREADS
+#if defined(USE_WINDOWS_THREADS) && USE_WINDOWS_THREADS
 typedef int tls_c_windows_dummy_t;
 #endif /* USE_WINDOWS_THREADS */
 

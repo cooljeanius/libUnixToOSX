@@ -1,7 +1,9 @@
-# serial 13  -*- Autoconf -*-
+dnl# note: line with ser-num needs to be just a regular shell comment
+dnl# (i.e. no 'dnl'); else aclocal will fail to see it and overwrite this:
+# serial 14  -*- Autoconf -*-
 # Enable extensions on systems that normally disable them.
 
-# Copyright (C) 2003, 2006-2013 Free Software Foundation, Inc.
+# Copyright (C) 2003, 2006-2014 Free Software Foundation, Inc.
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
@@ -35,45 +37,45 @@
 # AC_DEFINE.  The goal here is to define all known feature-enabling
 # macros, then, if reports of conflicts are made, disable macros that
 # cause problems on some platforms (such as __EXTENSIONS__).
-AC_DEFUN_ONCE([AC_USE_SYSTEM_EXTENSIONS],
-[AC_BEFORE([$0],[AC_COMPILE_IFELSE])dnl
+AC_DEFUN_ONCE([AC_USE_SYSTEM_EXTENSIONS],[
+AC_BEFORE([$0],[AC_COMPILE_IFELSE])dnl
 AC_BEFORE([$0],[AC_RUN_IFELSE])dnl
 
   unset ac_cv_header_minix_config_h
-  AC_CHECK_HEADERS([minix/config.h],[MINIX=yes],[MINIX=])
+  AC_CHECK_HEADERS([minix/config.h],[MINIX=yes],[MINIX=""])
   if test "x${MINIX}" = "xyes"; then
     AC_DEFINE([_POSIX_SOURCE],[1],
       [Define to 1 if you need to in order for 'stat' and other
-       things to work.])
+       things to work.])dnl
     AC_DEFINE([_POSIX_1_SOURCE],[2],
       [Define to 2 if the system does not provide POSIX.1 features
-       except with this defined.])
+       except with this defined.])dnl
     AC_DEFINE([_MINIX],[1],
-      [Define to 1 if on MINIX.])
+      [Define to 1 if on MINIX.])dnl
     AC_DEFINE([_NETBSD_SOURCE],[1],
-      [Define to 1 to make NetBSD features available.  MINIX 3 needs this.])
+      [Define to 1 to make NetBSD features available. MINIX 3 needs this.])
   fi
 
 dnl# Use a different key than __EXTENSIONS__, as that name broke existing
 dnl# configure.ac when using autoheader 2.62.
-  AH_VERBATIM([USE_SYSTEM_EXTENSIONS],
-[/* Enable extensions on AIX 3, Interix.  */
+  AH_VERBATIM([USE_SYSTEM_EXTENSIONS],[
+/* Enable extensions on AIX 3, Interix: */
 #ifndef _ALL_SOURCE
 # undef _ALL_SOURCE
 #endif /* !_ALL_SOURCE */
-/* Enable general extensions on OS X.  */
+/* Enable general extensions on OS X: */
 #ifndef _DARWIN_C_SOURCE
 # undef _DARWIN_C_SOURCE
 #endif /* !_DARWIN_C_SOURCE */
-/* Enable GNU extensions on systems that have them.  */
+/* Enable GNU extensions on systems that have them: */
 #ifndef _GNU_SOURCE
 # undef _GNU_SOURCE
 #endif /* !_GNU_SOURCE */
-/* Enable threading extensions on Solaris.  */
+/* Enable threading extensions on Solaris: */
 #ifndef _POSIX_PTHREAD_SEMANTICS
 # undef _POSIX_PTHREAD_SEMANTICS
 #endif /* !_POSIX_PTHREAD_SEMANTICS */
-/* Enable extensions on HP NonStop.  */
+/* Enable extensions on HP NonStop: */
 #ifndef _TANDEM_SOURCE
 # undef _TANDEM_SOURCE
 #endif /* !_TANDEM_SOURCE */
@@ -83,11 +85,11 @@ dnl# configure.ac when using autoheader 2.62.
 #ifndef _XOPEN_SOURCE
 # undef _XOPEN_SOURCE
 #endif /* !_XOPEN_SOURCE */
-/* Enable general extensions on Solaris.  */
+/* Enable general extensions on Solaris: */
 #ifndef __EXTENSIONS__
 # undef __EXTENSIONS__
 #endif /* !__EXTENSIONS__ */
-])
+  ])
   AC_CACHE_CHECK([whether it is safe to define __EXTENSIONS__],
     [ac_cv_safe_to_define___extensions__],
     [AC_COMPILE_IFELSE(
@@ -100,13 +102,13 @@ dnl# configure.ac when using autoheader 2.62.
 
   test "x${ac_cv_safe_to_define___extensions__}" = "xyes" &&
     AC_DEFINE([__EXTENSIONS__])
-  AC_DEFINE([_ALL_SOURCE])
-  AC_DEFINE([_DARWIN_C_SOURCE])
-  AC_DEFINE([_GNU_SOURCE])
-  AC_DEFINE([_POSIX_PTHREAD_SEMANTICS])
-  AC_DEFINE([_TANDEM_SOURCE])
-  AC_CHECK_HEADERS_ONCE([wchar.h])
-  AC_CHECK_TYPES([mbstate_t])
+  AC_DEFINE([_ALL_SOURCE])dnl
+  AC_DEFINE([_DARWIN_C_SOURCE])dnl
+  AC_DEFINE([_GNU_SOURCE])dnl
+  AC_DEFINE([_POSIX_PTHREAD_SEMANTICS])dnl
+  AC_DEFINE([_TANDEM_SOURCE])dnl
+  AC_CHECK_HEADERS_ONCE([wchar.h])dnl
+  AC_CHECK_TYPES([mbstate_t])dnl
   AC_CACHE_CHECK([whether _XOPEN_SOURCE should be defined],
     [ac_cv_should_define__xopen_source],
     [ac_cv_should_define__xopen_source=no
@@ -130,15 +132,16 @@ dnl# configure.ac when using autoheader 2.62.
 
 # AC_GNU_SOURCE
 # --------------
-AC_DEFUN([AC_GNU_SOURCE],
-[AH_VERBATIM([_GNU_SOURCE],
-[/* Enable GNU extensions on systems that have them.  */
+AC_DEFUN([AC_GNU_SOURCE],[
+AH_VERBATIM([_GNU_SOURCE],[
+/* Enable GNU extensions on systems that have them.  */
 #ifndef _GNU_SOURCE
 # undef _GNU_SOURCE
-#endif /* !_GNU_SOURCE */])dnl
+#endif /* !_GNU_SOURCE */
+])dnl
 AC_BEFORE([$0],[AC_COMPILE_IFELSE])dnl
 AC_BEFORE([$0],[AC_RUN_IFELSE])dnl
-AC_DEFINE([_GNU_SOURCE])
+AC_DEFINE([_GNU_SOURCE])dnl
 ])
 
 # gl_USE_SYSTEM_EXTENSIONS
@@ -155,10 +158,10 @@ AC_DEFUN_ONCE([gl_USE_SYSTEM_EXTENSIONS],
   dnl# Note: We can do this only for one of the macros out of AC_AIX,
   dnl# AC_GNU_SOURCE, and AC_MINIX. If people still use AC_AIX or AC_MINIX,
   dnl# then they are out of luck.
-  AC_REQUIRE([AC_GNU_SOURCE])
+  AC_REQUIRE([AC_GNU_SOURCE])dnl
 
-  AC_REQUIRE([AC_USE_SYSTEM_EXTENSIONS])
+  AC_REQUIRE([AC_USE_SYSTEM_EXTENSIONS])dnl
   
-  AC_REQUIRE([AC_EXEEXT])
-  AC_REQUIRE([AC_OBJEXT])
-])
+  AC_REQUIRE([AC_EXEEXT])dnl
+  AC_REQUIRE([AC_OBJEXT])dnl
+])dnl

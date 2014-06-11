@@ -17,6 +17,12 @@
 
 /* written by Jim Meyering */
 
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
+#   pragma GCC diagnostic ignored "-Wunused-macros"
+# endif /* GCC 4.1+ */
+#endif /* gcc */
+
 #include "dosname.h" /* solely for definition of IS_ABSOLUTE_FILE_NAME */
 #include "openat.h"
 #include "openat-priv.h"
@@ -34,8 +40,12 @@
       return FUNC_FAIL;                         \
     }
 #else /* not AT_FUNC_USE_F1_COND: */
-# define CALL_FUNC(F) (AT_FUNC_F1 (F AT_FUNC_POST_FILE_ARGS))
-# define VALIDATE_FLAG(F) /* empty */
+# ifndef CALL_FUNC
+#  define CALL_FUNC(F) (AT_FUNC_F1(F AT_FUNC_POST_FILE_ARGS))
+# endif /* !CALL_FUNC */
+# ifndef VALIDATE_FLAG
+#  define VALIDATE_FLAG(F) /* empty */
+# endif /* !VALIDATE_FLAG */
 #endif /* AT_FUNC_USE_F1_COND */
 
 #ifdef AT_FUNC_RESULT
@@ -47,7 +57,9 @@
 #ifdef AT_FUNC_FAIL
 # define FUNC_FAIL AT_FUNC_FAIL
 #else
-# define FUNC_FAIL -1
+# ifndef FUNC_FAIL
+#  define FUNC_FAIL -1
+# endif /* !FUNC_FAIL */
 #endif /* AT_FUNC_FAIL */
 
 /* Call AT_FUNC_F1 to operate on FILE, which is in the directory

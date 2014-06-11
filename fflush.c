@@ -36,14 +36,13 @@
 #undef fflush
 
 
-#if defined _IO_ftrylockfile || (__GNU_LIBRARY__ == 1) /* GNU libc, BeOS, Haiku, Linux libc5 */
+#if defined _IO_ftrylockfile || (defined(__GNU_LIBRARY__) && (__GNU_LIBRARY__ == 1)) /* GNU libc, BeOS, Haiku, Linux libc5 */
 
-/* Clear the stream's ungetc buffer, preserving the value of ftello (fp).  */
-static inline void
-clear_ungetc_buffer_preserving_position(FILE *fp)
+/* Clear the stream's ungetc buffer, preserving the value of ftello (fp): */
+static inline void clear_ungetc_buffer_preserving_position(FILE *fp)
 {
   if (fp->_flags & _IO_IN_BACKUP) {
-    /* _IO_free_backup_area is a bit complicated.  Simply call fseek.  */
+    /* _IO_free_backup_area is a bit complicated. Simply call fseek: */
     fseeko(fp, 0, SEEK_CUR);
   }
 }
@@ -143,7 +142,7 @@ rpl_fflush(FILE *stream)
     return fflush (stream);
   }
 
-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
+#if defined _IO_ftrylockfile || (defined(__GNU_LIBRARY__) && (__GNU_LIBRARY__ == 1)) /* GNU libc, BeOS, Haiku, Linux libc5 */
   clear_ungetc_buffer_preserving_position(stream);
 
   return fflush(stream);

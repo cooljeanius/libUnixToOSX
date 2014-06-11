@@ -107,12 +107,13 @@ static struct quoting_options default_quoting_options;
 /* Allocate a new set of quoting options, with contents initially identical
  * to O if O is not null, or to the default if O is null.
  * It is the responsibility of the caller to free the result. */
-struct quoting_options *
-clone_quoting_options(struct quoting_options *o)
+struct quoting_options *clone_quoting_options(struct quoting_options *o)
 {
-  int e = errno;
-  struct quoting_options *p = xmemdup(o ? o : &default_quoting_options,
-									  sizeof(*o));
+  int e;
+  struct quoting_options *p;
+  e = errno;
+  p = (struct quoting_options *)xmemdup(o ? o : &default_quoting_options,
+										sizeof(*o));
   errno = e;
   return p;
 }
@@ -135,8 +136,7 @@ set_quoting_style(struct quoting_options *o, enum quoting_style s)
  * for character C to I. Return the old value. Currently, the only values
  * defined for I are 0 (the default) and 1 (which means to quote the character
  * even if it would not otherwise be quoted).  */
-int
-set_char_quoting(struct quoting_options *o, char c, int i)
+int set_char_quoting(struct quoting_options *o, char c, int i)
 {
   unsigned char uc;
   unsigned int *p;
@@ -144,7 +144,7 @@ set_char_quoting(struct quoting_options *o, char c, int i)
   int r;
   uc = (unsigned char)c;
   p = ((o ? o : &default_quoting_options)->quote_these_too + (uc / INT_BITS));
-  shift = (uc % INT_BITS);
+  shift = (int)(uc % INT_BITS);
   r = ((*p >> shift) & 1);
   *p ^= (unsigned int)(((i & 1) ^ r) << shift);
   return r;
@@ -694,11 +694,11 @@ quotearg_alloc_mem(char const *arg, size_t argsize, size_t *size,
 {
   struct quoting_options const *p = (o ? o : &default_quoting_options);
   int e = errno;
-  /* Elide embedded null bytes if we cannot return a size. */
-  int flags = p->flags | (size ? 0 : QA_ELIDE_NULL_BYTES);
-  size_t bufsize = (quotearg_buffer_restyled(0, 0, arg, argsize, p->style,
-											 flags, p->quote_these_too,
-											 p->left_quote,
+  /* Elide embedded null bytes if we cannot return a size: */
+  int flags = (p->flags | (size ? 0 : QA_ELIDE_NULL_BYTES));
+  size_t bufsize = (quotearg_buffer_restyled(0, (size_t)0L, arg, argsize,
+											 p->style, flags,
+											 p->quote_these_too, p->left_quote,
 											 p->right_quote) + 1);
   char *buf = xcharalloc(bufsize);
   quotearg_buffer_restyled(buf, bufsize, arg, argsize, p->style, flags,
@@ -781,7 +781,8 @@ quotearg_n_options(int n, char const *arg, size_t argsize,
 		  xalloc_die();
 	  }
 
-      slotvec = sv = xrealloc((preallocated ? NULL : sv), (n1 * sizeof(*sv)));
+      slotvec = sv = (struct slotvec *)xrealloc((preallocated ? NULL : sv),
+												(n1 * sizeof(*sv)));
       if (preallocated) {
 		  *sv = slotvec0;
 	  }
@@ -816,90 +817,76 @@ quotearg_n_options(int n, char const *arg, size_t argsize,
   }
 }
 
-char *
-quotearg_n(int n, char const *arg)
+char *quotearg_n(int n, char const *arg)
 {
   return quotearg_n_options(n, arg, SIZE_MAX, &default_quoting_options);
 }
 
-char *
-quotearg_n_mem(int n, char const *arg, size_t argsize)
+char *quotearg_n_mem(int n, char const *arg, size_t argsize)
 {
   return quotearg_n_options(n, arg, argsize, &default_quoting_options);
 }
 
-char *
-quotearg(char const *arg)
+char *quotearg(char const *arg)
 {
   return quotearg_n(0, arg);
 }
 
-char *
-quotearg_mem(char const *arg, size_t argsize)
+char *quotearg_mem(char const *arg, size_t argsize)
 {
   return quotearg_n_mem(0, arg, argsize);
 }
 
-char *
-quotearg_n_style(int n, enum quoting_style s, char const *arg)
+char *quotearg_n_style(int n, enum quoting_style s, char const *arg)
 {
   struct quoting_options const o = quoting_options_from_style(s);
   return quotearg_n_options(n, arg, SIZE_MAX, &o);
 }
 
-char *
-quotearg_n_style_mem(int n, enum quoting_style s,
-					 char const *arg, size_t argsize)
+char *quotearg_n_style_mem(int n, enum quoting_style s,
+						   char const *arg, size_t argsize)
 {
   struct quoting_options const o = quoting_options_from_style(s);
   return quotearg_n_options(n, arg, argsize, &o);
 }
 
-char *
-quotearg_style(enum quoting_style s, char const *arg)
+char *quotearg_style(enum quoting_style s, char const *arg)
 {
   return quotearg_n_style(0, s, arg);
 }
 
-char *
-quotearg_style_mem(enum quoting_style s, char const *arg, size_t argsize)
+char *quotearg_style_mem(enum quoting_style s, char const *arg, size_t argsize)
 {
   return quotearg_n_style_mem(0, s, arg, argsize);
 }
 
-char *
-quotearg_char_mem(char const *arg, size_t argsize, char ch)
+char *quotearg_char_mem(char const *arg, size_t argsize, char ch)
 {
   struct quoting_options options;
   options = default_quoting_options;
-  set_char_quoting (&options, ch, 1);
-  return quotearg_n_options (0, arg, argsize, &options);
+  set_char_quoting(&options, (char)ch, 1);
+  return quotearg_n_options(0, arg, argsize, &options);
 }
 
-char *
-quotearg_char(char const *arg, char ch)
+char *quotearg_char(char const *arg, char ch)
 {
-  return quotearg_char_mem(arg, SIZE_MAX, ch);
+  return quotearg_char_mem(arg, SIZE_MAX, (char)ch);
 }
 
-char *
-quotearg_colon(char const *arg)
+char *quotearg_colon(char const *arg)
 {
-  return quotearg_char(arg, ':');
+  return quotearg_char(arg, (char)':');
 }
 
-char *
-quotearg_colon_mem(char const *arg, size_t argsize)
+char *quotearg_colon_mem(char const *arg, size_t argsize)
 {
-  return quotearg_char_mem(arg, argsize, ':');
+  return quotearg_char_mem(arg, argsize, (char)':');
 }
 
-char *
-quotearg_n_custom(int n, char const *left_quote,
-				  char const *right_quote, char const *arg)
+char *quotearg_n_custom(int n, char const *left_quote,
+						char const *right_quote, char const *arg)
 {
-  return quotearg_n_custom_mem(n, left_quote, right_quote, arg,
-							   SIZE_MAX);
+  return quotearg_n_custom_mem(n, left_quote, right_quote, arg, SIZE_MAX);
 }
 
 char *
@@ -911,23 +898,20 @@ quotearg_n_custom_mem(int n, char const *left_quote, char const *right_quote,
   return quotearg_n_options(n, arg, argsize, &o);
 }
 
-char *
-quotearg_custom(char const *left_quote, char const *right_quote,
-				char const *arg)
+char *quotearg_custom(char const *left_quote, char const *right_quote,
+					  char const *arg)
 {
   return quotearg_n_custom(0, left_quote, right_quote, arg);
 }
 
-char *
-quotearg_custom_mem(char const *left_quote, char const *right_quote,
-					char const *arg, size_t argsize)
+char *quotearg_custom_mem(char const *left_quote, char const *right_quote,
+						  char const *arg, size_t argsize)
 {
-  return quotearg_n_custom_mem(0, left_quote, right_quote, arg,
-							   argsize);
+  return quotearg_n_custom_mem(0, left_quote, right_quote, arg, argsize);
 }
 
 
-/* The quoting option used by quote_n and quote. */
+/* The quoting option used by quote_n and quote: */
 struct quoting_options quote_quoting_options =
   {
     locale_quoting_style,
@@ -936,14 +920,12 @@ struct quoting_options quote_quoting_options =
     NULL, NULL
   };
 
-char const *
-quote_n(int n, char const *name)
+char const *quote_n(int n, char const *name)
 {
   return quotearg_n_options(n, name, SIZE_MAX, &quote_quoting_options);
 }
 
-char const *
-quote(char const *name)
+char const *quote(char const *name)
 {
   return quote_n(0, name);
 }

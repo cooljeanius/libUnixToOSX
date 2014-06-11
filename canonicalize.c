@@ -44,7 +44,7 @@
 # define DOUBLE_SLASH_IS_DISTINCT_ROOT 0
 #endif /* !DOUBLE_SLASH_IS_DISTINCT_ROOT */
 
-#if !((HAVE_CANONICALIZE_FILE_NAME && FUNC_REALPATH_WORKS) \
+#if !(((defined(HAVE_CANONICALIZE_FILE_NAME) && HAVE_CANONICALIZE_FILE_NAME) && FUNC_REALPATH_WORKS) \
       || GNULIB_CANONICALIZE_LGPL)
 /* Return the canonical absolute name of file NAME.  A canonical name
  * does not contain any ".", ".." components nor any repeated file name
@@ -90,8 +90,7 @@ seen_triple(Hash_table **ht, char const *filename, struct stat const *st)
  * Whether components must exist or not depends on canonicalize mode.
  * The result is malloc'd.
  */
-char *
-canonicalize_filename_mode(const char *name, canonicalize_mode_t can_mode)
+char *canonicalize_filename_mode(const char *name, canonicalize_mode_t can_mode)
 {
   char *rname, *dest, *extra_buf = NULL;
   char const *start;
@@ -100,9 +99,10 @@ canonicalize_filename_mode(const char *name, canonicalize_mode_t can_mode)
   size_t extra_len = 0;
   Hash_table *ht = NULL;
   int saved_errno;
+  bool logical;
   int can_flags = (can_mode & (canonicalize_mode_t)~CAN_MODE_MASK);
   can_mode &= CAN_MODE_MASK;
-  bool logical = can_flags & CAN_NOLINKS;
+  logical = (can_flags & CAN_NOLINKS);
   /* Perhaps in future we might support CAN_NOALLOC with CAN_NOLINKS.  */
 
   if (MULTIPLE_BITS_SET(can_mode)) {
@@ -127,7 +127,8 @@ canonicalize_filename_mode(const char *name, canonicalize_mode_t can_mode)
 	  }
       dest = strchr(rname, '\0');
       if ((dest - rname) < PATH_MAX) {
-          char *p = xrealloc(rname, (size_t)PATH_MAX);
+          char *p;
+		  p = (char *)xrealloc(rname, (size_t)PATH_MAX);
           dest = (p + (dest - rname));
           rname = p;
           rname_limit = (rname + PATH_MAX);
@@ -135,7 +136,7 @@ canonicalize_filename_mode(const char *name, canonicalize_mode_t can_mode)
           rname_limit = dest;
 	  }
   } else {
-      rname = xmalloc((size_t)PATH_MAX);
+      rname = (char *)xmalloc((size_t)PATH_MAX);
       rname_limit = (rname + PATH_MAX);
       rname[0] = '/';
       dest = (rname + 1);
@@ -191,13 +192,13 @@ canonicalize_filename_mode(const char *name, canonicalize_mode_t can_mode)
               } else {
 				  new_size += PATH_MAX;
 			  }
-              rname = xrealloc(rname, new_size);
+              rname = (char *)xrealloc(rname, new_size);
               rname_limit = (rname + new_size);
 
               dest = (rname + dest_offset);
 		  }
 
-          dest = memcpy(dest, start, (size_t)(end - start));
+          dest = (char *)memcpy(dest, start, (size_t)(end - start));
           dest += (end - start);
           *dest = '\0';
 
@@ -251,16 +252,15 @@ canonicalize_filename_mode(const char *name, canonicalize_mode_t can_mode)
               if (!extra_len) {
                   extra_len =
                     (((n + len + 1) > PATH_MAX) ? (n + len + 1) : PATH_MAX);
-                  extra_buf = xmalloc(extra_len);
-			  }
-              else if ((n + len + 1) > extra_len) {
+                  extra_buf = (char *)xmalloc(extra_len);
+			  } else if ((n + len + 1) > extra_len) {
                   extra_len = (n + len + 1);
-                  extra_buf = xrealloc(extra_buf, extra_len);
+                  extra_buf = (char *)xrealloc(extra_buf, extra_len);
 			  }
 
               /* Careful here, end may be a pointer into extra_buf... */
               memmove(&extra_buf[n], end, (len + 1));
-              name = end = memcpy(extra_buf, buf, n);
+              name = end = (const char *)memcpy(extra_buf, buf, n);
 
               if (buf[0] == '/') {
                   dest = (rname + 1);     /* It is an absolute symlink */
@@ -302,7 +302,7 @@ canonicalize_filename_mode(const char *name, canonicalize_mode_t can_mode)
   }
   *dest = '\0';
   if (rname_limit != (dest + 1)) {
-	  rname = xrealloc(rname, (size_t)(dest - rname + 1));
+	  rname = (char *)xrealloc(rname, (size_t)(dest - rname + 1));
   }
 
   free(extra_buf);

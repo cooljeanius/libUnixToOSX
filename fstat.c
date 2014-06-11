@@ -25,7 +25,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include "rpl_misc_funcs.h"
-#if _GL_WINDOWS_64_BIT_ST_SIZE
+#if defined(_GL_WINDOWS_64_BIT_ST_SIZE) && _GL_WINDOWS_64_BIT_ST_SIZE
 # undef stat /* avoid warning on mingw64 with _FILE_OFFSET_BITS=64 */
 # define stat _stati64
 # undef fstat /* avoid warning on mingw64 with _FILE_OFFSET_BITS=64 */
@@ -48,13 +48,12 @@ orig_fstat(int fd, struct stat *buf)
 #include <errno.h>
 #include <unistd.h>
 
-#if HAVE_MSVC_INVALID_PARAMETER_HANDLER
+#if defined(HAVE_MSVC_INVALID_PARAMETER_HANDLER) && HAVE_MSVC_INVALID_PARAMETER_HANDLER
 # include "msvc-inval.h"
 #endif /* HAVE_MSVC_INVALID_PARAMETER_HANDLER */
 
-#if HAVE_MSVC_INVALID_PARAMETER_HANDLER
-static inline int
-fstat_nothrow(int fd, struct stat *buf)
+#if defined(HAVE_MSVC_INVALID_PARAMETER_HANDLER) && HAVE_MSVC_INVALID_PARAMETER_HANDLER
+static inline int fstat_nothrow(int fd, struct stat *buf)
 {
   int result;
 
@@ -76,13 +75,12 @@ fstat_nothrow(int fd, struct stat *buf)
 #endif /* HAVE_MSVC_INVALID_PARAMETER_HANDLER */
 
 /* prototype is in "rpl_misc_funcs.h": */
-int
-rpl_fstat(int fd, struct stat *buf)
+int rpl_fstat(int fd, struct stat *buf)
 {
-#if REPLACE_FCHDIR && REPLACE_OPEN_DIRECTORY
+#if (defined(REPLACE_FCHDIR) && REPLACE_FCHDIR) && REPLACE_OPEN_DIRECTORY
   /* Handle the case when rpl_open() used a dummy file descriptor to work
-   * around an open() that can't normally visit directories.  */
-  const char *name = _gl_directory_name (fd);
+   * around an open() that cannot normally visit directories: */
+  const char *name = _gl_directory_name(fd);
   if (name != NULL) {
     return stat(name, buf);
   }

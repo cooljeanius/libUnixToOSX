@@ -30,10 +30,10 @@
  * I were on a system that already had strnlen()... */
 size_t strnlen(const char *string, size_t maxlen);
 #endif /* !strnlen */
-size_t
-strnlen(const char *string, size_t maxlen)
+size_t strnlen(const char *string, size_t maxlen)
 {
-  const char *end = memchr(string, '\0', maxlen);
+  const char *end;
+  end = (const char *)memchr(string, '\0', maxlen);
   return (end ? (size_t)(end - string) : maxlen);
 }
 

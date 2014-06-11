@@ -21,9 +21,8 @@
 
 #include "rawmemchr.h"
 
-/* Find the first occurrence of C in S or the final NUL byte.  */
-char *
-strchrnul(const char *s, int c_in)
+/* Find the first occurrence of C in S or the final NUL byte: */
+char *strchrnul(const char *s, int c_in)
 {
   /* On 32-bit hardware, choosing longword to be a 32-bit unsigned
      long instead of a 64-bit uintmax_t tends to give better
@@ -38,9 +37,9 @@ strchrnul(const char *s, int c_in)
   longword repeated_c;
   unsigned char c;
 
-  c = (unsigned char) c_in;
+  c = (unsigned char)c_in;
   if (!c) {
-    return rawmemchr(s, 0);
+	  return (char *)rawmemchr(s, 0);
   }
 
   /* Handle the first few bytes by reading one byte at a time.

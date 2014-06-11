@@ -473,7 +473,7 @@ glthread_once_singlethreaded (pthread_once_t *once_control)
 
 /* ========================================================================= */
 
-#if USE_PTH_THREADS
+#if defined(USE_PTH_THREADS) && USE_PTH_THREADS
 
 /* Use the GNU Pth threads library.  */
 
@@ -518,7 +518,7 @@ glthread_once_singlethreaded (pth_once_t *once_control)
 
 /* ========================================================================= */
 
-#if USE_SOLARIS_THREADS
+#if defined(USE_SOLARIS_THREADS) && USE_SOLARIS_THREADS
 
 /* Use the old Solaris threads library.  */
 
@@ -629,7 +629,7 @@ glthread_once_singlethreaded (gl_once_t *once_control)
 
 /* ========================================================================= */
 
-#if USE_WINDOWS_THREADS
+#if defined(USE_WINDOWS_THREADS) && USE_WINDOWS_THREADS
 
 /* -------------------------- gl_lock_t datatype -------------------------- */
 

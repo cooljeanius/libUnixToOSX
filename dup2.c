@@ -107,10 +107,10 @@ rpl_dup2(int fd, int desired_fd)
   /* Correct an errno value on FreeBSD 6.1 and Cygwin 1.5.x.  */
   if (result == -1 && errno == EMFILE)
     errno = EBADF;
-# if REPLACE_FCHDIR
-  if (fd != desired_fd && result != -1)
+# if defined(REPLACE_FCHDIR) && REPLACE_FCHDIR
+  if ((fd != desired_fd) && (result != -1))
     result = _gl_register_dup(fd, result);
-# endif
+# endif /* REPLACE_FCHDIR */
   return result;
 }
 

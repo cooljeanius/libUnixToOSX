@@ -34,16 +34,18 @@
 # ifdef EMACS_FREE
 #  undef free
 #  define free EMACS_FREE
-# endif
+# endif /* EMACS_FREE */
 #else
-# define memory_full() abort ()
-#endif
+# ifndef memory_full
+#  define memory_full() abort ()
+# endif /* !memory_full */
+#endif /* emacs */
 
-/* If compiling with GCC 2, this file's not needed.  */
-#if !defined (__GNUC__) || __GNUC__ < 2
+/* If compiling with GCC 2, this file is not needed. */
+#if !defined (__GNUC__) || (__GNUC__ < 2)
 
-/* If someone has defined alloca as a macro,
-   there must be some other way alloca is supposed to work.  */
+/* If someone has defined alloca as a macro, there must be some other way
+ * that alloca is supposed to work. */
 # ifndef alloca
 
 #  ifdef emacs
@@ -188,12 +190,12 @@ alloca (size_t size)
 
     size_t combined_size = sizeof (header) + size;
     if (combined_size < sizeof (header))
-      memory_full ();
+      memory_full();
 
     new = malloc (combined_size);
 
     if (! new)
-      memory_full ();
+      memory_full();
 
     new->h.next = last_alloca_header;
     new->h.deep = depth;
@@ -476,3 +478,10 @@ i00afunc (long address)
 
 # endif /* no alloca */
 #endif /* not GCC 2 */
+
+/* silence warnings from '-Wunused-macros': */
+#ifdef memory_full
+# undef memory_full
+#endif /* memory_full */
+
+/* EOF */

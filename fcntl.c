@@ -32,7 +32,7 @@
 #include <stdarg.h>
 #include <unistd.h>
 
-#if !HAVE_FCNTL
+#if !defined(HAVE_FCNTL) || (defined(HAVE_FCNTL) && !HAVE_FCNTL)
 # define rpl_fcntl fcntl
 #endif /* !HAVE_FCNTL */
 #undef fcntl
@@ -154,8 +154,7 @@ dupfd(int oldfd, int newfd, int flags)
 /* On older platforms, dup2 did not exist.  */
 # if !defined(dupfd) && (!defined(F_DUPFD) || !defined(HAVE_DUPFD))
 #  define NUMBER_OF_ARGS_TO_DUPFD 2
-static int
-dupfd(int fd, int desired_fd)
+static int dupfd(int fd, int desired_fd)
 {
 	int duplicated_fd;
 	duplicated_fd = dup(fd);
@@ -169,6 +168,11 @@ dupfd(int fd, int desired_fd)
 		return r;
 	}
 }
+#  if defined(__GNUC__) && defined(__GNUC_MINOR__)
+#   if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
+#    pragma GCC diagnostic ignored "-Wunused-macros"
+#   endif /* GCC 4.1+ */
+#  endif /* gcc */
 #  ifndef HAVE_DUPFD
 /* we just implemented it, so we should now "HAVE" it: */
 #   define HAVE_DUPFD 1
@@ -195,14 +199,13 @@ dupfd(int fd, int desired_fd)
  * FD_CLOEXEC is portable, but other flags may be present); otherwise
  * return -1 and set errno.
  */
-int
-rpl_fcntl(int fd, int action, /* arg */...)
+int rpl_fcntl(int fd, int action, /* arg */...)
 {
   va_list arg;
   int result = -1;
   va_start (arg, action);
   switch (action) {
-#if !HAVE_FCNTL && defined(F_DUPFD)
+#if (!defined(HAVE_FCNTL) || (defined(HAVE_FCNTL) && !HAVE_FCNTL)) && defined(F_DUPFD)
     case F_DUPFD:
       {
 		int target;
@@ -256,7 +259,7 @@ rpl_fcntl(int fd, int action, /* arg */...)
 		int target;
 		target = va_arg(arg, int);
 
-#if !HAVE_FCNTL
+#if !defined(HAVE_FCNTL) || (defined(HAVE_FCNTL) && !HAVE_FCNTL)
 # if defined(F_DUPFD) && defined(O_CLOEXEC)
 #  if NUMBER_OF_ARGS_TO_DUPFD == 3
         result = dupfd(fd, target, O_CLOEXEC);
@@ -312,7 +315,7 @@ rpl_fcntl(int fd, int action, /* arg */...)
 #endif /* HAVE_FCNTL */
 	  } /* F_DUPFD_CLOEXEC */
 
-#if !HAVE_FCNTL
+#if !defined(HAVE_FCNTL) || (defined(HAVE_FCNTL) && !HAVE_FCNTL)
     case F_GETFD:
       {
 # if (defined _WIN32 || defined __WIN32__) && !defined(__CYGWIN__)
@@ -345,7 +348,7 @@ rpl_fcntl(int fd, int action, /* arg */...)
 	   */
     default:
       {
-#if HAVE_FCNTL
+#if defined(HAVE_FCNTL) && HAVE_FCNTL
         void *p = va_arg(arg, void *);
         result = fcntl(fd, action, p);
 #else

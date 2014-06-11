@@ -92,19 +92,20 @@ openat_proc_name (char buf[OPENAT_BUFFER_SIZE], int fd, char const *file)
         }
     }
 
-  if (proc_status < 0)
-    return NULL;
-  else
-    {
-      size_t bufsize = PROC_SELF_FD_NAME_SIZE_BOUND (strlen (file));
+  if (proc_status < 0) {
+	  return NULL;
+  } else {
+      size_t bufsize = PROC_SELF_FD_NAME_SIZE_BOUND(strlen(file));
       char *result = buf;
-      if (OPENAT_BUFFER_SIZE < bufsize)
-        {
-          result = malloc (bufsize);
-          if (! result)
-            return NULL;
-        }
-      sprintf (result, PROC_SELF_FD_FORMAT, fd, file);
+      if (OPENAT_BUFFER_SIZE < bufsize) {
+          result = (char *)malloc(bufsize);
+          if (! result) {
+			  return NULL;
+		  }
+	  }
+      sprintf(result, PROC_SELF_FD_FORMAT, fd, file);
       return result;
-    }
+  }
 }
+
+/* EOF */

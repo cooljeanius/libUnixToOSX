@@ -48,20 +48,18 @@ opendir_safer (char const *name)
              always fails (as on mingw), then we are already safe.  */
           DIR *newdp;
           int e;
-#if HAVE_FDOPENDIR || GNULIB_FDOPENDIR
-          int f = dup_safer (fd);
-          if (f < 0)
-            {
+#if (defined(HAVE_FDOPENDIR) && HAVE_FDOPENDIR) || GNULIB_FDOPENDIR
+          int f = dup_safer(fd);
+          if (f < 0) {
               e = errno;
               newdp = NULL;
-            }
-          else
-            {
-              newdp = fdopendir (f);
+		  } else {
+              newdp = fdopendir(f);
               e = errno;
-              if (! newdp)
-                close (f);
-            }
+              if (! newdp) {
+				  close(f);
+			  }
+		  }
 #else /* !FDOPENDIR */
           newdp = opendir_safer (name);
           e = errno;

@@ -23,7 +23,7 @@
  *   ENABLE_UNISTDIO    Set to 1 to enable the unistdio extensions.
  *   STATIC             Set to 'static' to declare the function static.  */
 
-#if HAVE_FEATURES_H
+#if defined(HAVE_FEATURES_H) && HAVE_FEATURES_H
 # include <features.h> /* for __GLIBC__, __UCLIBC__ */
 #endif /* HAVE_FEATURES_H */
 
@@ -37,7 +37,7 @@
 #define FLAG_SPACE       8      /* space flag */
 #define FLAG_ALT        16      /* # flag */
 #define FLAG_ZERO       32
-#if (__GLIBC__ >= 2) && !defined __UCLIBC__
+#if (defined(__GLIBC__) && (__GLIBC__ >= 2)) && !defined __UCLIBC__
 # define FLAG_LOCALIZED 64      /* I flag, uses localized digits */
 #endif /* glibc 2+ */
 
@@ -78,7 +78,7 @@ typedef struct
 }
 char_directives;
 
-#if ENABLE_UNISTDIO
+#if defined(ENABLE_UNISTDIO) && ENABLE_UNISTDIO
 
 /* A parsed directive. */
 typedef struct
@@ -171,7 +171,7 @@ u32_directives;
  * in directives[0], ..., directives[N-1], and sets directives[N].dir_start
  * to the end of the format string.  Also fills in the arg_type fields of the
  * arguments and the needed count of arguments.  */
-#if ENABLE_UNISTDIO
+#if defined(ENABLE_UNISTDIO) && ENABLE_UNISTDIO
 extern int
        ulc_printf_parse(const char *format, char_directives *d, arguments *a);
 extern int

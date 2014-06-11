@@ -23,10 +23,18 @@
 # define _GNU_SOURCE 1
 #endif /* !_GNU_SOURCE */
 
-#define _GL_USE_STDLIB_ALLOC 1
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 2))
+#  pragma GCC diagnostic ignored "-Wunused-macros"
+# endif /* GCC 4.2+ */
+#endif /* gcc */
+
+#ifndef _GL_USE_STDLIB_ALLOC
+# define _GL_USE_STDLIB_ALLOC 1
+#endif /* !_GL_USE_STDLIB_ALLOC */
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include "relocatable.h"
 
 #if ENABLE_RELOCATABLE
@@ -58,13 +66,13 @@
 #  include <windows.h>
 # endif /* (_WIN32 || __WIN32__) && !__CYGWIN__ */
 
-# if DEPENDS_ON_LIBCHARSET
+# if defined(DEPENDS_ON_LIBCHARSET) && DEPENDS_ON_LIBCHARSET
 #  include <libcharset.h>
 # endif /* DEPENDS_ON_LIBCHARSET */
-# if DEPENDS_ON_LIBICONV && HAVE_ICONV
+# if (defined(DEPENDS_ON_LIBICONV) && DEPENDS_ON_LIBICONV) && HAVE_ICONV
 #  include <iconv.h>
 # endif /* DEPENDS_ON_LIBICONV && HAVE_ICONV */
-# if DEPENDS_ON_LIBINTL && ENABLE_NLS
+# if (defined(DEPENDS_ON_LIBINTL) && DEPENDS_ON_LIBINTL) && ENABLE_NLS
 #  include <libintl.h>
 # endif /* DEPENDS_ON_LIBINTL && ENABLE_NLS */
 
@@ -172,14 +180,14 @@ set_relocation_prefix(const char *orig_prefix_arg, const char *curr_prefix_arg)
 {
 	set_this_relocation_prefix(orig_prefix_arg, curr_prefix_arg);
 
-	/* Now notify all dependent libraries.  */
-# if DEPENDS_ON_LIBCHARSET
+	/* Now notify all dependent libraries: */
+# if defined(DEPENDS_ON_LIBCHARSET) && DEPENDS_ON_LIBCHARSET
 	libcharset_set_relocation_prefix(orig_prefix_arg, curr_prefix_arg);
 # endif /* DEPENDS_ON_LIBCHARSET */
-# if DEPENDS_ON_LIBICONV && HAVE_ICONV && (_LIBICONV_VERSION >= 0x0109)
+# if (defined(DEPENDS_ON_LIBICONV) && DEPENDS_ON_LIBICONV) && HAVE_ICONV && (_LIBICONV_VERSION >= 0x0109)
 	libiconv_set_relocation_prefix(orig_prefix_arg, curr_prefix_arg);
 # endif /* DEPENDS_ON_LIBICONV && HAVE_ICONV && (_LIBICONV_VERSION >= 0x0109) */
-# if DEPENDS_ON_LIBINTL && ENABLE_NLS && defined libintl_set_relocation_prefix
+# if (defined(DEPENDS_ON_LIBINTL) && DEPENDS_ON_LIBINTL) && ENABLE_NLS && defined(libintl_set_relocation_prefix)
 	libintl_set_relocation_prefix(orig_prefix_arg, curr_prefix_arg);
 # endif /* DEPENDS_ON_LIBINTL && ENABLE_NLS && libintl_set_relocation_prefix */
 }
@@ -235,7 +243,7 @@ compute_curr_prefix(const char *orig_installprefix, const char *orig_installdir,
 			return NULL;
 		}
 #  endif /* NO_XMALLOC */
-		memcpy(q, curr_pathname, (p - curr_pathname));
+		memcpy(q, curr_pathname, (size_t)(p - curr_pathname));
 		q[(p - curr_pathname)] = '\0';
 		curr_installdir = q;
 	}

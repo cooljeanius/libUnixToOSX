@@ -50,7 +50,7 @@ char *alloca ();
 #ifndef _
 /* This is for other GNU distributions with internationalized messages.
    When compiling libc, the _ macro is predefined.  */
-# if defined HAVE_LIBINTL_H || defined _LIBC
+# if (defined(HAVE_LIBINTL_H) && (defined(ENABLE_NLS) && ENABLE_NLS)) || defined _LIBC
 #  include <libintl.h>
 #  ifdef _LIBC
 #   undef dgettext
@@ -58,15 +58,17 @@ char *alloca ();
 #  endif
 # else
 #  define dgettext(domain, msgid) (msgid)
-#  define gettext(msgid) (msgid)
+#  ifndef gettext
+#   define gettext(msgid) (msgid)
+#  endif /* !gettext */
 # endif
 #endif
 #ifndef N_
 # define N_(msgid) (msgid)
 #endif
 
-#if _LIBC - 0
-#include <bits/libc-lock.h>
+#if (defined(_LIBC) && (_LIBC - 0))
+# include <bits/libc-lock.h>
 #else
 #ifdef HAVE_CTHREADS_H
 #include <cthreads.h>
@@ -76,15 +78,24 @@ char *alloca ();
 #include "argp.h"
 #include "argp-namefrob.h"
 
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 2))
+#  pragma GCC diagnostic ignored "-Wunused-macros"
+# endif /* GCC 4.2+ */
+#endif /* gcc */
 
+#ifndef QUOTE
 /* The meta-argument used to prevent any further arguments being interpreted
-   as options.  */
-#define QUOTE "--"
+ * as options: */
+# define QUOTE "--"
+#endif /* !QUOTE */
 
-/* EZ alias for ARGP_ERR_UNKNOWN.  */
-#define EBADKEY ARGP_ERR_UNKNOWN
+#ifndef EBADKEY
+/* EZ alias for ARGP_ERR_UNKNOWN: */
+# define EBADKEY ARGP_ERR_UNKNOWN
+#endif /* !EBADKEY */
 
-
+
 /* Default options.  */
 
 /* When argp is given the --HANG switch, _ARGP_HANG is set and argp will sleep
@@ -381,45 +392,44 @@ find_long_option(struct parser *parser,
   struct group *matched_group = NULL;
   const struct argp_option *matched_option = NULL;
 
-  /* Number of partial matches. */
+  /* Number of partial matches: */
   int num_partial = 0;
 
-  for (group = parser->groups; group < parser->egroup; group++)
-    {
+  for ((group = parser->groups); (group < parser->egroup); group++) {
       const struct argp_option *opts;
 
-      for (opts = group->argp->options; !__option_is_end(opts); opts++)
-	{
-	  if (!opts->name)
-	    continue;
-	  switch (match_option(arg, opts->name))
-	    {
-	    case MATCH_NO:
-	      break;
-	    case MATCH_PARTIAL:
-	      num_partial++;
+      for ((opts = group->argp->options); !__option_is_end(opts); opts++) {
+		  if (!opts->name) {
+			  continue;
+		  }
+		  switch (match_option(arg, opts->name)) {
+			  case MATCH_NO:
+				  break;
+			  case MATCH_PARTIAL:
+				  num_partial++;
 
-	      matched_group = group;
-	      matched_option = opts;
+				  matched_group = group;
+				  matched_option = opts;
 
-	      break;
-	    case MATCH_EXACT:
-	      /* Exact match. */
-	      *p = group;
-	      return opts;
-	    }
-	}
-    }
-  if (num_partial == 1)
-    {
+				  break;
+			  case MATCH_EXACT:
+				  /* Exact match: */
+				  *p = group;
+				  return opts;
+			  default:
+				  break; /* (?) */
+		  }
+	  }
+  }
+  if (num_partial == 1) {
       *p = matched_group;
       return matched_option;
-    }
+  }
 
   return NULL;
 }
 
-
+
 /* The next usable entries in the various parser tables being filled in by
    convert_options.  */
 struct parser_convert_state
@@ -583,19 +593,21 @@ parser_init(struct parser *parser, const struct argp *argp,
 #define SLEN (szs.short_len + 1)
 #define STORAGE(offset) ((void *) (((char *) parser->storage) + (offset)))
 
-  parser->storage = malloc (GLEN + CLEN + SLEN);
-  if (! parser->storage)
-    return ENOMEM;
+  parser->storage = malloc(GLEN + CLEN + SLEN);
+  if (! parser->storage) {
+	  return ENOMEM;
+  }
 
-  parser->groups = parser->storage;
+  parser->groups = (struct group *)parser->storage;
 
-  parser->child_inputs = STORAGE(GLEN);
-  memset (parser->child_inputs, 0, szs.num_child_inputs * sizeof (void *));
+  parser->child_inputs = (void **)STORAGE(GLEN);
+  memset(parser->child_inputs, 0, (szs.num_child_inputs * sizeof(void *)));
 
-  if (flags & ARGP_LONG_ONLY)
-    parser->short_opts = STORAGE(GLEN + CLEN);
-  else
-    parser->short_opts = NULL;
+  if (flags & ARGP_LONG_ONLY) {
+	  parser->short_opts = (char *)STORAGE(GLEN + CLEN);
+  } else {
+	  parser->short_opts = NULL;
+  }
 
   parser_convert (parser, argp);
 
@@ -1216,18 +1228,19 @@ __argp_parse (const struct argp *argp, int argc, char **argv, unsigned flags,
      to be parsed (which in some cases isn't actually an error).  */
   int arg_ebadkey = 0;
 
-  if (! (flags & ARGP_NO_HELP))
-    /* Add our own options.  */
-    {
-      struct argp_child *child = alloca (4 * sizeof (struct argp_child));
-      struct argp *top_argp = alloca (sizeof (struct argp));
+  if (! (flags & ARGP_NO_HELP)) {
+	  /* Add our own options: */
+      struct argp_child *child;
+      struct argp *top_argp;
 
+	  child = (struct argp_child *)alloca(4 * sizeof(struct argp_child));
+	  top_argp = (struct argp *)alloca(sizeof(struct argp));
       /* TOP_ARGP has no options, it just serves to group the user & default
-	 argps.  */
-      memset (top_argp, 0, sizeof (*top_argp));
+	   * argps: */
+      memset(top_argp, 0, sizeof(*top_argp));
       top_argp->children = child;
 
-      memset (child, 0, 4 * sizeof (struct argp_child));
+      memset(child, 0, (4 * sizeof(struct argp_child)));
 
       if (argp)
 	(child++)->argp = argp;
@@ -1257,19 +1270,20 @@ weak_alias (__argp_parse, argp_parse)
 #endif
 
 /* Return the input field for ARGP in the parser corresponding to STATE; used
-   by the help routines.  */
-void *
-__argp_input (const struct argp *argp, const struct argp_state *state)
+ * by the help routines: */
+void *__argp_input(const struct argp *argp, const struct argp_state *state)
 {
-  if (state)
-    {
+  if (state) {
       struct group *group;
-      struct parser *parser = state->pstate;
+      struct parser *parser;
+	  parser = (struct parser *)state->pstate;
 
-      for (group = parser->groups; group < parser->egroup; group++)
-	if (group->argp == argp)
-	  return group->input;
-    }
+      for ((group = parser->groups); (group < parser->egroup); group++) {
+		  if (group->argp == argp) {
+			  return group->input;
+		  }
+	  }
+  }
 
   return 0;
 }

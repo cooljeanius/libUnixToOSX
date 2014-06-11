@@ -19,8 +19,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 2))
+#   pragma GCC diagnostic ignored "-Wunused-macros"
+# endif /* GCC 4.2+ */
+#endif /* gcc */
+
 #ifndef _GNU_SOURCE
-# define _GNU_SOURCE	1
+# define _GNU_SOURCE 1
 #endif /* !_GNU_SOURCE */
 
 #ifdef HAVE_CONFIG_H
@@ -224,17 +230,16 @@ parse_opt (int key, char *arg, struct argp_state *state)
   return 0;
 }
 
-static char *
-help_filter(int key, const char *text, void *input)
+static char *help_filter(int key, const char *text, void *input)
 {
   char *new_text;
   struct params *params = input;
 
-  if (key == ARGP_KEY_HELP_POST_DOC && text) {
+  if ((key == ARGP_KEY_HELP_POST_DOC) && text) {
       time_t now = time(0);
       asprintf(&new_text, text, ctime(&now));
   } else if (key == 'f') {
-	  /* Show the default for the --foonly option.  */
+	  /* Show the default for the --foonly option: */
 	  asprintf(&new_text, "%s (ZOT defaults to %x)",
 			   text, params->foonly_default);
   } else {
@@ -251,9 +256,9 @@ static struct argp_child argp_children[] = {
 static struct argp argp = {
   options, parse_opt, args_doc, doc, argp_children, help_filter, 0
 };
-
-int
-main(int argc, char **argv)
+
+
+int main(int argc, char **argv)
 {
   struct params params;
   params.foonly = 0;

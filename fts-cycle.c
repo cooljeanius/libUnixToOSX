@@ -18,6 +18,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
+#  pragma GCC diagnostic ignored "-Wunused-macros"
+# endif /* GCC 4.1+ */
+#endif /* gcc */
+
 #ifndef __FTS_CYCLE_C__
 #define __FTS_CYCLE_C__ 1
 
@@ -54,19 +60,21 @@ struct Active_dir
   FTSENT *fts_ent;
 };
 
-static bool
-AD_compare(void const *x, void const *y)
+static bool AD_compare(void const *x, void const *y)
 {
-  struct Active_dir const *ax = x;
-  struct Active_dir const *ay = y;
+  struct Active_dir const *ax;
+  struct Active_dir const *ay;
+
+  ax = (const struct Active_dir *)x;
+  ay = (const struct Active_dir *)y;
   return ((ax->ino == ay->ino)
 		  && (ax->dev == ay->dev));
 }
 
-static size_t
-AD_hash(void const *x, size_t table_size)
+static size_t AD_hash(void const *x, size_t table_size)
 {
-  struct Active_dir const *ax = x;
+  struct Active_dir const *ax;
+  ax = (const struct Active_dir *)x;
   return ((uintmax_t)ax->ino % table_size);
 }
 
@@ -93,7 +101,7 @@ setup_dir(FTS *fts)
 		  return false;
 	  }
   } else {
-      fts->fts_cycle.state = malloc(sizeof *fts->fts_cycle.state);
+      fts->fts_cycle.state = (struct cycle_check_state *)malloc(sizeof *fts->fts_cycle.state);
       if (! fts->fts_cycle.state) {
 		  return false;
 	  }
@@ -104,13 +112,15 @@ setup_dir(FTS *fts)
 }
 
 /* Enter a directory during a file tree walk:  */
-static bool
-enter_dir(FTS *fts, FTSENT *ent)
+static bool enter_dir(FTS *fts, FTSENT *ent)
 {
   if (fts->fts_options & (FTS_TIGHT_CYCLE_CHECK | FTS_LOGICAL)) {
-      struct stat const *st = ent->fts_statp;
-      struct Active_dir *ad = malloc(sizeof *ad);
+      struct stat const *st;
+      struct Active_dir *ad;
       struct Active_dir *ad_from_table;
+
+	  st = ent->fts_statp;
+	  ad = (struct Active_dir *)malloc(sizeof(*ad));
 
       if (!ad) {
 		  return false;
@@ -123,7 +133,7 @@ enter_dir(FTS *fts, FTSENT *ent)
       /* See if we have already encountered this directory.
        * This can happen when following symlinks as well as
        * with a corrupted directory hierarchy. */
-      ad_from_table = hash_insert(fts->fts_cycle.ht, ad);
+      ad_from_table = (struct Active_dir *)hash_insert(fts->fts_cycle.ht, ad);
 
       if (ad_from_table != ad) {
           free(ad);
@@ -151,8 +161,7 @@ enter_dir(FTS *fts, FTSENT *ent)
 }
 
 /* Leave a directory during a file tree walk:  */
-static void
-leave_dir(FTS *fts, FTSENT *ent)
+static void leave_dir(FTS *fts, FTSENT *ent)
 {
   struct stat const *st = ent->fts_statp;
   if (fts->fts_options & (FTS_TIGHT_CYCLE_CHECK | FTS_LOGICAL)) {
@@ -175,8 +184,7 @@ leave_dir(FTS *fts, FTSENT *ent)
 }
 
 /* Free any memory used for cycle detection:  */
-static void
-free_dir(FTS *sp)
+static void free_dir(FTS *sp)
 {
   if (sp->fts_options & (FTS_TIGHT_CYCLE_CHECK | FTS_LOGICAL)) {
       if (sp->fts_cycle.ht) {

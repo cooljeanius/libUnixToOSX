@@ -1,4 +1,4 @@
-/* Invalid parameter handler for MSVC runtime libraries.
+/* msvc-inval.h: Invalid parameter handler for MSVC runtime libraries.
  * Copyright (C) 2011-2012 Free Software Foundation, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -57,12 +57,12 @@
 #define HAIRY_LIBRARY_HANDLING 1
 #define SANE_LIBRARY_HANDLING  2
 
-#if HAVE_MSVC_INVALID_PARAMETER_HANDLER \
+#if (defined(HAVE_MSVC_INVALID_PARAMETER_HANDLER) && HAVE_MSVC_INVALID_PARAMETER_HANDLER) \
     && !(MSVC_INVALID_PARAMETER_HANDLING == SANE_LIBRARY_HANDLING)
 /* A native Windows platform with the "invalid parameter handler" concept,
  * and either DEFAULT_HANDLING or HAIRY_LIBRARY_HANDLING.  */
 
-# if MSVC_INVALID_PARAMETER_HANDLING == DEFAULT_HANDLING
+# if (MSVC_INVALID_PARAMETER_HANDLING == DEFAULT_HANDLING)
 /* Default handling.  */
 
 #  ifdef __cplusplus

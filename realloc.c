@@ -19,7 +19,14 @@
 
 /* written by Jim Meyering and Bruno Haible */
 
-#define _GL_USE_STDLIB_ALLOC 1
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 2))
+#  pragma GCC diagnostic ignored "-Wunused-macros"
+# endif /* GCC 4.2+ */
+#endif /* gcc */
+#ifndef _GL_USE_STDLIB_ALLOC
+# define _GL_USE_STDLIB_ALLOC 1
+#endif /* !_GL_USE_STDLIB_ALLOC */
 #include <config.h>
 
 /* Only the AC_FUNC_REALLOC macro defines 'realloc' already in config.h. */
@@ -32,7 +39,7 @@
 
 /* Infer the properties of the system's malloc function.
  * The gnulib module 'malloc-gnu' defines HAVE_MALLOC_GNU. */
-#if GNULIB_MALLOC_GNU && HAVE_MALLOC_GNU
+#if (defined(GNULIB_MALLOC_GNU) && GNULIB_MALLOC_GNU) && HAVE_MALLOC_GNU
 # define SYSTEM_MALLOC_GLIBC_COMPATIBLE 1
 #endif
 
@@ -53,7 +60,7 @@ rpl_realloc(void *p, size_t n)
 {
   void *result;
 
-#if NEED_REALLOC_GNU
+#if defined(NEED_REALLOC_GNU) && NEED_REALLOC_GNU
   if (n == 0) {
       n = 1;
 
@@ -64,7 +71,9 @@ rpl_realloc(void *p, size_t n)
 #endif /* NEED_REALLOC_GNU */
 
   if (p == NULL) {
-#if GNULIB_REALLOC_GNU && !NEED_REALLOC_GNU && !SYSTEM_MALLOC_GLIBC_COMPATIBLE
+#if (defined(GNULIB_REALLOC_GNU) && GNULIB_REALLOC_GNU) && \
+    (!defined(NEED_REALLOC_GNU) || (defined(NEED_REALLOC_GNU) && !NEED_REALLOC_GNU)) && \
+    (!defined(SYSTEM_MALLOC_GLIBC_COMPATIBLE) || (defined(SYSTEM_MALLOC_GLIBC_COMPATIBLE) && !SYSTEM_MALLOC_GLIBC_COMPATIBLE))
       if (n == 0) {
         n = 1;
 	  }

@@ -43,16 +43,16 @@ base_name (char const *name)
   /* On systems with drive letters, "a/b:c" must return "./b:c" rather
      than "b:c" to avoid confusion with a drive letter.  On systems
      with pure POSIX semantics, this is not an issue.  */
-  if (FILE_SYSTEM_PREFIX_LEN (base))
-    {
-      char *p = xmalloc (length + 3);
+  if (FILE_SYSTEM_PREFIX_LEN(base)) {
+      char *p;
+	  p = (char *)xmalloc(length + 3);
       p[0] = '.';
       p[1] = '/';
-      memcpy (p + 2, base, length);
-      p[length + 2] = '\0';
+      memcpy((p + 2), base, length);
+      p[(length + 2)] = '\0';
       return p;
-    }
+  }
 
-  /* Finally, copy the basename.  */
-  return xstrndup (base, length);
+  /* Finally, copy the basename: */
+  return xstrndup(base, length);
 }

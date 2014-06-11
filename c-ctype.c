@@ -1,7 +1,7 @@
-/* Character handling in C locale.
-
-   Copyright 2000-2003, 2006, 2009-2012 Free Software Foundation, Inc.
-
+/* c-ctype.c: Character handling in C locale.
+ *
+ * Copyright 2000-2003, 2006, 2009-2012 Free Software Foundation, Inc. */
+/*
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
@@ -13,20 +13,28 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, see <http://www.gnu.org/licenses/>.  */
+along with this program; if not, see <http://www.gnu.org/licenses/>.
+ */
+
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 2))
+#  pragma GCC diagnostic ignored "-Wunused-macros"
+# endif /* GCC 4.2+ */
+#endif /* gcc */
 
 #include <config.h>
 
-/* Specification.  */
-#define NO_C_CTYPE_MACROS
+/* Specification: */
+#ifndef NO_C_CTYPE_MACROS
+# define NO_C_CTYPE_MACROS /* nothing (?) */
+#endif /* NO_C_CTYPE_MACROS */
 #include "c-ctype.h"
 
 /* The function isascii is not locale dependent. Its use in EBCDIC is
-   questionable. */
-bool
-c_isascii (int c)
+ * questionable. */
+bool c_isascii(int c)
 {
-  return (c >= 0x00 && c <= 0x7f);
+  return ((c >= 0x00) && (c <= 0x7f));
 }
 
 bool
@@ -393,3 +401,5 @@ c_toupper (int c)
     }
 #endif
 }
+
+/* EOF */

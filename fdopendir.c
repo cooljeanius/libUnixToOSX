@@ -23,7 +23,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#if !HAVE_FDOPENDIR
+#if !defined(HAVE_FDOPENDIR) || (defined(HAVE_FDOPENDIR) && !HAVE_FDOPENDIR)
 
 # include "openat.h"
 # include "openat-priv.h"

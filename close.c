@@ -29,15 +29,14 @@
 
 #undef close
 
-#if HAVE_MSVC_INVALID_PARAMETER_HANDLER
-static int
-close_nothrow(int fd)
+#if defined(HAVE_MSVC_INVALID_PARAMETER_HANDLER) && HAVE_MSVC_INVALID_PARAMETER_HANDLER
+static int close_nothrow(int fd)
 {
   int result;
 
   TRY_MSVC_INVAL
     {
-      result = close (fd);
+      result = close(fd);
     }
   CATCH_MSVC_INVAL
     {
@@ -52,18 +51,16 @@ close_nothrow(int fd)
 # define close_nothrow close
 #endif /* HAVE_MSVC_INVALID_PARAMETER_HANDLER */
 
-/* Override close() to call into other gnulib modules.  */
-
-int
-rpl_close(int fd)
+/* Override close() to call into other gnulib modules: */
+int rpl_close(int fd)
 {
-#if WINDOWS_SOCKETS
+#if defined(WINDOWS_SOCKETS) && WINDOWS_SOCKETS
   int retval = execute_all_close_hooks(close_nothrow, fd);
 #else
   int retval = close_nothrow(fd);
 #endif /* WINDOWS_SOCKETS */
 
-#if REPLACE_FCHDIR
+#if defined(REPLACE_FCHDIR) && REPLACE_FCHDIR
   if (retval >= 0) {
     _gl_unregister_fd(fd);
   }

@@ -18,15 +18,18 @@
 
 #ifndef _LIBC
 # if defined(__GNUC__) && defined(__GNUC_MINOR__)
-#  if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 6))
+#  if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
 #   pragma GCC diagnostic ignored "-Wunused-macros"
-#  endif /* GCC 4.6+ */
+#  endif /* GCC 4.1+ */
 # endif /* gcc */
-# define _GL_USE_STDLIB_ALLOC 1
+# ifndef _GL_USE_STDLIB_ALLOC
+#  define _GL_USE_STDLIB_ALLOC 1
+# endif /* !_GL_USE_STDLIB_ALLOC */
 # include <config.h>
 #endif /* !_LIBC */
 
-#if !HAVE_CANONICALIZE_FILE_NAME || !FUNC_REALPATH_WORKS || defined _LIBC
+#if (!defined(HAVE_CANONICALIZE_FILE_NAME) || (defined(HAVE_CANONICALIZE_FILE_NAME) && !HAVE_CANONICALIZE_FILE_NAME)) \
+    || !FUNC_REALPATH_WORKS || defined _LIBC
 
 /* Do NOT use __attribute__ __nonnull__ in this compilation unit. Otherwise gcc
  * optimizes away the name == NULL test below.  */
@@ -60,7 +63,7 @@
 # include "pathmax.h"
 # include "malloca.h"
 # if HAVE_GETCWD
-#  if IN_RELOCWRAPPER
+#  if defined(IN_RELOCWRAPPER) && IN_RELOCWRAPPER
     /* When building the relocatable program wrapper, use the system's getcwd
      * function, not the gnulib override, otherwise we would get a link error.
      */
@@ -90,7 +93,7 @@
 # define DOUBLE_SLASH_IS_DISTINCT_ROOT 0
 #endif /* !DOUBLE_SLASH_IS_DISTINCT_ROOT */
 
-#if !FUNC_REALPATH_WORKS || defined _LIBC
+#if (!defined(FUNC_REALPATH_WORKS) || (defined(FUNC_REALPATH_WORKS) && !FUNC_REALPATH_WORKS)) || defined _LIBC
 /* Return the canonical absolute name of file NAME. A canonical name
  * does not contain any ".", ".." components nor any repeated path
  * separators ('/') or symlinks. All path components must exist. If
@@ -102,8 +105,7 @@
  * that cannot be resolved. If the path can be resolved, RESOLVED
  * holds the same value as the value returned.
  */
-char *
-__realpath(const char *name, char *resolved)
+char *__realpath(const char *name, char *resolved)
 {
   char *rpath, *dest, *extra_buf = NULL;
   const char *start, *end, *rpath_limit;
@@ -136,7 +138,7 @@ __realpath(const char *name, char *resolved)
 #endif /* PATH_MAX */
 
   if (resolved == NULL) {
-      rpath = malloc((size_t)path_max);
+      rpath = (char *)malloc((size_t)path_max);
       if (rpath == NULL) {
           /* It is easier to set errno to ENOMEM than to rely on the
            * 'malloc-posix' gnulib module.  */
@@ -267,7 +269,7 @@ __realpath(const char *name, char *resolved)
                   goto error;
 			  }
 
-              buf = malloca((size_t)path_max);
+              buf = (char *)malloca((size_t)path_max);
               if (!buf) {
                   errno = ENOMEM;
                   goto error;
@@ -283,7 +285,7 @@ __realpath(const char *name, char *resolved)
               buf[n] = '\0';
 
               if (!extra_buf) {
-                  extra_buf = malloca((size_t)path_max);
+                  extra_buf = (char *)malloca((size_t)path_max);
                   if (!extra_buf) {
                       freea(buf);
                       errno = ENOMEM;
@@ -300,7 +302,7 @@ __realpath(const char *name, char *resolved)
 
               /* Careful here, end may be a pointer into extra_buf... */
               memmove(&extra_buf[n], end, (len + 1));
-              name = end = memcpy(extra_buf, buf, (size_t)n);
+              name = end = (const char *)memcpy(extra_buf, buf, (size_t)n);
 
 			  /* dummy condition to use value stored to 'name': */
 			  if (name == end) {

@@ -27,14 +27,13 @@
  * the method described by Bruno Haible.
  * See http://www.haible.de/bruno/hashfunc.html.
  */
-size_t
-hash_pjw(const void *x, size_t tablesize)
+size_t hash_pjw(const void *x, size_t tablesize)
 {
   const char *s;
   size_t h = 0;
 
-  for ((s = x); *s; s++) {
-    h = ((unsigned long)*s + ((h << 9) | (h >> (SIZE_BITS - 9))));
+  for ((s = (const char *)x); *s; s++) {
+	  h = ((unsigned long)*s + ((h << 9) | (h >> (SIZE_BITS - 9))));
   }
 
   return (h % tablesize);

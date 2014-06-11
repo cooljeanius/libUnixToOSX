@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include <unistd.h>
 
 #include <errno.h>
@@ -25,10 +25,9 @@
 
 #include "binary-io.h"
 
-int
-dup3 (int oldfd, int newfd, int flags)
+int dup3(int oldfd, int newfd, int flags)
 {
-#if HAVE_DUP3
+#if defined(HAVE_DUP3) && HAVE_DUP3
 # undef dup3
   /* Try the system call first, if it exists.  (We may be running with a glibc
      that has the function but with an older kernel that lacks it.)  */

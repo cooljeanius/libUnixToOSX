@@ -48,7 +48,15 @@
 #ifndef _RELOCWRAPPER_C_
 #define _RELOCWRAPPER_C_ 1
 
-#define _GL_USE_STDLIB_ALLOC 1
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 2))
+#  pragma GCC diagnostic ignored "-Wunused-macros"
+# endif /* GCC 4.2+ */
+#endif /* gcc */
+
+#ifndef _GL_USE_STDLIB_ALLOC
+# define _GL_USE_STDLIB_ALLOC 1
+#endif /* !_GL_USE_STDLIB_ALLOC */
 #include <config.h>
 
 #include <stdio.h>
@@ -100,26 +108,25 @@ add_dotbin(const char *filename)
 					  goto simple_append;
 				  }
 			  }
-              /* Insert ".bin" before EXEEXT or its equivalent.  */
-              memcpy (result, filename, filename_len - exeext_len);
-              memcpy (result + filename_len - exeext_len, ".bin", 4);
-              memcpy (result + filename_len - exeext_len + 4,
-                      filename + filename_len - exeext_len,
-                      exeext_len + 1);
+              /* Insert ".bin" before EXEEXT or its equivalent: */
+              memcpy(result, filename, filename_len - exeext_len);
+              memcpy(result + filename_len - exeext_len, ".bin", (size_t)4L);
+              memcpy((result + filename_len - exeext_len + 4),
+					 (filename + filename_len - exeext_len),
+					 (exeext_len + 1));
               return result;
             }
         }
      simple_append:
 		/* Simply append ".bin".  */
 		memcpy(result, filename, filename_len);
-		memcpy((result + filename_len), ".bin", (4 + 1)); /* why not just 5? */
+		memcpy((result + filename_len), ".bin",
+			   (size_t)(4L + 1L)); /* why not just 5? */
 		return result;
-    }
-  else
-    {
+  } else {
       fprintf(stderr, "%s: %s\n", program_name, "memory exhausted");
       exit(1);
-    }
+  }
 }
 
 #ifndef LIBDIRS
@@ -135,8 +142,7 @@ static const char *libdirs[] = { LIBDIRS NULL };
 verify((sizeof(libdirs) / sizeof(libdirs[0])) > 1);
 
 /* Relocate the list of directories that contain the libraries.  */
-static void
-relocate_libdirs()
+static void relocate_libdirs(void)
 {
   size_t i;
 
@@ -158,8 +164,7 @@ relocate_libdirs()
 # endif
 #endif /* !LIBPATHVAR */
 /* Activate the list of directories in the LIBPATHVAR.  */
-static void
-activate_libdirs()
+static void activate_libdirs(void)
 {
   const char *old_value;
   size_t total;

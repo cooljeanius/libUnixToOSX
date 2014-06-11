@@ -31,6 +31,7 @@ AC_TYPE_INT64_T
 AC_TYPE_MODE_T
 AC_FUNC_OBSTACK
 AC_TYPE_OFF_T
+AC_TYPE_PID_T
 AC_C_RESTRICT
 AC_TYPE_SIZE_T
 AC_TYPE_SSIZE_T
@@ -43,6 +44,7 @@ AC_TYPE_UINT8_T
 AC_CHECK_TYPES([ptrdiff_t])
 
 # Checks for library functions.
+AC_FUNC_CHOWN
 AM_GNU_GETTEXT
 AC_FUNC_ERROR_AT_LINE
 AC_FUNC_FSEEKO
@@ -50,10 +52,11 @@ AC_FUNC_GETMNTENT
 AC_FUNC_LSTAT_FOLLOWS_SLASHED_SYMLINK
 AC_FUNC_MALLOC
 AC_FUNC_MBRTOWC
+AC_FUNC_MKTIME
 AC_FUNC_REALLOC
 AC_FUNC_STRERROR_R
 AC_FUNC_STRNLEN
-AC_CHECK_FUNCS([__fpending atexit btowc dup2 fchdir fs_stat_dev getcwd getmntent getmntinfo getpagesize iswprint listmntent localeconv mblen mbrlen memchr memmove mempcpy memset next_dev nl_langinfo pathconf select setenv setlocale strcasecmp strchr strdup strerror strncasecmp strndup strrchr strspn strstr strtoul])
+AC_CHECK_FUNCS([__fpending atexit btowc dup2 fchdir fs_stat_dev getcwd getdelim getmntent getmntinfo getpagesize iswprint listmntent localeconv mblen mbrlen memchr memmove mempcpy memset next_dev nl_langinfo pathconf select setenv setlocale strcasecmp strchr strdup strerror strncasecmp strndup strrchr strspn strstr strtoul])
 
 AC_CONFIG_FILES([Makefile
                  autoscan/Makefile

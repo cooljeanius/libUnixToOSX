@@ -407,8 +407,8 @@ _obstack_memory_used(struct obstack *h)
   return nbytes;
 }
 
-/* Define the error handler. */
-# if defined(_LIBC) || defined(HAVE_LIBINTL_H)
+/* Define the error handler: */
+# if defined(_LIBC) || (defined(HAVE_LIBINTL_H) && (defined(ENABLE_NLS) && ENABLE_NLS))
 #  include <libintl.h>
 # else
 #  include "gettext.h"
