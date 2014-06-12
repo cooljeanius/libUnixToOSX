@@ -5,3 +5,7 @@ argp-test
 *.log
 ansi2knr
 argp-stdint.h
+
+# dist stuff:
+argp-standalone-*.*/*
+*.tar.gz

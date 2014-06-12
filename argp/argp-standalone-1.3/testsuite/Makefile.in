@@ -13,6 +13,7 @@
 # PARTICULAR PURPOSE.
 
 @SET_MAKE@
+
 VPATH = @srcdir@
 am__is_gnu_make = test -n '$(MAKEFILE_LIST)' && test -n '$(MAKELEVEL)'
 am__make_running_with_option = \
@@ -89,6 +90,7 @@ am__aclocal_m4_deps = $(top_srcdir)/../../m4/ccstdc.m4 \
 	$(top_srcdir)/../../m4/extensions.m4 \
 	$(top_srcdir)/../../m4/extern-inline.m4 \
 	$(top_srcdir)/../../m4/inline.m4 \
+	$(top_srcdir)/../../m4/longlong.m4 \
 	$(top_srcdir)/../../m4/onceonly.m4 \
 	$(top_srcdir)/../../m4/protos.m4 \
 	$(top_srcdir)/../../m4/string_h.m4 \
@@ -101,18 +103,19 @@ CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__EXEEXT_1 =
-ex1_SOURCES = ex1.c
-ex1_OBJECTS = ex1.$(OBJEXT)
+am_ex1_OBJECTS = ex1.$(OBJEXT)
+ex1_OBJECTS = $(am_ex1_OBJECTS)
 ex1_LDADD = $(LDADD)
 ex1_DEPENDENCIES = ../libargp.a
-ex3_SOURCES = ex3.c
-ex3_OBJECTS = ex3.$(OBJEXT)
+am_ex3_OBJECTS = ex3.$(OBJEXT)
+ex3_OBJECTS = $(am_ex3_OBJECTS)
 ex3_LDADD = $(LDADD)
 ex3_DEPENDENCIES = ../libargp.a
-ex4_SOURCES = ex4.c
-ex4_OBJECTS = ex4.$(OBJEXT)
+am_ex4_OBJECTS = ex4.$(OBJEXT)
+ex4_OBJECTS = $(am_ex4_OBJECTS)
 ex4_LDADD = $(LDADD)
 ex4_DEPENDENCIES = ../libargp.a
+SCRIPTS = $(noinst_SCRIPTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -140,8 +143,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = ex1.c ex3.c ex4.c
-DIST_SOURCES = ex1.c ex3.c ex4.c
+SOURCES = $(ex1_SOURCES) $(ex3_SOURCES) $(ex4_SOURCES)
+DIST_SOURCES = $(ex1_SOURCES) $(ex3_SOURCES) $(ex4_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -487,6 +490,7 @@ REPLACE_STRNLEN = @REPLACE_STRNLEN@
 REPLACE_STRSIGNAL = @REPLACE_STRSIGNAL@
 REPLACE_STRSTR = @REPLACE_STRSTR@
 REPLACE_STRTOK_R = @REPLACE_STRTOK_R@
+SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
@@ -543,15 +547,28 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 TS_SH = ex1-test permute-test
 TS_PROGS = 
+MY_TS_SH_HERE = ./ex1-test ./permute-test
 TS_ALL = $(TS_PROGS) $(TS_SH)
+ex1_SOURCES = ex1.c
+ex3_SOURCES = ex3.c
+ex4_SOURCES = ex4.c
 check_SCRIPTS = $(TS_SH) run-tests
+noinst_SCRIPTS = $(check_SCRIPTS)
+check_DATA = $(MY_TS_SH_HERE)
 TESTS = $(check_PROGRAMS) $(check_SCRIPTS)
+TESTS_ENVIRONMENT = srcdir="$(srcdir)"
 AM_TESTS_FD_REDIRECT = 2>&1
+SKIP_TESTS = run-tests
+DISABLE_HARD_ERRORS = 1
+AM_CPPFLAGS = -I.. -I$(top_srcdir)
 LDADD = ../libargp.a
 EXTRA_DIST = $(check_SCRIPTS)
 CLEANFILES = test.out
-DISTCLEANFILES = .DS_Store
-all: all-am
+DISTCLEANFILES = .DS_Store atconfig
+BUILT_SOURCES = atconfig
+MOSTLYCLEANFILES = @MAINT@ atconfig
+all: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
 .SUFFIXES: .c .log .o .obj .test .test$(EXEEXT) .trs
@@ -795,7 +812,7 @@ check-TESTS:
 	log_list=`echo $$log_list`; trs_list=`echo $$trs_list`; \
 	$(MAKE) $(AM_MAKEFLAGS) $(TEST_SUITE_LOG) TEST_LOGS="$$log_list"; \
 	exit $$?;
-recheck: all $(check_PROGRAMS) $(check_SCRIPTS)
+recheck: all $(check_PROGRAMS) $(check_SCRIPTS) $(check_DATA)
 	@test -z "$(TEST_SUITE_LOG)" || rm -f $(TEST_SUITE_LOG)
 	@set +e; $(am__set_TESTS_bases); \
 	bases=`for i in $$bases; do echo $$i; done \
@@ -894,12 +911,15 @@ distdir: $(DISTFILES)
 	  fi; \
 	done
 check-am: all-am
-	$(MAKE) $(AM_MAKEFLAGS) $(check_PROGRAMS) $(check_SCRIPTS)
+	$(MAKE) $(AM_MAKEFLAGS) $(check_PROGRAMS) $(check_SCRIPTS) \
+	  $(check_DATA)
 	$(MAKE) $(AM_MAKEFLAGS) check-TESTS check-local
-check: check-am
-all-am: Makefile
+check: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) check-am
+all-am: Makefile $(SCRIPTS)
 installdirs:
-install: install-am
+install: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) install-am
 install-exec: install-exec-am
 install-data: install-data-am
 uninstall: uninstall-am
@@ -919,6 +939,7 @@ install-strip:
 	    "INSTALL_PROGRAM_ENV=STRIPPROG='$(STRIP)'" install; \
 	fi
 mostlyclean-generic:
+	-test -z "$(MOSTLYCLEANFILES)" || rm -f $(MOSTLYCLEANFILES)
 	-test -z "$(TEST_LOGS)" || rm -f $(TEST_LOGS)
 	-test -z "$(TEST_LOGS:.log=.trs)" || rm -f $(TEST_LOGS:.log=.trs)
 	-test -z "$(TEST_SUITE_LOG)" || rm -f $(TEST_SUITE_LOG)
@@ -934,6 +955,7 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
+	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 clean: clean-am
 
 clean-am: clean-checkPROGRAMS clean-generic mostlyclean-am
@@ -1001,7 +1023,7 @@ ps-am:
 
 uninstall-am:
 
-.MAKE: check-am install-am install-strip
+.MAKE: all check check-am install install-am install-strip
 
 .PHONY: CTAGS GTAGS TAGS all all-am check check-TESTS check-am \
 	check-local clean clean-checkPROGRAMS clean-generic \
@@ -1018,13 +1040,34 @@ uninstall-am:
 	uninstall uninstall-am
 
 
+atconfig: ../config.status
+	(cd .. && $(SHELL) ./config.status testsuite/atconfig) || (cd $(top_builddir) && ./config.status ./testsuite/atconfig)
+
 .PHONY: distclean-local
 distclean-local:
-	rm -rf .deps || rmdir .deps
+	rm -rfv .deps || rmdir .deps
 
 .PHONY: check-local
-check-local: $(TS_ALL) $(srcdir)/run-tests
+check-local: $(TS_ALL) $(srcdir)/run-tests atconfig Makefile
+	$(MAKE) $(AM_MAKEFLAGS) $(MY_TS_SH_HERE)
 	srcdir="$(srcdir)" $(srcdir)/run-tests $(TS_ALL)
+
+run-tests: $(MY_TS_SH_HERE)
+	if test "x$(srcdir)" != "x."; then \
+	  if test -e $(srcdir)/$@ -a ! -e $@; then \
+	    cp -v $(srcdir)/$@ .; \
+	  fi; \
+	fi
+
+$(MY_TS_SH_HERE):
+	if test "x$(srcdir)" != "x."; then \
+	  if test -e $(srcdir)/$@ -a ! -e $@; then \
+	    cp -v $(srcdir)/$@ .; \
+	  fi; \
+	fi
+
+../libargp.a: ../Makefile
+	if test -e ../Makefile; then $(MAKE) -C .. libargp.a; fi
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

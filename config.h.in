@@ -215,6 +215,11 @@
    present (i.e. if we can use sigpipe). */
 #undef GNULIB_SIGPIPE
 
+/* Define to a C preprocessor expression (for strerror) that evaluates to 1 or
+   0, depending on whether the gnulib module strerror shall be considered to
+   be present (i.e. if we can use strerror). */
+#undef GNULIB_STRERROR
+
 /* Define to 1 when the gnulib module btowc should be tested. */
 #undef GNULIB_TEST_BTOWC
 
@@ -354,6 +359,12 @@
 
 /* Define to 1 when the gnulib module strchrnul should be tested. */
 #undef GNULIB_TEST_STRCHRNUL
+
+/* Define to 1 when the gnulib module strerror should be tested. */
+#undef GNULIB_TEST_STRERROR
+
+/* Define to 1 when the gnulib module strerror_r should be tested. */
+#undef GNULIB_TEST_STRERROR_R
 
 /* Define to 1 when the gnulib module strndup should be tested. */
 #undef GNULIB_TEST_STRNDUP
@@ -2079,7 +2090,7 @@
 /* Define to 1 if you have the `strerror' function. */
 #undef HAVE_STRERROR
 
-/* Define to 1 if you have the `strerror_r' function. */
+/* Define to 1 if you have the 'strerror_r' function. */
 #undef HAVE_STRERROR_R
 
 /* Define to 1 if you have the <strings.h> header file. */
@@ -2406,6 +2417,9 @@
 /* Define to 1 if you have the '__freadptrinc' function. */
 #undef HAVE___FREADPTRINC
 
+/* Define to 1 if you have the '__xpg_strerror_r' function. */
+#undef HAVE___XPG_STRERROR_R
+
 /* Define to the value of ${prefix}, as a string. */
 #undef INSTALLPREFIX
 
@@ -2587,6 +2601,9 @@
 /* Define to 1 if open() should work around the inability to open a directory.
    */
 #undef REPLACE_OPEN_DIRECTORY
+
+/* Define to 1 if strerror(0) does not return a message implying success. */
+#undef REPLACE_STRERROR_0
 
 /* Define if vasnprintf exists but is overridden by gnulib. */
 #undef REPLACE_VASNPRINTF
@@ -2771,7 +2788,7 @@
 #undef _NETBSD_SOURCE
 
 
-/* The _Noreturn keyword of C11.  */
+/* The _Noreturn keyword of C11: */
 #if ! (defined _Noreturn \
        || (defined __STDC_VERSION__ && (201112 <= __STDC_VERSION__)))
 # if ((3 <= __GNUC__) || ((__GNUC__ == 2) && (8 <= __GNUC_MINOR__)) \

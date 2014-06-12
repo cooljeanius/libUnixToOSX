@@ -18,7 +18,7 @@
 # not, write to the Free Software Foundation, Inc.,
 # 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-# inherit macros from parent project:
+## inherit macros from parent project:
 ACLOCAL_AMFLAGS = -I../../m4 --system-acdir=/sw/share/gnulib/m4 --install
 AUTOMAKE_OPTIONS = 1.8 foreign no-dependencies subdir-objects
 SUBDIRS = . testsuite
@@ -30,12 +30,12 @@ check_PROGRAMS = argp-test
 TESTS = $(check_PROGRAMS)
 noinst_HEADERS = argp.h argp-fmtstream.h argp-namefrob.h # argp-comp.h
 
-EXTRA_DIST = mempcpy.c strchrnul.c strndup.c Versions
+EXTRA_DIST = mempcpy.c strchrnul.c strndup.c Versions ../TODO
 
-# Leaves out argp-fs-xinl.c and argp-xinl.c 
+## Leaves out argp-fs-xinl.c and argp-xinl.c (which do NOT exist here):
 libargp_a_SOURCES = argp-ba.c argp-eexst.c argp-fmtstream.c \
 		    argp-help.c argp-parse.c argp-pv.c \
-		    argp-pvh.c
+		    argp-pvh.c argp-stdint.h
 
 libargp_a_LIBADD = $(LIBOBJS)
 
@@ -43,16 +43,79 @@ argp_test_LDADD = libargp.a
 
 AM_CPPFLAGS = -I../..
 
-DISTCLEANFILES = .DS_Store *~ autoscan.log
+DISTCLEANFILES = .DS_Store ../.DS_Store *~ autoscan.log
 
+EXTRA_DIST += ../../rawmemchr.h
+
+BUILT_SOURCES = argp-stdint.h
+
+MOSTLYCLEANFILES = @MAINT@ argp-stdint.h
+
+DISTCLEANFILES += argp-stdint.h
+
+argp-stdint.h: stamp-h1
+	@test -f $@ || rm -f $<
+	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) $<
+	@test -f $@ || (cd $(top_builddir) && $(SHELL) ./config.status $@)
+
+## distcheck puts some stuff a level above here, but be careful and only
+## clean these files if they still have their originals in the proper
+## places (further down in this rule):
 .PHONY: distclean-local
 distclean-local:
-	rm -rf autom4te.cache || rmdir autom4te.cache
-	rm -rf .deps || rmdir .deps
+	rm -fv @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	rm -rfv autom4te.cache || rmdir autom4te.cache
+	rm -rfv .deps || rmdir .deps
+	-(test -w @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && (rm -rf @PACKAGE_TARNAME@-@PACKAGE_VERSION@ || rmdir @PACKAGE_TARNAME@-@PACKAGE_VERSION@)) || stat @PACKAGE_TARNAME@-*.* || echo "it can be difficult to distclean the results of distcheck"
+	-(find . -name .DS_Store -delete 2>&1) || test -x "`which find`"
+	if ((test -e mempcpy.c || test -e ../../mempcpy.c) && test -w ../mempcpy.c); then \
+	  rm -fv ../mempcpy.c; \
+	fi
+	if ((test -e strchrnul.c || test -e ../../strchrnul.c) && test -w ../strchrnul.c); then \
+	  rm -fv ../strchrnul.c; \
+	fi
+	if ((test -e strndup.c || test -e ../../strndup.c) && test -w ../strndup.c); then \
+	  rm -fv ../strndup.c; \
+	fi
+	if (test -e ../../malloc.c && test -w ../malloc.c); then \
+	  rm -fv ../malloc.c; \
+	fi
+	if (test -e ../../rawmemchr.c && test -w ../rawmemchr.c); then \
+	  rm -fv ../rawmemchr.c; \
+	fi
+	if (test -e ../../rawmemchr.h && test -w ../rawmemchr.h); then \
+	  rm -fv ../rawmemchr.h; \
+	fi
+	if (test -e ../../realloc.c && test -w ../realloc.c); then \
+	  rm -fv ../realloc.c; \
+	fi
+	if (test -e ../../strnlen.c && test -w ../strnlen.c); then \
+	  rm -fv ../strnlen.c; \
+	fi
+	if (test -d ../../m4 && test -w ../m4); then \
+	  (rm -rfv ../m4 || rmdir ../m4); \
+	fi
+	if (test -d ../../build-aux && test -w ../build-aux); then \
+	  (rm -rfv ../build-aux || rmdir ../build-aux); \
+	fi
+
+nodist_noinst_DATA = @MAINT@ configure.scan
+configure.scan: distclean-local
+	autoscan || (touch configure.scan && mkdir autom4te.cache)
+
+MAINTAINERCLEANFILES = configure.scan
+
+headers: $(BUILT_SOURCES)
+	ls *.h
+.PHONY: headers
 
 ## ---------- ##
 ## ansi2knr.  ##
 ## ---------- ##
+
+EXTRA_DIST += ansi2knr.c ansi2knr.1
+
+noinst_MANS = ansi2knr.1
 
 ## Substitution from AM_ANSI_C_PROTOTYPES. This makes it be built only when
 ## necessary.

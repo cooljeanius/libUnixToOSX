@@ -155,11 +155,7 @@ AC_DEFUN([gl_ENVIRON_FUNCS_UMBRELLA],[
 
 dnl# checks for funcs related to errors:
 AC_DEFUN([gl_ERROR_UMBRELLA],[
-  dnl# consider moving to requiring now that we are in a defun-ed macro:
-  if test "x${ac_cv_lib_error_at_line}" = "x"; then
-    test -z "${ac_cv_lib_error_at_line}"
-    AC_FUNC_ERROR_AT_LINE
-  fi
+  AC_REQUIRE([AC_FUNC_ERROR_AT_LINE])dnl
   AC_REQUIRE([gl_ERROR])
   if test "x${ac_cv_lib_error_at_line}" = "xno"; then
     AC_LIBOBJ([error])dnl
@@ -333,15 +329,12 @@ AC_DEFUN([gl_LOCALE_UMBRELLA],[
 
 dnl# checks related to malloc():
 AC_DEFUN([gl_MALLOC_UMBRELLA],[
-  dnl# consider requiring instead, now that we are inside a defun-ed macro:
-  if test "x${ac_cv_func_malloc_0_nonnull}" = "x"; then
-    test -z "${ac_cv_func_malloc_0_nonnull}"
-    AC_FUNC_MALLOC
-  fi
+  AC_REQUIRE([AC_FUNC_MALLOC])dnl
   AC_REQUIRE([gl_FUNC_MALLOC_GNU])dnl
   AC_REQUIRE([gl_FUNC_MALLOC_POSIX])dnl
   AC_REQUIRE([gl_CHECK_MALLOC_POSIX])dnl
   AC_REQUIRE([gl_MALLOCA])dnl
+  XORG_MACROS_VERSION([1.16])dnl
   AC_REQUIRE([XORG_MEMORY_CHECK_FLAGS])dnl
   AC_REQUIRE([XORG_CHECK_MALLOC_ZERO])dnl
 ])dnl
@@ -412,11 +405,7 @@ AC_DEFUN([gl_MMAP_UMBRELLA],[
 
 dnl# checks for functions related to mounting:
 AC_DEFUN([gl_MOUNT_UMBRELLA],[
-  dnl# consider requiring instead, now that we are inside a defun-ed macro:
-  if test "x${ac_cv_func_getmntent}" = "x"; then
-    test -z "${ac_cv_func_getmntent}"
-    AC_FUNC_GETMNTENT
-  fi
+  AC_REQUIRE([AC_FUNC_GETMNTENT])dnl
   AC_REQUIRE([gl_LIST_MOUNTED_FILE_SYSTEMS])dnl
   AC_REQUIRE([gl_MOUNTLIST])
   if test "x${gl_cv_list_mounted_fs}" = "xyes"; then
@@ -530,11 +519,7 @@ AC_DEFUN([gl_READLINK_FAMILY_UMBRELLA],[
 
 dnl# checks related to realloc():
 AC_DEFUN([gl_REALLOC_UMBRELLA],[
-  dnl# consider requiring instead, now that we are inside a defun-ed macro:
-  if test "x${ac_cv_func_realloc_0_nonnull}" = "x"; then
-    test -z "${ac_cv_func_realloc_0_nonnull}"
-    AC_FUNC_REALLOC
-  fi
+  AC_REQUIRE([AC_FUNC_REALLOC])dnl
   AC_REQUIRE([gl_FUNC_REALLOC_GNU])dnl
   AC_REQUIRE([gl_FUNC_REALLOC_POSIX])dnl
   dnl# only do this check once, after both the "_GNU" and "_POSIX" versions
@@ -590,12 +575,26 @@ AC_DEFUN([gl_STRNDUP_UMBRELLA],[
   AC_REQUIRE([gl_XSTRNDUP])dnl
 ])dnl
 
-dnl# checks related to strerror_r():
-AC_DEFUN([AC_STRERROR_R_UMBRELLA],[
-  dnl# consider requiring instead, now that we are inside a defun-ed macro:
-  if test "x${ac_cv_func_strerror_r}" = "x"; then
-    test -z "${ac_cv_func_strerror_r}"
-    AC_FUNC_STRERROR_R
+dnl# checks related to the strerror() family of functions:
+AC_DEFUN([gl_STRERROR_UMBRELLA],[
+  AC_REQUIRE([gl_FUNC_STRERROR])dnl
+  if test ${REPLACE_STRERROR} = 1; then
+    AC_LIBOBJ([strerror])
+  fi
+  gl_MODULE_INDICATOR([strerror])dnl
+  gl_STRING_MODULE_INDICATOR([strerror])dnl
+  AC_REQUIRE([AC_FUNC_STRERROR_R])dnl
+  AC_REQUIRE([gl_FUNC_STRERROR_R])
+  if test ${HAVE_DECL_STRERROR_R} = 0 || test ${REPLACE_STRERROR_R} = 1; then
+    AC_LIBOBJ([strerror_r])dnl
+    gl_PREREQ_STRERROR_R
+  fi
+  gl_STRING_MODULE_INDICATOR([strerror_r])dnl
+  AC_REQUIRE([gl_HEADER_ERRNO_H])dnl
+  AC_REQUIRE([gl_FUNC_STRERROR_0])
+  if test -n "${ERRNO_H}" || test ${REPLACE_STRERROR_0} = 1; then
+    AC_LIBOBJ([strerror-override])dnl
+    gl_PREREQ_SYS_H_WINSOCK2
   fi
 ])dnl
 
@@ -624,7 +623,7 @@ dnl# checks for functions beginning with the "str" prefix:
 AC_DEFUN([gl_STR_FUNCS_UMBRELLA],[
   AC_REQUIRE([gl_STRCHRNUL_UMBRELLA])dnl
   AC_REQUIRE([gl_STRNDUP_UMBRELLA])dnl
-  AC_REQUIRE([AC_STRERROR_R_UMBRELLA])dnl
+  AC_REQUIRE([gl_STRERROR_UMBRELLA])dnl
   AC_REQUIRE([gl_STRNLEN_UMBRELLA])dnl
   AC_REQUIRE([gl_STRSIGNAL_UMBRELLA])dnl
 ])dnl
@@ -711,7 +710,7 @@ AC_DEFUN([gl_ALL_FUNC_UMBRELLAS_META_UMBRELLA],[
   AC_REQUIRE([gl_STAT_UMBRELLA])dnl
   AC_REQUIRE([gl_STRCHRNUL_UMBRELLA])dnl
   AC_REQUIRE([gl_STRNDUP_UMBRELLA])dnl
-  AC_REQUIRE([AC_STRERROR_R_UMBRELLA])dnl
+  AC_REQUIRE([gl_STRERROR_UMBRELLA])dnl
   AC_REQUIRE([gl_STRNLEN_UMBRELLA])dnl
   AC_REQUIRE([gl_STRSIGNAL_UMBRELLA])dnl
   AC_REQUIRE([gl_STR_FUNCS_UMBRELLA])dnl

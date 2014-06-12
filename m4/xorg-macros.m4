@@ -1,53 +1,59 @@
-dnl xorg-macros.m4.  Generated from xorg-macros.m4.in xorgversion.m4 by configure.
-dnl
-dnl Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
-dnl
-dnl Permission is hereby granted, free of charge, to any person obtaining a
-dnl copy of this software and associated documentation files (the "Software"),
-dnl to deal in the Software without restriction, including without limitation
-dnl the rights to use, copy, modify, merge, publish, distribute, sublicense,
-dnl and/or sell copies of the Software, and to permit persons to whom the
-dnl Software is furnished to do so, subject to the following conditions:
-dnl
-dnl The above copyright notice and this permission notice (including the next
-dnl paragraph) shall be included in all copies or substantial portions of the
-dnl Software.
-dnl
-dnl THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-dnl IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-dnl FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-dnl THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-dnl LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-dnl FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-dnl DEALINGS IN THE SOFTWARE.
+dnl# xorg-macros.m4. Originally generated from xorg-macros.m4.in
+dnl# xorgversion.m4 by configure.
+dnl#
+dnl# Copyright (c) 2005, 2006, Oracle and/or its affiliates.
+dnl# All rights reserved.
+dnl#
+dnl# Permission is hereby granted, free of charge, to any person obtaining
+dnl# a copy of this software and associated documentation files
+dnl# (the "Software"), to deal in the Software without restriction,
+dnl# including without limitation the rights to use, copy, modify, merge,
+dnl# publish, distribute, sublicense, and/or sell copies of the Software,
+dnl# and to permit persons to whom the Software is furnished to do so,
+dnl# subject to the following conditions:
+dnl#
+dnl# The above copyright notice and this permission notice (including the
+dnl# next paragraph) shall be included in all copies or substantial
+dnl# portions of the Software.
+dnl#
+dnl# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+dnl# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+dnl# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+dnl# IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+dnl# CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+dnl# TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+dnl# SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# XORG_MACROS_VERSION(required-version)
+# serial 119
+# (serial is the first two fields of the version, with the period removed)
+
+# XORG_MACROS_VERSION([required-version])
 # -------------------------------------
 # Minimum version: 1.1.0
 #
-# If you're using a macro added in Version 1.1 or newer, include this in
+# If you are using a macro added in Version 1.1 or newer, include this in
 # your configure.ac with the minimum required version, such as:
-# XORG_MACROS_VERSION(1.1)
+# XORG_MACROS_VERSION([1.1])
 #
 # To ensure that this macro is defined, also add:
 # m4_ifndef([XORG_MACROS_VERSION],
-#     [m4_fatal([must install xorg-macros 1.1 or later before running autoconf/autogen])])
+#     [m4_fatal([must install xorg-macros 1.1 or later before running auto(re)conf/autogen.sh])])
 #
 #
 # See the "minimum version" comment for each macro you use to see what
 # version you require.
 m4_defun([XORG_MACROS_VERSION],[
-m4_define([vers_have], [1.19.0])
-m4_define([maj_have], m4_substr(vers_have, 0, m4_index(vers_have, [.])))
-m4_define([maj_needed], m4_substr([$1], 0, m4_index([$1], [.])))
-m4_if(m4_cmp(maj_have, maj_needed), 0,,
-    [m4_fatal([xorg-macros major version ]maj_needed[ is required but ]vers_have[ found])])
-m4_if(m4_version_compare(vers_have, [$1]), -1,
-    [m4_fatal([xorg-macros version $1 or higher is required but ]vers_have[ found])])
-m4_undefine([vers_have])
-m4_undefine([maj_have])
-m4_undefine([maj_needed])
-]) # XORG_MACROS_VERSION
+m4_define([vers_have],[1.19.0])dnl
+m4_define([maj_have],m4_substr(vers_have,0,m4_index(vers_have,[.])))dnl
+m4_define([maj_needed],m4_substr([$1],0,m4_index([$1],[.])))dnl
+m4_if(m4_cmp(maj_have,maj_needed),0,,
+    [m4_fatal([xorg-macros major version ]maj_needed[ is required but ]vers_have[ found])])dnl
+m4_if(m4_version_compare(vers_have,[$1]),-1,
+    [m4_fatal([xorg-macros version $1 or higher is required but ]vers_have[ found])])dnl
+m4_undefine([vers_have])dnl
+m4_undefine([maj_have])dnl
+m4_undefine([maj_needed])dnl
+])dnl# XORG_MACROS_VERSION
 
 # XORG_PROG_RAWCPP()
 # ------------------
@@ -56,48 +62,49 @@ m4_undefine([maj_needed])
 # Find cpp program and necessary flags for use in pre-processing text files
 # such as man pages and config files
 AC_DEFUN([XORG_PROG_RAWCPP],[
-AC_REQUIRE([AC_PROG_CPP])
-AC_PATH_PROGS(RAWCPP, [cpp], [${CPP}],
-   [$PATH:/bin:/usr/bin:/usr/lib:/usr/libexec:/usr/ccs/lib:/usr/ccs/lbin:/lib])
+AC_REQUIRE([AC_PROG_CPP])dnl
+AC_REQUIRE([AC_PROG_GREP])dnl
+AC_PATH_PROGS([RAWCPP],[cpp cpp-4.0 mcpp],[${CPP}],
+   [${PATH}:/bin:/usr/bin:/usr/lib:/usr/libexec:/usr/ccs/lib:/usr/ccs/lbin:/lib:/Developer/usr/bin])dnl
 
 # Check for flag to avoid builtin definitions - assumes unix is predefined,
 # which is not the best choice for supporting other OS'es, but covers most
 # of the ones we need for now.
-AC_MSG_CHECKING([if $RAWCPP requires -undef])
+AC_MSG_CHECKING([if ${RAWCPP} requires -undef])
 AC_LANG_CONFTEST([AC_LANG_SOURCE([[Does cpp redefine unix ?]])])
-if test `${RAWCPP} < conftest.$ac_ext | grep -c 'unix'` -eq 1 ; then
-	AC_MSG_RESULT([no])
+if test `${RAWCPP} < conftest.${ac_ext} | grep -c 'unix'` -eq 1; then
+  AC_MSG_RESULT([no])
 else
-	if test `${RAWCPP} -undef < conftest.$ac_ext | grep -c 'unix'` -eq 1 ; then
-		RAWCPPFLAGS=-undef
-		AC_MSG_RESULT([yes])
-	# under Cygwin unix is still defined even with -undef
-	elif test `${RAWCPP} -undef -ansi < conftest.$ac_ext | grep -c 'unix'` -eq 1 ; then
-		RAWCPPFLAGS="-undef -ansi"
-		AC_MSG_RESULT([yes, with -ansi])
-	else
-		AC_MSG_ERROR([${RAWCPP} defines unix with or without -undef.  I don't know what to do.])
-	fi
+  if test `${RAWCPP} -undef < conftest.${ac_ext} | grep -c 'unix'` -eq 1; then
+    RAWCPPFLAGS=-undef
+    AC_MSG_RESULT([yes])
+  # under Cygwin, unix is still defined even with -undef, so try -ansi:
+  elif test `${RAWCPP} -undef -ansi < conftest.${ac_ext} | grep -c 'unix'` -eq 1; then
+    RAWCPPFLAGS="-undef -ansi"
+    AC_MSG_RESULT([yes, with -ansi])
+  else
+    AC_MSG_ERROR([${RAWCPP} defines unix with or without -undef. I do NOT know what to do.])
+  fi
 fi
-rm -f conftest.$ac_ext
+rm -f conftest.${ac_ext}
 
-AC_MSG_CHECKING([if $RAWCPP requires -traditional])
+AC_MSG_CHECKING([if ${RAWCPP} requires -traditional])
 AC_LANG_CONFTEST([AC_LANG_SOURCE([[Does cpp preserve   "whitespace"?]])])
-if test `${RAWCPP} < conftest.$ac_ext | grep -c 'preserve   \"'` -eq 1 ; then
-	AC_MSG_RESULT([no])
+if test `${RAWCPP} < conftest.${ac_ext} | grep -c 'preserve   \"'` -eq 1; then
+  AC_MSG_RESULT([no])
 else
-	if test `${RAWCPP} -traditional < conftest.$ac_ext | grep -c 'preserve   \"'` -eq 1 ; then
-		TRADITIONALCPPFLAGS="-traditional"
-		RAWCPPFLAGS="${RAWCPPFLAGS} -traditional"
-		AC_MSG_RESULT([yes])
-	else
-		AC_MSG_ERROR([${RAWCPP} does not preserve whitespace with or without -traditional.  I don't know what to do.])
-	fi
+  if test `${RAWCPP} -traditional < conftest.${ac_ext} | grep -c 'preserve   \"'` -eq 1 ; then
+    TRADITIONALCPPFLAGS="-traditional"
+    RAWCPPFLAGS="${RAWCPPFLAGS} -traditional"
+    AC_MSG_RESULT([yes])
+  else
+    AC_MSG_ERROR([${RAWCPP} does not preserve whitespace with or without -traditional. I do NOT know what to do.])
+  fi
 fi
-rm -f conftest.$ac_ext
-AC_SUBST(RAWCPPFLAGS)
-AC_SUBST(TRADITIONALCPPFLAGS)
-]) # XORG_PROG_RAWCPP
+rm -f conftest.${ac_ext}
+AC_SUBST([RAWCPPFLAGS])dnl
+AC_SUBST([TRADITIONALCPPFLAGS])dnl
+])dnl# XORG_PROG_RAWCPP
 
 # XORG_MANPAGE_SECTIONS()
 # -----------------------
@@ -209,7 +216,7 @@ AC_SUBST([MAN_SUBSTS])
 # provided by xorg-sgml-doctools, if installed.
 AC_DEFUN([XORG_CHECK_SGML_DOCTOOLS],[
 AC_MSG_CHECKING([for X.Org SGML entities m4_ifval([$1],[>= $1])])
-XORG_SGML_PATH=
+XORG_SGML_PATH=""
 PKG_CHECK_EXISTS([xorg-sgml-doctools m4_ifval([$1],[>= $1])],
     [XORG_SGML_PATH=`$PKG_CONFIG --variable=sgmlrootdir xorg-sgml-doctools`],
     [m4_ifval([$1],[:],
@@ -896,16 +903,16 @@ AM_CONDITIONAL([HAVE_FOP], [test "$have_fop" = yes])
 # M4:	 	returns the path of the m4 program found
 #		returns the path set by the user in the environment
 #
-AC_DEFUN([XORG_WITH_M4], [
-AC_CACHE_CHECK([for m4 that supports -I option], [ac_cv_path_M4],
-   [AC_PATH_PROGS_FEATURE_CHECK([M4], [m4 gm4],
-       [[$ac_path_M4 -I. /dev/null > /dev/null 2>&1 && \
-         ac_cv_path_M4=$ac_path_M4 ac_path_M4_found=:]],
+AC_DEFUN([XORG_WITH_M4],[
+AC_CACHE_CHECK([for m4 that supports -I option],[ac_cv_path_M4],
+   [AC_PATH_PROGS_FEATURE_CHECK([M4],[m4 gm4 gnum4],
+       [[${ac_path_M4} -I. /dev/null > /dev/null 2>&1 && \
+         ac_cv_path_M4=${ac_path_M4} ac_path_M4_found=:]],
    [AC_MSG_ERROR([could not find m4 that supports -I option])],
-   [$PATH:/usr/gnu/bin])])
+   [${PATH}:/usr/gnu/bin])])
 
-AC_SUBST([M4], [$ac_cv_path_M4])
-]) # XORG_WITH_M4
+AC_SUBST([M4],[${ac_cv_path_M4}])dnl
+])dnl# XORG_WITH_M4
 
 # XORG_WITH_PS2PDF([DEFAULT])
 # ----------------
@@ -1201,34 +1208,37 @@ AM_CONDITIONAL([HAVE_GLIB], [test "$have_glib" = yes])
 #
 # Check if linker supports -wrap, passed via compiler flags
 #
-# When used with ENABLE_UNIT_TESTS, it is assumed -wrap is used for unit testing.
-# Otherwise the value of $enable_unit_tests is blank.
+# When used with ENABLE_UNIT_TESTS, it is assumed -wrap is used
+# for unit testing.
+# Otherwise the value of ${enable_unit_tests} is blank.
 #
-# Argument added in 1.16.0 - default is "required", to match existing behavior
-# of returning an error if enable_unit_tests is yes, and ld -wrap is not
-# available, an argument of "optional" allows use when some unit tests require
-# ld -wrap and others do not.
+# Argument added in 1.16.0 - default is "required", to match existing
+# behavior of returning an error if enable_unit_tests is yes,
+# and ld -wrap is not available, an argument of "optional" allows use
+# when some unit tests require ld -wrap and others do not.
 #
 AC_DEFUN([XORG_LD_WRAP],[
 XORG_CHECK_LINKER_FLAGS([-Wl,-wrap,exit],[have_ld_wrap=yes],[have_ld_wrap=no],
     [AC_LANG_PROGRAM([#include <stdlib.h>
                       void __wrap_exit(int status) { return; }],
                      [exit(0);])])
-# Not having ld wrap when unit testing has been explicitly requested is an error
-if test "x$enable_unit_tests" = x"yes" -a "x$1" != "xoptional"; then
-  if test "x$have_ld_wrap" = x"no"; then
+# Not having ld wrap when unit testing has been explicitly requested
+# is an error:
+if test "x${enable_unit_tests}" = x"yes" -a "x$1" != "xoptional"; then
+  if test "x${have_ld_wrap}" = x"no"; then
     AC_MSG_ERROR([--enable-unit-tests=yes specified but ld -wrap support is not available])
   fi
 fi
-AM_CONDITIONAL([HAVE_LD_WRAP], [test "$have_ld_wrap" = yes])
+AM_CONDITIONAL([HAVE_LD_WRAP],[test "x${have_ld_wrap}" = "xyes"])dnl
 #
-]) # XORG_LD_WRAP
+])dnl# XORG_LD_WRAP
 
 # XORG_CHECK_LINKER_FLAGS
 # -----------------------
 # SYNOPSIS
 #
-#   XORG_CHECK_LINKER_FLAGS(FLAGS, [ACTION-SUCCESS], [ACTION-FAILURE], [PROGRAM-SOURCE])
+# XORG_CHECK_LINKER_FLAGS([FLAGS],[ACTION-SUCCESS],[ACTION-FAILURE],
+#                         [PROGRAM-SOURCE])
 #
 # DESCRIPTION
 #
@@ -1255,8 +1265,8 @@ AM_CONDITIONAL([HAVE_LD_WRAP], [test "$have_ld_wrap" = yes])
 #
 #   This program is distributed in the hope that it will be useful, but
 #   WITHOUT ANY WARRANTY; without even the implied warranty of
-#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
-#   Public License for more details.
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU GPL
+#   for more details.
 #
 #   You should have received a copy of the GNU General Public License along
 #   with this program. If not, see <http://www.gnu.org/licenses/>.
@@ -1273,29 +1283,30 @@ AM_CONDITIONAL([HAVE_LD_WRAP], [test "$have_ld_wrap" = yes])
 #   Macro released by the Autoconf Archive. When you make and distribute a
 #   modified version of the Autoconf Macro, you may extend this special
 #   exception to the GPL to apply to your modified version as well.#
-AC_DEFUN([XORG_CHECK_LINKER_FLAGS],
-[AC_MSG_CHECKING([whether the linker accepts $1])
-dnl Some hackery here since AC_CACHE_VAL can't handle a non-literal varname:
+AC_DEFUN([XORG_CHECK_LINKER_FLAGS],[
+AC_MSG_CHECKING([whether the linker accepts $1])
+dnl# Some hackery here since AC_CACHE_VAL cannot handle a non-literal
+dnl# varname:
 AS_LITERAL_IF([$1],
-  [AC_CACHE_VAL(AS_TR_SH(xorg_cv_linker_flags_[$1]), [
-      ax_save_FLAGS=$LDFLAGS
+  [AC_CACHE_VAL(AS_TR_SH(xorg_cv_linker_flags_[$1]),[
+      xorg_save_FLAGS=${LDFLAGS}
       LDFLAGS="$1"
-      AC_LINK_IFELSE([m4_default([$4],[AC_LANG_PROGRAM()])],
+      AC_LINK_IFELSE([m4_default([$4],[AC_LANG_PROGRAM([[]],[[]])])],
         AS_TR_SH(xorg_cv_linker_flags_[$1])=yes,
         AS_TR_SH(xorg_cv_linker_flags_[$1])=no)
-      LDFLAGS=$ax_save_FLAGS])],
-  [ax_save_FLAGS=$LDFLAGS
+      LDFLAGS=${xorg_save_FLAGS}])],
+  [xorg_save_FLAGS=${LDFLAGS}
    LDFLAGS="$1"
-   AC_LINK_IFELSE([AC_LANG_PROGRAM()],
+   AC_LINK_IFELSE([AC_LANG_PROGRAM([[]],[[]])],
      eval AS_TR_SH(xorg_cv_linker_flags_[$1])=yes,
      eval AS_TR_SH(xorg_cv_linker_flags_[$1])=no)
-   LDFLAGS=$ax_save_FLAGS])
+   LDFLAGS=${xorg_save_FLAGS}])
 eval xorg_check_linker_flags=$AS_TR_SH(xorg_cv_linker_flags_[$1])
-AC_MSG_RESULT($xorg_check_linker_flags)
-if test "x$xorg_check_linker_flags" = xyes; then
-	m4_default([$2], :)
+AC_MSG_RESULT([${xorg_check_linker_flags}])
+if test "x${xorg_check_linker_flags}" = "xyes"; then
+  m4_default([$2],[:])
 else
-	m4_default([$3], :)
+  m4_default([$3],[:])
 fi
 ]) # XORG_CHECK_LINKER_FLAGS
 
@@ -1315,14 +1326,14 @@ fi
 #
 AC_DEFUN([XORG_MEMORY_CHECK_FLAGS],[
 
-AC_REQUIRE([AC_CANONICAL_HOST])
+AC_REQUIRE([AC_CANONICAL_HOST])dnl
 AC_ARG_VAR([XORG_MALLOC_DEBUG_ENV],
-           [Environment variables to enable memory checking in tests])
+           [Environment variables to enable memory checking in tests])dnl
 
-# Check for different types of support on different platforms
-case $host_os in
+# Check for different types of support on different platforms:
+case ${host_os} in
     solaris*)
-        AC_CHECK_LIB([umem], [umem_alloc],
+        AC_CHECK_LIB([umem],[umem_alloc],
             [malloc_debug_env='LD_PRELOAD=libumem.so UMEM_DEBUG=default'])
         ;;
     *-gnu*) # GNU libc - Value is used as a single byte bit pattern,
@@ -1337,13 +1348,13 @@ case $host_os in
         ;;
 esac
 
-# User supplied flags override default flags
-if test "x$XORG_MALLOC_DEBUG_ENV" != "x"; then
-    malloc_debug_env="$XORG_MALLOC_DEBUG_ENV"
+# User-supplied flags override the default flags:
+if test "x${XORG_MALLOC_DEBUG_ENV}" != "x"; then
+    malloc_debug_env="${XORG_MALLOC_DEBUG_ENV}"
 fi
 
-AC_SUBST([XORG_MALLOC_DEBUG_ENV],[$malloc_debug_env])
-]) # XORG_WITH_LINT
+AC_SUBST([XORG_MALLOC_DEBUG_ENV],[${malloc_debug_env}])dnl
+])dnl# XORG_MEMORY_CHECK_FLAGS
 
 # XORG_CHECK_MALLOC_ZERO
 # ----------------------
@@ -1353,45 +1364,46 @@ AC_SUBST([XORG_MALLOC_DEBUG_ENV],[$malloc_debug_env])
 # malloc(0) returns NULL.  Packages should add one of these cflags to
 # their AM_CFLAGS (or other appropriate *_CFLAGS) to use them.
 AC_DEFUN([XORG_CHECK_MALLOC_ZERO],[
-AC_ARG_ENABLE(malloc0returnsnull,
-	AS_HELP_STRING([--enable-malloc0returnsnull],
-		       [malloc(0) returns NULL (default: auto)]),
-	[MALLOC_ZERO_RETURNS_NULL=$enableval],
-	[MALLOC_ZERO_RETURNS_NULL=auto])
+AC_ARG_ENABLE([malloc0returnsnull],
+	[AS_HELP_STRING([--enable-malloc0returnsnull],
+		        [malloc(0) returns NULL (default: auto)])],
+	[MALLOC_ZERO_RETURNS_NULL=${enableval}],
+	[MALLOC_ZERO_RETURNS_NULL=auto])dnl
 
 AC_MSG_CHECKING([whether malloc(0) returns NULL])
-if test "x$MALLOC_ZERO_RETURNS_NULL" = xauto; then
+if test "x${MALLOC_ZERO_RETURNS_NULL}" = "xauto"; then
 AC_CACHE_VAL([xorg_cv_malloc0_returns_null],
-	[AC_RUN_IFELSE([AC_LANG_PROGRAM([
+	[AC_RUN_IFELSE([AC_LANG_PROGRAM([[
 #include <stdlib.h>
-],[
+]],[[
     char *m0, *r0, *c0, *p;
     m0 = malloc(0);
     p = malloc(10);
     r0 = realloc(p,0);
     c0 = calloc(0,10);
-    exit((m0 == 0 || r0 == 0 || c0 == 0) ? 0 : 1);
-])],
+    exit(((m0 == 0) || (r0 == 0) || (c0 == 0)) ? 0 : 1);
+]])],
 		[xorg_cv_malloc0_returns_null=yes],
-		[xorg_cv_malloc0_returns_null=no])])
-MALLOC_ZERO_RETURNS_NULL=$xorg_cv_malloc0_returns_null
+		[xorg_cv_malloc0_returns_null=no],
+		[xorg_cv_malloc0_returns_null=unsure])])
+MALLOC_ZERO_RETURNS_NULL=${xorg_cv_malloc0_returns_null}
 fi
-AC_MSG_RESULT([$MALLOC_ZERO_RETURNS_NULL])
+AC_MSG_RESULT([${MALLOC_ZERO_RETURNS_NULL}])
 
-if test "x$MALLOC_ZERO_RETURNS_NULL" = xyes; then
-	MALLOC_ZERO_CFLAGS="-DMALLOC_0_RETURNS_NULL"
-	XMALLOC_ZERO_CFLAGS=$MALLOC_ZERO_CFLAGS
-	XTMALLOC_ZERO_CFLAGS="$MALLOC_ZERO_CFLAGS -DXTMALLOC_BC"
+if test "x${MALLOC_ZERO_RETURNS_NULL}" = "xyes"; then
+  MALLOC_ZERO_CFLAGS="-DMALLOC_0_RETURNS_NULL"
+  XMALLOC_ZERO_CFLAGS=${MALLOC_ZERO_CFLAGS}
+  XTMALLOC_ZERO_CFLAGS="${MALLOC_ZERO_CFLAGS} -DXTMALLOC_BC"
 else
-	MALLOC_ZERO_CFLAGS=""
-	XMALLOC_ZERO_CFLAGS=""
-	XTMALLOC_ZERO_CFLAGS=""
+  MALLOC_ZERO_CFLAGS=""
+  XMALLOC_ZERO_CFLAGS=""
+  XTMALLOC_ZERO_CFLAGS=""
 fi
 
-AC_SUBST([MALLOC_ZERO_CFLAGS])
-AC_SUBST([XMALLOC_ZERO_CFLAGS])
-AC_SUBST([XTMALLOC_ZERO_CFLAGS])
-]) # XORG_CHECK_MALLOC_ZERO
+AC_SUBST([MALLOC_ZERO_CFLAGS])dnl
+AC_SUBST([XMALLOC_ZERO_CFLAGS])dnl
+AC_SUBST([XTMALLOC_ZERO_CFLAGS])dnl
+])dnl# XORG_CHECK_MALLOC_ZERO
 
 # XORG_WITH_LINT()
 # ----------------
@@ -1416,14 +1428,16 @@ AC_SUBST([XTMALLOC_ZERO_CFLAGS])
 #
 AC_DEFUN([XORG_WITH_LINT],[
 
-AC_ARG_VAR([LINT], [Path to a lint-style command])
-AC_ARG_VAR([LINT_FLAGS], [Flags for the lint-style command])
-AC_ARG_WITH(lint, [AS_HELP_STRING([--with-lint],
-		[Use a lint-style source code checker (default: disabled)])],
-		[use_lint=$withval], [use_lint=no])
+AC_ARG_VAR([LINT],[Path to a lint-style command])dnl
+AC_ARG_VAR([LINT_FLAGS],[Flags for the lint-style command])dnl
+AC_ARG_WITH([lint],
+            [AS_HELP_STRING([--with-lint],
+              [Use a lint-style source code checker (default: disabled)])],
+            [use_lint=${withval}],[use_lint=no])dnl
 
 # Obtain platform specific info like program name and options
-# The lint program on FreeBSD and NetBSD is different from the one on Solaris
+# The lint program on FreeBSD and NetBSD is different from the one on
+# Solaris:
 case $host_os in
   *linux* | *openbsd* | kfreebsd*-gnu | darwin* | cygwin*)
 	lint_name=splint
@@ -1439,29 +1453,30 @@ case $host_os in
 	;;
 esac
 
-# Test for the presence of the program (either guessed by the code or spelled out by the user)
-if test "x$use_lint" = x"yes" ; then
-   AC_PATH_PROG([LINT], [$lint_name])
-   if test "x$LINT" = "x"; then
+# Test for the presence of the program (either guessed by the code
+# or spelled out by the user):
+if test "x${use_lint}" = x"yes"; then
+   AC_PATH_PROG([LINT],[${lint_name}])
+   if test "x${LINT}" = "x"; then
         AC_MSG_ERROR([--with-lint=yes specified but lint-style tool not found in PATH])
    fi
-elif test "x$use_lint" = x"no" ; then
-   if test "x$LINT" != "x"; then
+elif test "x${use_lint}" = x"no"; then
+   if test "x${LINT}" != "x"; then
       AC_MSG_WARN([ignoring LINT environment variable since --with-lint=no was specified])
    fi
 else
    AC_MSG_ERROR([--with-lint expects 'yes' or 'no'. Use LINT variable to specify path.])
 fi
 
-# User supplied flags override default flags
-if test "x$LINT_FLAGS" != "x"; then
-   lint_options=$LINT_FLAGS
+# User-supplied flags override default flags:
+if test "x${LINT_FLAGS}" != "x"; then
+   lint_options=${LINT_FLAGS}
 fi
 
-AC_SUBST([LINT_FLAGS],[$lint_options])
-AM_CONDITIONAL(LINT, [test "x$LINT" != x])
+AC_SUBST([LINT_FLAGS],[${lint_options}])dnl
+AM_CONDITIONAL([LINT],[test "x${LINT}" != "x"])dnl
 
-]) # XORG_WITH_LINT
+])dnl# XORG_WITH_LINT
 
 # XORG_LINT_LIBRARY(LIBNAME)
 # --------------------------
@@ -1471,31 +1486,32 @@ AM_CONDITIONAL(LINT, [test "x$LINT" != x])
 # functions in the library.
 #
 # Interface to module:
-# LINTLIB		- Automake variable with the name of lint library file to make
-# MAKE_LINT_LIB		- Automake conditional
+# LINTLIB    - Automake variable with the name of lint library file to make
+# MAKE_LINT_LIB - Automake conditional
 #
-# --enable-lint-library:  - 'yes' user instructs the module to created a lint library
-#			  - 'no' user instructs the module not to create a lint library (default)
+# --enable-lint-library:
+#   - 'yes' user instructs the module to created a lint library
+#   - 'no' user instructs the module not to create a lint library (default)
 
 AC_DEFUN([XORG_LINT_LIBRARY],[
 AC_REQUIRE([XORG_WITH_LINT])
-AC_ARG_ENABLE(lint-library, [AS_HELP_STRING([--enable-lint-library],
+AC_ARG_ENABLE([lint-library],[AS_HELP_STRING([--enable-lint-library],
 	[Create lint library (default: disabled)])],
-	[make_lint_lib=$enableval], [make_lint_lib=no])
+	[make_lint_lib=${enableval}],[make_lint_lib=no])dnl
 
-if test "x$make_lint_lib" = x"yes" ; then
+if test "x${make_lint_lib}" = x"yes" ; then
    LINTLIB=llib-l$1.ln
-   if test "x$LINT" = "x"; then
+   if test "x${LINT}" = "x"; then
         AC_MSG_ERROR([Cannot make lint library without --with-lint])
    fi
-elif test "x$make_lint_lib" != x"no" ; then
+elif test "x${make_lint_lib}" != x"no" ; then
    AC_MSG_ERROR([--enable-lint-library expects 'yes' or 'no'.])
 fi
 
-AC_SUBST(LINTLIB)
-AM_CONDITIONAL(MAKE_LINT_LIB, [test x$make_lint_lib != xno])
+AC_SUBST([LINTLIB])dnl
+AM_CONDITIONAL([MAKE_LINT_LIB],[test "x${make_lint_lib}" != "xno"])dnl
 
-]) # XORG_LINT_LIBRARY
+])dnl# XORG_LINT_LIBRARY
 
 # XORG_COMPILER_BRAND
 # -------------------
@@ -1508,19 +1524,16 @@ AM_CONDITIONAL(MAKE_LINT_LIB, [test x$make_lint_lib != xno])
 #   Intel compiler - sets INTELCC to "yes"
 #   Sun/Oracle Solaris Studio cc - sets SUNCC to "yes"
 #
-AC_DEFUN([XORG_COMPILER_BRAND], [
-AC_LANG_CASE(
-	[C], [
-		AC_REQUIRE([AC_PROG_CC_C99])
-	],
-	[C++], [
-		AC_REQUIRE([AC_PROG_CXX])
-	]
-)
-AC_CHECK_DECL([__clang__], [CLANGCC="yes"], [CLANGCC="no"])
-AC_CHECK_DECL([__INTEL_COMPILER], [INTELCC="yes"], [INTELCC="no"])
-AC_CHECK_DECL([__SUNPRO_C], [SUNCC="yes"], [SUNCC="no"])
-]) # XORG_COMPILER_BRAND
+AC_DEFUN([XORG_COMPILER_BRAND],[
+AC_LANG_CASE([C],[
+  AC_REQUIRE([AC_PROG_CC_C99])
+],[C++],[
+  AC_REQUIRE([AC_PROG_CXX])
+])dnl
+AC_CHECK_DECL([__clang__],[CLANGCC="yes"],[CLANGCC="no"])dnl
+AC_CHECK_DECL([__INTEL_COMPILER],[INTELCC="yes"],[INTELCC="no"])dnl
+AC_CHECK_DECL([__SUNPRO_C],[SUNCC="yes"],[SUNCC="no"])dnl
+])dnl# XORG_COMPILER_BRAND
 
 # XORG_TESTSET_CFLAG(<variable>, <flag>, [<alternative flag>, ...])
 # ---------------
@@ -1613,7 +1626,7 @@ dnl Some hackery here since AC_CACHE_VAL can't handle a non-literal varname
 		fi
 	fi
 ])
-]) # XORG_TESTSET_CFLAG
+])dnl# XORG_TESTSET_CFLAG
 
 # XORG_COMPILER_FLAGS
 # ---------------
@@ -1672,20 +1685,21 @@ AC_LANG_CASE([C],[
 ])dnl
 
 # This chunk adds additional warnings that could catch undesired effects.
-XORG_TESTSET_CFLAG([[BASE_]PREFIX[FLAGS]],[-Wunused])
-XORG_TESTSET_CFLAG([[BASE_]PREFIX[FLAGS]],[-Wuninitialized])
-XORG_TESTSET_CFLAG([[BASE_]PREFIX[FLAGS]],[-Wshadow])
-XORG_TESTSET_CFLAG([[BASE_]PREFIX[FLAGS]],[-Wmissing-noreturn])
-XORG_TESTSET_CFLAG([[BASE_]PREFIX[FLAGS]],[-Wmissing-format-attribute])
-XORG_TESTSET_CFLAG([[BASE_]PREFIX[FLAGS]],[-Wredundant-decls])
-XORG_TESTSET_CFLAG([[BASE_]PREFIX[FLAGS]],[-Wlogical-op])
+XORG_TESTSET_CFLAG([[BASE_]PREFIX[FLAGS]],[-Wunused])dnl
+XORG_TESTSET_CFLAG([[BASE_]PREFIX[FLAGS]],[-Wuninitialized])dnl
+XORG_TESTSET_CFLAG([[BASE_]PREFIX[FLAGS]],[-Wshadow])dnl
+XORG_TESTSET_CFLAG([[BASE_]PREFIX[FLAGS]],[-Wmissing-noreturn])dnl
+XORG_TESTSET_CFLAG([[BASE_]PREFIX[FLAGS]],[-Wmissing-format-attribute])dnl
+XORG_TESTSET_CFLAG([[BASE_]PREFIX[FLAGS]],[-Wredundant-decls])dnl
+XORG_TESTSET_CFLAG([[BASE_]PREFIX[FLAGS]],[-Wlogical-op])dnl
+XORG_TESTSET_CFLAG([[BASE_]PREFIX[FLAGS]],[-Wparentheses])dnl
 
-# These are currently disabled because they are noisy. They will be enabled
-# in the future once the codebase is sufficiently modernized to silence
-# them. For now, I do NOT want them to drown out the other warnings.
-# XORG_TESTSET_CFLAG([[BASE_]PREFIX[FLAGS]],[-Wparentheses])
-# XORG_TESTSET_CFLAG([[BASE_]PREFIX[FLAGS]],[-Wcast-align])
-# XORG_TESTSET_CFLAG([[BASE_]PREFIX[FLAGS]],[-Wcast-qual])
+dnl# These are currently disabled because they are noisy.
+dnl# They will be enabled in the future once the codebase
+dnl# is sufficiently modernized to silence them. For now,
+dnl# I do NOT want them to drown out the other warnings:
+dnl#XORG_TESTSET_CFLAG([[BASE_]PREFIX[FLAGS]],[-Wcast-align])dnl
+dnl#XORG_TESTSET_CFLAG([[BASE_]PREFIX[FLAGS]],[-Wcast-qual])dnl
 
 # Turn some warnings into errors, so we do NOT accidently get successful
 # builds when there are problems that should be fixed.
@@ -1758,8 +1772,8 @@ AC_LANG_CASE([C],[
 #
 # Add configure option to enable strict compilation flags, such as treating
 # warnings as fatal errors.
-# If --enable-strict-compilation is passed to configure, adds strict flags to
-# $BASE_CFLAGS or $BASE_CXXFLAGS and the deprecated $CWARNFLAGS.
+# If --enable-strict-compilation is passed to configure, adds strict flags
+# to ${BASE_CFLAGS} or ${BASE_CXXFLAGS} and the deprecated ${CWARNFLAGS}.
 #
 # Starting in 1.14.0 also exports $STRICT_CFLAGS for use in other tests or
 # when strict compilation is unconditionally desired.
@@ -1801,8 +1815,8 @@ AC_LANG_CASE([C],[AC_SUBST([CWARNFLAGS])])dnl
 #
 # Defines default options for X.Org modules.
 #
-AC_DEFUN([XORG_DEFAULT_OPTIONS], [
-AC_REQUIRE([AC_PROG_INSTALL])
+AC_DEFUN([XORG_DEFAULT_OPTIONS],[
+AC_REQUIRE([AC_PROG_INSTALL])dnl
 XORG_COMPILER_FLAGS
 XORG_CWARNFLAGS
 XORG_STRICT_OPTION
@@ -1810,26 +1824,27 @@ XORG_RELEASE_VERSION
 XORG_CHANGELOG
 XORG_INSTALL
 XORG_MANPAGE_SECTIONS
-m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])],
-    [AC_SUBST([AM_DEFAULT_VERBOSITY], [1])])
-]) # XORG_DEFAULT_OPTIONS
+m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])],
+    [AC_SUBST([AM_DEFAULT_VERBOSITY],[1])])dnl
+])dnl# XORG_DEFAULT_OPTIONS
 
 # XORG_INSTALL()
 # ----------------
 # Minimum version: 1.4.0
 #
 # Defines the variable INSTALL_CMD as the command to copy
-# INSTALL from $prefix/share/util-macros.
+# INSTALL from ${prefix}/share/util-macros.
 #
-AC_DEFUN([XORG_INSTALL], [
+AC_DEFUN([XORG_INSTALL],[
 AC_REQUIRE([PKG_PROG_PKG_CONFIG])
-macros_datadir=`$PKG_CONFIG --print-errors --variable=pkgdatadir xorg-macros`
-INSTALL_CMD="(cp -f "$macros_datadir/INSTALL" \$(top_srcdir)/.INSTALL.tmp && \
+macros_datadir=`${PKG_CONFIG} --print-errors --variable=pkgdatadir xorg-macros`
+INSTALL_CMD="(cp -fv "${macros_datadir}/INSTALL" \$(top_srcdir)/.INSTALL.tmp && \
 mv \$(top_srcdir)/.INSTALL.tmp \$(top_srcdir)/INSTALL) \
-|| (rm -f \$(top_srcdir)/.INSTALL.tmp; touch \$(top_srcdir)/INSTALL; \
+|| (rm -fv \$(top_srcdir)/.INSTALL.tmp; touch \$(top_srcdir)/INSTALL; \
 echo 'util-macros \"pkgdatadir\" from xorg-macros.pc not found: installing possibly empty INSTALL.' >&2)"
-AC_SUBST([INSTALL_CMD])
-]) # XORG_INSTALL
+AC_SUBST([INSTALL_CMD])dnl
+])dnl# XORG_INSTALL
+
 dnl Copyright 2005 Red Hat, Inc
 dnl
 dnl Permission to use, copy, modify, distribute, and sell this software and its
@@ -1887,10 +1902,10 @@ AC_DEFUN([XORG_RELEASE_VERSION],[
 # ChangeLog from git.
 #
 #
-AC_DEFUN([XORG_CHANGELOG], [
+AC_DEFUN([XORG_CHANGELOG],[
 CHANGELOG_CMD="(GIT_DIR=\$(top_srcdir)/.git git log > \$(top_srcdir)/.changelog.tmp && \
-mv \$(top_srcdir)/.changelog.tmp \$(top_srcdir)/ChangeLog) \
-|| (rm -f \$(top_srcdir)/.changelog.tmp; touch \$(top_srcdir)/ChangeLog; \
+mv -v \$(top_srcdir)/.changelog.tmp \$(top_srcdir)/ChangeLog) \
+|| (rm -fv \$(top_srcdir)/.changelog.tmp; touch \$(top_srcdir)/ChangeLog; \
 echo 'git directory not found: installing possibly empty changelog.' >&2)"
-AC_SUBST([CHANGELOG_CMD])
-]) # XORG_CHANGELOG
+AC_SUBST([CHANGELOG_CMD])dnl
+])dnl# XORG_CHANGELOG

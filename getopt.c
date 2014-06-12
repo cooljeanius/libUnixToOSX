@@ -1163,38 +1163,36 @@ getopt (int argc, char *const *argv, const char *optstring)
 }
 
 #ifdef _LIBC
-int
-__posix_getopt (int argc, char *const *argv, const char *optstring)
+int __posix_getopt(int argc, char *const *argv, const char *optstring)
 {
   return _getopt_internal (argc, argv, optstring,
                            (const struct option *) 0,
                            (int *) 0,
                            0, 1);
 }
-#endif
+#endif /* _LIBC */
 
-
+
 #ifdef TEST
-
-/* Compile with -DTEST to make an executable for use in testing
-   the above definition of 'getopt'.  */
-
-int
-main (int argc, char **argv)
+/* Compile with -DTEST to make an executable for use in testing the above
+ * definition of 'getopt': */
+int main(int argc, char **argv)
 {
   int c;
   int digit_optind = 0;
 
-  while (1)
-    {
-      int this_option_optind = optind ? optind : 1;
+  printf("Debug message: running from path '%s' with '%i' args.\n",
+		 argv[0], argc);
 
-      c = getopt (argc, argv, "abc:d:0123456789");
-      if (c == -1)
-        break;
+  while (1) {
+      int this_option_optind = (optind ? optind : 1);
 
-      switch (c)
-        {
+      c = getopt(argc, argv, "abc:d:0123456789");
+      if (c == -1) {
+		  break;
+	  }
+
+      switch (c) {
         case '0':
         case '1':
         case '2':
@@ -1205,41 +1203,52 @@ main (int argc, char **argv)
         case '7':
         case '8':
         case '9':
-          if (digit_optind != 0 && digit_optind != this_option_optind)
-            printf ("digits occur in two different argv-elements.\n");
+		  if ((digit_optind != 0) && (digit_optind != this_option_optind)) {
+			  printf("digits occur in two different argv-elements.\n");
+		  }
           digit_optind = this_option_optind;
-          printf ("option %c\n", c);
+          printf("option %c\n", c);
           break;
 
         case 'a':
-          printf ("option a\n");
+          printf("option a\n");
           break;
 
         case 'b':
-          printf ("option b\n");
+          printf("option b\n");
           break;
 
         case 'c':
-          printf ("option c with value '%s'\n", optarg);
+          printf("option c with value '%s'\n", optarg);
           break;
 
         case '?':
           break;
 
         default:
-          printf ("?? getopt returned character code 0%o ??\n", c);
-        }
-    }
+          printf("?? getopt returned character code 0%o ??\n", c);
+	  }
+  }
 
-  if (optind < argc)
-    {
-      printf ("non-option ARGV-elements: ");
-      while (optind < argc)
-        printf ("%s ", argv[optind++]);
-      printf ("\n");
-    }
+  if (optind < argc) {
+      printf("non-option ARGV-elements: ");
+      while (optind < argc) {
+		  printf("%s ", argv[optind++]);
+	  }
+      printf("\n");
+  } else if (optind == argc) {
+	  printf("all ARGV-elements are options\n");
+  } else if (optind > argc) {
+	  printf("more options than ARGV-elements?\n");
+  } else {
+	  fprintf(stderr, "should not get here\n");
+	  printf("(the relationship between 'optind' and 'argc' should be either '<', '==', or '>')\n");
+	  exit(1);
+  }
 
-  exit (0);
+  exit(0);
 }
 
 #endif /* TEST */
+
+/* EOF */

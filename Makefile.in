@@ -15,6 +15,8 @@
 @SET_MAKE@
 
 
+
+
 VPATH = @srcdir@
 am__is_gnu_make = test -n '$(MAKEFILE_LIST)' && test -n '$(MAKELEVEL)'
 am__make_running_with_option = \
@@ -79,36 +81,44 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-check_PROGRAMS = chdirlongtest$(EXEEXT)
+check_PROGRAMS = chdirlongtest$(EXEEXT) mktimetest$(EXEEXT) \
+	getopt1test$(EXEEXT) getopttest$(EXEEXT)
+EXTRA_PROGRAMS = relocwrapper$(EXEEXT)
 subdir = .
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/configure $(am__configure_deps) \
 	$(srcdir)/config.h.in $(top_srcdir)/build-aux/mkinstalldirs \
-	$(top_srcdir)/poll/poll-emulator/Makefile.in mempcpy.c \
-	fchdir.c msvc-inval.c realloc.c fpending.c error.h memcmp.c \
-	readlink.c printf-args.c fchown-stub.c memchr.c fcloseall.c \
-	strsignal.c fchownat.c isnanf.c getopt1.c progreloc.c \
-	rawmemchr.c printf-parse.c getmntent.c dup.c freadahead.c \
-	obstack.h strchrnul.c fflush.c obstack.c mktime.c close.c \
-	chown.c float.c stdio-write.c lstat.c memrchr.c dysize.c fts.c \
+	mempcpy.c fchdir.c msvc-inval.c realloc.c strerror-override.c \
+	fpending.c error.h memcmp.c readlink.c printf-args.c \
+	fchown-stub.c memchr.c fcloseall.c strsignal.c fchownat.c \
+	isnanf.c getopt1.c progreloc.c rawmemchr.c strerror_r.c \
+	printf-parse.c getmntent.c dup.c freadahead.c obstack.h \
+	strchrnul.c fflush.c obstack.c mktime.c close.c chown.c \
+	float.c stdio-write.c lstat.c memrchr.c dysize.c fts.c \
 	getline.c fdopendir.c readlinkat.c strndup.c wctob.c setenv.c \
 	getdelim.c error.c isnand.c fdopen.c localeconv.c btowc.c \
 	fileblocks.c isnanl.c vasnprintf.c poll.c strnlen.c malloc.c \
-	chdir-long.c stdio-read.c fstat.c itold.c getopt.c fstatat.c \
-	dup2.c asnprintf.c fclose.c relocatable.c canonicalize-lgpl.c \
-	obstack_printf.c openat.c fchmodat.c freadptr.c mountlist.c \
-	stat.c alloca.c $(include_HEADERS) $(noinst_HEADERS) \
-	build-aux/ar-lib build-aux/compile build-aux/config.guess \
+	strerror.c chdir-long.c stdio-read.c fstat.c itold.c getopt.c \
+	fstatat.c dup2.c asnprintf.c fclose.c relocatable.c \
+	canonicalize-lgpl.c obstack_printf.c openat.c fchmodat.c \
+	freadptr.c mountlist.c stat.c alloca.c $(dist_noinst_SCRIPTS) \
+	$(include_HEADERS) $(noinst_HEADERS) build-aux/ar-lib \
+	build-aux/compile build-aux/config.guess \
 	build-aux/config.rpath build-aux/config.sub build-aux/depcomp \
 	build-aux/install-sh build-aux/missing build-aux/mkinstalldirs \
 	build-aux/ltmain.sh $(top_srcdir)/build-aux/ar-lib \
 	$(top_srcdir)/build-aux/compile \
 	$(top_srcdir)/build-aux/config.guess \
+	$(top_srcdir)/build-aux/config.libpath \
 	$(top_srcdir)/build-aux/config.rpath \
 	$(top_srcdir)/build-aux/config.sub \
+	$(top_srcdir)/build-aux/git-version-gen \
+	$(top_srcdir)/build-aux/gitlog-to-changelog \
+	$(top_srcdir)/build-aux/install-reloc \
 	$(top_srcdir)/build-aux/install-sh \
 	$(top_srcdir)/build-aux/ltmain.sh \
 	$(top_srcdir)/build-aux/missing \
+	$(top_srcdir)/build-aux/reloc-ldflags \
 	$(top_srcdir)/build-aux/relocatable.sh.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/alloca.m4 \
@@ -126,9 +136,10 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/alloca.m4 \
 	$(top_srcdir)/m4/double-slash-root.m4 $(top_srcdir)/m4/dup.m4 \
 	$(top_srcdir)/m4/dup2-obsolete.m4 $(top_srcdir)/m4/dup2.m4 \
 	$(top_srcdir)/m4/dup3.m4 $(top_srcdir)/m4/eealloc.m4 \
-	$(top_srcdir)/m4/environ.m4 $(top_srcdir)/m4/error.m4 \
-	$(top_srcdir)/m4/exponentd.m4 $(top_srcdir)/m4/exponentf.m4 \
-	$(top_srcdir)/m4/exponentl.m4 $(top_srcdir)/m4/extensions.m4 \
+	$(top_srcdir)/m4/environ.m4 $(top_srcdir)/m4/errno_h.m4 \
+	$(top_srcdir)/m4/error.m4 $(top_srcdir)/m4/exponentd.m4 \
+	$(top_srcdir)/m4/exponentf.m4 $(top_srcdir)/m4/exponentl.m4 \
+	$(top_srcdir)/m4/extensions.m4 \
 	$(top_srcdir)/m4/extern-inline.m4 $(top_srcdir)/m4/fchdir.m4 \
 	$(top_srcdir)/m4/fchmodat.m4 $(top_srcdir)/m4/fchownat.m4 \
 	$(top_srcdir)/m4/fclose.m4 $(top_srcdir)/m4/fcntl-o.m4 \
@@ -198,7 +209,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/alloca.m4 \
 	$(top_srcdir)/m4/stdbool.m4 $(top_srcdir)/m4/stddef_h.m4 \
 	$(top_srcdir)/m4/stdint.m4 $(top_srcdir)/m4/stdint_h.m4 \
 	$(top_srcdir)/m4/stdio_h.m4 $(top_srcdir)/m4/stdlib_h.m4 \
-	$(top_srcdir)/m4/strchrnul.m4 $(top_srcdir)/m4/string_h.m4 \
+	$(top_srcdir)/m4/strchrnul.m4 $(top_srcdir)/m4/strerror.m4 \
+	$(top_srcdir)/m4/strerror_r.m4 $(top_srcdir)/m4/string_h.m4 \
 	$(top_srcdir)/m4/strings_h.m4 $(top_srcdir)/m4/strndup.m4 \
 	$(top_srcdir)/m4/strnlen.m4 $(top_srcdir)/m4/strsignal.m4 \
 	$(top_srcdir)/m4/sys_ioctl_h.m4 \
@@ -224,7 +236,7 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(SHELL) $(top_srcdir)/build-aux/mkinstalldirs
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES = poll/poll-emulator/Makefile
+CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -285,6 +297,31 @@ chdirlongtest_DEPENDENCIES = libUnixToOSX.la
 chdirlongtest_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(chdirlongtest_CFLAGS) \
 	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+am_getopt1test_OBJECTS = getopt1test-getopt1.$(OBJEXT)
+getopt1test_OBJECTS = $(am_getopt1test_OBJECTS)
+getopt1test_DEPENDENCIES = libUnixToOSX.la
+getopt1test_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(getopt1test_CFLAGS) \
+	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+am_getopttest_OBJECTS = getopttest-getopt.$(OBJEXT)
+getopttest_OBJECTS = $(am_getopttest_OBJECTS)
+getopttest_DEPENDENCIES = libUnixToOSX.la
+getopttest_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(getopttest_CFLAGS) \
+	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+am_mktimetest_OBJECTS = mktimetest-mktime.$(OBJEXT)
+mktimetest_OBJECTS = $(am_mktimetest_OBJECTS)
+mktimetest_DEPENDENCIES = libUnixToOSX.la
+mktimetest_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(mktimetest_CFLAGS) \
+	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+am_relocwrapper_OBJECTS = relocwrapper-relocwrapper.$(OBJEXT)
+relocwrapper_OBJECTS = $(am_relocwrapper_OBJECTS)
+relocwrapper_DEPENDENCIES = libUnixToOSX.la
+relocwrapper_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(relocwrapper_CFLAGS) \
+	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+SCRIPTS = $(dist_noinst_SCRIPTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -318,8 +355,12 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(libUnixToOSX_la_SOURCES) $(chdirlongtest_SOURCES)
-DIST_SOURCES = $(libUnixToOSX_la_SOURCES) $(chdirlongtest_SOURCES)
+SOURCES = $(libUnixToOSX_la_SOURCES) $(chdirlongtest_SOURCES) \
+	$(getopt1test_SOURCES) $(getopttest_SOURCES) \
+	$(mktimetest_SOURCES) $(relocwrapper_SOURCES)
+DIST_SOURCES = $(libUnixToOSX_la_SOURCES) $(chdirlongtest_SOURCES) \
+	$(getopt1test_SOURCES) $(getopttest_SOURCES) \
+	$(mktimetest_SOURCES) $(relocwrapper_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
 	ctags-recursive dvi-recursive html-recursive info-recursive \
 	install-data-recursive install-dvi-recursive \
@@ -333,6 +374,7 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
+DATA = $(nodist_noinst_DATA)
 HEADERS = $(include_HEADERS) $(noinst_HEADERS)
 RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
   distclean-recursive maintainer-clean-recursive
@@ -414,6 +456,7 @@ AMTAR = @AMTAR@
 AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
 APPLE_UNIVERSAL_BUILD = @APPLE_UNIVERSAL_BUILD@
 AR = @AR@
+ARFLAGS = @ARFLAGS@
 ASM_SYMBOL_PREFIX = @ASM_SYMBOL_PREFIX@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
@@ -441,6 +484,13 @@ ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EGREP = @EGREP@
+EMULTIHOP_HIDDEN = @EMULTIHOP_HIDDEN@
+EMULTIHOP_VALUE = @EMULTIHOP_VALUE@
+ENOLINK_HIDDEN = @ENOLINK_HIDDEN@
+ENOLINK_VALUE = @ENOLINK_VALUE@
+EOVERFLOW_HIDDEN = @EOVERFLOW_HIDDEN@
+EOVERFLOW_VALUE = @EOVERFLOW_VALUE@
+ERRNO_H = @ERRNO_H@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
 FLOAT_H = @FLOAT_H@
@@ -1197,6 +1247,7 @@ MALLOC_ZERO_CFLAGS = @MALLOC_ZERO_CFLAGS@
 MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
 NEXT_AS_FIRST_DIRECTIVE_DIRENT_H = @NEXT_AS_FIRST_DIRECTIVE_DIRENT_H@
+NEXT_AS_FIRST_DIRECTIVE_ERRNO_H = @NEXT_AS_FIRST_DIRECTIVE_ERRNO_H@
 NEXT_AS_FIRST_DIRECTIVE_FCNTL_H = @NEXT_AS_FIRST_DIRECTIVE_FCNTL_H@
 NEXT_AS_FIRST_DIRECTIVE_FLOAT_H = @NEXT_AS_FIRST_DIRECTIVE_FLOAT_H@
 NEXT_AS_FIRST_DIRECTIVE_GETOPT_H = @NEXT_AS_FIRST_DIRECTIVE_GETOPT_H@
@@ -1219,6 +1270,7 @@ NEXT_AS_FIRST_DIRECTIVE_TIME_H = @NEXT_AS_FIRST_DIRECTIVE_TIME_H@
 NEXT_AS_FIRST_DIRECTIVE_UNISTD_H = @NEXT_AS_FIRST_DIRECTIVE_UNISTD_H@
 NEXT_AS_FIRST_DIRECTIVE_WCHAR_H = @NEXT_AS_FIRST_DIRECTIVE_WCHAR_H@
 NEXT_DIRENT_H = @NEXT_DIRENT_H@
+NEXT_ERRNO_H = @NEXT_ERRNO_H@
 NEXT_FCNTL_H = @NEXT_FCNTL_H@
 NEXT_FLOAT_H = @NEXT_FLOAT_H@
 NEXT_GETOPT_H = @NEXT_GETOPT_H@
@@ -1531,8 +1583,6 @@ datarootdir = @datarootdir@
 docdir = @docdir@
 dvidir = @dvidir@
 exec_prefix = @exec_prefix@
-gt_cv_c_wchar_t = @gt_cv_c_wchar_t@
-gt_cv_c_wint_t = @gt_cv_c_wint_t@
 host = @host@
 host_alias = @host_alias@
 host_cpu = @host_cpu@
@@ -1569,33 +1619,84 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AUTOMAKE_OPTIONS = 1.6 foreign no-dependencies subdir-objects
 ACLOCAL_AMFLAGS = -I m4 --system-acdir=/sw/share/gnulib/m4 --install
+AM_DISTCHECK_CONFIGURE_FLAGS = --enable-silent-rules
 AM_WARNFLAGS = $(WARN_CFLAGS)
 AM_CFLAGS = $(AM_WARNFLAGS)
 lib_LTLIBRARIES = libUnixToOSX.la
 include_HEADERS = ftw_Apple.h
-noinst_HEADERS = alloc.h dup.h dysize.h fclose.h
+noinst_HEADERS = alloc.h dup.h dysize.h fclose.h rpl_misc_funcs.h \
+	fcntl--.h fcntl-safer.h fts_.h dev-ino.h dirent--.h \
+	dirent-private.h dirent-safer.h unistd--.h unistd-safer.h \
+	i-ring.h cloexec.h openat-priv.h openat.h pathmax.h \
+	cycle-check.h hash-triple.h hash.h intprops.h isnand-nolibm.h \
+	isnanf-nolibm.h isnanl-nolibm.h exitfail.h same.h same-inode.h \
+	bitrotate.h dirname.h dosname.h xalloc-oversized.h xalloc.h \
+	xstrndup.h xsize.h printf-frexp.h printf-frexpl.h \
+	printf-args.h printf-parse.h float+.h save-cwd.h chdir-safer.h \
+	fd-hook.h filename.h filenamecat.h binary-io.h stat-macros.h \
+	stat-size.h c-strcaseeq.h localename.h quote.h quotearg.h \
+	close-stream.h closeout.h canonicalize.h areadlink.h \
+	careadlinkat.h file-set.h malloca.h allocator.h xgetcwd.h \
+	progname.h xreadlink.h stdio-impl.h getndelim2.h getnline.h \
+	nonblocking.h freadseek.h freadahead.h freading.h freadptr.h \
+	memchr2.h mktime-internal.h getopt_int.h rawmemchr.h verify.h \
+	gettext.h fpending.h fpucw.h mntent.h mountlist.h msvc-inval.h \
+	msvc-nothrow.h relocatable.h siglist.h unlocked-io.h \
+	strnlen1.h memcmp2.h strerror-override.h vasnprintf.h
 libUnixToOSX_la_SOURCES = alloc.h ftw_Apple.c ftw_Apple.h dup.h \
-	dysize.h fclose.h i-ring.c creat-safer.c open-safer.c \
-	opendir-safer.c dup-safer.c fd-safer.c pipe-safer.c cloexec.c \
-	openat-safer.c openat-die.c cycle-check.c hash-triple.c \
-	hash-pjw.h hash-pjw.c hash.c exitfail.c same.c bitrotate.h \
-	dirname.c basename.c dirname-lgpl.c basename-lgpl.c \
-	stripslash.c xalloc-die.c xmalloc.c xstrndup.h xstrndup.c \
-	xsize.h printf-frexp.c printf-frexpl.c save-cwd.c \
-	chdir-safer.c fd-hook.c filenamecat-lgpl.c filenamecat.c \
-	dup3.c binary-io.h glthread/lock.h glthread/lock.c \
-	glthread/tls.h glthread/tls.c glthread/threadlib.c \
-	glthread/thread.h glthread/thread.c c-ctype.h c-ctype.c \
-	c-strcase.h c-strcasecmp.c c-strncasecmp.c localcharset.h \
-	localcharset.c localename.c quotearg.c close-stream.c \
-	closeout.c canonicalize.c areadlink.c areadlink-with-size.c \
-	areadlinkat.c areadlinkat-with-size.c careadlinkat.c \
-	file-set.c malloca.c allocator.c xgetcwd.c progname.h \
-	progname.c xreadlink.c xreadlinkat.c getndelim2.c getnline.h \
-	getnline.c nonblocking.c freadseek.c memchr2.h memchr2.c \
-	pipe2.c pipe2-safer.c
+	dysize.h fclose.h rpl_misc_funcs.h mntent.h i-ring.c \
+	creat-safer.c open-safer.c opendir-safer.c dup-safer.c \
+	fd-safer.c pipe-safer.c cloexec.c openat-safer.c openat-die.c \
+	cycle-check.c hash-triple.c hash-pjw.h hash-pjw.c hash.c \
+	exitfail.c same.c bitrotate.h dirname.c basename.c \
+	dirname-lgpl.c basename-lgpl.c stripslash.c xalloc-die.c \
+	xmalloc.c xstrndup.h xstrndup.c xsize.h printf-frexp.c \
+	printf-frexpl.c save-cwd.c chdir-safer.c fd-hook.c \
+	filenamecat-lgpl.c filenamecat.c dup3.c binary-io.h \
+	glthread/lock.h glthread/lock.c glthread/tls.h glthread/tls.c \
+	glthread/threadlib.c glthread/thread.h glthread/thread.c \
+	c-ctype.h c-ctype.c c-strcase.h c-strcasecmp.c c-strncasecmp.c \
+	localcharset.h localcharset.c localename.c quotearg.c \
+	close-stream.c closeout.c canonicalize.c areadlink.c \
+	areadlink-with-size.c areadlinkat.c areadlinkat-with-size.c \
+	careadlinkat.c file-set.c malloca.c allocator.c xgetcwd.c \
+	progname.h progname.c xreadlink.c xreadlinkat.c getndelim2.c \
+	getnline.h getnline.c nonblocking.c freadseek.c memchr2.h \
+	memchr2.c pipe2.c pipe2-safer.c
 libUnixToOSX_la_LIBADD = $(LTLIBOBJS) $(ALLOCA)
-EXTRA_DIST = Readme.md
+EXTRA_DIST = Readme.md PortingUnix.pdf argp/TODO argp-test-Info.plist \
+	polltest-Info.plist libUnixToOSX.xcodeproj/project.pbxproj \
+	alloca.in.h $(top_srcdir)/build-aux/snippet/c++defs.h \
+	$(top_srcdir)/build-aux/snippet/arg-nonnull.h \
+	$(top_srcdir)/build-aux/snippet/warn-on-use.h fcntl.in.h \
+	fcntl--.h fcntl-safer.h fts_.h fcntl.c fts-cycle.c getopt.in.h \
+	poll.in.h dirent.in.h dev-ino.h dirent--.h dirent-private.h \
+	dirent-safer.h \
+	$(top_srcdir)/build-aux/snippet/unused-parameter.h unistd.in.h \
+	unistd--.h unistd-safer.h i-ring.h fd-safer-flag.c cloexec.h \
+	openat-priv.h openat-proc.c openat.h pathmax.h cycle-check.h \
+	hash-triple.h hash.h inttypes.in.h intprops.h math.in.h \
+	stdint.in.h isnand-nolibm.h isnanf-nolibm.h isnanl-nolibm.h \
+	isnan.c exitfail.h same.h same-inode.h bitrotate.h dirname.h \
+	dosname.h xalloc-oversized.h xalloc.h xsize.h printf-frexp.h \
+	printf-frexpl.h printf-args.h printf-parse.h float.in.h \
+	float+.h save-cwd.h chdir-safer.h fd-hook.h filename.h \
+	filenamecat.h binary-io.h sys_stat.in.h stat-macros.h \
+	stat-size.h string.in.h strings.in.h strchrnul.valgrind \
+	c-strcaseeq.h locale.in.h config.charset ref-add.sin \
+	ref-del.sin localename.h quote.h quotearg.h close-stream.h \
+	closeout.h stddef.in.h canonicalize.h areadlink.h \
+	careadlinkat.h file-set.h malloca.h malloca.valgrind \
+	allocator.h xgetcwd.h xreadlink.h stdbool.in.h stdio.in.h \
+	stdio-impl.h getndelim2.h nonblocking.h signal.in.h \
+	freadseek.h freadahead.h freading.h freadptr.h memchr.valgrind \
+	memchr2.valgrind rawmemchr.h rawmemchr.valgrind verify.h \
+	at-func.c at-func2.c build-aux/snippet/_Noreturn.h \
+	build-aux/snippet/link-warning.h fpending.h fpucw.h mntent.h \
+	mountlist.h msvc-inval.h msvc-nothrow.h msvc-nothrow.c \
+	relocatable.h siglist.h unlocked-io.h strnlen1.h strnlen1.c \
+	memcmp2.h memcmp2.c strerror-override.h vasnprintf.h \
+	errno.in.h sys_socket.in.h
 SUBDIRS = libftw0 autoscan poll/poll-emulator argp/argp-standalone-1.3
 MOSTLYCLEANFILES = .DS_Store alloca.h alloca.h-t c++defs.h c++defs.h-t \
 	arg-nonnull.h arg-nonnull.h-t warn-on-use.h warn-on-use.h-t \
@@ -1605,44 +1706,52 @@ MOSTLYCLEANFILES = .DS_Store alloca.h alloca.h-t c++defs.h c++defs.h-t \
 	stdint.h-t float.h float.h-t sys/stat.h sys/stat.h-t string.h \
 	string.h-t strings.h strings.h-t locale.h locale.h-t stddef.h \
 	stddef.h-t stdbool.h stdbool.h-t stdio.h stdio.h-t signal.h \
-	signal.h-t
+	signal.h-t errno.h errno.h-t sys/socket.h sys/socket.h-t
 CLEANFILES = .DS_Store charset.alias ref-add.sed ref-del.sed \
 	configmake.h configmake.h-t
 SUFFIXES = .c .lo .o .h .sed .sin
-
-# The BUILT_SOURCES created by this Makefile snippet are not used via
-# "#include" statements but through direct file reference. Therefore this
-# snippet must be present in all Makefile.am that need it. This is ensured
-# by the applicability of 'all' defined above.
-
-# The BUILT_SOURCES created by this Makefile snippet are not used via
-# "#include" statements but through direct file reference. Therefore this
-# snippet must be present in all Makefile.am that need it. This is ensured
-# by the applicability of 'all' defined above.
-
-# The BUILT_SOURCES created by this Makefile snippet are not used via
-# "#include" statements but through direct file reference. Therefore this
-# snippet must be present in all Makefile.am that need it. This is ensured
-# by the applicability of 'all' defined above.
-BUILT_SOURCES = config.h $(ALLOCA_H) fcntl.h c++defs.h arg-nonnull.h \
-	warn-on-use.h $(GETOPT_H) poll.h dirent.h unused-parameter.h \
-	unistd.h inttypes.h math.h $(STDINT_H) $(FLOAT_H) sys/stat.h \
-	string.h strings.h locale.h $(STDDEF_H) configmake.h \
-	$(STDBOOL_H) stdio.h signal.h
+BUILT_SOURCES = config.h $(ALLOCA_H) c++defs.h arg-nonnull.h \
+	warn-on-use.h fcntl.h $(GETOPT_H) poll.h dirent.h \
+	unused-parameter.h unistd.h inttypes.h math.h $(STDINT_H) \
+	$(FLOAT_H) sys/stat.h string.h strings.h locale.h $(STDDEF_H) \
+	configmake.h $(STDBOOL_H) stdio.h signal.h $(ERRNO_H) \
+	sys/socket.h
 CXXDEFS_H = c++defs.h
 ARG_NONNULL_H = arg-nonnull.h
 WARN_ON_USE_H = warn-on-use.h
 UNUSED_PARAMETER_H = unused-parameter.h
-DISTCLEANFILES = .DS_Store *~ autoscan.log
+DISTCLEANFILES = .DS_Store *~ autoscan.log m4/.DS_Store build-aux/.DS_Store
 MOSTLYCLEANDIRS = build/Debug sys
-MAINTAINERCLEANFILES = configure.scan
+nodist_noinst_DATA = @MAINT@ configure.scan
+MAINTAINERCLEANFILES = configure.scan ./*/Macports/Portindex*
 charset_alias = $(DESTDIR)$(libdir)/charset.alias
 charset_tmp = $(DESTDIR)$(libdir)/charset.tmp
 TESTS_ENVIRONMENT = CC="$(CC)" @LOCALCHARSET_TESTS_ENVIRONMENT@
-chdirlongtest_SOURCES = chdir-long.c chdir-long.h
+chdirlongtest_SOURCES = chdir-long.c chdir-long.h closeout.h error.h
 chdirlongtest_LDADD = libUnixToOSX.la
 chdirlongtest_CPPFLAGS = -DTEST_CHDIR=1
-chdirlongtest_CFLAGS = -O
+chdirlongtest_CFLAGS = $(chdirlongtest_CPPFLAGS) -O -ggdb3
+mktimetest_SOURCES = mktime.c mktime-internal.h
+mktimetest_LDADD = libUnixToOSX.la
+mktimetest_CPPFLAGS = -DDEBUG -I.
+mktimetest_CFLAGS = $(mktimetest_CPPFLAGS) -Wall -Wextra -Os -ggdb3 -fwrapv
+getopt1test_SOURCES = getopt1.c getopt_int.h getopt.h
+getopt1test_LDADD = libUnixToOSX.la
+getopt1test_CPPFLAGS = -DTEST
+getopt1test_CFLAGS = $(getopt1test_CPPFLAGS) -Wall -Wextra -ggdb3
+getopttest_SOURCES = getopt.c getopt_int.h getopt.h gettext.h
+getopttest_LDADD = libUnixToOSX.la
+getopttest_CPPFLAGS = -DTEST
+getopttest_CFLAGS = $(getopttest_CPPFLAGS) -Wall -Wextra -ggdb3
+dist_noinst_SCRIPTS = build-aux/config.libpath build-aux/git-version-gen \
+		 build-aux/gitlog-to-changelog build-aux/install-reloc \
+                 build-aux/reloc-ldflags
+
+relocwrapper_SOURCES = relocwrapper.c progname.h relocatable.h \
+	c-ctype.h verify.h configmake.h
+relocwrapper_LDADD = libUnixToOSX.la
+relocwrapper_CPPFLAGS = -DINSTALLDIR=$(bindir)
+relocwrapper_CFLAGS = $(relocwrapper_CPPFLAGS) -O -ggdb3
 all: $(BUILT_SOURCES) config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -1697,8 +1806,6 @@ $(srcdir)/config.h.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 
 distclean-hdr:
 	-rm -f config.h stamp-h1
-poll/poll-emulator/Makefile: $(top_builddir)/config.status $(top_srcdir)/poll/poll-emulator/Makefile.in
-	cd $(top_builddir) && $(SHELL) ./config.status $@
 
 install-libLTLIBRARIES: $(lib_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
@@ -1758,6 +1865,22 @@ chdirlongtest$(EXEEXT): $(chdirlongtest_OBJECTS) $(chdirlongtest_DEPENDENCIES) $
 	@rm -f chdirlongtest$(EXEEXT)
 	$(AM_V_CCLD)$(chdirlongtest_LINK) $(chdirlongtest_OBJECTS) $(chdirlongtest_LDADD) $(LIBS)
 
+getopt1test$(EXEEXT): $(getopt1test_OBJECTS) $(getopt1test_DEPENDENCIES) $(EXTRA_getopt1test_DEPENDENCIES) 
+	@rm -f getopt1test$(EXEEXT)
+	$(AM_V_CCLD)$(getopt1test_LINK) $(getopt1test_OBJECTS) $(getopt1test_LDADD) $(LIBS)
+
+getopttest$(EXEEXT): $(getopttest_OBJECTS) $(getopttest_DEPENDENCIES) $(EXTRA_getopttest_DEPENDENCIES) 
+	@rm -f getopttest$(EXEEXT)
+	$(AM_V_CCLD)$(getopttest_LINK) $(getopttest_OBJECTS) $(getopttest_LDADD) $(LIBS)
+
+mktimetest$(EXEEXT): $(mktimetest_OBJECTS) $(mktimetest_DEPENDENCIES) $(EXTRA_mktimetest_DEPENDENCIES) 
+	@rm -f mktimetest$(EXEEXT)
+	$(AM_V_CCLD)$(mktimetest_LINK) $(mktimetest_OBJECTS) $(mktimetest_LDADD) $(LIBS)
+
+relocwrapper$(EXEEXT): $(relocwrapper_OBJECTS) $(relocwrapper_DEPENDENCIES) $(EXTRA_relocwrapper_DEPENDENCIES) 
+	@rm -f relocwrapper$(EXEEXT)
+	$(AM_V_CCLD)$(relocwrapper_LINK) $(relocwrapper_OBJECTS) $(relocwrapper_LDADD) $(LIBS)
+
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 	-rm -f glthread/*.$(OBJEXT)
@@ -1780,6 +1903,30 @@ chdirlongtest-chdir-long.o: chdir-long.c
 
 chdirlongtest-chdir-long.obj: chdir-long.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(chdirlongtest_CPPFLAGS) $(CPPFLAGS) $(chdirlongtest_CFLAGS) $(CFLAGS) -c -o chdirlongtest-chdir-long.obj `if test -f 'chdir-long.c'; then $(CYGPATH_W) 'chdir-long.c'; else $(CYGPATH_W) '$(srcdir)/chdir-long.c'; fi`
+
+getopt1test-getopt1.o: getopt1.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(getopt1test_CPPFLAGS) $(CPPFLAGS) $(getopt1test_CFLAGS) $(CFLAGS) -c -o getopt1test-getopt1.o `test -f 'getopt1.c' || echo '$(srcdir)/'`getopt1.c
+
+getopt1test-getopt1.obj: getopt1.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(getopt1test_CPPFLAGS) $(CPPFLAGS) $(getopt1test_CFLAGS) $(CFLAGS) -c -o getopt1test-getopt1.obj `if test -f 'getopt1.c'; then $(CYGPATH_W) 'getopt1.c'; else $(CYGPATH_W) '$(srcdir)/getopt1.c'; fi`
+
+getopttest-getopt.o: getopt.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(getopttest_CPPFLAGS) $(CPPFLAGS) $(getopttest_CFLAGS) $(CFLAGS) -c -o getopttest-getopt.o `test -f 'getopt.c' || echo '$(srcdir)/'`getopt.c
+
+getopttest-getopt.obj: getopt.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(getopttest_CPPFLAGS) $(CPPFLAGS) $(getopttest_CFLAGS) $(CFLAGS) -c -o getopttest-getopt.obj `if test -f 'getopt.c'; then $(CYGPATH_W) 'getopt.c'; else $(CYGPATH_W) '$(srcdir)/getopt.c'; fi`
+
+mktimetest-mktime.o: mktime.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mktimetest_CPPFLAGS) $(CPPFLAGS) $(mktimetest_CFLAGS) $(CFLAGS) -c -o mktimetest-mktime.o `test -f 'mktime.c' || echo '$(srcdir)/'`mktime.c
+
+mktimetest-mktime.obj: mktime.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(mktimetest_CPPFLAGS) $(CPPFLAGS) $(mktimetest_CFLAGS) $(CFLAGS) -c -o mktimetest-mktime.obj `if test -f 'mktime.c'; then $(CYGPATH_W) 'mktime.c'; else $(CYGPATH_W) '$(srcdir)/mktime.c'; fi`
+
+relocwrapper-relocwrapper.o: relocwrapper.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(relocwrapper_CPPFLAGS) $(CPPFLAGS) $(relocwrapper_CFLAGS) $(CFLAGS) -c -o relocwrapper-relocwrapper.o `test -f 'relocwrapper.c' || echo '$(srcdir)/'`relocwrapper.c
+
+relocwrapper-relocwrapper.obj: relocwrapper.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(relocwrapper_CPPFLAGS) $(CPPFLAGS) $(relocwrapper_CFLAGS) $(CFLAGS) -c -o relocwrapper-relocwrapper.obj `if test -f 'relocwrapper.c'; then $(CYGPATH_W) 'relocwrapper.c'; else $(CYGPATH_W) '$(srcdir)/relocwrapper.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -2110,7 +2257,8 @@ check-am: all-am
 	$(MAKE) $(AM_MAKEFLAGS) $(check_PROGRAMS)
 check: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) check-recursive
-all-am: Makefile $(LTLIBRARIES) $(HEADERS) config.h all-local
+all-am: Makefile $(LTLIBRARIES) $(SCRIPTS) $(DATA) $(HEADERS) config.h \
+		all-local
 installdirs: installdirs-recursive
 installdirs-am:
 	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)"; do \
@@ -2250,7 +2398,6 @@ uninstall-am: uninstall-includeHEADERS uninstall-libLTLIBRARIES \
 	uninstall-includeHEADERS uninstall-libLTLIBRARIES \
 	uninstall-local
 
-
 # We need the following in order to create <alloca.h> when the system
 # does NOT have one that works with the given compiler.
 @GL_GENERATE_ALLOCA_H_TRUE@alloca.h: alloca.in.h $(top_builddir)/config.status
@@ -2258,9 +2405,9 @@ uninstall-am: uninstall-includeHEADERS uninstall-libLTLIBRARIES \
 @GL_GENERATE_ALLOCA_H_TRUE@	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */'; \
 @GL_GENERATE_ALLOCA_H_TRUE@	  cat $(srcdir)/alloca.in.h; \
 @GL_GENERATE_ALLOCA_H_TRUE@	} > $@-t && \
-@GL_GENERATE_ALLOCA_H_TRUE@	mv -f $@-t $@
+@GL_GENERATE_ALLOCA_H_TRUE@	mv -fv $@-t $@
 @GL_GENERATE_ALLOCA_H_FALSE@alloca.h: $(top_builddir)/config.status
-@GL_GENERATE_ALLOCA_H_FALSE@	rm -f $@
+@GL_GENERATE_ALLOCA_H_FALSE@	rm -fv $@
 # The c++defs.h that gets inserted into generated .h files is the same as
 # build-aux/snippet/c++defs.h, except that it has the copyright header cut
 # off.
@@ -2269,7 +2416,7 @@ c++defs.h: $(top_srcdir)/build-aux/snippet/c++defs.h
 	$(SED) -n -e '/_GL_CXXDEFS/,$$p' \
 	  < $(top_srcdir)/build-aux/snippet/c++defs.h \
 	  > $@-t && \
-	mv $@-t $@
+	mv -v $@-t $@
 # The arg-nonnull.h that gets inserted into generated .h files is the same
 # as build-aux/snippet/arg-nonnull.h, except that it has the copyright
 # header cut off.
@@ -2278,7 +2425,7 @@ arg-nonnull.h: $(top_srcdir)/build-aux/snippet/arg-nonnull.h
 	$(SED) -n -e '/GL_ARG_NONNULL/,$$p' \
 	  < $(top_srcdir)/build-aux/snippet/arg-nonnull.h \
 	  > $@-t && \
-	mv $@-t $@
+	mv -v $@-t $@
 # The warn-on-use.h that gets inserted into generated .h files is the same
 # as build-aux/snippet/warn-on-use.h, except that it has the copyright
 # header cut off.
@@ -2287,8 +2434,7 @@ warn-on-use.h: $(top_srcdir)/build-aux/snippet/warn-on-use.h
 	$(SED) -n -e '/^.ifndef/,$$p' \
 	  < $(top_srcdir)/build-aux/snippet/warn-on-use.h \
 	  > $@-t && \
-	mv $@-t $@
-
+	mv -v $@-t $@
 # We need the following in order to create <fcntl.h> when the system
 # does NOT have one that works with the given compiler.
 fcntl.h: fcntl.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
@@ -2313,8 +2459,7 @@ fcntl.h: fcntl.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) 
 	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
 	      < $(srcdir)/fcntl.in.h; \
 	} > $@-t && \
-	mv $@-t $@
-
+	mv -v $@-t $@
 # We need the following in order to create <getopt.h> when the system
 # does NOT have one that works with the given compiler.
 getopt.h: getopt.in.h $(top_builddir)/config.status $(ARG_NONNULL_H)
@@ -2329,8 +2474,7 @@ getopt.h: getopt.in.h $(top_builddir)/config.status $(ARG_NONNULL_H)
 	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
 	      < $(srcdir)/getopt.in.h; \
 	} > $@-t && \
-	mv -f $@-t $@
-
+	mv -fv $@-t $@
 # We need the following in order to create <poll.h> when the system
 # does NOT have one.
 poll.h: poll.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(WARN_ON_USE_H)
@@ -2349,8 +2493,7 @@ poll.h: poll.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(WARN_ON_USE_H)
 	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
 	      < $(srcdir)/poll.in.h; \
 	} > $@-t && \
-	mv -f $@-t $@
-
+	mv -fv $@-t $@
 # We need the following in order to create <dirent.h> when the system
 # does NOT have one that works with the given compiler.
 dirent.h: dirent.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
@@ -2388,7 +2531,7 @@ dirent.h: dirent.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H
 	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
 	      < $(srcdir)/dirent.in.h; \
 	} > $@-t && \
-	mv $@-t $@
+	mv -v $@-t $@
 # The unused-parameter.h that gets inserted into generated .h files is the
 # same as build-aux/snippet/unused-parameter.h, except that it has the
 # copyright header cut off.
@@ -2397,12 +2540,10 @@ unused-parameter.h: $(top_srcdir)/build-aux/snippet/unused-parameter.h
 	$(SED) -n -e '/GL_UNUSED_PARAMETER/,$$p' \
 	  < $(top_srcdir)/build-aux/snippet/unused-parameter.h \
 	  > $@-t && \
-	mv $@-t $@
-
+	mv -v $@-t $@
 fflush.c: $(UNUSED_PARAMETER_H)
-
 # We need the following in order to create an empty placeholder for
-# <unistd.h> when the system doesn't have one.
+# <unistd.h> when the system does NOT have one.
 unistd.h: unistd.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
 	$(AM_V_GEN)rm -f $@-t $@ && \
 	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */'; \
@@ -2540,8 +2681,7 @@ unistd.h: unistd.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H
 	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
 	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)'; \
 	} > $@-t && \
-	mv $@-t $@
-
+	mv -v $@-t $@
 # We need the following in order to create <inttypes.h> when the system
 # does NOT have one that works with the given compiler.
 inttypes.h: inttypes.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(WARN_ON_USE_H) $(ARG_NONNULL_H)
@@ -2575,10 +2715,9 @@ inttypes.h: inttypes.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(WARN_ON_U
 	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
 	      < $(srcdir)/inttypes.in.h; \
 	} > $@-t && \
-	mv $@-t $@
-
+	mv -v $@-t $@
 # We need the following in order to create <math.h> when the system
-# doesn't have one that works with the given compiler.
+# does NOT have one that works with the given compiler.
 math.h: math.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
 	$(AM_V_GEN)rm -f $@-t $@ && \
 	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */' && \
@@ -2849,8 +2988,7 @@ math.h: math.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(
 	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
 	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)'; \
 	} > $@-t && \
-	mv $@-t $@
-
+	mv -v $@-t $@
 # We need the following in order to create <stdint.h> when the system
 # does NOT have one that works with the given compiler.
 @GL_GENERATE_STDINT_H_TRUE@stdint.h: stdint.in.h $(top_builddir)/config.status
@@ -2885,10 +3023,9 @@ math.h: math.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(
 @GL_GENERATE_STDINT_H_TRUE@	      -e 's/@''WINT_T_SUFFIX''@/$(WINT_T_SUFFIX)/g' \
 @GL_GENERATE_STDINT_H_TRUE@	      < $(srcdir)/stdint.in.h; \
 @GL_GENERATE_STDINT_H_TRUE@	} > $@-t && \
-@GL_GENERATE_STDINT_H_TRUE@	mv $@-t $@
+@GL_GENERATE_STDINT_H_TRUE@	mv -v $@-t $@
 @GL_GENERATE_STDINT_H_FALSE@stdint.h: $(top_builddir)/config.status
-@GL_GENERATE_STDINT_H_FALSE@	rm -f $@
-
+@GL_GENERATE_STDINT_H_FALSE@	rm -fv $@
 # We need the following in order to create <float.h> when the system
 # does NOT have one that works with the given compiler.
 @GL_GENERATE_FLOAT_H_TRUE@float.h: float.in.h $(top_builddir)/config.status
@@ -2902,16 +3039,18 @@ math.h: math.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(
 @GL_GENERATE_FLOAT_H_TRUE@	      -e 's|@''REPLACE_ITOLD''@|$(REPLACE_ITOLD)|g' \
 @GL_GENERATE_FLOAT_H_TRUE@	      < $(srcdir)/float.in.h; \
 @GL_GENERATE_FLOAT_H_TRUE@	} > $@-t && \
-@GL_GENERATE_FLOAT_H_TRUE@	mv $@-t $@
+@GL_GENERATE_FLOAT_H_TRUE@	mv -v $@-t $@
 @GL_GENERATE_FLOAT_H_FALSE@float.h: $(top_builddir)/config.status
-@GL_GENERATE_FLOAT_H_FALSE@	rm -f $@
+@GL_GENERATE_FLOAT_H_FALSE@	rm -fv $@
 
 distclean-local:
-	rm -rf autom4te.cache || rmdir autom4te.cache
-	rm -rf .deps || rmdir .deps
+	rm -fv @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	rm -rfv autom4te.cache || rmdir autom4te.cache
+	rm -rfv .deps || rmdir .deps
 	-(test -d sys && test -z "`ls sys`" && rmdir sys) || test -e sys
 	-(test -d scan_build_output && test -z "`ls scan_build_output`" && rmdir scan_build_output) || test -e scan_build_output
-
+	-(test -w @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && (rm -rf @PACKAGE_TARNAME@-@PACKAGE_VERSION@ || rmdir @PACKAGE_TARNAME@-@PACKAGE_VERSION@)) || stat @PACKAGE_TARNAME@-*.*.* || echo "it can be difficult to distclean the results of distcheck"
+	-(find . -name .DS_Store -delete 2>&1) || test -x "`which find`"
 # We need the following in order to create <sys/stat.h> when the system
 # has one that is incomplete.
 sys/stat.h: sys_stat.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
@@ -2962,8 +3101,7 @@ sys/stat.h: sys_stat.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNU
 	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
 	      < $(srcdir)/sys_stat.in.h; \
 	} > $@-t && \
-	mv $@-t $@
-
+	mv -v $@-t $@
 # We need the following in order to create <string.h> when the system
 # does NOT have one that works with the given compiler.
 string.h: string.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
@@ -3053,8 +3191,7 @@ string.h: string.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H
 	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)'; \
 	      < $(srcdir)/string.in.h; \
 	} > $@-t && \
-	mv $@-t $@
-
+	mv -v $@-t $@
 # We need the following in order to create <strings.h> when the system
 # does NOT have one that works with the given compiler.
 strings.h: strings.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(WARN_ON_USE_H) $(ARG_NONNULL_H)
@@ -3075,15 +3212,13 @@ strings.h: strings.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(WARN_ON_USE
 	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
 	      < $(srcdir)/strings.in.h; \
 	} > $@-t && \
-	mv $@-t $@
-
-configure.scan:
+	mv -v $@-t $@
+configure.scan: distclean-local
 	autoscan || (touch configure.scan && mkdir autom4te.cache)
 
 headers: $(BUILT_SOURCES)
 	ls *.h
 .PHONY: headers
-
 # We need the following in order to create <locale.h> when the system
 # does NOT have one that provides all definitions.
 locale.h: locale.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
@@ -3108,7 +3243,7 @@ locale.h: locale.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H
 	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
 	      < $(srcdir)/locale.in.h; \
 	} > $@-t && \
-	mv $@-t $@
+	mv -v $@-t $@
 
 # We need the following in order to install a simple file in $(libdir)
 # which is shared with other installed packages. We use a list of
@@ -3116,7 +3251,6 @@ locale.h: locale.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H
 # and only if it is not used by another installed package.
 # On systems with glibc-2.1 or newer, the file is redundant, therefore we
 # avoid installing it.
-
 all-local: charset.alias ref-add.sed ref-del.sed
 install-exec-local: install-exec-localcharset
 install-exec-localcharset: all-local
@@ -3128,23 +3262,23 @@ install-exec-localcharset: all-local
 	      need_charset_alias=false ;; \
 	    *) \
 	      need_charset_alias=true ;; \
-	  esac ; \
+	  esac; \
 	else \
-	  need_charset_alias=false ; \
-	fi ; \
-	if $$need_charset_alias; then \
-	  $(mkinstalldirs) $(DESTDIR)$(libdir) ; \
-	fi ; \
+	  need_charset_alias=false; \
+	fi; \
+	if $${need_charset_alias}; then \
+	  $(mkinstalldirs) $(DESTDIR)$(libdir); \
+	fi; \
 	if test -f $(charset_alias); then \
-	  $(SED) -f ref-add.sed $(charset_alias) > $(charset_tmp) ; \
-	  $(INSTALL_DATA) $(charset_tmp) $(charset_alias) ; \
-	  rm -f $(charset_tmp) ; \
+	  $(SED) -f ref-add.sed $(charset_alias) > $(charset_tmp); \
+	  $(INSTALL_DATA) $(charset_tmp) $(charset_alias); \
+	  rm -fv $(charset_tmp); \
 	else \
-	  if $$need_charset_alias; then \
-	    $(SED) -f ref-add.sed charset.alias > $(charset_tmp) ; \
-	    $(INSTALL_DATA) $(charset_tmp) $(charset_alias) ; \
-	    rm -f $(charset_tmp) ; \
-	  fi ; \
+	  if $${need_charset_alias}; then \
+	    $(SED) -f ref-add.sed charset.alias > $(charset_tmp); \
+	    $(INSTALL_DATA) $(charset_tmp) $(charset_alias); \
+	    rm -fv $(charset_tmp); \
+	  fi; \
 	fi
 
 uninstall-local: uninstall-localcharset
@@ -3153,22 +3287,21 @@ uninstall-localcharset: all-local
 	  $(SED) -f ref-del.sed $(charset_alias) > $(charset_tmp); \
 	  if $(GREP) '^# Packages using this file: $$' $(charset_tmp) \
 	      > /dev/null; then \
-	    rm -f $(charset_alias); \
+	    rm -fv $(charset_alias); \
 	  else \
 	    $(INSTALL_DATA) $(charset_tmp) $(charset_alias); \
 	  fi; \
-	  rm -f $(charset_tmp); \
+	  rm -fv $(charset_tmp); \
 	fi
 
 charset.alias: config.charset
 	$(AM_V_GEN)rm -f t-$@ $@ && \
 	$(SHELL) $(srcdir)/config.charset '$(host)' > t-$@ && \
-	mv t-$@ $@
+	mv -v t-$@ $@
 .sin.sed:
 	$(AM_V_GEN)rm -f t-$@ $@ && \
 	$(SED) -e '/^#/d' -e 's/@''PACKAGE''@/$(PACKAGE)/g' $< > t-$@ && \
-	mv t-$@ $@
-
+	mv -v t-$@ $@
 # We need the following in order to create <stddef.h> when the system
 # does NOT have one that works with the given compiler.
 @GL_GENERATE_STDDEF_H_TRUE@stddef.h: stddef.in.h $(top_builddir)/config.status
@@ -3183,9 +3316,9 @@ charset.alias: config.charset
 @GL_GENERATE_STDDEF_H_TRUE@	      -e 's|@''REPLACE_NULL''@|$(REPLACE_NULL)|g' \
 @GL_GENERATE_STDDEF_H_TRUE@	      < $(srcdir)/stddef.in.h; \
 @GL_GENERATE_STDDEF_H_TRUE@	} > $@-t && \
-@GL_GENERATE_STDDEF_H_TRUE@	mv $@-t $@
+@GL_GENERATE_STDDEF_H_TRUE@	mv -v $@-t $@
 @GL_GENERATE_STDDEF_H_FALSE@stddef.h: $(top_builddir)/config.status
-@GL_GENERATE_STDDEF_H_FALSE@	rm -f $@
+@GL_GENERATE_STDDEF_H_FALSE@	rm -fv $@
 
 # Listed in the same order as the GNU makefile conventions, and
 # provided by autoconf 2.59c+.
@@ -3222,8 +3355,7 @@ configmake.h: Makefile
 	  echo '#define PKGLIBDIR "$(pkglibdir)"'; \
 	  echo '#define PKGLIBEXECDIR "$(pkglibexecdir)"'; \
 	} | $(SED) '/""/d' > $@-t && \
-	mv -f $@-t $@
-
+	mv -fv $@-t $@
 # We need the following in order to create <stdbool.h> when the system
 # does NOT have one that works.
 @GL_GENERATE_STDBOOL_H_TRUE@stdbool.h: stdbool.in.h $(top_builddir)/config.status
@@ -3231,10 +3363,9 @@ configmake.h: Makefile
 @GL_GENERATE_STDBOOL_H_TRUE@	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */'; \
 @GL_GENERATE_STDBOOL_H_TRUE@	  $(SED) -e 's/@''HAVE__BOOL''@/$(HAVE__BOOL)/g' < $(srcdir)/stdbool.in.h; \
 @GL_GENERATE_STDBOOL_H_TRUE@	} > $@-t && \
-@GL_GENERATE_STDBOOL_H_TRUE@	mv $@-t $@
+@GL_GENERATE_STDBOOL_H_TRUE@	mv -v $@-t $@
 @GL_GENERATE_STDBOOL_H_FALSE@stdbool.h: $(top_builddir)/config.status
-@GL_GENERATE_STDBOOL_H_FALSE@	rm -f $@
-
+@GL_GENERATE_STDBOOL_H_FALSE@	rm -fv $@
 # We need the following in order to create <stdio.h> when the system
 # does NOT have one that works with the given compiler.
 stdio.h: stdio.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
@@ -3352,8 +3483,7 @@ stdio.h: stdio.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) 
 	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
 	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)'; \
 	} > $@-t && \
-	mv $@-t $@
-
+	mv -v $@-t $@
 # We need the following in order to create <signal.h> when the system
 # does NOT have a complete one.
 signal.h: signal.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
@@ -3385,7 +3515,80 @@ signal.h: signal.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H
 	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
 	      < $(srcdir)/signal.in.h; \
 	} > $@-t && \
-	mv $@-t $@
+	mv -v $@-t $@
+
+be_able_to_check: $(check_PROGRAMS)
+	ls $(check_PROGRAMS)
+.PHONY: be_able_to_check
+
+test-clean: clean-checkPROGRAMS
+	-rm -fv $(chdirlongtest_OBJECTS)
+	-rm -fv $(getopt1test_OBJECTS)
+	-rm -fv $(getopttest_OBJECTS)
+	-rm -fv $(mktimetest_OBJECTS)
+	-rm -fv $(check_PROGRAMS)
+.PHONY: test-clean
+# We need the following in order to create <errno.h> when the system
+# does NOT have one that is POSIX compliant.
+@GL_GENERATE_ERRNO_H_TRUE@errno.h: errno.in.h $(top_builddir)/config.status
+@GL_GENERATE_ERRNO_H_TRUE@	$(AM_V_GEN)rm -f $@-t $@ && \
+@GL_GENERATE_ERRNO_H_TRUE@	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */' && \
+@GL_GENERATE_ERRNO_H_TRUE@	  $(SED) -e 's|@''GUARD_PREFIX''@|${gl_include_guard_prefix}|g' \
+@GL_GENERATE_ERRNO_H_TRUE@	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
+@GL_GENERATE_ERRNO_H_TRUE@	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
+@GL_GENERATE_ERRNO_H_TRUE@	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
+@GL_GENERATE_ERRNO_H_TRUE@	      -e 's|@''NEXT_ERRNO_H''@|$(NEXT_ERRNO_H)|g' \
+@GL_GENERATE_ERRNO_H_TRUE@	      -e 's|@''EMULTIHOP_HIDDEN''@|$(EMULTIHOP_HIDDEN)|g' \
+@GL_GENERATE_ERRNO_H_TRUE@	      -e 's|@''EMULTIHOP_VALUE''@|$(EMULTIHOP_VALUE)|g' \
+@GL_GENERATE_ERRNO_H_TRUE@	      -e 's|@''ENOLINK_HIDDEN''@|$(ENOLINK_HIDDEN)|g' \
+@GL_GENERATE_ERRNO_H_TRUE@	      -e 's|@''ENOLINK_VALUE''@|$(ENOLINK_VALUE)|g' \
+@GL_GENERATE_ERRNO_H_TRUE@	      -e 's|@''EOVERFLOW_HIDDEN''@|$(EOVERFLOW_HIDDEN)|g' \
+@GL_GENERATE_ERRNO_H_TRUE@	      -e 's|@''EOVERFLOW_VALUE''@|$(EOVERFLOW_VALUE)|g' \
+@GL_GENERATE_ERRNO_H_TRUE@	      < $(srcdir)/errno.in.h; \
+@GL_GENERATE_ERRNO_H_TRUE@	} > $@-t && \
+@GL_GENERATE_ERRNO_H_TRUE@	mv -v $@-t $@
+@GL_GENERATE_ERRNO_H_FALSE@errno.h: $(top_builddir)/config.status
+@GL_GENERATE_ERRNO_H_FALSE@	rm -fv $@
+# We need the following in order to create <sys/socket.h> when the system
+# does NOT have one that works with the given compiler.
+sys/socket.h: sys_socket.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(WARN_ON_USE_H) $(ARG_NONNULL_H)
+	$(AM_V_at)$(MKDIR_P) sys
+	$(AM_V_GEN)rm -f $@-t $@ && \
+	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */'; \
+	  $(SED) -e 's|@''GUARD_PREFIX''@|${gl_include_guard_prefix}|g' \
+	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
+	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|@PRAGMA_SYSTEM_HEADER@|g' \
+	      -e 's|@''PRAGMA_COLUMNS''@|@PRAGMA_COLUMNS@|g' \
+	      -e 's|@''NEXT_SYS_SOCKET_H''@|$(NEXT_SYS_SOCKET_H)|g' \
+	      -e 's|@''HAVE_SYS_SOCKET_H''@|$(HAVE_SYS_SOCKET_H)|g' \
+	      -e 's/@''GNULIB_CLOSE''@/$(GNULIB_CLOSE)/g' \
+	      -e 's/@''GNULIB_SOCKET''@/$(GNULIB_SOCKET)/g' \
+	      -e 's/@''GNULIB_CONNECT''@/$(GNULIB_CONNECT)/g' \
+	      -e 's/@''GNULIB_ACCEPT''@/$(GNULIB_ACCEPT)/g' \
+	      -e 's/@''GNULIB_BIND''@/$(GNULIB_BIND)/g' \
+	      -e 's/@''GNULIB_GETPEERNAME''@/$(GNULIB_GETPEERNAME)/g' \
+	      -e 's/@''GNULIB_GETSOCKNAME''@/$(GNULIB_GETSOCKNAME)/g' \
+	      -e 's/@''GNULIB_GETSOCKOPT''@/$(GNULIB_GETSOCKOPT)/g' \
+	      -e 's/@''GNULIB_LISTEN''@/$(GNULIB_LISTEN)/g' \
+	      -e 's/@''GNULIB_RECV''@/$(GNULIB_RECV)/g' \
+	      -e 's/@''GNULIB_SEND''@/$(GNULIB_SEND)/g' \
+	      -e 's/@''GNULIB_RECVFROM''@/$(GNULIB_RECVFROM)/g' \
+	      -e 's/@''GNULIB_SENDTO''@/$(GNULIB_SENDTO)/g' \
+	      -e 's/@''GNULIB_SETSOCKOPT''@/$(GNULIB_SETSOCKOPT)/g' \
+	      -e 's/@''GNULIB_SHUTDOWN''@/$(GNULIB_SHUTDOWN)/g' \
+	      -e 's/@''GNULIB_ACCEPT4''@/$(GNULIB_ACCEPT4)/g' \
+	      -e 's|@''HAVE_WINSOCK2_H''@|$(HAVE_WINSOCK2_H)|g' \
+	      -e 's|@''HAVE_WS2TCPIP_H''@|$(HAVE_WS2TCPIP_H)|g' \
+	      -e 's|@''HAVE_STRUCT_SOCKADDR_STORAGE''@|$(HAVE_STRUCT_SOCKADDR_STORAGE)|g' \
+	      -e 's|@''HAVE_STRUCT_SOCKADDR_STORAGE_SS_FAMILY''@|$(HAVE_STRUCT_SOCKADDR_STORAGE_SS_FAMILY)|g' \
+	      -e 's|@''HAVE_SA_FAMILY_T''@|$(HAVE_SA_FAMILY_T)|g' \
+	      -e 's|@''HAVE_ACCEPT4''@|$(HAVE_ACCEPT4)|g' \
+	      -e '/definitions of _GL_FUNCDECL_RPL/r $(CXXDEFS_H)' \
+	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
+	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
+	      < $(srcdir)/sys_socket.in.h; \
+	} > $@-t && \
+	mv -fv $@-t $@
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

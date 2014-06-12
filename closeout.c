@@ -99,12 +99,11 @@ close_stdout_set_ignore_EPIPE (bool ignore)
    errors.  Also, applications should not use tmpfile, since _exit
    can bypass the removal of these files.
 
-   It's important to detect such failures and exit nonzero because many
+   It is important to detect such failures and exit nonzero because many
    tools (most notably 'make' and other build-management systems) depend
    on being able to detect failure in other tools via their exit status.  */
 
-void
-close_stdout (void)
+void close_stdout(void)
 {
   if (close_stream (stdout) != 0
       && !(ignore_EPIPE && errno == EPIPE))
@@ -122,3 +121,5 @@ close_stdout (void)
    if (close_stream (stderr) != 0)
      _exit (exit_failure);
 }
+
+/* EOF */

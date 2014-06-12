@@ -1,0 +1,12 @@
+# sometimes junk can end up here that does not belong due to the way the
+# argp-standalone dist (and distcheck) works
+m4/*
+build-aux/*
+malloc.c
+mempcpy.c
+rawmemchr.c
+rawmemchr.h
+realloc.c
+strchrnul.c
+strndup.c
+strnlen.c

@@ -3,11 +3,11 @@ dnl# Process this file with autoconf to produce a configure script.
 
 dnl# This configure.ac was originally only for building a standalone argp
 dnl# library.
-AC_PREREQ([2.69])
-AC_INIT([argp],[standalone-1.3])
-AC_CONFIG_SRCDIR([argp-ba.c])
+AC_PREREQ([2.69])dnl
+AC_INIT([argp],[standalone-1.3])dnl
+AC_CONFIG_SRCDIR([argp-ba.c])dnl
 AC_CONFIG_AUX_DIR([../../build-aux]) dnl# share tools w/parent
-AM_INIT_AUTOMAKE([1.8 foreign no-dependencies subdir-objects])
+AM_INIT_AUTOMAKE([1.8 foreign no-dependencies subdir-objects])dnl
 AM_MAINTAINER_MODE
 AC_CONFIG_MACRO_DIR([../../m4]) dnl# inherit macros from parent project
 AC_CONFIG_LIBOBJ_DIR([../..]) dnl# try to share libobjs w/parent
@@ -15,14 +15,18 @@ if test "x${LIBOBJDIR}" = "x"; then
   # automake implicit rules require the "/" at the end:
   test -z "${LIBOBJDIR}" && export LIBOBJDIR="gnulib_replacement_funcs/"
 fi
-AC_CONFIG_TESTDIR([testsuite])
-AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_TESTDIR([testsuite])dnl
+AC_CONFIG_HEADERS([config.h])dnl
 
 # GNU libc defaults to supplying the ISO C library functions only. The
 # _GNU_SOURCE define enables these extensions, in particular we want
 # errno.h to declare program_invocation_name. Enable it on all
 # systems; no problems have been reported with it so far.
+m4_ifdef([gl_USE_SYSTEM_EXTENSIONS],[
+gl_USE_SYSTEM_EXTENSIONS
+],[
 AC_USE_SYSTEM_EXTENSIONS
+])dnl
 	
 # Checks for programs.
 AC_PROG_INSTALL
@@ -37,18 +41,18 @@ fi
 
 # Checks for libraries.
 LSH_LIB_ARGP([
-AC_MSG_NOTICE([your argp already works, building this version anyways though])
+AC_MSG_NOTICE([your argp already works, building this version anyways though])dnl
 ],[
-AC_MSG_NOTICE([you do not have a working argp; I assume that that is why you are building this version])
-])
+AC_MSG_NOTICE([you do not have a working argp; I assume that that is why you are building this version])dnl
+])dnl
 
 # Checks for header files.
 AC_HEADER_ASSERT
 AC_HEADER_TIME
-AX_CREATE_STDINT_H([argp-stdint.h],[])
+AX_CREATE_STDINT_H([argp-stdint.h],[])dnl
 AC_CHECK_HEADERS([assert.h errno.h libintl.h libio/libioP.h \
                   limits.h linewrap.h malloc.h malloc/malloc.h \
-                  stddef.h time.h varargs.h])
+                  stddef.h time.h varargs.h])dnl
 # ctype.h and stdarg.h are checked elsewhere
 
 # Checks for typedefs, structures, and compiler characteristics.
@@ -76,16 +80,23 @@ AC_FUNC_VPRINTF
 m4_ifdef([LSH_FUNC_STRERROR],[
 LSH_FUNC_STRERROR
 ],[
-AC_CHECK_FUNCS([strerror])
-])
+AC_FUNC_STRERROR_R
+AC_CHECK_FUNCS([strerror])dnl
+m4_ifdef([gl_FUNC_STRERROR_R],[
+  gl_FUNC_STRERROR_R
+  if test ${HAVE_DECL_STRERROR_R} = 0; then
+    gl_PREREQ_STRERROR_R
+  fi
+])dnl
+])dnl
 m4_ifdef([gl_FUNC_STRSIGNAL],[
   gl_FUNC_STRSIGNAL
   m4_ifdef([LSH_FUNC_STRSIGNAL],[
     LSH_FUNC_STRSIGNAL
-  ])
-])
+  ])dnl
+])dnl
 
-AC_REPLACE_FUNCS([mempcpy rawmemchr strndup strchrnul])
+AC_REPLACE_FUNCS([mempcpy rawmemchr strndup strchrnul])dnl
 # keep autoscan happy:
 if test "x" = "y"; then
   test -x `which autoscan`
@@ -98,7 +109,7 @@ AC_DEFUN([ARGP_CHECK_FUNC],
   [AS_VAR_PUSHDEF([ac_func],[m4_substr([$2],0,m4_index([$2],[(]))])
    AS_VAR_PUSHDEF([ac_var],[ac_cv_func_call_]ac_func)
    AH_TEMPLATE(AS_TR_CPP(HAVE_[]ac_func),
-               [Define to 1 if you have the `]ac_func[' function.])
+               [Define to 1 if you have the `]ac_func[' function.])dnl
    AC_CACHE_CHECK([for $2], ac_var,
      [AC_LINK_IFELSE([AC_LANG_PROGRAM([[$1]],[[$2]])],
                      [AS_VAR_SET([ac_var],[yes])],
@@ -107,29 +118,30 @@ AC_DEFUN([ARGP_CHECK_FUNC],
      ifelse([$3],[],
 	    [AC_DEFINE_UNQUOTED(AS_TR_CPP(HAVE_[]ac_func))],
 	    [$3
-])
+])dnl
    else
      ifelse([$4],[],[true],[$4])
    fi
-   AS_VAR_POPDEF([ac_var])
-   AS_VAR_POPDEF([ac_func])
-   ])
+   AS_VAR_POPDEF([ac_var])dnl
+   AS_VAR_POPDEF([ac_func])dnl
+   ])dnl
 
 # At least on freebsd, putc_unlocked is a macro, so the standard
 # AC_CHECK_FUNCS does NOT work well.
-ARGP_CHECK_FUNC([#include <stdio.h>],[putc_unlocked('x', stdout)])
+ARGP_CHECK_FUNC([#include <stdio.h>],[putc_unlocked('x', stdout)])dnl
 
-AC_CHECK_FUNCS([flockfile])
-AC_CHECK_FUNCS([fputs_unlocked fwrite_unlocked])
+AC_CHECK_FUNCS([flockfile])dnl
+AC_CHECK_FUNCS([fputs_unlocked fwrite_unlocked])dnl
 
 # Used only by argp-test.c, so do NOT use AC_REPLACE_FUNCS.
-AC_CHECK_FUNCS([strdup asprintf])
+AC_CHECK_FUNCS([strdup asprintf])dnl
 
 # Other funcs that should just be "CHECK"ed instead of "REPLACE"d:
 AC_CHECK_FUNCS([atoi isascii memchr memmove memset strchr strrchr strncmp])
 
+# Checks for declarations:
 AC_CHECK_DECLS([program_invocation_name, program_invocation_short_name],
-               [],[],[[#include <errno.h>]])
+               [],[],[[#include <errno.h>]])dnl
 
 # Set these flags *last*, or else the test programs will NOT compile:
 if test "x${GCC}" = "xyes"; then
@@ -139,7 +151,7 @@ if test "x${GCC}" = "xyes"; then
   else
     CFLAGS="${CFLAGS} -ggdb3"
   fi
-  CFLAGS="${CFLAGS} -Wall -W \
+  CFLAGS="${CFLAGS} -Wall -Wextra -Wimplicit \
  -Wmissing-prototypes -Wmissing-declarations -Wstrict-prototypes \
  -Waggregate-return \
  -Wpointer-arith -Wbad-function-cast -Wnested-externs"
@@ -147,5 +159,5 @@ fi
 
 CPPFLAGS="${CPPFLAGS} -I${srcdir}"
 
-AC_CONFIG_FILES([Makefile testsuite/Makefile])
+AC_CONFIG_FILES([Makefile testsuite/Makefile])dnl
 AC_OUTPUT

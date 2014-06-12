@@ -217,16 +217,20 @@ chdir_long(char *dir)
 
 char *program_name;
 
-int
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
   char *line = NULL;
   size_t n = 0;
   int len;
 
   program_name = argv[0];
+
+  printf("Debug message: running from path '%s' with '%i' args.\n",
+		 program_name, argc);
+
   atexit(close_stdout);
 
+  printf("Enter directory to change to> ");
   len = getline(&line, &n, stdin);
   if (len < 0) {
       int saved_errno = errno;
@@ -237,21 +241,32 @@ main(int argc, char *argv[])
       error(EXIT_FAILURE, saved_errno, "reading standard input");
   } else if (len == 0) {
 	  exit(0);
+  } else if (len > 0) {
+	  printf("line of input has length '%i'\n", len);
   }
 
+  /* NUL-terminate: */
   if (line[(len - 1)] == '\n') {
+	  printf("NUL-terminating line of input...\n");
 	  line[(len - 1)] = '\0';
+  } else {
+	  printf("No need to NUL-terminate input.\n");
   }
 
   if (chdir_long(line) != 0) {
 	  error(EXIT_FAILURE, errno, "chdir_long failed: %s", line);
+  } else {
+	  printf("chdir_long() returned 0; that means that it should have been successful.\n");
   }
 
   if (argc <= 1) {
+	  int pwd_retval;
       /* Using 'pwd' here makes sense only if it is a robust implementation,
-       * like the one in coreutils after the 2004-04-19 changes.  */
+       * like the one in coreutils after the 2004-04-19 changes. */
       char const *cmd = "pwd";
-      execlp(cmd, (char *)NULL);
+	  printf("going to execute '%s'...\n", cmd);
+      pwd_retval = execlp(cmd, (char *)NULL);
+	  printf("executing '%s' returned '%i'\n", cmd, pwd_retval);
       error(EXIT_FAILURE, errno, "%s", cmd);
   }
 

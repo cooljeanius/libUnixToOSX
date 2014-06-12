@@ -89,7 +89,7 @@ dnl# configure.ac when using autoheader 2.62.
 #ifndef __EXTENSIONS__
 # undef __EXTENSIONS__
 #endif /* !__EXTENSIONS__ */
-  ])
+  ])dnl
   AC_CACHE_CHECK([whether it is safe to define __EXTENSIONS__],
     [ac_cv_safe_to_define___extensions__],
     [AC_COMPILE_IFELSE(
@@ -148,8 +148,7 @@ AC_DEFINE([_GNU_SOURCE])dnl
 # ------------------------
 # Enable extensions on systems that normally disable them,
 # typically due to standards-conformance issues.
-AC_DEFUN_ONCE([gl_USE_SYSTEM_EXTENSIONS],
-[
+AC_DEFUN_ONCE([gl_USE_SYSTEM_EXTENSIONS],[
   dnl# Require this macro before AC_USE_SYSTEM_EXTENSIONS.
   dnl# gnulib does not need it. But if it gets required by third-party
   dnl# macros after AC_USE_SYSTEM_EXTENSIONS is required,
@@ -159,9 +158,9 @@ AC_DEFUN_ONCE([gl_USE_SYSTEM_EXTENSIONS],
   dnl# AC_GNU_SOURCE, and AC_MINIX. If people still use AC_AIX or AC_MINIX,
   dnl# then they are out of luck.
   AC_REQUIRE([AC_GNU_SOURCE])dnl
-
+  dnl# Now we can actually do AC_USE_SYSTEM_EXTENSIONS here:
   AC_REQUIRE([AC_USE_SYSTEM_EXTENSIONS])dnl
-  
+  dnl# throw these in as well:
   AC_REQUIRE([AC_EXEEXT])dnl
   AC_REQUIRE([AC_OBJEXT])dnl
 ])dnl

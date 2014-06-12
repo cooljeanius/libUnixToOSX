@@ -5,20 +5,10 @@ AC_DEFUN([AC_C_CHARACTERISTICS_UMBRELLA],[
   AC_REQUIRE([AC_C_BIGENDIAN])dnl
   AC_REQUIRE([AC_C_CHAR_UNSIGNED])dnl
   AC_REQUIRE([AC_C_CONST])dnl
-  dnl# might want to move these to be required now that we are inside a
-  dnl# defun-ed macro:
-  if test "x${ac_cv_c_inline}" = "x"; then
-    test -z "${ac_cv_c_inline}"
-    AC_C_INLINE
-  elif test "x${gl_cv_c_inline_effective}" = "x"; then
-    test -z "${gl_cv_c_inline_effective}"
-    gl_INLINE
-    gl_EXTERN_INLINE
-  fi
-  if test "x${ac_cv_c_restrict}" = "x"; then
-    test -z "${ac_cv_c_restrict}"
-    AC_C_RESTRICT
-  fi
+  AC_REQUIRE([AC_C_INLINE])dnl
+  AC_REQUIRE([gl_INLINE])dnl
+  AC_REQUIRE([gl_EXTERN_INLINE])dnl
+  AC_REQUIRE([AC_C_RESTRICT])dnl
   AC_REQUIRE([AC_C_PROTOTYPES])dnl
   AC_REQUIRE([AC_C_VOLATILE])dnl
 ])dnl

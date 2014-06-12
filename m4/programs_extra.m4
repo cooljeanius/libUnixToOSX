@@ -15,6 +15,7 @@ AC_DEFUN([AC_REQUIRE_COMPILER],[
   AC_REQUIRE([AC_PROG_OBJCPP])dnl
   AC_REQUIRE([AC_PROG_OBJCXX])dnl
   AC_REQUIRE([AC_PROG_OBJCXXCPP])dnl
+  XORG_MACROS_VERSION([1.14])dnl
   AC_REQUIRE([XORG_COMPILER_BRAND])dnl
 ])dnl
 
@@ -30,6 +31,7 @@ AC_DEFUN([AC_REQUIRE_INSTALL],[
   AC_REQUIRE([AC_PROG_INSTALL])dnl
   AC_REQUIRE([AM_PROG_INSTALL_SH])dnl
   AC_REQUIRE([AM_PROG_INSTALL_STRIP])dnl
+  XORG_MACROS_VERSION([1.4])dnl
   AC_REQUIRE([XORG_INSTALL])dnl
 ])dnl
 dnl# (now included as part of AC_FILESYSTEM_OPERATION_PROGS below)
@@ -70,7 +72,9 @@ AC_DEFUN([AC_TEXT_FILTER_PROGS],[
   AC_REQUIRE([AC_REQUIRE_GREPS])dnl
   AC_REQUIRE([AC_REQUIRE_SED])dnl
   AC_REQUIRE([AC_PROG_AWK])dnl
+  XORG_MACROS_VERSION([1.19])dnl
   AC_REQUIRE([XORG_WITH_M4])dnl
+  XORG_MACROS_VERSION([1.2])dnl
   AC_REQUIRE([XORG_CHANGELOG])dnl
 ])dnl
 
@@ -88,11 +92,13 @@ dnl# (now included as part of AC_REQUIRE_LINKER below)
 dnl# checks for linker characteristics:
 AC_DEFUN([AC_REQUIRE_LINKER],[
   AC_REQUIRE([AC_PROG_LDD])dnl
+  XORG_MACROS_VERSION([1.13])dnl
   AC_REQUIRE([XORG_LD_WRAP])dnl
   AC_REQUIRE([LT_PATH_LD])dnl
 ])dnl
 
 AC_DEFUN([AC_REQUIRE_LINT],[
+  XORG_MACROS_VERSION([1.1])dnl
   AC_REQUIRE([XORG_WITH_LINT])dnl
   AC_REQUIRE([XORG_LINT_LIBRARY])dnl
 ])dnl
@@ -102,9 +108,10 @@ AC_DEFUN([AC_PROG_KERNEL_TOOLS],[
   dnl# FIXME: are all of these correct?
   AC_CHECK_PROG([LSMOD],[lsmod])
   if test "x${LSMOD}" = "x" || test "x${LSMOD}" = "xno"; then
-    AC_CHECK_PROG([KEXTUTIL],[kextutil])dnl
-    AC_CHECK_PROG([KEXTSTAT],[kextstat])dnl
-    AC_CHECK_PROG([KEXTLOAD],[kextload])dnl
-    AC_CHECK_PROG([KMODUNLOAD],[kmodunload])
+    #FIXME: config.log reports a path found for these, but still says "no":
+    AC_CHECK_PROG([KEXTUTIL],[kextutil],[],[])dnl
+    AC_CHECK_PROG([KEXTSTAT],[kextstat],[],[])dnl
+    AC_CHECK_PROG([KEXTLOAD],[kextload],[],[])dnl
+    AC_CHECK_PROG([KMODUNLOAD],[kmodunload],[],[])
   fi
 ])dnl

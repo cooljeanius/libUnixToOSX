@@ -131,7 +131,7 @@ add_dotbin(const char *filename)
 
 #ifndef LIBDIRS
 # if defined(LIBDIR) && 0
-#  define LIBDIRS LIBDIR, /* pasting with '##' fails here */
+#  define LIBDIRS LIBDIR, /* pasting the comma on with '##' fails here */
 # else
 #  define LIBDIRS NULL, /* likewise in this condition */
 # endif /* LIBDIR */
@@ -218,8 +218,7 @@ static void activate_libdirs(void)
 #  define INSTALLDIR "." /* I was tempted to use '/dev/null' in this case... */
 # endif /* BINDIR || SBINDIR || INSTALLPREFIX */
 #endif /* !INSTALLDIR */
-int
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
   char *full_program_name;
 

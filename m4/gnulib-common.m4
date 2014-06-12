@@ -29,7 +29,7 @@ AC_DEFUN([gl_COMMON_SEMI_UMBRELLA],[
 
 AC_DEFUN([gl_COMMON_BODY],[
   AH_VERBATIM([_Noreturn],[
-/* The _Noreturn keyword of C11.  */
+/* The _Noreturn keyword of C11: */
 #if ! (defined _Noreturn \
        || (defined __STDC_VERSION__ && (201112 <= __STDC_VERSION__)))
 # if ((3 <= __GNUC__) || ((__GNUC__ == 2) && (8 <= __GNUC_MINOR__)) \
@@ -41,7 +41,7 @@ AC_DEFUN([gl_COMMON_BODY],[
 #  define _Noreturn
 # endif /* old GCC or old Sun CC or old MSVC */
 #endif /* !_Noreturn or pre-C11 version of C */
-  ])
+  ])dnl
   AH_VERBATIM([isoc99_inline],[
 /* Work around a bug in Apple GCC 4.0.1 build 5465: In C99 mode,
  * it supports the ISO C 99 semantics of 'extern inline'
@@ -53,7 +53,7 @@ AC_DEFUN([gl_COMMON_BODY],[
 #if defined __APPLE__ && defined __MACH__ && (__APPLE_CC__ >= 5465) && !defined __cplusplus && (__STDC_VERSION__ >= 199901L) && !defined __GNUC_STDC_INLINE__
 # define __GNUC_STDC_INLINE__ 1
 #endif /* Apple GCC */
-  ])
+  ])dnl
   AH_VERBATIM([unused_parameter],[
 /* Define as a marker that can be attached to declarations that might not
  * be used. This helps to reduce warnings, such as from
@@ -80,7 +80,7 @@ AC_DEFUN([gl_COMMON_BODY],[
 #else
 # define _GL_ATTRIBUTE_CONST /* empty */
 #endif /* GCC 2.95+ */
-  ])
+  ])dnl
   dnl# Preparation for running test programs:
   dnl# Tell glibc to write diagnostics from -D_FORTIFY_SOURCE=2 to stderr,
   dnl# not to /dev/tty, so they can be redirected to log files.
@@ -206,9 +206,9 @@ AC_DEFUN([gl_ASSERT_NO_GNULIB_TESTS],
 
 # Test whether <features.h> exists.
 # Set HAVE_FEATURES_H.
-AC_DEFUN([gl_FEATURES_H],
-[
-  AC_CHECK_HEADERS_ONCE([features.h])
+AC_DEFUN([gl_FEATURES_H],[
+  AC_CHECK_HEADERS_ONCE([features.h])dnl
+  # transform cache value:
   if test "x${ac_cv_header_features_h}" = "xyes"; then
     HAVE_FEATURES_H=1
   else
@@ -252,8 +252,8 @@ AC_DEFUN([gl_PROG_CC_C99],
   dnl# that supports mixing AC_PROG_CC_C99 calls with AC_PROG_CC_STDC calls
   m4_version_prereq([9.0],
     [AC_REQUIRE([AC_PROG_CC_C99])],
-    [AC_REQUIRE([AC_PROG_CC_STDC])])
-])
+    [AC_REQUIRE([AC_PROG_CC_STDC])])dnl
+])dnl
 
 # gl_PROG_AR_RANLIB
 # Determines the values for AR, ARFLAGS, RANLIB that fit with the compiler.
@@ -354,17 +354,17 @@ AC_DEFUN([AC_C_RESTRICT],
       [ac_cv_c_restrict=${ac_kw}])
      test "x${ac_cv_c_restrict}" != "xno" && break
    done
-  ])
+  ])dnl
  AH_VERBATIM([restrict],[
 /* Define to the equivalent of the C99 'restrict' keyword, or to
- * nothing if this is not supported.  Do not define if restrict is
- * supported directly.  */
+ * nothing if this is not supported. Do NOT define if restrict is
+ * supported directly: */
 #undef restrict
 /* Work around a bug in Sun C++: it does not support _Restrict, even
  * though the corresponding Sun C compiler does, which causes
- * "#define restrict _Restrict" in the previous line.  Perhaps some future
+ * "#define restrict _Restrict" in the previous line. Perhaps some future
  * version of Sun C++ will work with _Restrict; if so, it will probably
- * define __RESTRICT, just as Sun C does.  */
+ * define __RESTRICT, just as Sun C does: */
 #if defined __SUNPRO_CC && !defined __RESTRICT
 # define _Restrict
 #endif /* __SUNPRO_CC && !__RESTRICT */
@@ -374,8 +374,8 @@ AC_DEFUN([AC_C_RESTRICT],
    no) AC_DEFINE([restrict],[]) ;;
    *)  AC_DEFINE_UNQUOTED([restrict],[${ac_cv_c_restrict}]) ;;
  esac
-])
-])
+])dnl
+])dnl
 
 # gl_BIGENDIAN
 # is like AC_C_BIGENDIAN, except that it can be AC_REQUIREd.
@@ -383,7 +383,7 @@ AC_DEFUN([AC_C_RESTRICT],
 # some macros invoke AC_C_BIGENDIAN with arguments.
 AC_DEFUN([gl_BIGENDIAN],
 [
-  AC_C_BIGENDIAN
+  AC_C_BIGENDIAN([],[],[],[])dnl
 ])dnl
 
 # gl_CACHE_VAL_SILENT(cache-id, command-to-set-it)

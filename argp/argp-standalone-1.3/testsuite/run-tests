@@ -3,7 +3,7 @@
 failed=0
 all=0
 
-if [ -z "$srcdir" ] ; then
+if [ -z "${srcdir}" ] ; then
   srcdir=`pwd`
 fi
 
@@ -13,7 +13,7 @@ find_program () {
   if [ -x "$1" ] ; then
     echo "./$1"
   else
-    echo "$srcdir/$1"
+    echo "${srcdir}/$1"
   fi
 }
 

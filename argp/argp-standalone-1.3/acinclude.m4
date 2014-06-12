@@ -1,8 +1,8 @@
 dnl# Try to detect the type of the third arg to getsockname() et al:
-AC_DEFUN([LSH_TYPE_SOCKLEN_T],
-[AC_REQUIRE([AC_PROG_EGREP])
-AC_REQUIRE([AC_PROG_CPP])
-AH_TEMPLATE([socklen_t],[Length type used by getsockopt])
+AC_DEFUN([LSH_TYPE_SOCKLEN_T],[
+AC_REQUIRE([AC_PROG_EGREP])dnl
+AC_REQUIRE([AC_PROG_CPP])dnl
+AH_TEMPLATE([socklen_t],[Length type used by getsockopt])dnl
 AC_CACHE_CHECK([for socklen_t in sys/socket.h],[ac_cv_type_socklen_t],
 [AC_EGREP_HEADER([socklen_t],[sys/socket.h],
   [ac_cv_type_socklen_t=yes],[ac_cv_type_socklen_t=no])])
@@ -14,18 +14,18 @@ if test "x${ac_cv_type_socklen_t}" = "xno"; then
 #endif /* _AIX */
 ],[
 AC_MSG_RESULT([yes])
-AC_DEFINE([socklen_t],[size_t])
+AC_DEFINE([socklen_t],[size_t])dnl
 ],[
 AC_MSG_RESULT([no])
-AC_DEFINE([socklen_t],[int])
+AC_DEFINE([socklen_t],[int])dnl
 ])
 fi
-])
+])dnl
 
 dnl# usage:
-dnl# LSH_PATH_ADD([path-id],[directory])
-AC_DEFUN([LSH_PATH_ADD],
-[AC_MSG_CHECKING([$2])
+dnl# LSH_PATH_ADD([path-id],[directory])dnl
+AC_DEFUN([LSH_PATH_ADD],[
+AC_MSG_CHECKING([$2])
 ac_exists=no
 if test -d "$2/." ; then
   ac_real_dir=`cd $2 && pwd`
@@ -51,16 +51,16 @@ fi
 if test "x${ac_exists}" = "xno"; then
   AC_MSG_RESULT([not found])
 fi
-])
+])dnl
 
 dnl# usage:
-dnl# LSH_RPATH_ADD([dir])
-AC_DEFUN([LSH_RPATH_ADD],[LSH_PATH_ADD([RPATH_CANDIDATE],[$1])])
+dnl# LSH_RPATH_ADD([dir])dnl
+AC_DEFUN([LSH_RPATH_ADD],[LSH_PATH_ADD([RPATH_CANDIDATE],[$1])])dnl
 
 dnl# usage:
-dnl# LSH_RPATH_INIT([candidates])
-AC_DEFUN([LSH_RPATH_INIT],
-[AC_MSG_CHECKING([for -R flag])
+dnl# LSH_RPATH_INIT([candidates])dnl
+AC_DEFUN([LSH_RPATH_INIT],[
+AC_MSG_CHECKING([for -R flag])
 RPATHFLAG=''
 case `uname -sr` in
   OSF1\ V4.*)
@@ -97,22 +97,22 @@ fi
 RPATH_CANDIDATE_REAL_DIRS=''
 RPATH_CANDIDATE_DIRS=''
 
-AC_MSG_RESULT([Searching for libraries])
+AC_MSG_RESULT([Searching for libraries])dnl
 
 for d in $1; do
   LSH_RPATH_ADD([${d}])
 done
-])    
+])dnl
 
 dnl# Try to execute a main program, and if it fails, try adding some
 dnl# -R flag.
 dnl# LSH_RPATH_FIX
-AC_DEFUN([LSH_RPATH_FIX],
-[if test "x${cross_compiling}" = "xno" -a "x${RPATHFLAG}" != "x"; then
+AC_DEFUN([LSH_RPATH_FIX],[
+if test "x${cross_compiling}" = "xno" -a "x${RPATHFLAG}" != "x"; then
   ac_success=no
   AC_RUN_IFELSE([AC_LANG_SOURCE([[
 int main(int argc, char **argv) { return 0; }
-  ]])],[ac_success=yes],[ac_success=no],[:])
+  ]])],[ac_success=yes],[ac_success=no],[:])dnl
   
   if test "x${ac_success}" = "xno"; then
     AC_MSG_CHECKING([Running simple test program failed. Trying -R flags])
@@ -140,14 +140,14 @@ int main(int argc, char **argv) { return 0; }
     AC_MSG_RESULT([failed])
   fi
 fi
-])
+])dnl
 
 dnl# Like AC_CHECK_LIB, but uses ${KRB_LIBS} rather than ${LIBS}.
 dnl# LSH_CHECK_KRB_LIB([LIBRARY],[FUNCTION],[ACTION-IF-FOUND],
-dnl#                   [ACTION-IF-NOT-FOUND],[OTHER-LIBRARIES])
+dnl#                   [ACTION-IF-NOT-FOUND],[OTHER-LIBRARIES])dnl
 
-AC_DEFUN([LSH_CHECK_KRB_LIB],
-[AC_CHECK_LIB([$1],[$2],
+AC_DEFUN([LSH_CHECK_KRB_LIB],[
+AC_CHECK_LIB([$1],[$2],
   ifelse([$3],[],
       [[ac_tr_lib=HAVE_LIB`echo $1 | sed -e 's/[^a-zA-Z0-9_]/_/g' \
      	    -e 'y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/'`
@@ -156,18 +156,18 @@ AC_DEFUN([LSH_CHECK_KRB_LIB],
       ]],[$3]),
   ifelse([$4],[],[],[$4
 ])dnl
-,[$5 $KRB_LIBS])
-])
+,[$5 $KRB_LIBS])dnl
+])dnl
 
 dnl# LSH_LIB_ARGP([ACTION-IF-OK],[ACTION-IF-BAD])
-AC_DEFUN([LSH_LIB_ARGP],
-[ ac_argp_save_LIBS="${LIBS}"
+AC_DEFUN([LSH_LIB_ARGP],[
+  ac_argp_save_LIBS="${LIBS}"
   ac_argp_save_LDFLAGS="${LDFLAGS}"
   ac_argp_ok=no
-  # First check if we can link with argp.
-  AC_SEARCH_LIBS([argp_parse],[argp],
-  [ LSH_RPATH_FIX
-    AC_CHECK_HEADERS_ONCE([argp.h])
+  # First check if we can link with argp:
+  AC_SEARCH_LIBS([argp_parse],[argp],[
+    LSH_RPATH_FIX
+    AC_CHECK_HEADERS_ONCE([argp.h])dnl
     AC_CACHE_CHECK([for working argp],
       [lsh_cv_lib_argp_works],
       [AC_RUN_IFELSE([AC_LANG_SOURCE([[
@@ -185,8 +185,7 @@ struct child_state
   int n;
 };
 
-static error_t
-child_parser(int key, char *arg, struct argp_state *state)
+static error_t child_parser(int key, char *arg, struct argp_state *state)
 {
   struct child_state *input = (struct child_state *)state->input;
   
@@ -215,8 +214,7 @@ struct main_state
   int m;
 };
 
-static error_t
-main_parser(int key, char *arg, struct argp_state *state)
+static error_t main_parser(int key, char *arg, struct argp_state *state)
 {
   struct main_state *input = (struct main_state *)state->input;
 
@@ -266,8 +264,8 @@ int main(int argc, char **argv)
 }
       ]])],[lsh_cv_lib_argp_works=yes],
            [lsh_cv_lib_argp_works=no],
-           [lsh_cv_lib_argp_works=no])
-      ])
+           [lsh_cv_lib_argp_works=no])dnl
+      ])dnl
   dnl# end cache check
 
   if test "x${lsh_cv_lib_argp_works}" = "xyes"; then
@@ -277,7 +275,7 @@ int main(int argc, char **argv)
     LIBS="${ac_argp_save_LIBS}"
     LDFLAGS="${ac_argp_save_LDFLAGS}"
   fi
-  ])
+  ])dnl
 dnl# end search libs check
 
   if test "x${ac_argp_ok}" = "xyes"; then
@@ -285,14 +283,14 @@ dnl# end search libs check
   else
     ifelse([$2],[],[true],[$2])
   fi   
-])
+])dnl
 
 dnl# LSH_GCC_ATTRIBUTES
 dnl# Check for gcc's __attribute__ construction
 
-AC_DEFUN([LSH_GCC_ATTRIBUTES],
-[AC_CACHE_CHECK([for __attribute__],
-	        [lsh_cv_c_attribute],
+AC_DEFUN([LSH_GCC_ATTRIBUTES],[
+AC_CACHE_CHECK([for __attribute__],
+	       [lsh_cv_c_attribute],
 [AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
 #include <stdlib.h>
 ]],[[
@@ -307,8 +305,8 @@ foo(void)
   exit(1);
 }
 ]])],[lsh_cv_c_attribute=yes],
-     [lsh_cv_c_attribute=no])
-])
+     [lsh_cv_c_attribute=no])dnl
+])dnl
 dnl# end cache check
 
 AH_TEMPLATE([HAVE_GCC_ATTRIBUTE],
@@ -327,20 +325,20 @@ AH_BOTTOM([
 # define PRINTF_STYLE(f, a)
 # define UNUSED
 #endif /* __GNUC__ && HAVE_GCC_ATTRIBUTE */
-])
-])
+])dnl
+])dnl
 
-AC_DEFUN([LSH_GCC_FUNCTION_NAME],
-[# Check for gcc's __FUNCTION__ variable
+AC_DEFUN([LSH_GCC_FUNCTION_NAME],[
+# Check for gcc's __FUNCTION__ variable
 AH_TEMPLATE([HAVE_GCC_FUNCTION],
-	    [Define if the compiler understands __FUNCTION__])
+	    [Define if the compiler understands __FUNCTION__])dnl
 AH_BOTTOM([
 #if HAVE_GCC_FUNCTION
 # define FUNCTION_NAME __FUNCTION__
 #else
 # define FUNCTION_NAME "Unknown"
 #endif /* HAVE_GCC_FUNCTION */
-])
+])dnl
 
 AC_CACHE_CHECK([for __FUNCTION__],
 	       [lsh_cv_c_FUNCTION],
@@ -350,19 +348,19 @@ AC_CACHE_CHECK([for __FUNCTION__],
 	#endif /* GCC 3 */
         void foo(void) { char c = __FUNCTION__[0]; } 
   ]])],[lsh_cv_c_FUNCTION=yes],
-       [lsh_cv_c_FUNCTION=no])
-  ])
+       [lsh_cv_c_FUNCTION=no])dnl
+  ])dnl
 
 if test "x${lsh_cv_c_FUNCTION}" = "xyes"; then
   AC_DEFINE([HAVE_GCC_FUNCTION])
 fi
-])
+])dnl
 
 # Check for alloca, and include the standard blurb in config.h
-AC_DEFUN([LSH_FUNC_ALLOCA],
-[AC_REQUIRE([AC_FUNC_ALLOCA])
+AC_DEFUN([LSH_FUNC_ALLOCA],[
+AC_REQUIRE([AC_FUNC_ALLOCA])dnl
 AH_BOTTOM([
-/* AIX requires this to be the first thing in the file.  */
+/* AIX requires this to be the first thing in the file: */
 #ifndef __GNUC__
 # if HAVE_ALLOCA_H
 #  include <alloca.h>
@@ -371,7 +369,7 @@ AH_BOTTOM([
  #pragma alloca
 #  else
 #   ifndef alloca /* predefined by HP cc +Olibcalls */
-char *alloca ();
+char *alloca();
 #   endif /* !alloca */
 #  endif /* _AIX */
 # endif /* HAVE_ALLOCA_H */
@@ -380,22 +378,23 @@ char *alloca ();
 #  include <alloca.h>
 # endif /* HAVE_ALLOCA_H */
 #endif /* !__GNUC__ */
-])])
+])])dnl
 
-AC_DEFUN([LSH_FUNC_STRERROR],
-[AC_CHECK_FUNCS_ONCE([strerror])
-AC_CHECK_DECLS_ONCE([sys_errlist])
+AC_DEFUN([LSH_FUNC_STRERROR],[
+AC_REQUIRE([AC_FUNC_STRERROR_R])dnl
+AC_CHECK_FUNCS_ONCE([strerror])dnl
+AC_CHECK_DECLS_ONCE([sys_errlist])dnl
 AH_BOTTOM([
 #if HAVE_STRERROR
 # define STRERROR strerror
 #else
 # define STRERROR(x) (sys_errlist[x])
 #endif /* HAVE_STRERROR */
-])])
+])])dnl
 
-AC_DEFUN([LSH_FUNC_STRSIGNAL],
-[AC_CHECK_FUNCS_ONCE([strsignal])
-AC_CHECK_DECLS([sys_siglist, _sys_siglist])
+AC_DEFUN([LSH_FUNC_STRSIGNAL],[
+AC_CHECK_FUNCS_ONCE([strsignal])dnl
+AC_CHECK_DECLS([sys_siglist, _sys_siglist])dnl
 AH_BOTTOM([
 #if HAVE_STRSIGNAL
 # define STRSIGNAL strsignal
@@ -413,7 +412,7 @@ AH_BOTTOM([
 #  endif /* HAVE_DECL__SYS_SIGLIST */
 # endif /* HAVE_DECL_SYS_SIGLIST */
 #endif /* !HAVE_STRSIGNAL */
-])])
+])])dnl
 
 dnl# @synopsis AX_CREATE_STDINT_H([HEADER-TO-GENERATE],[HEADERS-TO-CHECK])
 dnl#
@@ -450,8 +449,22 @@ dnl# @,(status: used on new plats)(see http://ac-archive.sf.net/gstdint/)
 dnl# @version $Id: acinclude.m4,v 1.18 2004/02/07 14:21:04 nisse Exp $
 dnl# @author  Guido Draheim <guidod@gmx.de> 
 
-AC_DEFUN([AX_CREATE_STDINT_H],
-[# ------ AX CREATE STDINT H -------------------------------------
+AC_DEFUN([AX_CREATE_STDINT_H],[
+AC_REQUIRE([AC_PROG_MKDIR_P])dnl
+AC_REQUIRE([AC_PROG_SED])dnl
+AC_REQUIRE([AC_TYPE_INT8_T])dnl
+AC_REQUIRE([AC_TYPE_INT16_T])dnl
+AC_REQUIRE([AC_TYPE_INT32_T])dnl
+AC_REQUIRE([AC_TYPE_INT64_T])dnl
+AC_REQUIRE([AC_TYPE_INTPTR_T])dnl
+AC_REQUIRE([AC_TYPE_INTMAX_T])dnl
+AC_REQUIRE([AC_TYPE_UINT8_T])dnl
+AC_REQUIRE([AC_TYPE_UINT16_T])dnl
+AC_REQUIRE([AC_TYPE_UINT32_T])dnl
+AC_REQUIRE([AC_TYPE_UINT64_T])dnl
+AC_REQUIRE([AC_TYPE_UINTPTR_T])dnl
+AC_REQUIRE([AC_TYPE_UINTMAX_T])dnl
+# ------ AX CREATE STDINT H -------------------------------------
 AC_MSG_CHECKING([for stdint types])
 ac_stdint_h=`echo ifelse([$1],[],[_stdint.h],[$1])`
 # try to shortcircuit - if the default include path of the compiler
@@ -467,14 +480,14 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <stdint.h>]],
                   [ac_cv_header_stdint_t=""])
 CXXFLAGS="${old_CXXFLAGS}"
 CPPFLAGS="${old_CPPFLAGS}"
-CFLAGS="${old_CFLAGS}" ])
+CFLAGS="${old_CFLAGS}" ])dnl
 
 v="... ${ac_cv_header_stdint_h}"
-if test "x${ac_stdint_h}" = "xstdint.h" ; then
+if test "x${ac_stdint_h}" = "xstdint.h"; then
  AC_MSG_RESULT([(are you sure you want them in ./stdint.h?)])
-elif test "x${ac_stdint_h}" = "xinttypes.h" ; then
+elif test "x${ac_stdint_h}" = "xinttypes.h"; then
  AC_MSG_RESULT([(are you sure you want them in ./inttypes.h?)])
-elif test "_${ac_cv_header_stdint_t}" = "_" ; then
+elif test "_${ac_cv_header_stdint_t}" = "_"; then
  AC_MSG_RESULT([(putting them into ${ac_stdint_h})${v}])
 else
  ac_cv_header_stdint="${ac_cv_header_stdint_t}"
@@ -498,12 +511,13 @@ AC_CACHE_CHECK([for stdint uintptr_t],[ac_cv_header_stdint_x],[
    unset ac_cv_type_uint64_t
    _AC_CHECK_TYPE_NEW([uintptr_t],[ac_cv_header_stdint_x=${i}],dnl
      continue,[#include <${i}>])
-   AC_CHECK_TYPE([uint64_t],[and64="/uint64_t"],[and64=""],[#include<${i}>])
+   AC_CHECK_TYPE([uint64_t],[and64="/uint64_t"],[and64=""],
+                 [#include<${i}>])
    ac_cv_stdint_result="(seen uintptr_t${and64} in ${i})"
    break;
   done
   AC_MSG_CHECKING([for stdint uintptr_t])
- ])
+ ])dnl
 
 if test "_${ac_cv_header_stdint_x}" = "_" ; then
 AC_CACHE_CHECK([for stdint uint32_t],[ac_cv_header_stdint_o],[
@@ -514,7 +528,8 @@ AC_CACHE_CHECK([for stdint uint32_t],[ac_cv_header_stdint_o],[
    unset ac_cv_type_uint64_t
    AC_CHECK_TYPE([uint32_t],[ac_cv_header_stdint_o=${i}],dnl
      continue,[#include <${i}>])
-   AC_CHECK_TYPE([uint64_t],[and64="/uint64_t"],[and64=""],[#include<${i}>])
+   AC_CHECK_TYPE([uint64_t],[and64="/uint64_t"],[and64=""],
+                 [#include<${i}>])
    ac_cv_stdint_result="(seen uint32_t${and64} in ${i})"
    break;
   done
@@ -532,7 +547,8 @@ if test "_${ac_cv_header_stdint_x}" = "_" ; then
        unset ac_cv_type_u_int64_t
        AC_CHECK_TYPE([u_int32_t],[ac_cv_header_stdint_u=${i}],dnl
          continue,[#include <${i}>])
-       AC_CHECK_TYPE([u_int64_t],[and64="/u_int64_t"],[and64=""],[#include<${i}>])
+       AC_CHECK_TYPE([u_int64_t],[and64="/u_int64_t"],[and64=""],
+                     [#include<${i}>])
        ac_cv_stdint_result="(seen u_int32_t${and64} in ${i})"
        break;
       done
@@ -545,10 +561,10 @@ dnl# if there was no good C99 header file, do some typedef checks...
 if test "_${ac_cv_header_stdint_x}" = "_" ; then
    AC_MSG_CHECKING([for stdint datatype model])
    AC_MSG_RESULT([(..)])
-   AC_CHECK_SIZEOF([char])
-   AC_CHECK_SIZEOF([short])
-   AC_CHECK_SIZEOF([int])
-   AC_CHECK_SIZEOF([long])
+   AC_CHECK_SIZEOF([char])dnl
+   AC_CHECK_SIZEOF([short])dnl
+   AC_CHECK_SIZEOF([int])dnl
+   AC_CHECK_SIZEOF([long])dnl
    AC_CHECK_SIZEOF([void*])
    ac_cv_stdint_char_model=""
    ac_cv_stdint_char_model="${ac_cv_stdint_char_model}${ac_cv_sizeof_char}"
@@ -575,11 +591,11 @@ if test "_${ac_cv_header_stdint_x}" = "_" ; then
    AC_MSG_RESULT([combined for stdint datatype model...  ${name}])
 fi
 
-if test "_${ac_cv_header_stdint_x}" != "_" ; then
+if test "_${ac_cv_header_stdint_x}" != "_"; then
    ac_cv_header_stdint="${ac_cv_header_stdint_x}"
-elif  test "_${ac_cv_header_stdint_o}" != "_" ; then
+elif test "_${ac_cv_header_stdint_o}" != "_"; then
    ac_cv_header_stdint="${ac_cv_header_stdint_o}"
-elif  test "_${ac_cv_header_stdint_u}" != "_" ; then
+elif test "_${ac_cv_header_stdint_u}" != "_"; then
    ac_cv_header_stdint="${ac_cv_header_stdint_u}"
 else
    ac_cv_header_stdint="stddef.h"
@@ -590,20 +606,20 @@ AC_MSG_RESULT([(${ac_cv_header_stdint})])
 dnl# see if int_least and int_fast types are present in _this_ header.
 unset ac_cv_type_int_least32_t
 unset ac_cv_type_int_fast32_t
-AC_CHECK_TYPE([int_least32_t],[],[],[#include <${ac_cv_header_stdint}>])
-AC_CHECK_TYPE([int_fast32_t],[],[],[#include<${ac_cv_header_stdint}>])
-AC_CHECK_TYPE([intmax_t],[],[],[#include <${ac_cv_header_stdint}>])
+AC_CHECK_TYPE([int_least32_t],[],[],[#include <${ac_cv_header_stdint}>])dnl
+AC_CHECK_TYPE([int_fast32_t],[],[],[#include<${ac_cv_header_stdint}>])dnl
+AC_CHECK_TYPE([intmax_t],[],[],[#include <${ac_cv_header_stdint}>])dnl
 
 fi # shortcircut to system "stdint.h"
 # ------------------ PREPARE VARIABLES ------------------------------
-if test "x${GCC}" = "xyes" ; then
+if test "x${GCC}" = "xyes"; then
   ac_cv_stdint_message="using gnu compiler "`${CC} --version | head -1` 
 else
   ac_cv_stdint_message="using ${CC}"
 fi
 
 AC_MSG_RESULT([make use of ${ac_cv_header_stdint} in ${ac_stdint_h} dnl
-${ac_cv_stdint_result}])
+${ac_cv_stdint_result}])dnl
 
 # ----------------- DONE inttypes.h checks START header -------------
 AC_CONFIG_COMMANDS([${ac_stdint_h}],[
@@ -988,5 +1004,5 @@ ac_cv_stdint_long_model="${ac_cv_stdint_long_model}"
 ac_cv_type_int_least32_t="${ac_cv_type_int_least32_t}"
 ac_cv_type_int_fast32_t="${ac_cv_type_int_fast32_t}"
 ac_cv_type_intmax_t="${ac_cv_type_intmax_t}"
-])
-])
+])dnl
+])dnl

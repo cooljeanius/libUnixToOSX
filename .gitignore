@@ -47,6 +47,8 @@ string.h-t
 strings.h
 strings.h-t
 ./sys
+sys/socket.h
+sys/socket.h-t
 sys/stat.h
 sys/stat.h-t
 unistd.h
@@ -77,6 +79,9 @@ stdio.h
 stdio.h-t
 signal.h
 signal.h-t
+errno.h
+errno.h-t
 
 # dist stuff:
 libunixtoosx-*.*.*/*
+*.tar.gz

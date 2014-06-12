@@ -1,2 +1,5 @@
 polltest
 pollemu.po
+*.po
+*.ao
+Makefile_nonAutomake

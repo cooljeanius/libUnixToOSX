@@ -35,6 +35,7 @@
 # 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 
+
 VPATH = @srcdir@
 am__is_gnu_make = test -n '$(MAKEFILE_LIST)' && test -n '$(MAKELEVEL)'
 am__make_running_with_option = \
@@ -125,6 +126,7 @@ am__aclocal_m4_deps = $(top_srcdir)/../../m4/ccstdc.m4 \
 	$(top_srcdir)/../../m4/extensions.m4 \
 	$(top_srcdir)/../../m4/extern-inline.m4 \
 	$(top_srcdir)/../../m4/inline.m4 \
+	$(top_srcdir)/../../m4/longlong.m4 \
 	$(top_srcdir)/../../m4/onceonly.m4 \
 	$(top_srcdir)/../../m4/protos.m4 \
 	$(top_srcdir)/../../m4/string_h.m4 \
@@ -197,6 +199,7 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
+DATA = $(nodist_noinst_DATA)
 HEADERS = $(noinst_HEADERS)
 RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
   distclean-recursive maintainer-clean-recursive
@@ -589,6 +592,7 @@ REPLACE_STRNLEN = @REPLACE_STRNLEN@
 REPLACE_STRSIGNAL = @REPLACE_STRSIGNAL@
 REPLACE_STRSTR = @REPLACE_STRSTR@
 REPLACE_STRTOK_R = @REPLACE_STRTOK_R@
+SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
@@ -643,26 +647,28 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-
-# inherit macros from parent project:
 ACLOCAL_AMFLAGS = -I../../m4 --system-acdir=/sw/share/gnulib/m4 --install
 AUTOMAKE_OPTIONS = 1.8 foreign no-dependencies subdir-objects
 SUBDIRS = . testsuite
 noinst_LIBRARIES = libargp.a
 TESTS = $(check_PROGRAMS)
 noinst_HEADERS = argp.h argp-fmtstream.h argp-namefrob.h # argp-comp.h
-EXTRA_DIST = mempcpy.c strchrnul.c strndup.c Versions
-
-# Leaves out argp-fs-xinl.c and argp-xinl.c 
+EXTRA_DIST = mempcpy.c strchrnul.c strndup.c Versions ../TODO \
+	../../rawmemchr.h ansi2knr.c ansi2knr.1
 libargp_a_SOURCES = argp-ba.c argp-eexst.c argp-fmtstream.c \
 		    argp-help.c argp-parse.c argp-pv.c \
-		    argp-pvh.c
+		    argp-pvh.c argp-stdint.h
 
 libargp_a_LIBADD = $(LIBOBJS)
 argp_test_LDADD = libargp.a
 AM_CPPFLAGS = -I../..
-DISTCLEANFILES = .DS_Store *~ autoscan.log
-all: config.h
+DISTCLEANFILES = .DS_Store ../.DS_Store *~ autoscan.log argp-stdint.h
+BUILT_SOURCES = argp-stdint.h
+MOSTLYCLEANFILES = @MAINT@ argp-stdint.h
+nodist_noinst_DATA = @MAINT@ configure.scan
+MAINTAINERCLEANFILES = configure.scan
+noinst_MANS = ansi2knr.1
+all: $(BUILT_SOURCES) config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
 .SUFFIXES:
@@ -1204,11 +1210,13 @@ distcleancheck: distclean
 check-am: all-am
 	$(MAKE) $(AM_MAKEFLAGS) $(check_PROGRAMS)
 	$(MAKE) $(AM_MAKEFLAGS) check-TESTS
-check: check-recursive
-all-am: Makefile $(LIBRARIES) $(HEADERS) config.h
+check: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) check-recursive
+all-am: Makefile $(LIBRARIES) $(DATA) $(HEADERS) config.h
 installdirs: installdirs-recursive
 installdirs-am:
-install: install-recursive
+install: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) install-recursive
 install-exec: install-exec-recursive
 install-data: install-data-recursive
 uninstall: uninstall-recursive
@@ -1229,6 +1237,7 @@ install-strip:
 	fi
 mostlyclean-generic:
 	-test -z "$(LIBOBJS)" || rm -f $(LIBOBJS)
+	-test -z "$(MOSTLYCLEANFILES)" || rm -f $(MOSTLYCLEANFILES)
 	-test -z "$(TEST_LOGS)" || rm -f $(TEST_LOGS)
 	-test -z "$(TEST_LOGS:.log=.trs)" || rm -f $(TEST_LOGS:.log=.trs)
 	-test -z "$(TEST_SUITE_LOG)" || rm -f $(TEST_SUITE_LOG)
@@ -1243,6 +1252,8 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
+	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
+	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
 clean: clean-recursive
 
 clean-am: clean-checkPROGRAMS clean-generic clean-local \
@@ -1315,7 +1326,8 @@ ps-am:
 
 uninstall-am:
 
-.MAKE: $(am__recursive_targets) all check-am install-am install-strip
+.MAKE: $(am__recursive_targets) all check check-am install install-am \
+	install-strip
 
 .PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am \
 	am--refresh check check-TESTS check-am clean \
@@ -1336,10 +1348,54 @@ uninstall-am:
 	recheck tags tags-am uninstall uninstall-am
 
 
+argp-stdint.h: stamp-h1
+	@test -f $@ || rm -f $<
+	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) $<
+	@test -f $@ || (cd $(top_builddir) && $(SHELL) ./config.status $@)
+
 .PHONY: distclean-local
 distclean-local:
-	rm -rf autom4te.cache || rmdir autom4te.cache
-	rm -rf .deps || rmdir .deps
+	rm -fv @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	rm -rfv autom4te.cache || rmdir autom4te.cache
+	rm -rfv .deps || rmdir .deps
+	-(test -w @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && (rm -rf @PACKAGE_TARNAME@-@PACKAGE_VERSION@ || rmdir @PACKAGE_TARNAME@-@PACKAGE_VERSION@)) || stat @PACKAGE_TARNAME@-*.* || echo "it can be difficult to distclean the results of distcheck"
+	-(find . -name .DS_Store -delete 2>&1) || test -x "`which find`"
+	if ((test -e mempcpy.c || test -e ../../mempcpy.c) && test -w ../mempcpy.c); then \
+	  rm -fv ../mempcpy.c; \
+	fi
+	if ((test -e strchrnul.c || test -e ../../strchrnul.c) && test -w ../strchrnul.c); then \
+	  rm -fv ../strchrnul.c; \
+	fi
+	if ((test -e strndup.c || test -e ../../strndup.c) && test -w ../strndup.c); then \
+	  rm -fv ../strndup.c; \
+	fi
+	if (test -e ../../malloc.c && test -w ../malloc.c); then \
+	  rm -fv ../malloc.c; \
+	fi
+	if (test -e ../../rawmemchr.c && test -w ../rawmemchr.c); then \
+	  rm -fv ../rawmemchr.c; \
+	fi
+	if (test -e ../../rawmemchr.h && test -w ../rawmemchr.h); then \
+	  rm -fv ../rawmemchr.h; \
+	fi
+	if (test -e ../../realloc.c && test -w ../realloc.c); then \
+	  rm -fv ../realloc.c; \
+	fi
+	if (test -e ../../strnlen.c && test -w ../strnlen.c); then \
+	  rm -fv ../strnlen.c; \
+	fi
+	if (test -d ../../m4 && test -w ../m4); then \
+	  (rm -rfv ../m4 || rmdir ../m4); \
+	fi
+	if (test -d ../../build-aux && test -w ../build-aux); then \
+	  (rm -rfv ../build-aux || rmdir ../build-aux); \
+	fi
+configure.scan: distclean-local
+	autoscan || (touch configure.scan && mkdir autom4te.cache)
+
+headers: $(BUILT_SOURCES)
+	ls *.h
+.PHONY: headers
 ansi2knr: ansi2knr.$(OBJEXT)
 	$(LINK) ansi2knr.$(OBJEXT) $(LIBS)
 ansi2knr.$(OBJEXT): $(CONFIG_HEADER)

@@ -11,6 +11,14 @@ AC_CONFIG_MACRO_DIR([m4])dnl
 AC_CONFIG_LIBOBJ_DIR([.])dnl
 AC_SUBST([top_srcdir])dnl
 
+dnl# force some aux files to be present:
+AC_REQUIRE_AUX_FILE([mkinstalldirs])dnl
+AC_REQUIRE_AUX_FILE([config.libpath])dnl
+AC_REQUIRE_AUX_FILE([git-version-gen])dnl
+AC_REQUIRE_AUX_FILE([gitlog-to-changelog])dnl
+AC_REQUIRE_AUX_FILE([install-reloc])dnl
+AC_REQUIRE_AUX_FILE([reloc-ldflags])dnl
+
 # Check system characteristics.
 AC_MSG_CHECKING([the characteristics of your system])
 AC_MSG_RESULT([... .. . ])
@@ -25,7 +33,7 @@ dnl#TODO: eventually switch to gnits strictness:
 AM_INIT_AUTOMAKE([1.6 foreign no-dependencies subdir-objects])dnl
 AM_MAINTAINER_MODE
 AM_PROG_AR
-gl_COMMON_JUST_BODY
+gl_COMMON_SEMI_UMBRELLA
 gl_CONFIGMAKE_PREP
 gl_RELOCATABILITY_UMBRELLA
 AH_TOP([
@@ -269,6 +277,7 @@ fi
 AC_CONFIG_FILES([Makefile \
 autoscan/Makefile \
 libftw0/Makefile \
-poll/poll-emulator/Makefile])dnl
+poll/poll-emulator/Makefile
+poll/poll-emulator/Makefile_nonAutomake])dnl
 AC_CONFIG_SUBDIRS([argp/argp-standalone-1.3])dnl
 AC_OUTPUT

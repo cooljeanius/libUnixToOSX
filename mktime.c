@@ -637,8 +637,7 @@ check_result (time_t tk, struct tm tmk, time_t tl, const struct tm *lt)
   return 0;
 }
 
-int
-main (int argc, char **argv)
+int main(int argc, char **argv)
 {
   int status = 0;
   struct tm tm, tmk, tml;
@@ -646,17 +645,20 @@ main (int argc, char **argv)
   time_t tk, tl, tl1;
   char trailer;
 
-  if ((argc == 3 || argc == 4)
-      && (sscanf (argv[1], "%d-%d-%d%c",
+  printf("Debug message: running from path '%s' with '%i' args.\n",
+		 argv[0], argc);
+
+  if (((argc == 3) || (argc == 4))
+      && (sscanf(argv[1], "%d-%d-%d%c",
 		  &tm.tm_year, &tm.tm_mon, &tm.tm_mday, &trailer)
 	  == 3)
-      && (sscanf (argv[2], "%d:%d:%d%c",
+      && (sscanf(argv[2], "%d:%d:%d%c",
 		  &tm.tm_hour, &tm.tm_min, &tm.tm_sec, &trailer)
 	  == 3))
     {
       tm.tm_year -= TM_YEAR_BASE;
       tm.tm_mon--;
-      tm.tm_isdst = argc == 3 ? -1 : atoi (argv[3]);
+      tm.tm_isdst = ((argc == 3) ? -1 : atoi(argv[3]));
       tmk = tm;
       tl = mktime (&tmk);
       lt = localtime (&tl);
@@ -727,7 +729,7 @@ main (int argc, char **argv)
 }
 
 #endif /* DEBUG */
-
+
 /*
 Local Variables:
 compile-command: "gcc -DDEBUG -I. -Wall -W -O2 -g mktime.c -o mktime"

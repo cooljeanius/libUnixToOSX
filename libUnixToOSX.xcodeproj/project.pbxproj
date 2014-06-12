@@ -223,6 +223,10 @@
 		A531669D18EEF8B00049B90F /* at-func.c in Sources */ = {isa = PBXBuildFile; fileRef = A531669B18EEF8B00049B90F /* at-func.c */; };
 		A531669E18EEF8B00049B90F /* at-func2.c in Sources */ = {isa = PBXBuildFile; fileRef = A531669C18EEF8B00049B90F /* at-func2.c */; };
 		A53166C618EF04A60049B90F /* dup.h in Headers */ = {isa = PBXBuildFile; fileRef = A53166C518EF04A60049B90F /* dup.h */; };
+		A546C0171949FC90005D2317 /* strerror_r.c in Sources */ = {isa = PBXBuildFile; fileRef = A546C0131949FC8F005D2317 /* strerror_r.c */; };
+		A546C0181949FC90005D2317 /* strerror-override.c in Sources */ = {isa = PBXBuildFile; fileRef = A546C0141949FC90005D2317 /* strerror-override.c */; };
+		A546C0191949FC90005D2317 /* strerror-override.h in Headers */ = {isa = PBXBuildFile; fileRef = A546C0151949FC90005D2317 /* strerror-override.h */; };
+		A546C01A1949FC90005D2317 /* strerror.c in Sources */ = {isa = PBXBuildFile; fileRef = A546C0161949FC90005D2317 /* strerror.c */; };
 		A558DC78190032DD002696E8 /* siglist.h in Headers */ = {isa = PBXBuildFile; fileRef = A558DC77190032DD002696E8 /* siglist.h */; };
 		A558DCCA19005691002696E8 /* argp-ba.c in Sources */ = {isa = PBXBuildFile; fileRef = A558DCA719005691002696E8 /* argp-ba.c */; };
 		A558DCCB19005691002696E8 /* argp-eexst.c in Sources */ = {isa = PBXBuildFile; fileRef = A558DCA819005691002696E8 /* argp-eexst.c */; };
@@ -549,6 +553,10 @@
 		A531669B18EEF8B00049B90F /* at-func.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "at-func.c"; sourceTree = "<group>"; };
 		A531669C18EEF8B00049B90F /* at-func2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "at-func2.c"; sourceTree = "<group>"; };
 		A53166C518EF04A60049B90F /* dup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dup.h; sourceTree = "<group>"; };
+		A546C0131949FC8F005D2317 /* strerror_r.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = strerror_r.c; sourceTree = "<group>"; };
+		A546C0141949FC90005D2317 /* strerror-override.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "strerror-override.c"; sourceTree = "<group>"; };
+		A546C0151949FC90005D2317 /* strerror-override.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "strerror-override.h"; sourceTree = "<group>"; };
+		A546C0161949FC90005D2317 /* strerror.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = strerror.c; sourceTree = "<group>"; };
 		A558DC77190032DD002696E8 /* siglist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = siglist.h; sourceTree = "<group>"; };
 		A558DCA519005691002696E8 /* ansi2knr.1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.man; path = ansi2knr.1; sourceTree = "<group>"; };
 		A558DCA619005691002696E8 /* ansi2knr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ansi2knr.c; sourceTree = "<group>"; };
@@ -898,6 +906,10 @@
 				A5A2668F1916B93100EEBBC2 /* stdio-read.c */,
 				A5A266901916B93100EEBBC2 /* stdio-write.c */,
 				A563263119001FD10024EB6A /* strchrnul.c */,
+				A546C0131949FC8F005D2317 /* strerror_r.c */,
+				A546C0141949FC90005D2317 /* strerror-override.c */,
+				A546C0151949FC90005D2317 /* strerror-override.h */,
+				A546C0161949FC90005D2317 /* strerror.c */,
 				A50A917818EE1E6D0096B616 /* stripslash.c */,
 				A50A917918EE1E6D0096B616 /* strndup.c */,
 				A50A917A18EE1E6D0096B616 /* strnlen.c */,
@@ -1151,6 +1163,7 @@
 				A50A917418EE1E5D0096B616 /* stat-macros.h in Headers */,
 				A50A917518EE1E5D0096B616 /* stat-size.h in Headers */,
 				A50A917F18EE1E6D0096B616 /* stdio-impl.h in Headers */,
+				A546C0191949FC90005D2317 /* strerror-override.h in Headers */,
 				A50A918418EE1E6D0096B616 /* strnlen1.h in Headers */,
 				A56326891900327C0024EB6A /* thread.h in Headers */,
 				A563268C1900327C0024EB6A /* tls.h in Headers */,
@@ -1510,6 +1523,9 @@
 				A5A266921916B93100EEBBC2 /* stdio-write.c in Sources */,
 				A50A918018EE1E6D0096B616 /* stripslash.c in Sources */,
 				A563263219001FD10024EB6A /* strchrnul.c in Sources */,
+				A546C0171949FC90005D2317 /* strerror_r.c in Sources */,
+				A546C0181949FC90005D2317 /* strerror-override.c in Sources */,
+				A546C01A1949FC90005D2317 /* strerror.c in Sources */,
 				A50A918118EE1E6D0096B616 /* strndup.c in Sources */,
 				A50A918218EE1E6D0096B616 /* strnlen.c in Sources */,
 				A50A918318EE1E6D0096B616 /* strnlen1.c in Sources */,
@@ -1638,7 +1654,7 @@
 				"GCC_MODEL_PPC64[arch=ppc64]" = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_VERSION = 4.2;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_GLOBAL_CONSTRUCTORS = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
@@ -1666,8 +1682,15 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_PKGINFO_FILE = YES;
-				HEADER_SEARCH_PATHS = .;
+				HEADER_SEARCH_PATHS = (
+					.,
+					"$(SRCROOT)",
+				);
 				LD_GENERATE_MAP_FILE = YES;
+				LIBRARY_SEARCH_PATHS = (
+					.,
+					"$(SRCROOT)",
+				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = (
 					"-g3",

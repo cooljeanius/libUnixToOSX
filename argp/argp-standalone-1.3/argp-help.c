@@ -47,8 +47,16 @@ char *alloca ();
 #include <assert.h>
 #include <stdarg.h>
 #include <ctype.h>
-/* Does any system still need malloc.h? If so, we would need a configure
- * test... */
+/* we have a configure test to see if malloc.h is present, but NOT one to see
+ * if it is actually needed though... just include it anyways, though, if it
+ * is present: */
+#ifdef HAVE_MALLOC_H
+# include <malloc.h>
+#else
+# ifdef HAVE_MALLOC_MALLOC_H
+#  include <malloc/malloc.h>
+# endif /* HAVE_MALLOC_MALLOC_H */
+#endif /* HAVE_MALLOC_H */
 
 #ifndef _
 /* This is for other GNU distributions with internationalized messages: */
@@ -68,7 +76,12 @@ char *alloca ();
 # include "argp-fmtstream.h"
 #endif /* !_ARGP_FMTSTREAM_H */
 #include "argp-namefrob.h"
-
+
+/* in case the parent project wanted to replace strerror: */
+#if defined(__STRING_H) && defined(strerror) && !(defined(__cplusplus) && defined(GNULIB_NAMESPACE))
+# undef strerror
+# define strerror(int) strerror(int)
+#endif /* __STRING_H && strerror && !(__cplusplus && GNULIB_NAMESPACE) */
 
 #ifndef _LIBC
 # ifndef __strchrnul
@@ -79,7 +92,7 @@ char *alloca ();
 # endif /* !__mempcpy */
 /* We need to use a different name, as __strndup is likely a macro. */
 # define STRNDUP strndup
-# if HAVE_STRERROR
+# if defined(HAVE_STRERROR) && HAVE_STRERROR
 #  define STRERROR strerror
 # else
 #  define STRERROR(x) (sys_errlist[x])
@@ -106,7 +119,7 @@ char *strchrnul(const char *s, int c);
 
 #endif /* !_LIBC */
 
-
+
 /* User-selectable (using an environment variable) formatting parameters.
  *
  * These may be specified in an environment variable called `ARGP_HELP_FMT',
@@ -160,15 +173,15 @@ static struct uparams uparams = {
   0
 };
 
-/* A particular uparam, and what the user name is.  */
+/* A particular uparam, and what the user name is: */
 struct uparam_name
 {
   const char *name;		/* User name.  */
-  int is_bool;			/* Whether it's `boolean'.  */
-  size_t uparams_offs;		/* Location of the (int) field in UPARAMS.  */
+  int is_bool;			/* Whether it is `boolean'.  */
+  size_t uparams_offs;	/* Location of the (int) field in UPARAMS.  */
 };
 
-/* The name-field mappings we know about.  */
+/* The name-field mappings that we know about: */
 static const struct uparam_name uparam_names[] =
 {
   { "dup-args",       1, offsetof(struct uparams, dup_args) },
@@ -183,12 +196,12 @@ static const struct uparam_name uparam_names[] =
   { 0, 0, 0 }
 };
 
-/* Read user options from the environment, and fill in UPARAMS appropiately. */
-static void
-fill_in_uparams(const struct argp_state *state)
+/* Read user options from the environment, and fill in UPARAMS appropiately: */
+static void fill_in_uparams(const struct argp_state *state)
 {
+  const unsigned char *var;
   /* FIXME: Can we get away without an explicit cast? */
-  const unsigned char *var = (unsigned char *)getenv("ARGP_HELP_FMT");
+  var = (const unsigned char *)getenv("ARGP_HELP_FMT");
 
 #define SKIPWS(p) do { while (isspace (*p)) p++; } while (0);
 
@@ -268,23 +281,25 @@ fill_in_uparams(const struct argp_state *state)
 	}
   }
 }
-
+
+
 /* Returns true if OPT has NOT been marked invisible.  Visibility only affects
  * whether OPT is displayed or used in sorting, not option shadowing.  */
 #define ovisible(opt) (! ((opt)->flags & OPTION_HIDDEN))
 
-/* Returns true if OPT is an alias for an earlier option.  */
+/* Returns true if OPT is an alias for an earlier option: */
 #define oalias(opt) ((opt)->flags & OPTION_ALIAS)
 
-/* Returns true if OPT is an documentation-only entry.  */
+/* Returns true if OPT is an documentation-only entry: */
 #define odoc(opt) ((opt)->flags & OPTION_DOC)
 
-/* Returns true if OPT is the end-of-list marker for a list of options.  */
+/* Returns true if OPT is the end-of-list marker for a list of options: */
 #define oend(opt) __option_is_end (opt)
 
-/* Returns true if OPT has a short option.  */
+/* Returns true if OPT has a short option: */
 #define oshort(opt) __option_is_short (opt)
-
+
+
 /*
    The help format for a particular option is like:
 
@@ -348,7 +363,8 @@ fill_in_uparams(const struct argp_state *state)
    unless you tell it not to with ARGP_NO_HELP.
 
 */
-
+
+
 /* Returns true if CH occurs between BEG and END.  */
 static int
 find_char(char ch, char *beg, char *end)
@@ -360,21 +376,22 @@ find_char(char ch, char *beg, char *end)
       beg++;
   return 0;
 }
-
+
+
 struct hol_cluster;		/* fwd decl */
 
 struct hol_entry
 {
-  /* First option.  */
+  /* First option: */
   const struct argp_option *opt;
-  /* Number of options (including aliases).  */
+  /* Number of options (including aliases): */
   unsigned num;
 
   /* A pointers into the HOL's short_options field, to the first short option
      letter for this entry.  The order of the characters following this point
      corresponds to the order of options pointed to by OPT, and there are at
      most NUM.  A short option recorded in a option following OPT is only
-     valid if it occurs in the right place in SHORT_OPTIONS (otherwise it's
+     valid if it occurs in the right place in SHORT_OPTIONS (otherwise it has
      probably been shadowed by some other entry).  */
   char *short_options;
 
@@ -405,11 +422,10 @@ struct hol_cluster
      same depth (clusters always follow options in the same group).  */
   int group;
 
-  /* The cluster to which this cluster belongs, or 0 if it's at the base
-     level.  */
+  /* The cluster to which this cluster belongs, or 0 if it is at base level: */
   struct hol_cluster *parent;
 
-  /* The argp from which this cluster is (eventually) derived.  */
+  /* The argp from which this cluster is (eventually) derived: */
   const struct argp *argp;
 
   /* The distance this cluster is from the root.  */
@@ -429,14 +445,15 @@ struct hol
      are undefined.  */
   unsigned num_entries;
 
-  /* A string containing all short options in this HOL.  Each entry contains
-     pointers into this string, so the order can't be messed with blindly.  */
+  /* A string containing all short options in this HOL. Each entry contains
+   * pointers into this string, so the order cannot be messed with blindly. */
   char *short_options;
 
   /* Clusters of entries in this hol.  */
   struct hol_cluster *clusters;
 };
-
+
+
 /* Create a struct hol from the options in ARGP.  CLUSTER is the hol_cluster
  * in which these entries occur, or 0, if at the root: */
 static struct hol *make_hol(const struct argp *argp,
@@ -510,7 +527,8 @@ static struct hol *make_hol(const struct argp *argp,
 
   return hol;
 }
-
+
+
 /* Add a new cluster to HOL, with the given GROUP and HEADER (taken from the
  * associated argp child list entry), INDEX, and PARENT, and return a pointer
  * to it.  ARGP is the argp that this cluster results from.  */
@@ -534,8 +552,9 @@ hol_add_cluster (struct hol *hol, int group, const char *header, int hol_index,
   }
   return cl;
 }
-
-/* Free HOL and any resources it uses.  */
+
+
+/* Free HOL and any resources it uses: */
 static void
 hol_free (struct hol *hol)
 {
@@ -556,7 +575,8 @@ hol_free (struct hol *hol)
 
   free (hol);
 }
-
+
+
 static inline int
 hol_entry_short_iterate (const struct hol_entry *entry,
 			 int (*func)(const struct argp_option *opt,
@@ -604,7 +624,8 @@ hol_entry_long_iterate (const struct hol_entry *entry,
 
   return val;
 }
-
+
+
 /* Iterator that returns true for the first short option.  */
 static inline int
 until_short (const struct argp_option *opt,
@@ -659,17 +680,18 @@ hol_find_entry (struct hol *hol, const char *name)
 
   return 0;
 }
-
-/* If an entry with the long option NAME occurs in HOL, set it's special
-   sort position to GROUP.  */
-static void
-hol_set_group (struct hol *hol, const char *name, int group)
+
+
+/* If an entry with the long option NAME occurs in HOL, set its special
+ * sort position to GROUP: */
+static void hol_set_group(struct hol *hol, const char *name, int group)
 {
-  struct hol_entry *entry = hol_find_entry (hol, name);
+  struct hol_entry *entry = hol_find_entry(hol, name);
   if (entry)
     entry->group = group;
 }
-
+
+
 /* Order by group:  0, 1, 2, ..., n, -m, ..., -2, -1.
    EQ is what to return if GROUP1 and GROUP2 are the same.  */
 static int
@@ -703,10 +725,9 @@ hol_cluster_cmp (const struct hol_cluster *cl1, const struct hol_cluster *cl2)
   return group_cmp (cl1->group, cl2->group, cl2->index - cl1->index);
 }
 
-/* Return the ancestor of CL that's just below the root (i.e., has a parent
-   of 0).  */
-static struct hol_cluster *
-hol_cluster_base (struct hol_cluster *cl)
+/* Return the ancestor of CL that is just below the root
+ * (i.e., has a parent of 0): */
+static struct hol_cluster *hol_cluster_base(struct hol_cluster *cl)
 {
   while (cl->parent)
     cl = cl->parent;
@@ -722,7 +743,8 @@ hol_cluster_is_child (const struct hol_cluster *cl1,
     cl1 = cl1->parent;
   return cl1 == cl2;
 }
-
+
+
 /* Given the name of a OPTION_DOC option, modifies NAME to start at the tail
    that should be used for comparisons, and returns true iff it should be
    treated as a non-option.  */
@@ -752,31 +774,30 @@ static int hol_entry_cmp(const struct hol_entry *entry1,
      in a cluster, then this is just the group within the cluster.  */
   int group1 = entry1->group, group2 = entry2->group;
 
-  if (entry1->cluster != entry2->cluster)
-    {
-      /* The entries are not within the same cluster, so we can't compare them
-	 directly, we have to use the appropiate clustering level too.  */
-      if (! entry1->cluster)
-	/* ENTRY1 is at the `base level', not in a cluster, so we have to
-	   compare it's group number with that of the base cluster in which
-	   ENTRY2 resides.  Note that if they're in the same group, the
-	   clustered option always comes laster.  */
-	return group_cmp (group1, hol_cluster_base (entry2->cluster)->group, -1);
-      else if (! entry2->cluster)
-	/* Likewise, but ENTRY2's not in a cluster.  */
-	return group_cmp (hol_cluster_base (entry1->cluster)->group, group2, 1);
-      else
-	/* Both entries are in clusters, we can just compare the clusters.  */
-	return hol_cluster_cmp (entry1->cluster, entry2->cluster);
-    }
-  else if (group1 == group2)
-    /* The entries are both in the same cluster and group, so compare them
-       alphabetically.  */
-    {
-      int short1 = hol_entry_first_short (entry1);
-      int short2 = hol_entry_first_short (entry2);
-      int doc1 = odoc (entry1->opt);
-      int doc2 = odoc (entry2->opt);
+  if (entry1->cluster != entry2->cluster) {
+      /* The entries are not within the same cluster, so we cannot compare them
+	   * directly, we have to use the appropiate clustering level too: */
+      if (! entry1->cluster) {
+		  /* ENTRY1 is at the `base level', not in a cluster, so we have
+		   * to compare its group number with that of the base cluster in which
+		   * ENTRY2 resides. Note that if they are in the same group,
+		   * the clustered option always comes laster: */
+		  return group_cmp(group1,
+						   hol_cluster_base(entry2->cluster)->group, -1);
+      } else if (! entry2->cluster) {
+		  /* Likewise, but ENTRY2 is not in a cluster: */
+		  return group_cmp(hol_cluster_base(entry1->cluster)->group, group2, 1);
+      } else {
+		  /* Both entries are in clusters, we can just compare the clusters: */
+		  return hol_cluster_cmp(entry1->cluster, entry2->cluster);
+	  }
+  } else if (group1 == group2) {
+	  /* The entries are both in the same cluster and group, so compare them
+	   * alphabetically: */
+      int short1 = hol_entry_first_short(entry1);
+      int short2 = hol_entry_first_short(entry2);
+      int doc1 = odoc(entry1->opt);
+      int doc2 = odoc(entry2->opt);
       /* FIXME: Can we use unsigned char * instead? */
       const char *long1 = hol_entry_first_long (entry1);
       const char *long2 = hol_entry_first_long (entry2);
@@ -797,7 +818,7 @@ static int hol_entry_cmp(const struct hol_entry *entry1,
 	/* Compare short/short, long/short, short/long, using the first
 	   character of long options.  Entries without *any* valid
 	   options (such as options with OPTION_HIDDEN set) will be put
-	   first, but as they're not displayed, it doesn't matter where
+	   first, but as they are not displayed, it does NOT matter where
 	   they are.  */
 	{
 	  unsigned char first1 = (short1 ? (unsigned char)short1 : (long1 ? (unsigned char)*long1 : 0));
@@ -830,7 +851,7 @@ static int hol_entry_qcmp(const void *entry1_v, const void *entry2_v)
 
 /* Sort HOL by group and alphabetically by option name (with short options
    taking precedence over long).  Since the sorting is for display purposes
-   only, the shadowing of options isn't effected.  */
+   only, the shadowing of options is NOT effected.  */
 static void
 hol_sort (struct hol *hol)
 {
@@ -839,7 +860,8 @@ hol_sort (struct hol *hol)
 		  hol_entry_qcmp);
   }
 }
-
+
+
 /* Append MORE to HOL, destroying MORE in the process.  Options in HOL shadow
    any in MORE with the same name.  */
 static void
@@ -927,7 +949,8 @@ hol_append (struct hol *hol, struct hol *more)
 
   hol_free(more);
 }
-
+
+
 /* Inserts enough spaces to make sure STREAM is at column COL.  */
 static void
 indent_to(argp_fmtstream_t stream, unsigned col)
@@ -970,7 +993,8 @@ arg(const struct argp_option *real, const char *req_fmt, const char *opt_fmt,
 	  }
   }
 }
-
+
+
 /* Helper functions for hol_entry_help.  */
 
 /* State used during the execution of hol_help.  */
@@ -997,7 +1021,7 @@ struct pentry_state
   argp_fmtstream_t stream;
   struct hol_help_state *hhstate;
 
-  /* True if nothing's been printed so far.  */
+  /* True if nothing has been printed so far: */
   int first;
 
   /* If non-zero, the state that was used to print this help.  */
@@ -1020,9 +1044,9 @@ filter_doc(const char *doc, int key, const struct argp *argp,
 }
 
 /* Prints STR as a header line, with the margin lines set appropiately, and
- * notes the fact that groups should be separated with a blank line.  ARGP is
- * the argp that should dictate any user doc filtering to take place.  Note
- * that the previous wrap margin isn't restored, but the left margin is reset
+ * notes the fact that groups should be separated with a blank line. ARGP is
+ * the argp that should dictate any user doc filtering to take place. Note
+ * that the previous wrap margin is NOT restored, but the left margin is reset
  * to 0.  */
 static void
 print_header(const char *str, const struct argp *argp,
@@ -1092,7 +1116,8 @@ comma (unsigned col, struct pentry_state *pest)
 
   indent_to (pest->stream, col);
 }
-
+
+
 /* Print help for ENTRY to STREAM.  */
 static void
 hol_entry_help(struct hol_entry *entry, const struct argp_state *state,
@@ -1232,7 +1257,8 @@ cleanup:
   __argp_fmtstream_set_lmargin(stream, (size_t)old_lm);
   __argp_fmtstream_set_wmargin(stream, (size_t)old_wm);
 }
-
+
+
 /* Output a long help message about the options in HOL to STREAM.  */
 static void
 hol_help (struct hol *hol, const struct argp_state *state,
@@ -1262,7 +1288,8 @@ optional for any corresponding short options.");
 	free ((char *) fstr);
     }
 }
-
+
+
 /* Helper functions for hol_usage.  */
 
 /* If OPT is a short option without an arg, append its key to the string
@@ -1352,7 +1379,8 @@ usage_long_opt(const struct argp_option *opt, const struct argp_option *real,
 
   return 0;
 }
-
+
+
 /* Print a short usage description for the arguments in HOL to STREAM.  */
 static void
 hol_usage (struct hol *hol, argp_fmtstream_t stream)
@@ -1392,7 +1420,8 @@ hol_usage (struct hol *hol, argp_fmtstream_t stream)
 				entry->argp->argp_domain, stream);
     }
 }
-
+
+
 /* Make a HOL containing all levels of options in ARGP.  CLUSTER is the
  * cluster in which ARGP's entries should be clustered, or 0.  */
 static struct hol *
@@ -1415,7 +1444,8 @@ argp_hol(const struct argp *argp, struct hol_cluster *cluster)
   }
   return hol;
 }
-
+
+
 /* Calculate how many different levels with alternative args strings exist in
    ARGP.  */
 static size_t
@@ -1494,14 +1524,15 @@ argp_args_usage(const struct argp *argp, const struct argp_state *state,
 
   return !advance;
 }
-
+
+
 /* Print the documentation for ARGP to STREAM; if POST is false, then
  * everything preceeding a `\v' character in the documentation strings (or
  * the whole string, for those with none) is printed, otherwise, everything
- * following the `\v' character (nothing for strings without).  Each separate
+ * following the `\v' character (nothing for strings without). Each separate
  * bit of documentation is separated a blank line, and if PRE_BLANK is true,
- * then the first is as well.  If FIRST_ONLY is true, only the first
- * occurrence is output.  Returns true if anything was output.  */
+ * then the first is as well. If FIRST_ONLY is true, only the first
+ * occurrence is output. Returns true if anything was output.  */
 static int
 argp_doc(const struct argp *argp, const struct argp_state *state,
 		 int post, int pre_blank, int first_only,
@@ -1589,12 +1620,12 @@ argp_doc(const struct argp *argp, const struct argp_state *state,
 
   return anything;
 }
-
+
+
 /* Output a usage message for ARGP to STREAM.  If called from
  * argp_state_help, STATE is the relevent parsing state.  FLAGS are from the
  * set ARGP_HELP_*.  NAME is what to use wherever a `program name' is
  * needed. */
-
 static void
 _help(const struct argp *argp, const struct argp_state *state, FILE *stream,
 	  unsigned flags, const char *name)
@@ -1737,7 +1768,8 @@ Try `%s --help' or `%s --usage' for more information.\n"),
 
   __argp_fmtstream_free(fs);
 }
-
+
+
 /* Output a usage message for ARGP to STREAM.  FLAGS are from the set
    ARGP_HELP_*.  NAME is what to use wherever a `program name' is needed. */
 void __argp_help (const struct argp *argp, FILE *stream,
@@ -1746,8 +1778,8 @@ void __argp_help (const struct argp *argp, FILE *stream,
   _help (argp, 0, stream, flags, name);
 }
 #ifdef weak_alias
-weak_alias (__argp_help, argp_help)
-#endif
+weak_alias(__argp_help, argp_help)
+#endif /* weak_alias */
 
 char *__argp_basename(char *name)
 {
@@ -1798,9 +1830,10 @@ __argp_state_help (const struct argp_state *state, FILE *stream, unsigned flags)
   }
 }
 #ifdef weak_alias
-weak_alias (__argp_state_help, argp_state_help)
-#endif
-
+weak_alias(__argp_state_help, argp_state_help)
+#endif /* weak_alias */
+
+
 /* If appropriate, print the printf string FMT and following args, preceded
    by the program name and `:', to stderr, and followed by a `Try ... --help'
    message, then exit (1).  */
@@ -1835,59 +1868,55 @@ __argp_error (const struct argp_state *state, const char *fmt, ...)
     }
 }
 #ifdef weak_alias
-weak_alias (__argp_error, argp_error)
-#endif
-
+weak_alias(__argp_error, argp_error)
+#endif /* weak_alias */
+
+
 /* Similar to the standard gnu error-reporting function error(), but will
-   respect the ARGP_NO_EXIT and ARGP_NO_ERRS flags in STATE, and will print
-   to STATE->err_stream.  This is useful for argument parsing code that is
-   shared between program startup (when exiting is desired) and runtime
-   option parsing (when typically an error code is returned instead).  The
-   difference between this function and argp_error is that the latter is for
-   *parsing errors*, and the former is for other problems that occur during
-   parsing but don't reflect a (syntactic) problem with the input.  */
-void
-__argp_failure (const struct argp_state *state, int status, int errnum,
-		const char *fmt, ...)
+ * respect the ARGP_NO_EXIT and ARGP_NO_ERRS flags in STATE, and will print
+ * to STATE->err_stream. This is useful for argument parsing code that is
+ * shared between program startup (when exiting is desired) and runtime
+ * option parsing (when typically an error code is returned instead). The
+ * difference between this function and argp_error is that the latter is for
+ * *parsing errors*, and the former is for other problems that occur during
+ * parsing but do NOT reflect a (syntactic) problem with the input. */
+void __argp_failure(const struct argp_state *state, int status, int errnum,
+					const char *fmt, ...)
 {
-  if (!state || !(state->flags & ARGP_NO_ERRS))
-    {
-      FILE *stream = state ? state->err_stream : stderr;
+  if (!state || !(state->flags & ARGP_NO_ERRS)) {
+      FILE *stream = (state ? state->err_stream : stderr);
 
-      if (stream)
-	{
-	  FLOCKFILE (stream);
+      if (stream) {
+		  FLOCKFILE(stream);
 
-	  FPUTS_UNLOCKED (__argp_short_program_name(state),
-			  stream);
+		  FPUTS_UNLOCKED(__argp_short_program_name(state), stream);
 
-	  if (fmt)
-	    {
-	      va_list ap;
+		  if (fmt) {
+			  va_list ap;
 
-	      PUTC_UNLOCKED (':', stream);
-	      PUTC_UNLOCKED (' ', stream);
+			  PUTC_UNLOCKED(':', stream);
+			  PUTC_UNLOCKED(' ', stream);
 
-	      va_start (ap, fmt);
-	      vfprintf (stream, fmt, ap);
-	      va_end (ap);
-	    }
+			  va_start(ap, fmt);
+			  vfprintf(stream, fmt, ap);
+			  va_end(ap);
+		  }
 
-	  if (errnum)
-	    {
-	      PUTC_UNLOCKED (':', stream);
-	      PUTC_UNLOCKED (' ', stream);
-	      fputs (STRERROR (errnum), stream);
-	    }
+		  if (errnum) {
+			  PUTC_UNLOCKED(':', stream);
+			  PUTC_UNLOCKED(' ', stream);
+			  fputs(STRERROR(errnum), stream);
+		  }
 
-	  PUTC_UNLOCKED ('\n', stream);
+		  PUTC_UNLOCKED('\n', stream);
 
-	  FUNLOCKFILE (stream);
+		  FUNLOCKFILE(stream);
 
-	  if (status && (!state || !(state->flags & ARGP_NO_EXIT)))
-	    exit (status);
-	}
-    }
+		  if (status && (!state || !(state->flags & ARGP_NO_EXIT))) {
+			  exit(status);
+		  }
+	  }
+  }
 }
 #ifdef weak_alias
 weak_alias(__argp_failure, argp_failure)
