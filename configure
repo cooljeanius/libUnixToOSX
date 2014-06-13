@@ -763,6 +763,8 @@ GNULIB_STRTOIMAX
 GNULIB_IMAXDIV
 GNULIB_IMAXABS
 ASM_SYMBOL_PREFIX
+CCASFLAGS
+CCAS
 HAVE_WINT_T
 NEXT_AS_FIRST_DIRECTIVE_WCHAR_H
 NEXT_WCHAR_H
@@ -1873,6 +1875,8 @@ PKG_CONFIG_PATH
 PKG_CONFIG_LIBDIR
 LINT
 LINT_FLAGS
+CCAS
+CCASFLAGS
 XORG_MALLOC_DEBUG_ENV'
 ac_subdirs_all='argp/argp-standalone-1.3'
 
@@ -2554,6 +2558,8 @@ Some influential environment variables:
               path overriding pkg-config's built-in search path
   LINT        Path to a lint-style command
   LINT_FLAGS  Flags for the lint-style command
+  CCAS        assembler compiler command (defaults to CC)
+  CCASFLAGS   assembler compiler flags (defaults to CFLAGS)
   XORG_MALLOC_DEBUG_ENV
               Environment variables to enable memory checking in tests
 
@@ -29817,13 +29823,20 @@ fi
 
 
 
+# By default we simply use the C compiler to build assembly code.
 
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+test "${CCAS+set}" = set || CCAS=$CC
+test "${CCASFLAGS+set}" = set || CCASFLAGS=$CFLAGS
+
+
+
+
+      cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
 #ifdef _MSC_VER
 MicrosoftCompiler
-#endif
+#endif /* _MSC_VER */
 
 _ACEOF
 if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
@@ -29839,9 +29852,7 @@ fi
 rm -f conftest*
 
 
-
-
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C symbols are prefixed with underscore at the linker level" >&5
+                  { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether C symbols are prefixed with underscore at the linker level" >&5
 $as_echo_n "checking whether C symbols are prefixed with underscore at the linker level... " >&6; }
 if ${gl_cv_prog_as_underscore+:} false; then :
   $as_echo_n "(cached) " >&6
@@ -29849,17 +29860,17 @@ else
   cat > conftest.c <<EOF
 #ifdef __cplusplus
 extern "C" int foo (void);
-#endif
+#endif /* __cplusplus */
 int foo(void) { return 0; }
 EOF
      # Look for the assembly language name in the .s file.
-     { ac_try='${CC-cc} $CFLAGS $CPPFLAGS $gl_c_asm_opt conftest.c'
+     { ac_try='${CC-cc} ${CFLAGS} ${CPPFLAGS} ${gl_c_asm_opt} conftest.c'
   { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$ac_try\""; } >&5
   (eval $ac_try) 2>&5
   ac_status=$?
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; } >/dev/null 2>&1
-     if grep _foo conftest.$gl_asmext >/dev/null ; then
+     if grep _foo conftest.${gl_asmext} >/dev/null; then
        gl_cv_prog_as_underscore=yes
      else
        gl_cv_prog_as_underscore=no
@@ -29869,18 +29880,17 @@ EOF
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $gl_cv_prog_as_underscore" >&5
 $as_echo "$gl_cv_prog_as_underscore" >&6; }
-  if test $gl_cv_prog_as_underscore = yes; then
-    USER_LABEL_PREFIX=_
+  if test "x${gl_cv_prog_as_underscore}" = "xyes"; then
+    USER_LABEL_PREFIX="_"
   else
-    USER_LABEL_PREFIX=
+    USER_LABEL_PREFIX=""
   fi
 
 cat >>confdefs.h <<_ACEOF
-#define USER_LABEL_PREFIX $USER_LABEL_PREFIX
+#define USER_LABEL_PREFIX ${USER_LABEL_PREFIX}
 _ACEOF
 
   ASM_SYMBOL_PREFIX='"'${USER_LABEL_PREFIX}'"'
-
 
 
 
@@ -30972,12 +30982,12 @@ fi
 
 
 
-  if test $ac_cv_func_alloca_works = no; then
+  if test "x${ac_cv_func_alloca_works}" = "xno"; then
     :
   fi
 
-  # Define an additional variable used in the Makefile substitution.
-  if test $ac_cv_working_alloca_h = yes; then
+  # Define an additional variable used in the Makefile substitution:
+  if test "x${ac_cv_working_alloca_h}" = "xyes"; then
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking for alloca as a compiler built-in" >&5
 $as_echo_n "checking for alloca as a compiler built-in... " >&6; }
 if ${gl_cv_rpl_alloca+:} false; then :
@@ -30987,43 +30997,40 @@ else
       cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
-#if defined __GNUC__ || defined _AIX || defined _MSC_VER
-        Need own alloca
-#endif
+#if defined(__GNUC__) || defined(_AIX) || defined(_MSC_VER)
+        Need_own_alloca
+#endif /* __GNUC__ || _AIX || _MSVC_VER */
 
 _ACEOF
 if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-  $EGREP "Need own alloca" >/dev/null 2>&1; then :
+  $EGREP "Need_own_alloca" >/dev/null 2>&1; then :
   gl_cv_rpl_alloca=yes
 else
   gl_cv_rpl_alloca=no
 fi
 rm -f conftest*
 
-
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $gl_cv_rpl_alloca" >&5
 $as_echo "$gl_cv_rpl_alloca" >&6; }
-    if test $gl_cv_rpl_alloca = yes; then
+    if test "x${gl_cv_rpl_alloca}" = "xyes"; then
 
 $as_echo "#define HAVE_ALLOCA 1" >>confdefs.h
 
       ALLOCA_H=alloca.h
     else
-                  ALLOCA_H=
+                  ALLOCA_H=""
     fi
   else
     ALLOCA_H=alloca.h
   fi
-
-   if test -n "$ALLOCA_H"; then
+     if test -n "${ALLOCA_H}"; then
   GL_GENERATE_ALLOCA_H_TRUE=
   GL_GENERATE_ALLOCA_H_FALSE='#'
 else
   GL_GENERATE_ALLOCA_H_TRUE='#'
   GL_GENERATE_ALLOCA_H_FALSE=
 fi
-
 
 
 
@@ -31907,35 +31914,26 @@ $as_echo "$gt_cv_locale_fr" >&6; }
 
 
 
-
-
-
-
   :
 
 
 
 
 
-  if test $ac_cv_func_btowc = no; then
+  if test "x${ac_cv_func_btowc}" = "xno"; then
     HAVE_BTOWC=0
   else
-
-
-
-
-        { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether btowc(0) is correct" >&5
+                     { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether btowc(0) is correct" >&5
 $as_echo_n "checking whether btowc(0) is correct... " >&6; }
 if ${gl_cv_func_btowc_nul+:} false; then :
   $as_echo_n "(cached) " >&6
 else
+  if test "$cross_compiling" = yes; then :
 
-        if test "$cross_compiling" = yes; then :
-
-           case "$host_os" in
-                      # Guess no on Cygwin.
+           case "${host_os}" in
+                      # Guess no on Cygwin:
              cygwin*) gl_cv_func_btowc_nul="guessing no" ;;
-                      # Guess yes otherwise.
+                      # Guess yes otherwise:
              *)       gl_cv_func_btowc_nul="guessing yes" ;;
            esac
 
@@ -31944,20 +31942,22 @@ else
 /* end confdefs.h.  */
 
 #include <string.h>
-/* Tru64 with Desktop Toolkit C has a bug: <stdio.h> must be included before
-   <wchar.h>.
-   BSD/OS 4.0.1 has a bug: <stddef.h>, <stdio.h> and <time.h> must be
-   included before <wchar.h>.  */
+/* Tru64 with Desktop Toolkit C has a bug: <stdio.h> must be included
+ * before <wchar.h>.
+ * BSD/OS 4.0.1 has a bug: <stddef.h>, <stdio.h> and <time.h> must be
+ * included before <wchar.h>.  */
 #include <stddef.h>
 #include <stdio.h>
 #include <time.h>
 #include <wchar.h>
-int main ()
+int main(void)
 {
-  if (btowc ('\0') != 0)
+  if (btowc('\0') != 0) {
     return 1;
+  }
   return 0;
 }
+
 _ACEOF
 if ac_fn_c_try_run "$LINENO"; then :
   gl_cv_func_btowc_nul=yes
@@ -31968,24 +31968,21 @@ rm -f core *.core core.conftest.* gmon.out bb.out conftest$ac_exeext \
   conftest.$ac_objext conftest.beam conftest.$ac_ext
 fi
 
-
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $gl_cv_func_btowc_nul" >&5
 $as_echo "$gl_cv_func_btowc_nul" >&6; }
-
         { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether btowc(EOF) is correct" >&5
 $as_echo_n "checking whether btowc(EOF) is correct... " >&6; }
 if ${gl_cv_func_btowc_eof+:} false; then :
   $as_echo_n "(cached) " >&6
 else
-
-                        case "$host_os" in
-                 # Guess no on IRIX.
+                 case "${host_os}" in
+                 # Guess no on IRIX:
           irix*) gl_cv_func_btowc_eof="guessing no" ;;
-                 # Guess yes otherwise.
+                 # Guess yes otherwise:
           *)     gl_cv_func_btowc_eof="guessing yes" ;;
         esac
-        if test $LOCALE_FR != none; then
+        if test "x${LOCALE_FR}" != "xnone"; then
           if test "$cross_compiling" = yes; then :
   :
 else
@@ -31994,23 +31991,24 @@ else
 
 #include <locale.h>
 #include <string.h>
-/* Tru64 with Desktop Toolkit C has a bug: <stdio.h> must be included before
-   <wchar.h>.
-   BSD/OS 4.0.1 has a bug: <stddef.h>, <stdio.h> and <time.h> must be
-   included before <wchar.h>.  */
+/* Tru64 with Desktop Toolkit C has a bug: <stdio.h> must be included
+ * before <wchar.h>.
+ * BSD/OS 4.0.1 has a bug: <stddef.h>, <stdio.h> and <time.h> must be
+ * included before <wchar.h>. */
 #include <stddef.h>
 #include <stdio.h>
 #include <time.h>
 #include <wchar.h>
-int main ()
+int main(void)
 {
-  if (setlocale (LC_ALL, "$LOCALE_FR") != NULL)
-    {
-      if (btowc (EOF) != WEOF)
+  if (setlocale(LC_ALL, "${LOCALE_FR}") != NULL) {
+      if (btowc (EOF) != WEOF) {
         return 1;
-    }
+      }
+  }
   return 0;
 }
+
 _ACEOF
 if ac_fn_c_try_run "$LINENO"; then :
   gl_cv_func_btowc_eof=yes
@@ -32026,12 +32024,11 @@ fi
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $gl_cv_func_btowc_eof" >&5
 $as_echo "$gl_cv_func_btowc_eof" >&6; }
-
-    case "$gl_cv_func_btowc_nul" in
+    case "${gl_cv_func_btowc_nul}" in
       *yes) ;;
       *) REPLACE_BTOWC=1 ;;
     esac
-    case "$gl_cv_func_btowc_eof" in
+    case "${gl_cv_func_btowc_eof}" in
       *yes) ;;
       *) REPLACE_BTOWC=1 ;;
     esac
@@ -32045,9 +32042,7 @@ $as_echo "$gl_cv_func_btowc_eof" >&6; }
   *) LIBOBJS="$LIBOBJS btowc.$ac_objext"
  ;;
 esac
-
-  :
-
+    :
   fi
 
 
@@ -32079,7 +32074,6 @@ $as_echo "#define GNULIB_TEST_BTOWC 1" >>confdefs.h
 
 
 
-
      { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether realpath works" >&5
 $as_echo_n "checking whether realpath works... " >&6; }
 if ${gl_cv_func_realpath_works+:} false; then :
@@ -32089,10 +32083,10 @@ else
     touch conftest.a
     mkdir conftest.d
     if test "$cross_compiling" = yes; then :
-  case "$host_os" in
-                       # Guess yes on glibc systems.
+  case "${host_os}" in
+                       # Guess yes on glibc systems:
         *-gnu* | gnu*) gl_cv_func_realpath_works="guessing yes" ;;
-                       # If we don't know, assume the worst.
+                       # If we do NOT know, assume the worst:
         *)             gl_cv_func_realpath_works="guessing no" ;;
       esac
 
@@ -32223,32 +32217,35 @@ main ()
 
         int result = 0;
         {
-          char *name = realpath ("conftest.a", NULL);
-          if (!(name && *name == '/'))
+          char *name = realpath("conftest.a", NULL);
+          if (!(name && *name == '/')) {
             result |= 1;
+          }
         }
         {
-          char *name = realpath ("conftest.b/../conftest.a", NULL);
-          if (name != NULL)
+          char *name = realpath("conftest.b/../conftest.a", NULL);
+          if (name != NULL) {
             result |= 2;
+          }
         }
         {
-          char *name = realpath ("conftest.a/", NULL);
-          if (name != NULL)
+          char *name = realpath("conftest.a/", NULL);
+          if (name != NULL) {
             result |= 4;
+          }
         }
         {
-          char *name1 = realpath (".", NULL);
-          char *name2 = realpath ("conftest.d//./..", NULL);
-          if (strcmp (name1, name2) != 0)
+          char *name1 = realpath(".", NULL);
+          char *name2 = realpath("conftest.d//./..", NULL);
+          if (strcmp(name1, name2) != 0) {
             result |= 8;
+          }
         }
         return result;
 
   ;
   return 0;
 }
-
 _ACEOF
 if ac_fn_c_try_run "$LINENO"; then :
   gl_cv_func_realpath_works=yes
@@ -32264,7 +32261,7 @@ fi
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $gl_cv_func_realpath_works" >&5
 $as_echo "$gl_cv_func_realpath_works" >&6; }
-  case "$gl_cv_func_realpath_works" in
+  case "${gl_cv_func_realpath_works}" in
     *yes)
 
 $as_echo "#define FUNC_REALPATH_WORKS 1" >>confdefs.h
@@ -32274,19 +32271,16 @@ $as_echo "#define FUNC_REALPATH_WORKS 1" >>confdefs.h
 
 
 
-
   :
 
 
 
 
 
-
-
-  if test $ac_cv_func_canonicalize_file_name = no; then
+  if test "x${ac_cv_func_canonicalize_file_name}" = "xno"; then
     HAVE_CANONICALIZE_FILE_NAME=0
   else
-    case "$gl_cv_func_realpath_works" in
+    case "${gl_cv_func_realpath_works}" in
       *yes) ;;
       *)    REPLACE_CANONICALIZE_FILE_NAME=1 ;;
     esac
@@ -32304,7 +32298,6 @@ $as_echo "#define FUNC_REALPATH_WORKS 1" >>confdefs.h
 
 
 
-
   :
 
 
@@ -32317,9 +32310,6 @@ $as_echo "#define FUNC_REALPATH_WORKS 1" >>confdefs.h
 
 
 
-
-
-
   :
 
 
@@ -32328,20 +32318,18 @@ $as_echo "#define FUNC_REALPATH_WORKS 1" >>confdefs.h
 
 
 
-
-
-  if test $ac_cv_func_canonicalize_file_name = no; then
+  if test "x${ac_cv_func_canonicalize_file_name}" = "xno"; then
     HAVE_CANONICALIZE_FILE_NAME=0
-    if test $ac_cv_func_realpath = no; then
+    if test "x${ac_cv_func_realpath}" = "xno"; then
       HAVE_REALPATH=0
     else
-      case "$gl_cv_func_realpath_works" in
+      case "${gl_cv_func_realpath_works}" in
 	*yes) ;;
 	*)    REPLACE_REALPATH=1 ;;
       esac
     fi
   else
-    case "$gl_cv_func_realpath_works" in
+    case "${gl_cv_func_realpath_works}" in
       *yes)
         ;;
       *)
@@ -33932,7 +33920,6 @@ rm -f core conftest.err conftest.$ac_objext \
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_error_at_line" >&5
 $as_echo "$ac_cv_lib_error_at_line" >&6; }
-
 ac_fn_c_check_decl "$LINENO" "strerror_r" "ac_cv_have_decl_strerror_r" "$ac_includes_default"
 if test "x$ac_cv_have_decl_strerror_r" = xyes; then :
   ac_have_decl=1
@@ -34034,8 +34021,7 @@ fi
  ;;
 esac
 
-
-
+      # (just in case)
   :
 
   fi

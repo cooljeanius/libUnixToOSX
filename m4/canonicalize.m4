@@ -1,46 +1,44 @@
-# canonicalize.m4 serial 26
+# canonicalize.m4 serial 27
 
-dnl Copyright (C) 2003-2007, 2009-2012 Free Software Foundation, Inc.
+dnl# Copyright (C) 2003-2007, 2009-2012 Free Software Foundation, Inc.
 
-dnl This file is free software; the Free Software Foundation
-dnl gives unlimited permission to copy and/or distribute it,
-dnl with or without modifications, as long as this notice is preserved.
+dnl# This file is free software; the Free Software Foundation
+dnl# gives unlimited permission to copy and/or distribute it,
+dnl# with or without modifications, as long as this notice is preserved.
 
 # Provides canonicalize_file_name and canonicalize_filename_mode, but does
 # not provide or fix realpath.
-AC_DEFUN([gl_FUNC_CANONICALIZE_FILENAME_MODE],
-[
-  AC_REQUIRE([gl_USE_SYSTEM_EXTENSIONS])
-  AC_CHECK_FUNCS_ONCE([canonicalize_file_name])
-  AC_REQUIRE([gl_DOUBLE_SLASH_ROOT])
+AC_DEFUN([gl_FUNC_CANONICALIZE_FILENAME_MODE],[
+  AC_REQUIRE([gl_USE_SYSTEM_EXTENSIONS])dnl
+  AC_CHECK_FUNCS_ONCE([canonicalize_file_name])dnl
+  AC_REQUIRE([gl_DOUBLE_SLASH_ROOT])dnl
   AC_REQUIRE([gl_FUNC_REALPATH_WORKS])
-  if test $ac_cv_func_canonicalize_file_name = no; then
+  if test "x${ac_cv_func_canonicalize_file_name}" = "xno"; then
     HAVE_CANONICALIZE_FILE_NAME=0
   else
-    case "$gl_cv_func_realpath_works" in
+    case "${gl_cv_func_realpath_works}" in
       *yes) ;;
       *)    REPLACE_CANONICALIZE_FILE_NAME=1 ;;
     esac
   fi
-])
+])dnl
 
 # Provides canonicalize_file_name and realpath.
-AC_DEFUN([gl_CANONICALIZE_LGPL],
-[
-  AC_REQUIRE([gl_STDLIB_H_DEFAULTS])
+AC_DEFUN([gl_CANONICALIZE_LGPL],[
+  AC_REQUIRE([gl_STDLIB_H_DEFAULTS])dnl
   AC_REQUIRE([gl_CANONICALIZE_LGPL_SEPARATE])
-  if test $ac_cv_func_canonicalize_file_name = no; then
+  if test "x${ac_cv_func_canonicalize_file_name}" = "xno"; then
     HAVE_CANONICALIZE_FILE_NAME=0
-    if test $ac_cv_func_realpath = no; then
+    if test "x${ac_cv_func_realpath}" = "xno"; then
       HAVE_REALPATH=0
     else
-      case "$gl_cv_func_realpath_works" in
+      case "${gl_cv_func_realpath_works}" in
 	*yes) ;;
 	*)    REPLACE_REALPATH=1 ;;
       esac
     fi
   else
-    case "$gl_cv_func_realpath_works" in
+    case "${gl_cv_func_realpath_works}" in
       *yes)
         ;;
       *)
@@ -53,23 +51,21 @@ AC_DEFUN([gl_CANONICALIZE_LGPL],
 
 # Like gl_CANONICALIZE_LGPL, except prepare for separate compilation
 # (no REPLACE_CANONICALIZE_FILE_NAME, no REPLACE_REALPATH, no AC_LIBOBJ).
-AC_DEFUN([gl_CANONICALIZE_LGPL_SEPARATE],
-[
-  AC_REQUIRE([gl_USE_SYSTEM_EXTENSIONS])
-  AC_CHECK_FUNCS_ONCE([canonicalize_file_name getcwd readlink])
-  AC_REQUIRE([gl_DOUBLE_SLASH_ROOT])
-  AC_REQUIRE([gl_FUNC_REALPATH_WORKS])
-  AC_CHECK_HEADERS_ONCE([sys/param.h])
-])
+AC_DEFUN([gl_CANONICALIZE_LGPL_SEPARATE],[
+  AC_REQUIRE([gl_USE_SYSTEM_EXTENSIONS])dnl
+  AC_CHECK_FUNCS_ONCE([canonicalize_file_name getcwd readlink])dnl
+  AC_REQUIRE([gl_DOUBLE_SLASH_ROOT])dnl
+  AC_REQUIRE([gl_FUNC_REALPATH_WORKS])dnl
+  AC_CHECK_HEADERS_ONCE([sys/param.h])dnl
+])dnl
 
 # Check whether realpath works.  Assume that if a platform has both
 # realpath and canonicalize_file_name, but the former is broken, then
 # so is the latter.
-AC_DEFUN([gl_FUNC_REALPATH_WORKS],
-[
-  AC_CHECK_FUNCS_ONCE([realpath])
-  AC_REQUIRE([AC_CANONICAL_HOST]) dnl for cross-compiles
-  AC_CACHE_CHECK([whether realpath works], [gl_cv_func_realpath_works], [
+AC_DEFUN([gl_FUNC_REALPATH_WORKS],[
+  AC_CHECK_FUNCS_ONCE([realpath])dnl
+  AC_REQUIRE([AC_CANONICAL_HOST]) dnl# for cross-compiles
+  AC_CACHE_CHECK([whether realpath works],[gl_cv_func_realpath_works],[
     touch conftest.a
     mkdir conftest.d
     AC_RUN_IFELSE([
@@ -77,48 +73,52 @@ AC_DEFUN([gl_FUNC_REALPATH_WORKS],
         ]GL_NOCRASH[
         #include <stdlib.h>
         #include <string.h>
-      ]], [[
+      ]],[[
         int result = 0;
         {
-          char *name = realpath ("conftest.a", NULL);
-          if (!(name && *name == '/'))
+          char *name = realpath("conftest.a", NULL);
+          if (!(name && *name == '/')) {
             result |= 1;
+          }
         }
         {
-          char *name = realpath ("conftest.b/../conftest.a", NULL);
-          if (name != NULL)
+          char *name = realpath("conftest.b/../conftest.a", NULL);
+          if (name != NULL) {
             result |= 2;
+          }
         }
         {
-          char *name = realpath ("conftest.a/", NULL);
-          if (name != NULL)
+          char *name = realpath("conftest.a/", NULL);
+          if (name != NULL) {
             result |= 4;
+          }
         }
         {
-          char *name1 = realpath (".", NULL);
-          char *name2 = realpath ("conftest.d//./..", NULL);
-          if (strcmp (name1, name2) != 0)
+          char *name1 = realpath(".", NULL);
+          char *name2 = realpath("conftest.d//./..", NULL);
+          if (strcmp(name1, name2) != 0) {
             result |= 8;
+          }
         }
         return result;
-      ]])
+      ]])dnl
      ],
      [gl_cv_func_realpath_works=yes],
      [gl_cv_func_realpath_works=no],
-     [case "$host_os" in
-                       # Guess yes on glibc systems.
+     [case "${host_os}" in
+                       # Guess yes on glibc systems:
         *-gnu* | gnu*) gl_cv_func_realpath_works="guessing yes" ;;
-                       # If we don't know, assume the worst.
+                       # If we do NOT know, assume the worst:
         *)             gl_cv_func_realpath_works="guessing no" ;;
       esac
      ])
     rm -rf conftest.a conftest.d
   ])
-  case "$gl_cv_func_realpath_works" in
+  case "${gl_cv_func_realpath_works}" in
     *yes)
-      AC_DEFINE([FUNC_REALPATH_WORKS], [1], [Define to 1 if realpath()
+      AC_DEFINE([FUNC_REALPATH_WORKS],[1],[Define to 1 if realpath()
         can malloc memory, always gives an absolute path, and handles
         trailing slash correctly.])
       ;;
   esac
-])
+])dnl
