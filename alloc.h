@@ -5,6 +5,7 @@
  *  Created by Eric Gallager on 4/2/14.
  *  Taken from Apple documentation.
  *
+ * FIXME: decide where in this header to put an include for <stdlib.h>
  */
 
 #ifndef _ALLOCA_H
@@ -12,12 +13,12 @@
 
 #undef  __alloca
 
-/* Now define the internal interfaces.  */
+/* Now define the internal interfaces: */
 extern void *__alloca(size_t __size);
 
 #ifdef  __GNUC__
-# define __alloca(size) __builtin_alloca (size)
-#endif /* GCC.  */
+# define __alloca(size) __builtin_alloca(size)
+#endif /* GCC. */
 
 #else
 # ifndef __ALLOC_H__

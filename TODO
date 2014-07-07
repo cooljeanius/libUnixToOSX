@@ -1,0 +1,41 @@
+- add implementations for the following functions:
+ * catopen
+ * catgets
+ * catclose
+ * crypt
+ * ecvt
+ * fcvt
+ * setmntent
+ * addmntent
+ * endmntent
+ * hasmntopt
+ * sbrk
+ * brk
+ * shmget
+ * swapon
+ * swapoff
+- make the getmntent() implementation non-Android specific
+- add test(s) for dysize() implementation
+- finish implementation of fcloseall()
+- add programs that accept the same arguments as, and produce similar output to, but are actually just wrappers around, the OSX counterparts of the following:
+ * ldd
+ * lsmod
+- add implementations for the following headers:
+ * lcrypt.h
+ * malloc.h
+ * mm.h
+ * module.h
+ * nl_types.h (a new implementation that wraps the relevant CoreFoundation functions that the Apple documentation says to wrap... see some of the other ".in.h" headers for how to do an "#include_next"-style header for when a header exists but is incomplete)
+ * ptms.h
+ * stream.h
+ * stropts.h
+ * swapctl.h
+ * termio.h (grab an old version first to compare)
+ * utmp.h (un-deprecate it)
+ * values.h
+ * wchar.h (see notes for nl_types.h)
+- add test(s) for the following header implementations:
+ * alloc.h
+- ftw_Apple.h: finish it, and see if it still needs the "_Apple" suffix
+- continue doing misc. edits
+
