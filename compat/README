@@ -7,3 +7,6 @@ starting with 10.6 and working my way backwards. I skipped over
 10.3.9.sdk and 10.3.internal.sdk, because they were just "sparse" SDKs
 populated by a few headers from darwinbuild at the time
 that I was doing this.
+
+Update: I have since found the SDKs for 10.7-10.9; those were populated
+in regular chronological order (i.e. forwards instead of reverse)

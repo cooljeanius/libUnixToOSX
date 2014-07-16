@@ -1,0 +1,14 @@
+--- ../10.7/nl_types.h	2014-07-06 22:39:58.000000000 -0400
++++ nl_types.h	2014-07-06 22:40:23.000000000 -0400
+@@ -91,10 +91,7 @@
+ 	int	__size;
+ } *nl_catd;
+ 
+-#ifndef _NL_ITEM
+-typedef __darwin_nl_item        nl_item;
+-#define _NL_ITEM
+-#endif
++#include <_types/_nl_item.h>
+ 
+ __BEGIN_DECLS
+ nl_catd  catopen(const char *, int);

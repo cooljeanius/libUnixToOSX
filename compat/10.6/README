@@ -6,3 +6,9 @@ The following headers are unchanged from 10.5:
 - getopt.h
 - nl_types.h
 - wchar.h
+
+The following headers are unchanged in all following known versions
+(i.e. at least through 10.9):
+
+- ftw.h
+- getopt.h

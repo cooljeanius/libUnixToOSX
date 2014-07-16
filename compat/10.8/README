@@ -1,0 +1,11 @@
+This directory: headers from the 10.8 SDK
+
+The following headers are unchanged from 10.6, so just use the ones there:
+
+- ftw.h
+- getopt.h
+- utmp.h
+
+The following headers are unchanged from 10.7, so just use the ones there:
+
+- nl_types.h

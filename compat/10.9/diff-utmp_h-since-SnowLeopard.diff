@@ -1,0 +1,15 @@
+--- ../10.6/utmp.h	2010-04-07 21:10:01.000000000 -0400
++++ utmp.h	2014-07-06 22:40:24.000000000 -0400
+@@ -72,11 +72,7 @@
+  */
+ 
+ #include <_types.h>
+-
+-#ifndef _TIME_T
+-#define _TIME_T
+-typedef __darwin_time_t	time_t;
+-#endif
++#include <sys/_types/_time_t.h>
+ 
+ /* These files no longer exist in 10.5 and later */
+ #define	_PATH_UTMP	"/var/run/utmp"
