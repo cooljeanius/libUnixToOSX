@@ -1,0 +1,10 @@
+This directory: headers from the 10.4u SDK
+
+Files added since 10.3.0:
+
+- ftw.h
+
+The following headers are unchanged from 10.3.0:
+
+- utmp.h (although utmpx.h was added in 10.4u, utmp.h was not deprecated in favor of it until 10.5, so it remained unchanged here)
+

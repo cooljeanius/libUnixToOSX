@@ -437,7 +437,7 @@ find_shared_library_fullname()
  * Return NULL if unknown.
  * Guaranteed to work only on Linux, Cygwin, and native Windows. */
 static char *
-get_shared_library_fullname()
+get_shared_library_fullname(void)
 {
 #  if !((defined _WIN32 || defined __WIN32__) && !defined __CYGWIN__)
 	static bool tried_find_shared_library_fullname;

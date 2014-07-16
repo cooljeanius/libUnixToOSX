@@ -1,0 +1,14 @@
+--- ../10.4u/ftw.h	2007-05-04 17:49:14.000000000 -0400
++++ ftw.h	2010-04-07 21:10:01.000000000 -0400
+@@ -52,9 +52,9 @@
+ 
+ __BEGIN_DECLS
+ int	ftw(const char *, int (*)(const char *, const struct stat *, int), int) 
+-	__DARWIN_ALIAS(ftw);
++	__DARWIN_ALIAS_I(ftw);
+ int	nftw(const char *, int (*)(const char *, const struct stat *, int,
+-	    struct FTW *), int, int) __DARWIN_ALIAS(nftw);
++	    struct FTW *), int, int) __DARWIN_ALIAS_I(nftw);
+ __END_DECLS
+ 
+ #endif	/* !_FTW_H */

@@ -1,0 +1,9 @@
+In this directory are reference headers/files for things that already
+exist in OS X (taken here from their relevant SDKs),
+but need a proper re-implementation in this repository anyways.
+
+I populated the OS-specific subdirs in reverse-chronological order,
+starting with 10.6 and working my way backwards. I skipped over
+10.3.9.sdk and 10.3.internal.sdk, because they were just "sparse" SDKs
+populated by a few headers from darwinbuild at the time
+that I was doing this.

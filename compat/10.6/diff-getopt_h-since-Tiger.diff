@@ -1,0 +1,11 @@
+--- ../10.4u/getopt.h	2007-05-04 17:49:14.000000000 -0400
++++ getopt.h	2010-04-07 21:10:01.000000000 -0400
+@@ -72,7 +72,7 @@
+ 	const struct option *, int *);
+ #ifndef _GETOPT
+ #define	_GETOPT
+-int	 getopt(int, char * const [], const char *);
++int	 getopt(int, char * const [], const char *) __DARWIN_ALIAS(getopt);
+ 
+ extern char *optarg;			/* getopt(3) external variables */
+ extern int optind, opterr, optopt;

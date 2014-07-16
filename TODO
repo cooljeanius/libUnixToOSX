@@ -30,7 +30,7 @@
  * stream.h
  * stropts.h
  * swapctl.h
- * termio.h (grab an old version first to compare)
+ * termio.h (grab an old version first to compare... assuming the documentation was correct about an old version existing in the first place)
  * utmp.h (un-deprecate it)
  * values.h
  * wchar.h (see notes for nl_types.h)
@@ -38,4 +38,4 @@
  * alloc.h
 - ftw_Apple.h: finish it, and see if it still needs the "_Apple" suffix
 - continue doing misc. edits
-
+- get the autoscan warnings to work properly

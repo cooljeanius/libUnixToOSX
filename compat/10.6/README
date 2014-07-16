@@ -1,0 +1,8 @@
+This directory: headers from the 10.6 SDK
+
+The following headers are unchanged from 10.5:
+
+- ftw.h
+- getopt.h
+- nl_types.h
+- wchar.h

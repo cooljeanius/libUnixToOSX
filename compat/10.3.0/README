@@ -1,0 +1,11 @@
+This directory: headers from the 10.3.0 SDK
+
+The following headers are unchanged in 10.4u, so just use the ones there:
+
+- utmp.h
+
+Files added since 10.2.8:
+
+- getopt.h
+- nl_types.h
+- wchar.h
