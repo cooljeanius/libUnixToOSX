@@ -3,7 +3,6 @@ dnl# Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])dnl
 AC_INIT([libUnixToOSX],[0.0.1],[/dev/null])dnl
-AN_OSX_WARNINGS_DUMMY_MACRO
 AC_CONFIG_SRCDIR([alloc.h])dnl
 AC_CONFIG_HEADERS([config.h])dnl
 AC_CONFIG_AUX_DIR([build-aux])dnl
@@ -24,6 +23,7 @@ AC_MSG_CHECKING([the characteristics of your system])
 AC_MSG_RESULT([... .. . ])
 AC_CANONICAL_TARGET
 gl_SYSTEM_SPECIFIC_MACROS
+AN_OSX_WARNINGS_DUMMY_MACRO
 AC_CHECK_FILE([/etc/fstab])dnl
 
 # automake:
@@ -144,13 +144,15 @@ AC_HEADER_UMBRELLA
 gl_HEADER_UMBRELLA
 AC_MSG_CHECKING([for miscellaneous other headers...])
 AC_MSG_RESULT([... .. . ])
-AC_CHECK_HEADERS_IF_NOT_CACHED([bp-sym.h features.h getopt.h langinfo.h \
-                                mach-o/dyld.h math.h search.h stdio_ext.h \
+AC_CHECK_HEADERS_IF_NOT_CACHED([bp-sym.h errno.h fcntl.h features.h \
+                                getopt.h langinfo.h mach-o/dyld.h math.h \
+                                poll.h search.h stdio_ext.h \
                                 sys/fs_types.h sys/ioctl.h sys/param.h \
                                 sys/socket.h sys/statvfs.h sys/time.h \
                                 sys/vfs.h termios.h xlocale.h wchar.h])dnl
-AC_CHECK_HEADERS([OS.h alloc.h assert.h bits/libc-lock.h cdefs.h \
-                  errno.h fcntl.h float.h fshelp.h fstab.h \
+AC_CHECK_HEADERS([_types/_nl_item.h \
+                  OS.h alloc.h assert.h bits/libc-lock.h cdefs.h \
+                  float.h fshelp.h fstab.h \
                   fts.h ftw.h gnu-versions.h iconv.h io.h iostream.h \
                   lcrypt.h libcharset.h libintl.h \
                   libio/iolibio.h libio/libioP.h \
@@ -158,17 +160,22 @@ AC_CHECK_HEADERS([OS.h alloc.h assert.h bits/libc-lock.h cdefs.h \
                   mntent.h mnttab.h module.h netdb.h nl_types.h os2.h \
                   process.h ptms.h publib.h publib/strutil.h \
                   shlib-compat.h stdarg.h stddef.h stdio.h stream.h \
-                  stropts.h strutil.h swapctl.h swap.h sys/cdefs.h \
-                  sys/fcntl.h sys/fstyp.h sys/mntent.h sys/mnttab.h \
-                  sys/statfs.h termio.h time.h utmp.h utmpx.h \
-                  values.h wctype.h winbase.h windows.h])dnl
+                  stropts.h strutil.h swapctl.h swap.h \
+                  sys/_types/_ct_rune_t.h sys/_types/_mbstate_t.h \
+                  sys/_types/_null.h sys/_types/_rune_t.h \
+                  sys/_types/_size_t.h sys/_types/_time_t.h \
+                  sys/_types/_wchar_t.h sys/cdefs.h sys/event.h \
+                  sys/fcntl.h sys/fstyp.h sys/ipc.h sys/mntent.h \
+                  sys/mnttab.h sys/shm.h sys/statfs.h termio.h time.h \
+                  utmp.h utmpx.h values.h wctype.h winbase.h windows.h])dnl
 # CoreFoundation headers:
 AC_CHECK_HEADERS([CoreFoundation/CFString.h CoreFoundation/CFLocale.h \
-                  CoreFoundation/CFPreferences.h])
+                  CoreFoundation/CFPreferences.h \
+                  CoreFoundation/CoreFoundation.h])
 dnl# keep autoscan happy:
-if test "x" = "y"; then
+if test "x" = "Y0"; then
   test -x `which autoscan`
-  AC_CHECK_HEADERS([bp-sym.h langinfo.h stdio_ext.h sys/ioctl.h \
+  AC_CHECK_HEADERS([bp-sym.h fcntl.h langinfo.h stdio_ext.h sys/ioctl.h \
                     sys/param.h sys/socket.h sys/statvfs.h sys/time.h \
                     sys/vfs.h wchar.h])
 fi
@@ -202,7 +209,11 @@ AC_CHECK_TYPES([__darwin_mbstate_t])dnl
 dnl#TODO: check where this comes from:
 AC_CHECK_TYPES([locale_t])dnl
 AC_CHECK_TYPES([dev_t])dnl
-AC_CHECK_TYPES([ino_t])
+AC_CHECK_TYPES([ino_t])dnl
+AC_CHECK_TYPES([key_t])dnl
+AC_CHECK_TYPES([nfds_t])dnl
+AC_CHECK_TYPES([nl_catd])dnl
+AC_CHECK_TYPES([nl_item])
 if test "x${ac_cv_type_nlink_t}" = "x"; then
   test -z "${ac_cv_type_nlink_t}"
   AC_CHECK_TYPES([nlink_t])
@@ -224,18 +235,20 @@ gl_ALL_FUNC_UMBRELLAS_META_UMBRELLA
 AC_MSG_CHECKING([for miscellaneous other functions...])
 AC_MSG_RESULT([... .. . ])
 AC_CHECK_FUNCS([GetDriveType])dnl
-AC_CHECK_FUNCS_IF_NOT_CACHED([__fpending _NSGetExecutablePath btowc dup2 \
-                              fchdir getcwd getdelim getmnt getmntinfo \
-                              ioctl listmntent memchr mempcpy pathconf \
-                              setenv setlocale snprintf strndup])dnl
+AC_CHECK_FUNCS_IF_NOT_CACHED([__fpending _NSGetExecutablePath abort btowc \
+                              close dup2 fchdir getcwd getdelim getmnt \
+                              getmntinfo ioctl listmntent memchr mempcpy \
+                              pathconf setenv setlocale snprintf strndup])
 AC_CHECK_FUNCS_ONCE([readlinkat])dnl
-AC_CHECK_FUNCS([abort assert atexit atoi clearenv close dladdr dupfd \
-                fflush fgets freemntlist gettext getvfsbytype iswprint \
-                localeconv lseek mblen mbrlen mbtowc memmove \
-                memset mntctl printf read recv select shm_open sprintf \
+AC_CHECK_FUNCS([accept assert atexit atoi clearenv connect \
+                dladdr dupfd end execve fflush fgets freemntlist ftok \
+                gencat getrlimit gettext getvfsbytype iswprint \
+                kevent kevent64 kqueue localeconv lseek mblen mbrlen \
+                mbtowc memmove memset mntctl printf read recv \
+                select send shm_open shmat shmctl shmdt sprintf \
                 strcasecmp strchr strdup strerror strncasecmp strrchr \
-                strsep strspn strstr strtoul system sysconf \
-                vasprintf wctomb])dnl
+                strsep strspn strstr strtod strtoul system sysconf \
+                vasprintf wctomb wcwidth write])dnl
 # endianness functions:
 AC_CHECK_FUNCS([htonl htons ntohl ntohs])dnl
 # fstab-related functions:
@@ -257,7 +270,8 @@ AC_CHECK_FUNCS_IF_NOT_CACHED([CFLocaleCopyCurrent \
 # functions that we might want replacements for, but do not have the
 # source files to replace them yet:
 dnl# (move from "_CHECK" to "_REPLACE" once we do have source files)
-AC_CHECK_FUNCS([catopen catgets catclose crypt ecvt fcvt \
+unset ac_cv_func_catgets
+AC_CHECK_FUNCS([catopen catgets catclose crypt ecvt fcvt gcvt \
                 setmntent addmntent endmntent \
                 hasmntopt sbrk brk shmget swapon swapoff])
 # functions that we might want replacements for, and have source files for:

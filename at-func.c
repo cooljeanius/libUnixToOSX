@@ -83,8 +83,9 @@ AT_FUNC_NAME(int fd, char const *file AT_FUNC_POST_FILE_PARAM_DECLS)
 
   VALIDATE_FLAG(flag);
 
-  if (fd == AT_FDCWD || IS_ABSOLUTE_FILE_NAME (file))
+  if ((fd == AT_FDCWD) || IS_ABSOLUTE_FILE_NAME(file)) {
     return CALL_FUNC(file);
+  }
 
   {
     char proc_buf[OPENAT_BUFFER_SIZE];
@@ -102,13 +103,13 @@ AT_FUNC_NAME(int fd, char const *file AT_FUNC_POST_FILE_PARAM_DECLS)
         if (! EXPECTED_ERRNO(proc_errno)) {
             errno = proc_errno;
             return proc_result;
-		}
-	}
+        }
+    }
   }
 
-  if (save_cwd (&saved_cwd) != 0)
-    openat_save_fail (errno);
-  if (0 <= fd && fd == saved_cwd.desc) {
+  if (save_cwd(&saved_cwd) != 0)
+    openat_save_fail(errno);
+  if ((0 <= fd) && (fd == saved_cwd.desc)) {
       /* If saving the working directory collides with the user's
        * requested fd, then the user's fd must have been closed to
        * begin with.  */
@@ -125,15 +126,17 @@ AT_FUNC_NAME(int fd, char const *file AT_FUNC_POST_FILE_PARAM_DECLS)
   }
 
   err = CALL_FUNC(file);
-  saved_errno = (err == FUNC_FAIL ? errno : 0);
+  saved_errno = ((err == FUNC_FAIL) ? errno : 0);
 
-  if (restore_cwd(&saved_cwd) != 0)
+  if (restore_cwd(&saved_cwd) != 0) {
     openat_restore_fail(errno);
+  }
 
   free_cwd(&saved_cwd);
 
-  if (saved_errno)
+  if (saved_errno) {
     errno = saved_errno;
+  }
   return err;
 }
 # undef CALL_FUNC

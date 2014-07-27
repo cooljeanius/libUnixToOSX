@@ -550,7 +550,7 @@
 		A531667F18EEF5A80049B90F /* fdopen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fdopen.c; sourceTree = "<group>"; };
 		A531668018EEF5A80049B90F /* fdopendir.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fdopendir.c; sourceTree = "<group>"; };
 		A531669518EEF8610049B90F /* binary-io.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "binary-io.h"; sourceTree = "<group>"; };
-		A531669B18EEF8B00049B90F /* at-func.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "at-func.c"; sourceTree = "<group>"; };
+		A531669B18EEF8B00049B90F /* at-func.c */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.c; path = "at-func.c"; sourceTree = "<group>"; tabWidth = 8; usesTabs = 0; };
 		A531669C18EEF8B00049B90F /* at-func2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "at-func2.c"; sourceTree = "<group>"; };
 		A53166C518EF04A60049B90F /* dup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dup.h; sourceTree = "<group>"; };
 		A546C0131949FC8F005D2317 /* strerror_r.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = strerror_r.c; sourceTree = "<group>"; };

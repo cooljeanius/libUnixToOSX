@@ -15,7 +15,7 @@
    */
 #undef HAVE_ALLOCA_H
 
-/* Define to 1 if you have the <argp.h> header file. */
+/* Define if you have the <argp.h> header. */
 #undef HAVE_ARGP_H
 
 /* Define to 1 if you have the `asprintf' function. */
@@ -27,7 +27,7 @@
 /* Define to 1 if you have the `atoi' function. */
 #undef HAVE_ATOI
 
-/* Define to 1 if you have the <ctype.h> header file. */
+/* Define if you have the <ctype.h> header. */
 #undef HAVE_CTYPE_H
 
 /* Define to 1 if you have the declaration of `program_invocation_name', and
@@ -152,7 +152,7 @@
    and to 0 otherwise. */
 #undef HAVE_REALLOC
 
-/* Define to 1 if you have the <stdarg.h> header file. */
+/* Define if you have the <stdarg.h> header. */
 #undef HAVE_STDARG_H
 
 /* Define to 1 if you have the <stddef.h> header file. */
@@ -161,7 +161,7 @@
 /* Define to 1 if you have the <stdint.h> header file. */
 #undef HAVE_STDINT_H
 
-/* Define to 1 if you have the <stdio.h> header file. */
+/* Define if you have the <stdio.h> header. */
 #undef HAVE_STDIO_H
 
 /* Define to 1 if you have the <stdlib.h> header file. */
@@ -176,7 +176,7 @@
 /* Define to 1 if you have the `strdup' function. */
 #undef HAVE_STRDUP
 
-/* Define to 1 if you have the 'strerror' function. */
+/* Define to 1 if you have the 'strerror' func */
 #undef HAVE_STRERROR
 
 /* Define to 1 if you have the `strerror_r' function. */
@@ -197,7 +197,7 @@
 /* Define to 1 if you have the `strrchr' function. */
 #undef HAVE_STRRCHR
 
-/* Define to 1 if you have the 'strsignal' function. */
+/* Define to 1 if you have the 'strsignal' func */
 #undef HAVE_STRSIGNAL
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
@@ -227,7 +227,7 @@
 /* Define to 1 if you have the `vprintf' function. */
 #undef HAVE_VPRINTF
 
-/* Define to 1 if you have the <wchar.h> header file. */
+/* Define if you have the <wchar.h> header. */
 #undef HAVE_WCHAR_H
 
 /* Define to 1 if assertions should be disabled. */

@@ -101,8 +101,8 @@ DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	strerror.c chdir-long.c stdio-read.c fstat.c itold.c getopt.c \
 	fstatat.c dup2.c asnprintf.c fclose.c relocatable.c \
 	canonicalize-lgpl.c obstack_printf.c openat.c fchmodat.c \
-	freadptr.c mountlist.c stat.c alloca.c $(dist_noinst_SCRIPTS) \
-	$(include_HEADERS) $(noinst_HEADERS) build-aux/ar-lib \
+	freadptr.c stat.c mountlist.c alloca.c $(dist_noinst_SCRIPTS) \
+	$(include_HEADERS) $(noinst_HEADERS) TODO build-aux/ar-lib \
 	build-aux/compile build-aux/config.guess \
 	build-aux/config.rpath build-aux/config.sub build-aux/depcomp \
 	build-aux/install-sh build-aux/missing build-aux/mkinstalldirs \

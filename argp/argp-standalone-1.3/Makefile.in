@@ -106,9 +106,9 @@ DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/configure $(am__configure_deps) \
 	$(srcdir)/config.h.in \
 	$(top_srcdir)/../../build-aux/mkinstalldirs \
-	$(top_srcdir)/../../rawmemchr.c $(top_srcdir)/../../realloc.c \
-	$(top_srcdir)/../../mempcpy.c $(top_srcdir)/../../strchrnul.c \
-	$(top_srcdir)/../../strnlen.c $(top_srcdir)/../../malloc.c \
+	$(top_srcdir)/../../rawmemchr.c $(top_srcdir)/../../mempcpy.c \
+	$(top_srcdir)/../../realloc.c $(top_srcdir)/../../strchrnul.c \
+	$(top_srcdir)/../../malloc.c $(top_srcdir)/../../strnlen.c \
 	$(top_srcdir)/../../strndup.c $(noinst_HEADERS) \
 	$(top_srcdir)/../../build-aux/test-driver ChangeLog TODO \
 	../../build-aux/ar-lib ../../build-aux/compile \

@@ -620,8 +620,8 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-gl_header_list=
-gl_func_list=
+gl_header_list=""
+gl_func_list=""
 ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
@@ -2566,13 +2566,13 @@ $as_echo "$as_me: creating cache $cache_file" >&6;}
   >$cache_file
 fi
 
-gl_header_list="$gl_header_list wchar.h"
-gl_header_list="$gl_header_list stdarg.h"
-gl_header_list="$gl_header_list stdio.h"
-gl_header_list="$gl_header_list argp.h"
-gl_header_list="$gl_header_list ctype.h"
-gl_func_list="$gl_func_list strerror"
-gl_func_list="$gl_func_list strsignal"
+gl_header_list="${gl_header_list} wchar.h"
+gl_header_list="${gl_header_list} stdarg.h"
+gl_header_list="${gl_header_list} stdio.h"
+gl_header_list="${gl_header_list} argp.h"
+gl_header_list="${gl_header_list} ctype.h"
+gl_func_list="${gl_func_list} strerror"
+gl_func_list="${gl_func_list} strsignal"
 # Check that the precious variables saved in the cache have kept the same
 # value.
 ac_cache_corrupted=false
@@ -4532,8 +4532,7 @@ done
 
 
 
-
-  for ac_header in $gl_header_list
+  for ac_header in ${gl_header_list}
 do :
   as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
 ac_fn_c_check_header_mongrel "$LINENO" "$ac_header" "$as_ac_Header" "$ac_includes_default"
@@ -4545,8 +4544,6 @@ _ACEOF
 fi
 
 done
-
-
 
 
 
@@ -4618,9 +4615,7 @@ $as_echo "$ac_cv_safe_to_define___extensions__" >&6; }
   :
 
 
-
-
-  ac_fn_c_check_type "$LINENO" "mbstate_t" "ac_cv_type_mbstate_t" "$ac_includes_default"
+        ac_fn_c_check_type "$LINENO" "mbstate_t" "ac_cv_type_mbstate_t" "$ac_includes_default"
 if test "x$ac_cv_type_mbstate_t" = xyes; then :
 
 cat >>confdefs.h <<_ACEOF
@@ -4799,14 +4794,7 @@ fi
 
 
 
-
-
-
-
   :
-
-
-
 
 
 
@@ -4900,8 +4888,6 @@ if test "x${am_cv_prog_cc_stdc}" = "xno"; then
 fi
 
 # Checks for libraries.
-
-
 
 
 
@@ -5032,9 +5018,7 @@ fi
   :
 
 
-
-
-    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for working argp" >&5
+          { $as_echo "$as_me:${as_lineno-$LINENO}: checking for working argp" >&5
 $as_echo_n "checking for working argp... " >&6; }
 if ${lsh_cv_lib_argp_works+:} false; then :
   $as_echo_n "(cached) " >&6
@@ -6187,8 +6171,6 @@ _ACEOF
 
 
 
-
-
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for ANSI C function prototypes" >&5
 $as_echo_n "checking for ANSI C function prototypes... " >&6; }
 if test "x${am_new_cv_prog_cc_stdc}" != "xno"; then
@@ -6209,8 +6191,6 @@ fi
 
 
   :
-
-
 
 
 
@@ -7033,8 +7013,7 @@ fi
 
 
 
-
-  for ac_func in $gl_func_list
+  for ac_func in ${gl_func_list}
 do :
   as_ac_var=`$as_echo "ac_cv_func_$ac_func" | $as_tr_sh`
 ac_fn_c_check_func "$LINENO" "$ac_func" "$as_ac_var"
@@ -7045,8 +7024,6 @@ _ACEOF
 
 fi
 done
-
-
 
 
 
@@ -7064,17 +7041,10 @@ _ACEOF
 
 
 
-
   :
 
 
-
-
-
   :
-
-
-
 
 
 
@@ -7171,11 +7141,7 @@ _ACEOF
 
 
 
-
   :
-
-
-
 
 
   if test $ac_cv_have_decl_strsignal = no; then
@@ -7251,14 +7217,9 @@ $as_echo "$gl_cv_func_working_strsignal" >&6; }
 
 
 
-
-
   :
 
-
-
-
-ac_fn_c_check_decl "$LINENO" "sys_siglist" "ac_cv_have_decl_sys_siglist" "$ac_includes_default"
+          ac_fn_c_check_decl "$LINENO" "sys_siglist" "ac_cv_have_decl_sys_siglist" "$ac_includes_default"
 if test "x$ac_cv_have_decl_sys_siglist" = xyes; then :
   ac_have_decl=1
 else

@@ -107,6 +107,6 @@ case "x${am_new_cv_prog_cc_stdc}" in
   x|xno) ;;
   *) CC="${CC} ${am_new_cv_prog_cc_stdc}" ;;
 esac
-])
+])dnl
 
-AU_DEFUN([fp_PROG_CC_STDC],[AM_REDONE_PROG_CC_STDC])
+AU_DEFUN([fp_PROG_CC_STDC],[AM_REDONE_PROG_CC_STDC])dnl

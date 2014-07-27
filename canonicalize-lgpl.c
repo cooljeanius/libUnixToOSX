@@ -168,16 +168,17 @@ char *__realpath(const char *name, char *resolved)
   }
 
   for ((start = end = name); *start; (start = end)) {
-	  /* dummy condition to use value stored to 'end': */
-	  if (start == end) {
-		  ;
-	  }
 #ifdef _LIBC
       struct stat64 st;
 #else
       struct stat st;
 #endif /* _LIBC */
       int n;
+
+      /* dummy condition to use value stored to 'end': */
+	  if (start == end) {
+		  ;
+	  }
 
       /* Skip sequence of multiple path-separators. */
       while (*start == '/') {
