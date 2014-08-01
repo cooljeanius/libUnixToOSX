@@ -1,61 +1,60 @@
-# include_next.m4 serial 23
-dnl Copyright (C) 2006-2012 Free Software Foundation, Inc.
-dnl This file is free software; the Free Software Foundation
-dnl gives unlimited permission to copy and/or distribute it,
-dnl with or without modifications, as long as this notice is preserved.
+# include_next.m4 serial 24
+dnl# Copyright (C) 2006-2012 Free Software Foundation, Inc.
+dnl# This file is free software; the Free Software Foundation
+dnl# gives unlimited permission to copy and/or distribute it,
+dnl# with or without modifications, as long as this notice is preserved.
 
-dnl From Paul Eggert and Derek Price.
+dnl# From Paul Eggert and Derek Price.
 
-dnl Sets INCLUDE_NEXT and PRAGMA_SYSTEM_HEADER.
-dnl
-dnl INCLUDE_NEXT expands to 'include_next' if the compiler supports it, or to
-dnl 'include' otherwise.
-dnl
-dnl INCLUDE_NEXT_AS_FIRST_DIRECTIVE expands to 'include_next' if the compiler
-dnl supports it in the special case that it is the first include directive in
-dnl the given file, or to 'include' otherwise.
-dnl
-dnl PRAGMA_SYSTEM_HEADER can be used in files that contain #include_next,
-dnl so as to avoid GCC warnings when the gcc option -pedantic is used.
-dnl '#pragma GCC system_header' has the same effect as if the file was found
-dnl through the include search path specified with '-isystem' options (as
-dnl opposed to the search path specified with '-I' options). Namely, gcc
-dnl does not warn about some things, and on some systems (Solaris and Interix)
-dnl __STDC__ evaluates to 0 instead of to 1. The latter is an undesired side
-dnl effect; we are therefore careful to use 'defined __STDC__' or '1' instead
-dnl of plain '__STDC__'.
-dnl
-dnl PRAGMA_COLUMNS can be used in files that override system header files, so
-dnl as to avoid compilation errors on HP NonStop systems when the gnulib file
-dnl is included by a system header file that does a "#pragma COLUMNS 80" (which
-dnl has the effect of truncating the lines of that file and all files that it
-dnl includes to 80 columns) and the gnulib file has lines longer than 80
-dnl columns.
+dnl# Sets INCLUDE_NEXT and PRAGMA_SYSTEM_HEADER.
+dnl#
+dnl# INCLUDE_NEXT expands to 'include_next' if the compiler supports it,
+dnl# or to 'include' otherwise.
+dnl#
+dnl# INCLUDE_NEXT_AS_FIRST_DIRECTIVE expands to 'include_next'
+dnl# if the compiler supports it in the special case that it is the 1st
+dnl# include directive in the given file, or to 'include' otherwise.
+dnl#
+dnl# PRAGMA_SYSTEM_HEADER can be used in files that contain #include_next,
+dnl# so as to avoid GCC warnings when the gcc option -pedantic is used.
+dnl# '#pragma GCC system_header' has the same effect as if the file
+dnl# was found through the include search path specified with '-isystem'
+dnl# options (as opposed to the search path specified with '-I' options).
+dnl# Namely, gcc does not warn about some things, and on some systems
+dnl# (Solaris and Interix) __STDC__ evaluates to 0 instead of to 1.
+dnl# The latter is an undesired side effect; we are therefore careful
+dnl# to use 'defined __STDC__' or '1' instead of plain '__STDC__'.
+dnl#
+dnl# PRAGMA_COLUMNS can be used in files that override system header files,
+dnl# so as to avoid compilation errors on HP NonStop systems when
+dnl# the gnulib file is included by a system header file that does
+dnl# a "#pragma COLUMNS 80" (which has the effect of truncating the lines
+dnl# of that file and all files that it includes to 80 columns) and the
+dnl# gnulib file has lines longer than 80 columns.
 
-AC_DEFUN([gl_INCLUDE_NEXT],
-[
+AC_DEFUN([gl_INCLUDE_NEXT],[
   AC_LANG_PREPROC_REQUIRE()
   AC_CACHE_CHECK([whether the preprocessor supports include_next],
     [gl_cv_have_include_next],
     [rm -rf conftestd1a conftestd1b conftestd2
      mkdir conftestd1a conftestd1b conftestd2
-     dnl IBM C 9.0, 10.1 (original versions, prior to the 2009-01 updates) on
-     dnl AIX 6.1 support include_next when used as first preprocessor directive
-     dnl in a file, but not when preceded by another include directive. Check
-     dnl for this bug by including <stdio.h>.
-     dnl Additionally, with this same compiler, include_next is a no-op when
-     dnl used in a header file that was included by specifying its absolute
-     dnl file name. Despite these two bugs, include_next is used in the
-     dnl compiler's <math.h>. By virtue of the second bug, we need to use
-     dnl include_next as well in this case.
+     dnl# IBM C 9.0, 10.1 (original versions, prior to the 2009-01 updates)
+     dnl# on AIX 6.1 support include_next when used as 1st preprocessor
+     dnl# directive in a file, but not when preceded by another include
+     dnl# directive. Check for this bug by including <stdio.h>.
+     dnl# Additionally, with this same compiler, include_next is a no-op
+     dnl# when used in a header file that was included by specifying
+     dnl# its absolute file name. Despite these 2 bugs, include_next
+     dnl# is used in the compiler's <math.h>. By virtue of the 2nd bug,
+     dnl# we need to use include_next as well in this case.
      cat <<EOF > conftestd1a/conftest.h
 #define DEFINED_IN_CONFTESTD1
 #include_next <conftest.h>
 #ifdef DEFINED_IN_CONFTESTD2
 int foo;
 #else
-#error "include_next doesn't work"
-#endif
+#error "include_next fails"
+#endif /* DEFINED_IN_CONFTESTD1 */
 EOF
      cat <<EOF > conftestd1b/conftest.h
 #define DEFINED_IN_CONFTESTD1
@@ -64,37 +63,37 @@ EOF
 #ifdef DEFINED_IN_CONFTESTD2
 int foo;
 #else
-#error "include_next doesn't work"
-#endif
+#error "include_next fails"
+#endif /* DEFINED_IN_CONFTESTD2 */
 EOF
      cat <<EOF > conftestd2/conftest.h
 #ifndef DEFINED_IN_CONFTESTD1
-#error "include_next test doesn't work"
-#endif
+#error "include_next test fails"
+#endif /* !DEFINED_IN_CONFTESTD1 */
 #define DEFINED_IN_CONFTESTD2
 EOF
-     gl_save_CPPFLAGS="$CPPFLAGS"
-     CPPFLAGS="$gl_save_CPPFLAGS -Iconftestd1b -Iconftestd2"
-dnl We intentionally avoid using AC_LANG_SOURCE here.
+     gl_save_CPPFLAGS="${CPPFLAGS}"
+     CPPFLAGS="${gl_save_CPPFLAGS} -Iconftestd1b -Iconftestd2"
+dnl# We intentionally avoid using AC_LANG_SOURCE here.
      AC_COMPILE_IFELSE([AC_LANG_DEFINES_PROVIDED[#include <conftest.h>]],
        [gl_cv_have_include_next=yes],
-       [CPPFLAGS="$gl_save_CPPFLAGS -Iconftestd1a -Iconftestd2"
+       [CPPFLAGS="${gl_save_CPPFLAGS} -Iconftestd1a -Iconftestd2"
         AC_COMPILE_IFELSE([AC_LANG_DEFINES_PROVIDED[#include <conftest.h>]],
           [gl_cv_have_include_next=buggy],
           [gl_cv_have_include_next=no])
        ])
-     CPPFLAGS="$gl_save_CPPFLAGS"
+     CPPFLAGS="${gl_save_CPPFLAGS}"
      rm -rf conftestd1a conftestd1b conftestd2
     ])
-  PRAGMA_SYSTEM_HEADER=
-  if test $gl_cv_have_include_next = yes; then
+  PRAGMA_SYSTEM_HEADER=""
+  if test "x${gl_cv_have_include_next}" = "xyes"; then
     INCLUDE_NEXT=include_next
     INCLUDE_NEXT_AS_FIRST_DIRECTIVE=include_next
-    if test -n "$GCC"; then
+    if test -n "${GCC}"; then
       PRAGMA_SYSTEM_HEADER='#pragma GCC system_header'
     fi
   else
-    if test $gl_cv_have_include_next = buggy; then
+    if test "x${gl_cv_have_include_next}" = "xbuggy"; then
       INCLUDE_NEXT=include
       INCLUDE_NEXT_AS_FIRST_DIRECTIVE=include_next
     else
@@ -102,28 +101,28 @@ dnl We intentionally avoid using AC_LANG_SOURCE here.
       INCLUDE_NEXT_AS_FIRST_DIRECTIVE=include
     fi
   fi
-  AC_SUBST([INCLUDE_NEXT])
-  AC_SUBST([INCLUDE_NEXT_AS_FIRST_DIRECTIVE])
-  AC_SUBST([PRAGMA_SYSTEM_HEADER])
+  AC_SUBST([INCLUDE_NEXT])dnl
+  AC_SUBST([INCLUDE_NEXT_AS_FIRST_DIRECTIVE])dnl
+  AC_SUBST([PRAGMA_SYSTEM_HEADER])dnl
   AC_CACHE_CHECK([whether system header files limit the line length],
     [gl_cv_pragma_columns],
-    [dnl HP NonStop systems, which define __TANDEM, have this misfeature.
-     AC_EGREP_CPP([choke me],
+    [dnl# HP NonStop systems, which define __TANDEM, have this misfeature.
+     AC_EGREP_CPP([choke_me],
        [
 #ifdef __TANDEM
-choke me
-#endif
+choke_me
+#endif /* __TANDEM */
        ],
        [gl_cv_pragma_columns=yes],
        [gl_cv_pragma_columns=no])
     ])
-  if test $gl_cv_pragma_columns = yes; then
+  if test "x${gl_cv_pragma_columns}" = "xyes"; then
     PRAGMA_COLUMNS="#pragma COLUMNS 10000"
   else
-    PRAGMA_COLUMNS=
+    PRAGMA_COLUMNS=""
   fi
-  AC_SUBST([PRAGMA_COLUMNS])
-])
+  AC_SUBST([PRAGMA_COLUMNS])dnl
+])dnl
 
 # gl_CHECK_NEXT_HEADERS(HEADER1 HEADER2 ...)
 # ------------------------------------------
@@ -150,37 +149,34 @@ choke me
 #
 # This macro also checks whether each header exists, by invoking
 # AC_CHECK_HEADERS_ONCE or AC_CHECK_HEADERS on each argument.
-AC_DEFUN([gl_CHECK_NEXT_HEADERS],
-[
-  gl_NEXT_HEADERS_INTERNAL([$1], [check])
-])
+AC_DEFUN([gl_CHECK_NEXT_HEADERS],[
+  gl_NEXT_HEADERS_INTERNAL([$1],[check])dnl
+])dnl
 
 # gl_NEXT_HEADERS(HEADER1 HEADER2 ...)
 # ------------------------------------
-# Like gl_CHECK_NEXT_HEADERS, except do not check whether the headers exist.
+# Like gl_CHECK_NEXT_HEADERS, except skip checking for header existence.
 # This is suitable for headers like <stddef.h> that are standardized by C89
 # and therefore can be assumed to exist.
-AC_DEFUN([gl_NEXT_HEADERS],
-[
-  gl_NEXT_HEADERS_INTERNAL([$1], [assume])
-])
+AC_DEFUN([gl_NEXT_HEADERS],[
+  gl_NEXT_HEADERS_INTERNAL([$1],[assume])dnl
+])dnl
 
 # The guts of gl_CHECK_NEXT_HEADERS and gl_NEXT_HEADERS.
-AC_DEFUN([gl_NEXT_HEADERS_INTERNAL],
-[
-  AC_REQUIRE([gl_INCLUDE_NEXT])
-  AC_REQUIRE([AC_CANONICAL_HOST])
+AC_DEFUN([gl_NEXT_HEADERS_INTERNAL],[
+  AC_REQUIRE([gl_INCLUDE_NEXT])dnl
+  AC_REQUIRE([AC_CANONICAL_HOST])dnl
 
-  m4_if([$2], [check],
-    [AC_CHECK_HEADERS_ONCE([$1])
-    ])
+  m4_if([$2],[check],
+    [AC_CHECK_HEADERS_ONCE([$1])dnl
+    ])dnl
 
-dnl FIXME: gl_next_header and gl_header_exists must be used unquoted
-dnl until we can assume autoconf 2.64 or newer.
-  m4_foreach_w([gl_HEADER_NAME], [$1],
+dnl# FIXME: gl_next_header and gl_header_exists must be used unquoted
+dnl# until we can assume autoconf 2.64 or newer.
+  m4_foreach_w([gl_HEADER_NAME],[$1],
     [AS_VAR_PUSHDEF([gl_next_header],
                     [gl_cv_next_]m4_defn([gl_HEADER_NAME]))
-     if test $gl_cv_have_include_next = yes; then
+     if test "x${gl_cv_have_include_next}" = "xyes"; then
        AS_VAR_SET(gl_next_header, ['<'gl_HEADER_NAME'>'])
      else
        AC_CACHE_CHECK(
@@ -203,12 +199,12 @@ dnl until we can assume autoconf 2.64 or newer.
                dnl <poll.h> and others. The workaround is to force preservation
                dnl of comments through option -C. This ensures all necessary
                dnl #line directives are present. GCC supports option -C as well.
-               case "$host_os" in
-                 aix*) gl_absname_cpp="$ac_cpp -C" ;;
-                 *)    gl_absname_cpp="$ac_cpp" ;;
+               case "${host_os}" in
+                 aix*) gl_absname_cpp="${ac_cpp} -C" ;;
+                 *)    gl_absname_cpp="${ac_cpp}" ;;
                esac
 changequote(,)
-               case "$host_os" in
+               case "${host_os}" in
                  mingw*)
                    dnl For the sake of native Windows compilers (excluding gcc),
                    dnl treat backslash as a directory separator, like /.
@@ -263,8 +259,8 @@ changequote([,])dnl
        AS_TR_CPP([NEXT_AS_FIRST_DIRECTIVE_]m4_defn([gl_HEADER_NAME])),
        [$gl_next_as_first_directive])
      AS_VAR_POPDEF([gl_next_header])])
-])
+])dnl
 
 # Autoconf 2.68 added warnings for our use of AC_COMPILE_IFELSE;
 # this fallback is safe for all earlier autoconf versions.
-m4_define_default([AC_LANG_DEFINES_PROVIDED])
+m4_define_default([AC_LANG_DEFINES_PROVIDED])dnl

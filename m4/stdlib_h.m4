@@ -1,42 +1,40 @@
-# stdlib_h.m4 serial 41
-dnl Copyright (C) 2007-2012 Free Software Foundation, Inc.
-dnl This file is free software; the Free Software Foundation
-dnl gives unlimited permission to copy and/or distribute it,
-dnl with or without modifications, as long as this notice is preserved.
+# stdlib_h.m4 serial 42
+dnl# Copyright (C) 2007-2012 Free Software Foundation, Inc.
+dnl# This file is free software; the Free Software Foundation
+dnl# gives unlimited permission to copy and/or distribute it,
+dnl# with or without modifications, as long as this notice is preserved.
 
-AC_DEFUN([gl_STDLIB_H],
-[
-  AC_REQUIRE([gl_STDLIB_H_DEFAULTS])
-  gl_NEXT_HEADERS([stdlib.h])
+AC_DEFUN([gl_STDLIB_H],[
+  AC_REQUIRE([gl_STDLIB_H_DEFAULTS])dnl
+  gl_NEXT_HEADERS([stdlib.h])dnl
 
-  dnl Check for declarations of anything we want to poison if the
-  dnl corresponding gnulib module is not in use, and which is not
-  dnl guaranteed by C89.
-  gl_WARN_ON_USE_PREPARE([[#include <stdlib.h>
+  dnl# Check for declarations of anything we want to poison if the
+  dnl# corresponding gnulib module is not in use, and which is not
+  dnl# guaranteed by C89:
+  gl_WARN_ON_USE_PREPARE([[
+#include <stdlib.h>
 #if HAVE_SYS_LOADAVG_H
 # include <sys/loadavg.h>
-#endif
+#endif /* HAVE_SYS_LOADAVG_H */
 #if HAVE_RANDOM_H
 # include <random.h>
-#endif
-    ]], [_Exit atoll canonicalize_file_name getloadavg getsubopt grantpt
+#endif /* HAVE_RANDOM_H */
+    ]],[_Exit atoll canonicalize_file_name getloadavg getsubopt grantpt
     initstate initstate_r mkdtemp mkostemp mkostemps mkstemp mkstemps
     posix_openpt ptsname ptsname_r random random_r realpath rpmatch
     setenv setstate setstate_r srandom srandom_r
-    strtod strtoll strtoull unlockpt unsetenv])
-])
+    strtod strtoll strtoull unlockpt unsetenv])dnl
+])dnl
 
-AC_DEFUN([gl_STDLIB_MODULE_INDICATOR],
-[
-  dnl Use AC_REQUIRE here, so that the default settings are expanded once only.
-  AC_REQUIRE([gl_STDLIB_H_DEFAULTS])
-  gl_MODULE_INDICATOR_SET_VARIABLE([$1])
-  dnl Define it also as a C macro, for the benefit of the unit tests.
-  gl_MODULE_INDICATOR_FOR_TESTS([$1])
-])
+AC_DEFUN([gl_STDLIB_MODULE_INDICATOR],[
+  dnl# Use AC_REQUIRE here, so the default settings are expanded once only:
+  AC_REQUIRE([gl_STDLIB_H_DEFAULTS])dnl
+  gl_MODULE_INDICATOR_SET_VARIABLE([$1])dnl
+  dnl# Define it also as a C macro, for the benefit of the unit tests:
+  gl_MODULE_INDICATOR_FOR_TESTS([$1])dnl
+])dnl
 
-AC_DEFUN([gl_STDLIB_H_DEFAULTS],
-[
+AC_DEFUN([gl_STDLIB_H_DEFAULTS],[
   GNULIB__EXIT=0;         AC_SUBST([GNULIB__EXIT])
   GNULIB_ATOLL=0;         AC_SUBST([GNULIB_ATOLL])
   GNULIB_CALLOC_POSIX=0;  AC_SUBST([GNULIB_CALLOC_POSIX])
@@ -68,7 +66,7 @@ AC_DEFUN([gl_STDLIB_H_DEFAULTS],
   GNULIB_UNLOCKPT=0;      AC_SUBST([GNULIB_UNLOCKPT])
   GNULIB_UNSETENV=0;      AC_SUBST([GNULIB_UNSETENV])
   GNULIB_WCTOMB=0;        AC_SUBST([GNULIB_WCTOMB])
-  dnl Assume proper GNU behavior unless another module says otherwise.
+  dnl# Assume proper GNU behavior unless another module says otherwise:
   HAVE__EXIT=1;              AC_SUBST([HAVE__EXIT])
   HAVE_ATOLL=1;              AC_SUBST([HAVE_ATOLL])
   HAVE_CANONICALIZE_FILE_NAME=1;  AC_SUBST([HAVE_CANONICALIZE_FILE_NAME])
@@ -111,4 +109,4 @@ AC_DEFUN([gl_STDLIB_H_DEFAULTS],
   REPLACE_STRTOD=0;          AC_SUBST([REPLACE_STRTOD])
   REPLACE_UNSETENV=0;        AC_SUBST([REPLACE_UNSETENV])
   REPLACE_WCTOMB=0;          AC_SUBST([REPLACE_WCTOMB])
-])
+])dnl

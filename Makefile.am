@@ -913,6 +913,7 @@ distclean-local:
 	-(test -d scan_build_output && test -z "`ls scan_build_output`" && rmdir scan_build_output) || test -e scan_build_output
 	-(test -w @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && (rm -rf @PACKAGE_TARNAME@-@PACKAGE_VERSION@ || rmdir @PACKAGE_TARNAME@-@PACKAGE_VERSION@)) || stat @PACKAGE_TARNAME@-*.*.* || echo "it can be difficult to distclean the results of distcheck"
 	-(find . -name .DS_Store -delete 2>&1) || test -x "`which find`"
+.PHONY: distclean-local
 
 ## fd-hook sources:
 libUnixToOSX_la_SOURCES += fd-hook.c

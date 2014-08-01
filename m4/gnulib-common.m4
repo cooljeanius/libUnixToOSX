@@ -99,8 +99,7 @@ m4_define([gl_MODULE_INDICATOR_CONDITION],[1])dnl
 # gl_MODULE_INDICATOR_SET_VARIABLE([modulename])
 # sets the shell variable that indicates the presence of the given module
 # to a C preprocessor expression that will evaluate to 1.
-AC_DEFUN([gl_MODULE_INDICATOR_SET_VARIABLE],
-[
+AC_DEFUN([gl_MODULE_INDICATOR_SET_VARIABLE],[
   gl_MODULE_INDICATOR_SET_VARIABLE_AUX(
     [GNULIB_[]m4_translit([[$1]],
                           [abcdefghijklmnopqrstuvwxyz./-],
@@ -112,8 +111,7 @@ AC_DEFUN([gl_MODULE_INDICATOR_SET_VARIABLE],
 # modifies the shell variable to include the gl_MODULE_INDICATOR_CONDITION.
 # The shell variable's value is a C preprocessor expression that evaluates
 # to 0 or 1.
-AC_DEFUN([gl_MODULE_INDICATOR_SET_VARIABLE_AUX],
-[
+AC_DEFUN([gl_MODULE_INDICATOR_SET_VARIABLE_AUX],[
   m4_if(m4_defn([gl_MODULE_INDICATOR_CONDITION]),[1],
     [
      dnl# Simplify the expression VALUE || 1 to 1.
@@ -126,8 +124,7 @@ AC_DEFUN([gl_MODULE_INDICATOR_SET_VARIABLE_AUX],
 # gl_MODULE_INDICATOR_SET_VARIABLE_AUX_OR([variable],[condition])
 # modifies the shell variable to include the given condition.  The shell
 # variable's value is a C preprocessor expression that evaluates to 0 or 1.
-AC_DEFUN([gl_MODULE_INDICATOR_SET_VARIABLE_AUX_OR],
-[
+AC_DEFUN([gl_MODULE_INDICATOR_SET_VARIABLE_AUX_OR],[
   dnl# Simplify the expression 1 || CONDITION to 1.
   if test "$[]$1" != 1; then
     dnl# Simplify the expression 0 || CONDITION to CONDITION.
@@ -151,8 +148,7 @@ AC_DEFUN([gl_MODULE_INDICATOR_SET_VARIABLE_AUX_OR],
 # --------------------------------------------+---------+-----------+
 # Module not present at all:                  |    0    |     0     |
 # --------------------------------------------+---------+-----------+
-AC_DEFUN([gl_MODULE_INDICATOR],
-[
+AC_DEFUN([gl_MODULE_INDICATOR],[
   AC_DEFINE_UNQUOTED([GNULIB_]m4_translit([[$1]],
       [abcdefghijklmnopqrstuvwxyz./-],
       [ABCDEFGHIJKLMNOPQRSTUVWXYZ___]),
@@ -175,8 +171,7 @@ AC_DEFUN([gl_MODULE_INDICATOR],
 # --------------------------------------------+---------+-----------+
 # Module not present at all:                  |    0    |     0     |
 # --------------------------------------------+---------+-----------+
-AC_DEFUN([gl_MODULE_INDICATOR_FOR_TESTS],
-[
+AC_DEFUN([gl_MODULE_INDICATOR_FOR_TESTS],[
   AC_DEFINE([GNULIB_TEST_]m4_translit([[$1]],
       [abcdefghijklmnopqrstuvwxyz./-],
       [ABCDEFGHIJKLMNOPQRSTUVWXYZ___]),[1],
@@ -187,8 +182,7 @@ AC_DEFUN([gl_MODULE_INDICATOR_FOR_TESTS],
 # asserts that there will never be a need to #define GNULIB_POSIXCHECK.
 # and thereby enables an optimization of configure and config.h.
 # Used by Emacs.
-AC_DEFUN([gl_ASSERT_NO_GNULIB_POSIXCHECK],
-[
+AC_DEFUN([gl_ASSERT_NO_GNULIB_POSIXCHECK],[
   dnl# Override gl_WARN_ON_USE_PREPARE.
   dnl# But hide this definition from 'aclocal'.
   AC_DEFUN([gl_W][ARN_ON_USE_PREPARE],[])dnl
@@ -198,8 +192,7 @@ AC_DEFUN([gl_ASSERT_NO_GNULIB_POSIXCHECK],
 # asserts that there will be no gnulib tests in the scope
 # of the configure.ac and thereby enables an optimization of config.h.
 # Used by Emacs.
-AC_DEFUN([gl_ASSERT_NO_GNULIB_TESTS],
-[
+AC_DEFUN([gl_ASSERT_NO_GNULIB_TESTS],[
   dnl# Override gl_MODULE_INDICATOR_FOR_TESTS.
   AC_DEFUN([gl_MODULE_INDICATOR_FOR_TESTS],[])dnl
 ])dnl
@@ -246,8 +239,7 @@ m4_ifndef([AS_VAR_IF],
 #   to CC twice
 #   <http://lists.gnu.org/archive/html/bug-gnulib/2011-09/msg00431.html>.
 # - AC_PROG_CC_STDC is likely to change now that C11 is an ISO standard.
-AC_DEFUN([gl_PROG_CC_C99],
-[
+AC_DEFUN([gl_PROG_CC_C99],[
   dnl# Change that version number to the minimum Autoconf version
   dnl# that supports mixing AC_PROG_CC_C99 calls with AC_PROG_CC_STDC calls
   m4_version_prereq([9.0],
@@ -259,8 +251,7 @@ AC_DEFUN([gl_PROG_CC_C99],
 # Determines the values for AR, ARFLAGS, RANLIB that fit with the compiler.
 # The user can set the variables AR, ARFLAGS, RANLIB when desiring
 # to override the values.
-AC_DEFUN([gl_PROG_AR_RANLIB],
-[
+AC_DEFUN([gl_PROG_AR_RANLIB],[
   dnl# Minix 3 comes with two toolchains: The Amsterdam Compiler Kit
   dnl# compiler as "cc", and GCC as "gcc". They have different object
   dnl# file formats and library formats. In particular, the GNU binutils
@@ -381,8 +372,7 @@ AC_DEFUN([AC_C_RESTRICT],
 # is like AC_C_BIGENDIAN, except that it can be AC_REQUIREd.
 # Note that AC_REQUIRE([AC_C_BIGENDIAN]) does not work reliably because
 # some macros invoke AC_C_BIGENDIAN with arguments.
-AC_DEFUN([gl_BIGENDIAN],
-[
+AC_DEFUN([gl_BIGENDIAN],[
   AC_C_BIGENDIAN([],[],[],[])dnl
 ])dnl
 
@@ -391,8 +381,7 @@ AC_DEFUN([gl_BIGENDIAN],
 # does not output a spurious "(cached)" mark in the midst of other
 # configure output. This macro should be used instead of AC_CACHE_VAL
 # when it is not surrounded by an AC_MSG_CHECKING/AC_MSG_RESULT pair.
-AC_DEFUN([gl_CACHE_VAL_SILENT],
-[
+AC_DEFUN([gl_CACHE_VAL_SILENT],[
   saved_as_echo_n="${as_echo_n}"
   as_echo_n=':'
   AC_CACHE_VAL([$1],[$2])

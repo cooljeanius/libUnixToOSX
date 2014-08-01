@@ -1,50 +1,48 @@
-# serial 24
-dnl Copyright (C) 2002-2003, 2005-2007, 2009-2012 Free Software Foundation,
-dnl Inc.
-dnl This file is free software; the Free Software Foundation
-dnl gives unlimited permission to copy and/or distribute it,
-dnl with or without modifications, as long as this notice is preserved.
+# serial 25
+dnl# Copyright (C) 2002-2003, 2005-2007, 2009-2012 Free Software Foundation
+dnl# This file is free software; the Free Software Foundation
+dnl# gives unlimited permission to copy and/or distribute it,
+dnl# with or without modifications, as long as this notice is preserved.
 
-dnl From Jim Meyering.
+dnl# From Jim Meyering.
 
-AC_DEFUN([gl_FUNC_MKTIME],
-[
-  AC_REQUIRE([gl_HEADER_TIME_H_DEFAULTS])
+AC_DEFUN([gl_FUNC_MKTIME],[
+  AC_REQUIRE([gl_HEADER_TIME_H_DEFAULTS])dnl
 
-  dnl We don't use AC_FUNC_MKTIME any more, because it is no longer maintained
-  dnl in Autoconf and because it invokes AC_LIBOBJ.
-  AC_CHECK_HEADERS_ONCE([unistd.h])
-  AC_CHECK_FUNCS_ONCE([alarm])
-  AC_REQUIRE([gl_MULTIARCH])
-  if test $APPLE_UNIVERSAL_BUILD = 1; then
+  dnl# We do NOT use AC_FUNC_MKTIME here any more, because it is no longer
+  dnl# maintained in Autoconf and because it invokes AC_LIBOBJ.
+  AC_CHECK_HEADERS_ONCE([unistd.h])dnl
+  AC_CHECK_FUNCS_ONCE([alarm])dnl
+  AC_REQUIRE([gl_MULTIARCH])dnl
+
+  if test ${APPLE_UNIVERSAL_BUILD} = 1; then
     # A universal build on Apple Mac OS X platforms.
-    # The test result would be 'yes' in 32-bit mode and 'no' in 64-bit mode.
+    # The test result would be 'yes' in 32-bit mode & 'no' in 64-bit mode.
     # But we need a configuration result that is valid in both modes.
     gl_cv_func_working_mktime=no
   fi
-  AC_CACHE_CHECK([for working mktime], [gl_cv_func_working_mktime],
-    [AC_RUN_IFELSE(
-       [AC_LANG_SOURCE(
-[[/* Test program from Paul Eggert and Tony Leneis.  */
+  AC_CACHE_CHECK([for working mktime],[gl_cv_func_working_mktime],
+    [AC_RUN_IFELSE([AC_LANG_SOURCE([[
+/* Test program from Paul Eggert and Tony Leneis.  */
 #include <limits.h>
 #include <stdlib.h>
 #include <time.h>
 
 #ifdef HAVE_UNISTD_H
 # include <unistd.h>
-#endif
+#endif /* HAVE_UNISTD_H */
 
 #ifndef HAVE_ALARM
 # define alarm(X) /* empty */
-#endif
+#endif /* !HAVE_ALARM */
 
-/* Work around redefinition to rpl_putenv by other config tests.  */
+/* Work around redefinition to rpl_putenv by other config tests: */
 #undef putenv
 
 static time_t time_t_max;
 static time_t time_t_min;
 
-/* Values we'll use to set the TZ environment variable.  */
+/* Values we will use to set the TZ environment variable: */
 static char *tz_strings[] = {
   (char *) 0, "TZ=GMT0", "TZ=JST-9",
   "TZ=EST+3EDT+2,M10.1.0/00:00:00,M2.3.0/00:00:00"
@@ -221,30 +219,31 @@ main ()
 }]])],
        [gl_cv_func_working_mktime=yes],
        [gl_cv_func_working_mktime=no],
-       [gl_cv_func_working_mktime=no])
-    ])
+       [gl_cv_func_working_mktime=no])dnl
+    ])dnl
 
-  if test $gl_cv_func_working_mktime = no; then
+  if test "x${gl_cv_func_working_mktime}" = "xno"; then
     REPLACE_MKTIME=1
   else
     REPLACE_MKTIME=0
   fi
-])
+])dnl
 
-AC_DEFUN([gl_FUNC_MKTIME_INTERNAL], [
-  AC_REQUIRE([gl_FUNC_MKTIME])
-  if test $REPLACE_MKTIME = 0; then
-    dnl BeOS has __mktime_internal in libc, but other platforms don't.
+AC_DEFUN([gl_FUNC_MKTIME_INTERNAL],[
+  AC_REQUIRE([gl_FUNC_MKTIME])dnl
+
+  if test ${REPLACE_MKTIME} = 0; then
+    dnl# BeOS has __mktime_internal in libc, but other platforms do NOT:
     AC_CHECK_FUNC([__mktime_internal],
-      [AC_DEFINE([mktime_internal], [__mktime_internal],
+      [AC_DEFINE([mktime_internal],[__mktime_internal],
          [Define to the real name of the mktime_internal function.])
       ],
-      [dnl mktime works but it doesn't export __mktime_internal,
-       dnl so we need to substitute our own mktime implementation.
+      [dnl# mktime works here, but it does NOT export __mktime_internal,
+       dnl# so we need to substitute our own mktime implementation.
        REPLACE_MKTIME=1
       ])
   fi
-])
+])dnl
 
-# Prerequisites of lib/mktime.c.
-AC_DEFUN([gl_PREREQ_MKTIME], [:])
+# Prerequisites of lib/mktime.c (none so far):
+AC_DEFUN([gl_PREREQ_MKTIME],[:])dnl

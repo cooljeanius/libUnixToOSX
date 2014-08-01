@@ -1,36 +1,36 @@
-# serial 19
+# serial 20
 
 # Copyright (C) 2000-2001, 2004-2012 Free Software Foundation, Inc.
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
 
-dnl From Jim Meyering
-dnl Using code from emacs, based on suggestions from Paul Eggert
-dnl and Ulrich Drepper.
+dnl# From Jim Meyering
+dnl# Using code from emacs, based on suggestions from Paul Eggert
+dnl# and Ulrich Drepper.
 
-dnl Find out how to determine the number of pending output bytes on a stream.
-dnl glibc (2.1.93 and newer) and Solaris provide __fpending.  On other systems,
-dnl we have to grub around in the FILE struct.
+dnl# Find out how to determine the number of pending output bytes
+dnl# on a stream. glibc (2.1.93 and newer) and Solaris provide __fpending.
+dnl# On other systems, we have to grub around in the FILE struct.
 
-AC_DEFUN([gl_FUNC_FPENDING],
-[
-  AC_CHECK_HEADERS_ONCE([stdio_ext.h])
-  AC_CHECK_FUNCS_ONCE([__fpending])
+AC_DEFUN([gl_FUNC_FPENDING],[
+  AC_CHECK_HEADERS_ONCE([stdio_ext.h])dnl
+  AC_CHECK_FUNCS_ONCE([__fpending])dnl
+
   fp_headers='
 #     include <stdio.h>
 #     if HAVE_STDIO_EXT_H
 #      include <stdio_ext.h>
-#     endif
+#     endif /* HAVE_STDIO_EXT_H */
 '
-  AC_CHECK_DECLS([__fpending], , , $fp_headers)
-])
 
-AC_DEFUN([gl_PREREQ_FPENDING],
-[
+  AC_CHECK_DECLS([__fpending],[],[],[${fp_headers}])dnl
+])dnl
+
+AC_DEFUN([gl_PREREQ_FPENDING],[
   AC_CACHE_CHECK(
-              [how to determine the number of pending output bytes on a stream],
-                 ac_cv_sys_pending_output_n_bytes,
+      [how to determine the number of pending output bytes on a stream],
+                 [ac_cv_sys_pending_output_n_bytes],
     [
       for ac_expr in                                                    \
                                                                         \
@@ -72,19 +72,17 @@ AC_DEFUN([gl_PREREQ_FPENDING],
           ; do
 
         # Skip each embedded comment.
-        case "$ac_expr" in '#'*) continue;; esac
+        case "${ac_expr}" in '#'*) continue;; esac
 
         AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <stdio.h>]],
-          [[FILE *fp = stdin; (void) ($ac_expr);]])],
-          [fp_done=yes]
-        )
-        test "$fp_done" = yes && break
+          [[FILE *fp = stdin; (void)(${ac_expr});]])],
+          [fp_done=yes])
+        test "${fp_done}" = yes && break
       done
 
-      ac_cv_sys_pending_output_n_bytes=$ac_expr
-    ]
-  )
+      ac_cv_sys_pending_output_n_bytes=${ac_expr}
+    ])
   AC_DEFINE_UNQUOTED([PENDING_OUTPUT_N_BYTES],
-    $ac_cv_sys_pending_output_n_bytes,
-    [the number of pending output bytes on stream 'fp'])
-])
+    [${ac_cv_sys_pending_output_n_bytes}],
+    [the number of pending output bytes on stream 'fp'])dnl
+])dnl
