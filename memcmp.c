@@ -357,7 +357,7 @@ rpl_memcmp(const void *s1, const void *s2, size_t len)
       len %= OPSIZ;
     }
 
-  /* There are just a few bytes to compare.  Use byte memory operations.  */
+  /* There are just a few bytes to compare.  Use byte memory operations: */
   while (len != 0) {
       a0 = ((byte *)srcp1)[0];
       b0 = ((byte *)srcp2)[0];

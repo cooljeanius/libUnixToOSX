@@ -1,4 +1,4 @@
-/* Invoke pipe, but avoid some glitches.
+/* pipe-safer.c: Invoke pipe, but avoid some glitches.
    Copyright (C) 2005-2006, 2009-2012 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -12,7 +12,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* Written by Jim Meyering.  */
 
@@ -28,19 +28,19 @@
    platforms that lack pipe.  */
 
 int
-pipe_safer (int fd[2])
+pipe_safer(int fd[2])
 {
 #if HAVE_PIPE
-  if (pipe (fd) == 0)
+  if (pipe(fd) == 0)
     {
       int i;
       for (i = 0; i < 2; i++)
         {
-          fd[i] = fd_safer (fd[i]);
+          fd[i] = fd_safer(fd[i]);
           if (fd[i] < 0)
             {
               int e = errno;
-              close (fd[1 - i]);
+              close(fd[1 - i]);
               errno = e;
               return -1;
             }
@@ -54,3 +54,5 @@ pipe_safer (int fd[2])
 
   return -1;
 }
+
+/* EOF */

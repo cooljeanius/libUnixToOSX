@@ -8,8 +8,23 @@
 /* Define if building universal (internal helper macro) */
 #undef AC_APPLE_UNIVERSAL_BUILD
 
+/* The normal alignment of `char', in bytes. */
+#undef ALIGNOF_CHAR
+
 /* The normal alignment of `int', in bytes. */
 #undef ALIGNOF_INT
+
+/* The normal alignment of `long', in bytes. */
+#undef ALIGNOF_LONG
+
+/* The normal alignment of `off64_t', in bytes. */
+#undef ALIGNOF_OFF64_T
+
+/* The normal alignment of `off_t', in bytes. */
+#undef ALIGNOF_OFF_T
+
+/* The normal alignment of `short', in bytes. */
+#undef ALIGNOF_SHORT
 
 /* Define to the number of bits in type 'ptrdiff_t'. */
 #undef BITSIZEOF_PTRDIFF_T
@@ -281,6 +296,9 @@
 /* Define to 1 when the gnulib module fstatat should be tested. */
 #undef GNULIB_TEST_FSTATAT
 
+/* Define to 1 when the gnulib module ftruncate should be tested. */
+#undef GNULIB_TEST_FTRUNCATE
+
 /* Define to 1 when the gnulib module getdelim should be tested. */
 #undef GNULIB_TEST_GETDELIM
 
@@ -335,6 +353,12 @@
 
 /* Define to 1 when the gnulib module poll should be tested. */
 #undef GNULIB_TEST_POLL
+
+/* Define to 1 when the gnulib module pread should be tested. */
+#undef GNULIB_TEST_PREAD
+
+/* Define to 1 when the gnulib module pwrite should be tested. */
+#undef GNULIB_TEST_PWRITE
 
 /* Define to 1 when the gnulib module rawmemchr should be tested. */
 #undef GNULIB_TEST_RAWMEMCHR
@@ -495,6 +519,9 @@
 /* Define to 1 if you have the 'chown' func */
 #undef HAVE_CHOWN
 
+/* Define to 1 if you have the `chsize' function. */
+#undef HAVE_CHSIZE
+
 /* Define to 1 if you have the `clearenv' function. */
 #undef HAVE_CLEARENV
 
@@ -527,9 +554,16 @@
 /* Define to 1 if you have the `crypt' function. */
 #undef HAVE_CRYPT
 
+/* Define to 1 if you have the `cuserid' function. */
+#undef HAVE_CUSERID
+
 /* Define to 1 if you have the declaration of `clearerr_unlocked', and to 0 if
    you don't. */
 #undef HAVE_DECL_CLEARERR_UNLOCKED
+
+/* Define to 1 if you have the declaration of `cuserid', and to 0 if you
+   don't. */
+#undef HAVE_DECL_CUSERID
 
 /* Define to 1 if you have the declaration of `exit_failure', and to 0 if you
    don't. */
@@ -671,6 +705,10 @@
    don't. */
 #undef HAVE_DECL__SNPRINTF
 
+/* Define to 1 if you have the declaration of `_STAT_VER', and to 0 if you
+   don't. */
+#undef HAVE_DECL__STAT_VER
+
 /* Define to 1 if you have the declaration of `_sys_siglist', and to 0 if you
    don't. */
 #undef HAVE_DECL__SYS_SIGLIST
@@ -729,6 +767,9 @@
 
 /* Define to 1 if you have the `execve' function. */
 #undef HAVE_EXECVE
+
+/* Defined if fallocate() exists */
+#undef HAVE_FALLOCATE
 
 /* Define to 1 if you have the `fchdir' function. */
 #undef HAVE_FCHDIR
@@ -790,11 +831,17 @@
 /* Define to 1 if you have the <fstab.h> header file. */
 #undef HAVE_FSTAB_H
 
+/* Define to 1 if you have the `fstat64' function. */
+#undef HAVE_FSTAT64
+
 /* Define to 1 if you have the 'fstatat' func */
 #undef HAVE_FSTATAT
 
 /* Define to 1 if you have the 'fstatfs' func */
 #undef HAVE_FSTATFS
+
+/* Define to 1 if you have the `fstatfs64' function. */
+#undef HAVE_FSTATFS64
 
 /* Define to 1 if you have the <fs_info.h> header file. */
 #undef HAVE_FS_INFO_H
@@ -804,6 +851,12 @@
 
 /* Define to 1 if you have the `ftok' function. */
 #undef HAVE_FTOK
+
+/* Define to 1 if you have the `ftruncate' function. */
+#undef HAVE_FTRUNCATE
+
+/* Define to 1 if you have the `ftruncate64' function. */
+#undef HAVE_FTRUNCATE64
 
 /* Define to 1 if you have the `fts_children' function. */
 #undef HAVE_FTS_CHILDREN
@@ -825,6 +878,9 @@
 
 /* Define to 1 if you have the 'funlockfile' func */
 #undef HAVE_FUNLOCKFILE
+
+/* Define to 1 if you have the `fxstat64' function. */
+#undef HAVE_FXSTAT64
 
 /* Define to 1 if you have the `gcvt' function. */
 #undef HAVE_GCVT
@@ -991,6 +1047,9 @@
 /* Define to 1 if you have the <limits.h> header file. */
 #undef HAVE_LIMITS_H
 
+/* Define if you have the <linux/falloc.h> header. */
+#undef HAVE_LINUX_FALLOC_H
+
 /* Define to 1 if you have the `listmntent' function. */
 #undef HAVE_LISTMNTENT
 
@@ -1146,6 +1205,9 @@
 /* Define to 1 if you have the 'obstack_printf' func */
 #undef HAVE_OBSTACK_PRINTF
 
+/* Define to 1 if the system has the type `off64_t'. */
+#undef HAVE_OFF64_T
+
 /* Define to 1 if you have the 'openat' func */
 #undef HAVE_OPENAT
 
@@ -1176,8 +1238,20 @@
 /* Define if you have the <poll.h> header. */
 #undef HAVE_POLL_H
 
+/* Define to 1 if you have the `posix_fallocate' function. */
+#undef HAVE_POSIX_FALLOCATE
+
+/* Define to 1 if posix_fallocate64() exists */
+#undef HAVE_POSIX_FALLOCATE64
+
 /* Define to 1 if you have the `posix_openpt' function. */
 #undef HAVE_POSIX_OPENPT
+
+/* Define to 1 if you have the 'pread' func */
+#undef HAVE_PREAD
+
+/* Define to 1 if you have the `pread64' function. */
+#undef HAVE_PREAD64
 
 /* Define to 1 if you have the `printf' function. */
 #undef HAVE_PRINTF
@@ -1214,6 +1288,12 @@
 
 /* Define to 1 if you have the <publib/strutil.h> header file. */
 #undef HAVE_PUBLIB_STRUTIL_H
+
+/* Define to 1 if you have the 'pwrite' func */
+#undef HAVE_PWRITE
+
+/* Define to 1 if you have the `pwrite64' function. */
+#undef HAVE_PWRITE64
 
 /* Define to 1 if you have the `rawmemchr' function. */
 #undef HAVE_RAWMEMCHR
@@ -2146,6 +2226,12 @@
 /* Define to 1 if you have the `sprintf' function. */
 #undef HAVE_SPRINTF
 
+/* Define to 1 if you have the `statfs' function. */
+#undef HAVE_STATFS
+
+/* Define to 1 if you have the `statfs64' function. */
+#undef HAVE_STATFS64
+
 /* Define to 1 if you have the `statvfs' function. */
 #undef HAVE_STATVFS
 
@@ -2329,6 +2415,9 @@
 
 /* Define to 1 if you have the <sys/event.h> header file. */
 #undef HAVE_SYS_EVENT_H
+
+/* Define if you have the <sys/falloc.h> header. */
+#undef HAVE_SYS_FALLOC_H
 
 /* Define to 1 if you have the <sys/fcntl.h> header file. */
 #undef HAVE_SYS_FCNTL_H
@@ -2594,8 +2683,7 @@
    slash. */
 #undef LSTAT_FOLLOWS_SLASHED_SYMLINK
 
-/* Define to the sub-directory in which libtool stores uninstalled libraries.
-   */
+/* Define to the sub-directory where libtool stores uninstalled libraries. */
 #undef LT_OBJDIR
 
 /* If malloc(0) is != NULL, define this to 1. Otherwise define this to 0. */
@@ -2781,8 +2869,23 @@
    'sig_atomic_t'. */
 #undef SIG_ATOMIC_T_SUFFIX
 
+/* The size of `char', as computed by sizeof. */
+#undef SIZEOF_CHAR
+
 /* The size of `int', as computed by sizeof. */
 #undef SIZEOF_INT
+
+/* The size of `long', as computed by sizeof. */
+#undef SIZEOF_LONG
+
+/* The size of `off64_t', as computed by sizeof. */
+#undef SIZEOF_OFF64_T
+
+/* The size of `off_t', as computed by sizeof. */
+#undef SIZEOF_OFF_T
+
+/* The size of `short', as computed by sizeof. */
+#undef SIZEOF_SHORT
 
 /* Define as the maximum value of type 'size_t', if the system doesn't define
    it. */
@@ -3133,6 +3236,9 @@
 
 /* Define to the type of st_nlink in struct stat, or a supertype. */
 #undef nlink_t
+
+/* Define to `long int' if <sys/types.h> does not define. */
+#undef off64_t
 
 /* Define to `long int' if <sys/types.h> does not define. */
 #undef off_t

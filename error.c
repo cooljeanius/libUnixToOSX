@@ -401,10 +401,11 @@ error_at_line(int status, int errnum, const char *file_name,
   __fxprintf(NULL, ((file_name != NULL) ? "%s:%d: " : " "),
 			 file_name, line_number);
 #else
-  fprintf(stderr, ((file_name != NULL) ? "%s:%d: " : " "),
-		  file_name, line_number);
-	/* 'file_name' should be used by the format string in the first part of the
-	 * string, NOT the empty second part... */
+  if (file_name != NULL) {
+    fprintf(stderr, "%s:%d: ", file_name, line_number);
+  } else {
+    fprintf(stderr, " ");
+  }
 #endif /* _LIBC */
 
   va_start(args, message);

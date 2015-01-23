@@ -1,4 +1,4 @@
-/* dirname.c -- return all but the last element in a file name
+/* dirname-lgpl.c -- return all but the last element in a file name.
 
    Copyright (C) 1990, 1998, 2000-2001, 2003-2006, 2009-2012 Free Software
    Foundation, Inc.
@@ -14,7 +14,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #include <config.h>
 
@@ -29,25 +29,25 @@
    if there are trailing slashes (by effectively ignoring them).  */
 
 size_t
-dir_len (char const *file)
+dir_len(char const *file)
 {
-  size_t prefix_length = FILE_SYSTEM_PREFIX_LEN (file);
+  size_t prefix_length = FILE_SYSTEM_PREFIX_LEN(file);
   size_t length;
 
-  /* Advance prefix_length beyond important leading slashes.  */
-  prefix_length += (prefix_length != 0
+  /* Advance prefix_length beyond important leading slashes: */
+  prefix_length += ((prefix_length != 0)
                     ? (FILE_SYSTEM_DRIVE_PREFIX_CAN_BE_RELATIVE
-                       && ISSLASH (file[prefix_length]))
-                    : (ISSLASH (file[0])
+                       && ISSLASH(file[prefix_length]))
+                    : (ISSLASH(file[0])
                        ? ((DOUBLE_SLASH_IS_DISTINCT_ROOT
-                           && ISSLASH (file[1]) && ! ISSLASH (file[2])
+                           && ISSLASH(file[1]) && ! ISSLASH(file[2])
                            ? 2 : 1))
                        : 0));
 
-  /* Strip the basename and any redundant slashes before it.  */
+  /* Strip the basename and any redundant slashes before it: */
   for ((length = (size_t)(last_component(file) - file));
        (prefix_length < length); length--) {
-	  if (! ISSLASH (file[length - 1])) {
+	  if (! ISSLASH(file[length - 1])) {
 		  break;
 	  }
   }
@@ -68,7 +68,7 @@ dir_len (char const *file)
    if the sequence { chdir (dir_name (FILE));
    rename (base_name (FILE), "foo"); } succeeds, you have renamed FILE
    to "foo" in the same directory FILE was in.  */
-char *mdir_name (char const *file)
+char *mdir_name(char const *file)
 {
   size_t length = dir_len(file);
   bool append_dot = ((length == 0)
@@ -76,7 +76,7 @@ char *mdir_name (char const *file)
                          && (length == FILE_SYSTEM_PREFIX_LEN(file))
                          && (file[2] != '\0') && ! ISSLASH(file[2])));
   char *dir;
-  dir = (char *)malloc(length + append_dot + 1);
+  dir = (char *)malloc(length + append_dot + 1UL);
   if (!dir) {
 	  return NULL;
   }
@@ -87,3 +87,5 @@ char *mdir_name (char const *file)
   dir[length] = '\0';
   return dir;
 }
+
+/* EOF */

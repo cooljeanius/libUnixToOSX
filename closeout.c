@@ -14,7 +14,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #include <config.h>
 
@@ -26,7 +26,7 @@
 #include <unistd.h>
 
 #include "gettext.h"
-#define _(msgid) gettext (msgid)
+#define _(msgid) gettext(msgid)
 
 #include "close-stream.h"
 #include "error.h"
@@ -36,9 +36,9 @@
 static const char *file_name;
 
 /* Set the file name to be reported in the event an error is detected
-   by close_stdout.  */
+ * by close_stdout: */
 void
-close_stdout_set_file_name (const char *file)
+close_stdout_set_file_name(const char *file)
 {
   file_name = file;
 }
@@ -75,7 +75,7 @@ static bool ignore_EPIPE /* = false */;
    and should not lead to a diagnostic message.  */
 
 void
-close_stdout_set_ignore_EPIPE (bool ignore)
+close_stdout_set_ignore_EPIPE(bool ignore)
 {
   ignore_EPIPE = ignore;
 }
@@ -101,25 +101,24 @@ close_stdout_set_ignore_EPIPE (bool ignore)
 
    It is important to detect such failures and exit nonzero because many
    tools (most notably 'make' and other build-management systems) depend
-   on being able to detect failure in other tools via their exit status.  */
-
+   on being able to detect failure in other tools via their exit status: */
 void close_stdout(void)
 {
-  if (close_stream (stdout) != 0
-      && !(ignore_EPIPE && errno == EPIPE))
+  if ((close_stream(stdout) != 0)
+      && !(ignore_EPIPE && (errno == EPIPE)))
     {
       char const *write_error = _("write error");
       if (file_name)
-        error (0, errno, "%s: %s", quotearg_colon (file_name),
-               write_error);
+        error(0, errno, "%s: %s", quotearg_colon(file_name),
+              write_error);
       else
-        error (0, errno, "%s", write_error);
+        error(0, errno, "%s", write_error);
 
-      _exit (exit_failure);
+      _exit(exit_failure);
     }
 
-   if (close_stream (stderr) != 0)
-     _exit (exit_failure);
+   if (close_stream(stderr) != 0)
+     _exit(exit_failure);
 }
 
 /* EOF */

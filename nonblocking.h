@@ -1,4 +1,4 @@
-/* Non-blocking I/O for pipe or socket descriptors.
+/* nonblocking.h: Non-blocking I/O for pipe or socket descriptors.
    Copyright (C) 2011-2012 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -12,7 +12,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #ifndef _NONBLOCKING_H
 #define _NONBLOCKING_H
@@ -39,24 +39,26 @@
 
 #ifdef __cplusplus
 extern "C" {
-#endif
+#endif /* __cplusplus */
 
 
 /* Return 1 if I/O to the descriptor DESC is currently non-blocking, 0
    it is blocking, or -1 with errno set if fd is invalid or blocking
    status cannot be determined (such as with sockets on mingw).  */
-extern int get_nonblocking_flag (int desc);
+extern int get_nonblocking_flag(int desc);
 
 /* Specify the non-blocking flag for the descriptor DESC.
    Return 0 upon success, or -1 with errno set upon failure.
    The default depends on the presence of the O_NONBLOCK flag for files
    or pipes opened with open() or on the presence of the SOCK_NONBLOCK
    flag for sockets.  */
-extern int set_nonblocking_flag (int desc, bool value);
+extern int set_nonblocking_flag(int desc, bool value);
 
 
 #ifdef __cplusplus
 }
-#endif
+#endif /* __cplusplus */
 
 #endif /* _NONBLOCKING_H */
+
+/* EOF */

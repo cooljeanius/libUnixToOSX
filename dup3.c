@@ -1,4 +1,4 @@
-/* Copy a file descriptor, applying specific flags.
+/* dup3.c: Copy a file descriptor, applying specific flags.
    Copyright (C) 2009-2012 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
@@ -29,29 +29,29 @@ int dup3(int oldfd, int newfd, int flags)
 {
 #if defined(HAVE_DUP3) && HAVE_DUP3
 # undef dup3
-  /* Try the system call first, if it exists.  (We may be running with a glibc
-     that has the function but with an older kernel that lacks it.)  */
+  /* Try the sycall first, if it exists.  (We may be running with a glibc
+   * that has the function, but with an older kernel that lacks it.)  */
   {
-    /* Cache the information whether the system call really exists.  */
+    /* Cache the information whether the system call really exists: */
     static int have_dup3_really; /* 0 = unknown, 1 = yes, -1 = no */
     if (have_dup3_really >= 0)
       {
-        int result = dup3 (oldfd, newfd, flags);
-        if (!(result < 0 && errno == ENOSYS))
+        int result = dup3(oldfd, newfd, flags);
+        if (!((result < 0) && (errno == ENOSYS)))
           {
             have_dup3_really = 1;
 # if REPLACE_FCHDIR
             if (0 <= result)
-              result = _gl_register_dup (oldfd, newfd);
-# endif
+              result = _gl_register_dup(oldfd, newfd);
+# endif /* REPLACE_FCHDIR */
             return result;
           }
         have_dup3_really = -1;
       }
   }
-#endif
+#endif /* HAVE_DUP3 */
 
-  if (newfd < 0 || newfd >= getdtablesize () || fcntl (oldfd, F_GETFD) == -1)
+  if (newfd < 0 || newfd >= getdtablesize() || fcntl(oldfd, F_GETFD) == -1)
     {
       errno = EBADF;
       return -1;
@@ -64,8 +64,8 @@ int dup3(int oldfd, int newfd, int flags)
     }
 
   /* Check the supported flags.
-     Note that O_NONBLOCK is not supported, because setting it on newfd
-     would implicitly also set it on oldfd.  */
+   * Note that O_NONBLOCK is not supported, because setting it on newfd
+   * would implicitly also set it on oldfd: */
   if ((flags & ~(O_CLOEXEC | O_BINARY | O_TEXT)) != 0)
     {
       errno = EINVAL;
@@ -75,26 +75,28 @@ int dup3(int oldfd, int newfd, int flags)
   if (flags & O_CLOEXEC)
     {
       int result;
-      close (newfd);
-      result = fcntl (oldfd, F_DUPFD_CLOEXEC, newfd);
+      close(newfd);
+      result = fcntl(oldfd, F_DUPFD_CLOEXEC, newfd);
       if (newfd < result)
         {
-          close (result);
+          close(result);
           errno = EIO;
           result = -1;
         }
       if (result < 0)
         return -1;
     }
-  else if (dup2 (oldfd, newfd) < 0)
+  else if (dup2(oldfd, newfd) < 0)
     return -1;
 
 #if O_BINARY
   if (flags & O_BINARY)
-    setmode (newfd, O_BINARY);
+    setmode(newfd, O_BINARY);
   else if (flags & O_TEXT)
-    setmode (newfd, O_TEXT);
-#endif
+    setmode(newfd, O_TEXT);
+#endif /* O_BINARY */
 
   return newfd;
 }
+
+/* EOF */

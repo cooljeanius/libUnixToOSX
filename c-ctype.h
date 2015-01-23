@@ -1,12 +1,13 @@
-/* Character handling in C locale.
-
-   These functions work like the corresponding functions in <ctype.h>,
-   except that they have the C (POSIX) locale hardwired, whereas the
-   <ctype.h> functions' behaviour depends on the current locale set via
-   setlocale.
-
-   Copyright (C) 2000-2003, 2006, 2008-2012 Free Software Foundation, Inc.
-
+/* c-ctype.h: Character handling in C locale.
+ *
+ * These functions work like the corresponding functions in <ctype.h>,
+ * except that they have the C (POSIX) locale hardwired, whereas the
+ * behavior of the <ctype.h> functions depends on the current locale set
+ * via setlocale.
+ *
+ * Copyright (C) 2000-2003, 2006, 2008-2012 Free Software Foundation, Inc.
+ */
+/*
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
@@ -28,7 +29,7 @@ along with this program; if not, see <http://www.gnu.org/licenses/>.  */
 
 #ifdef __cplusplus
 extern "C" {
-#endif
+#endif /* __cplusplus */
 
 
 /* The functions defined in this file assume the "C" locale and a character
@@ -111,7 +112,7 @@ extern "C" {
          const char *s = ...;
          if (isalpha ((unsigned char) *s)) ...
 
-   but you don't need to cast it for the functions defined in this file:
+   but you do NOT need to cast it for the functions defined in this file:
 
          const char *s = ...;
          if (c_isalpha (*s)) ...
@@ -289,6 +290,8 @@ extern int c_toupper (int c) _GL_ATTRIBUTE_CONST;
 
 #ifdef __cplusplus
 }
-#endif
+#endif /* __cplusplus */
 
 #endif /* C_CTYPE_H */
+
+/* EOF */

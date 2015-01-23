@@ -1,13 +1,13 @@
-/* memrchr -- find the last occurrence of a byte in a memory block
+/* memrchr.c -- find the last occurrence of a byte in a memory block
 
    Copyright (C) 1991, 1993, 1996-1997, 1999-2000, 2003-2012 Free Software
    Foundation, Inc.
 
-   Based on strlen implementation by Torbjorn Granlund (tege@sics.se),
-   with help from Dan Sahlin (dan@sics.se) and
-   commentary by Jim Blandy (jimb@ai.mit.edu);
-   adaptation to memchr suggested by Dick Karpinski (dick@cca.ucsf.edu),
-   and implemented by Roland McGrath (roland@ai.mit.edu).
+   Based on strlen implementation by Torbjorn Granlund <tege@sics.se>,
+   with help from Dan Sahlin <dan@sics.se> and
+   commentary by Jim Blandy <jimb@ai.mit.edu>;
+   adaptation to memchr suggested by Dick Karpinski <dick@cca.ucsf.edu>,
+   and implemented by Roland McGrath <roland@ai.mit.edu>.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,14 +20,14 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
-#if defined _LIBC
+#if defined(_LIBC)
 # include <memcopy.h>
 #else
 # include <config.h>
 # define reg_char char
-#endif
+#endif /* _LIBC */
 
 #include <string.h>
 #include <limits.h>
@@ -35,15 +35,15 @@
 #undef __memrchr
 #ifdef _LIBC
 # undef memrchr
-#endif
+#endif /* _LIBC */
 
 #ifndef weak_alias
 # define __memrchr memrchr
-#endif
+#endif /* !weak_alias */
 
-/* Search no more than N bytes of S for C.  */
+/* Search no more than N bytes of S for C: */
 void *
-__memrchr (void const *s, int c_in, size_t n)
+__memrchr(void const *s, int c_in, size_t n)
 {
   /* On 32-bit hardware, choosing longword to be a 32-bit unsigned
      long instead of a 64-bit uintmax_t tends to give better
@@ -124,7 +124,7 @@ __memrchr (void const *s, int c_in, size_t n)
      So, the test whether any byte in longword1 is zero is equivalent to
      testing whether tmp is nonzero.  */
 
-  while (n >= sizeof (longword))
+  while (n >= sizeof(longword))
     {
       longword longword1 = *--longword_ptr ^ repeated_c;
 
@@ -137,7 +137,7 @@ __memrchr (void const *s, int c_in, size_t n)
       n -= sizeof (longword);
     }
 
-  char_ptr = (const unsigned char *) longword_ptr;
+  char_ptr = (const unsigned char *)longword_ptr;
 
   /* At this point, we know that either n < sizeof (longword), or one of the
      sizeof (longword) bytes starting at char_ptr is == c.  On little-endian
@@ -149,11 +149,13 @@ __memrchr (void const *s, int c_in, size_t n)
   while (n-- > 0)
     {
       if (*--char_ptr == c)
-        return (void *) char_ptr;
+        return (void *)char_ptr;
     }
 
   return NULL;
 }
 #ifdef weak_alias
-weak_alias (__memrchr, memrchr)
-#endif
+weak_alias(__memrchr, memrchr)
+#endif /* weak_alias */
+
+/* EOF */

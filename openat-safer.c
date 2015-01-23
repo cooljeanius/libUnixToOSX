@@ -1,4 +1,4 @@
-/* Invoke openat, but avoid some glitches.
+/* openat-safer.c: Invoke openat, but avoid some glitches.
 
    Copyright (C) 2005-2006, 2008-2012 Free Software Foundation, Inc.
 
@@ -13,7 +13,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* Written by Paul Eggert for open, ported by Eric Blake for openat.  */
 

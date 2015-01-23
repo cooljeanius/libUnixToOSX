@@ -118,7 +118,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/alloca.m4 \
 	$(top_srcdir)/m4/error.m4 $(top_srcdir)/m4/exponentd.m4 \
 	$(top_srcdir)/m4/exponentf.m4 $(top_srcdir)/m4/exponentl.m4 \
 	$(top_srcdir)/m4/extensions.m4 \
-	$(top_srcdir)/m4/extern-inline.m4 $(top_srcdir)/m4/fchdir.m4 \
+	$(top_srcdir)/m4/extern-inline.m4 \
+	$(top_srcdir)/m4/fallocate.m4 $(top_srcdir)/m4/fchdir.m4 \
 	$(top_srcdir)/m4/fchmodat.m4 $(top_srcdir)/m4/fchownat.m4 \
 	$(top_srcdir)/m4/fclose.m4 $(top_srcdir)/m4/fcntl-o.m4 \
 	$(top_srcdir)/m4/fcntl-safer.m4 $(top_srcdir)/m4/fcntl_h.m4 \
@@ -129,7 +130,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/alloca.m4 \
 	$(top_srcdir)/m4/freadseek.m4 $(top_srcdir)/m4/frexp.m4 \
 	$(top_srcdir)/m4/frexpl.m4 $(top_srcdir)/m4/fstat.m4 \
 	$(top_srcdir)/m4/fstatat.m4 $(top_srcdir)/m4/fstypename.m4 \
-	$(top_srcdir)/m4/fts.m4 $(top_srcdir)/m4/functions_extra.m4 \
+	$(top_srcdir)/m4/ftruncate.m4 $(top_srcdir)/m4/fts.m4 \
+	$(top_srcdir)/m4/functions_extra.m4 \
 	$(top_srcdir)/m4/getdelim.m4 $(top_srcdir)/m4/getline.m4 \
 	$(top_srcdir)/m4/getndelim2.m4 $(top_srcdir)/m4/getnline.m4 \
 	$(top_srcdir)/m4/getopt.m4 $(top_srcdir)/m4/glibc21.m4 \
@@ -168,14 +170,16 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/alloca.m4 \
 	$(top_srcdir)/m4/onceonly.m4 $(top_srcdir)/m4/openat.m4 \
 	$(top_srcdir)/m4/pathmax.m4 $(top_srcdir)/m4/pipe2.m4 \
 	$(top_srcdir)/m4/pkg.m4 $(top_srcdir)/m4/poll.m4 \
-	$(top_srcdir)/m4/poll_h.m4 $(top_srcdir)/m4/printf-frexp.m4 \
+	$(top_srcdir)/m4/poll_h.m4 $(top_srcdir)/m4/posix_fallocate.m4 \
+	$(top_srcdir)/m4/posix_fallocate64.m4 \
+	$(top_srcdir)/m4/pread.m4 $(top_srcdir)/m4/printf-frexp.m4 \
 	$(top_srcdir)/m4/printf-frexpl.m4 $(top_srcdir)/m4/printf.m4 \
 	$(top_srcdir)/m4/programs_extra.m4 $(top_srcdir)/m4/ptsname.m4 \
 	$(top_srcdir)/m4/ptsname_r.m4 $(top_srcdir)/m4/pty.m4 \
-	$(top_srcdir)/m4/pty_h.m4 $(top_srcdir)/m4/quote.m4 \
-	$(top_srcdir)/m4/quotearg.m4 $(top_srcdir)/m4/rawmemchr.m4 \
-	$(top_srcdir)/m4/readlink.m4 $(top_srcdir)/m4/readlinkat.m4 \
-	$(top_srcdir)/m4/realloc.m4 \
+	$(top_srcdir)/m4/pty_h.m4 $(top_srcdir)/m4/pwrite.m4 \
+	$(top_srcdir)/m4/quote.m4 $(top_srcdir)/m4/quotearg.m4 \
+	$(top_srcdir)/m4/rawmemchr.m4 $(top_srcdir)/m4/readlink.m4 \
+	$(top_srcdir)/m4/readlinkat.m4 $(top_srcdir)/m4/realloc.m4 \
 	$(top_srcdir)/m4/relocatable-lib.m4 \
 	$(top_srcdir)/m4/relocatable.m4 \
 	$(top_srcdir)/m4/relocatable_extra.m4 $(top_srcdir)/m4/same.m4 \
@@ -290,6 +294,7 @@ CCAS = @CCAS@
 CCASFLAGS = @CCASFLAGS@
 CFLAGS = @CFLAGS@
 CHANGELOG_CMD = @CHANGELOG_CMD@
+CLANGCC = @CLANGCC@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
@@ -300,17 +305,43 @@ DEFS = @DEFS@
 DLLTOOL = @DLLTOOL@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
+EBADMSG_HIDDEN = @EBADMSG_HIDDEN@
+EBADMSG_VALUE = @EBADMSG_VALUE@
+ECANCELED_HIDDEN = @ECANCELED_HIDDEN@
+ECANCELED_VALUE = @ECANCELED_VALUE@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
+ECONNABORTED_HIDDEN = @ECONNABORTED_HIDDEN@
+ECONNABORTED_VALUE = @ECONNABORTED_VALUE@
+EDQUOT_HIDDEN = @EDQUOT_HIDDEN@
+EDQUOT_VALUE = @EDQUOT_VALUE@
 EGREP = @EGREP@
+EIDRM_HIDDEN = @EIDRM_HIDDEN@
+EIDRM_VALUE = @EIDRM_VALUE@
 EMULTIHOP_HIDDEN = @EMULTIHOP_HIDDEN@
 EMULTIHOP_VALUE = @EMULTIHOP_VALUE@
+ENETRESET_HIDDEN = @ENETRESET_HIDDEN@
+ENETRESET_VALUE = @ENETRESET_VALUE@
 ENOLINK_HIDDEN = @ENOLINK_HIDDEN@
 ENOLINK_VALUE = @ENOLINK_VALUE@
+ENOMSG_HIDDEN = @ENOMSG_HIDDEN@
+ENOMSG_VALUE = @ENOMSG_VALUE@
+ENOTSUP_HIDDEN = @ENOTSUP_HIDDEN@
+ENOTSUP_VALUE = @ENOTSUP_VALUE@
 EOVERFLOW_HIDDEN = @EOVERFLOW_HIDDEN@
 EOVERFLOW_VALUE = @EOVERFLOW_VALUE@
+EPROTO_HIDDEN = @EPROTO_HIDDEN@
+EPROTO_VALUE = @EPROTO_VALUE@
 ERRNO_H = @ERRNO_H@
+ESOCK_HIDDEN = @ESOCK_HIDDEN@
+ESOCK_VALUE = @ESOCK_VALUE@
+ESTALE_HIDDEN = @ESTALE_HIDDEN@
+ESTALE_VALUE = @ESTALE_VALUE@
+ESTREAMS_HIDDEN = @ESTREAMS_HIDDEN@
+ESTREAMS_VALUE = @ESTREAMS_VALUE@
+EWINSOCK_HIDDEN = @EWINSOCK_HIDDEN@
+EWINSOCK_VALUE = @EWINSOCK_VALUE@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
 FLOAT_H = @FLOAT_H@
@@ -1024,6 +1055,7 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 INT32_MAX_LT_INTMAX_MAX = @INT32_MAX_LT_INTMAX_MAX@
 INT64_MAX_EQ_LONG_MAX = @INT64_MAX_EQ_LONG_MAX@
+INTELCC = @INTELCC@
 INTL_MACOSX_LIBS = @INTL_MACOSX_LIBS@
 ISNAND_LIBM = @ISNAND_LIBM@
 ISNANF_LIBM = @ISNANF_LIBM@
@@ -1173,6 +1205,7 @@ REPLACE_EXP2L = @REPLACE_EXP2L@
 REPLACE_EXPM1 = @REPLACE_EXPM1@
 REPLACE_EXPM1F = @REPLACE_EXPM1F@
 REPLACE_FABSL = @REPLACE_FABSL@
+REPLACE_FALLOCATE = @REPLACE_FALLOCATE@
 REPLACE_FCHOWNAT = @REPLACE_FCHOWNAT@
 REPLACE_FCLOSE = @REPLACE_FCLOSE@
 REPLACE_FCNTL = @REPLACE_FCNTL@
@@ -1276,6 +1309,8 @@ REPLACE_OPENPTY = @REPLACE_OPENPTY@
 REPLACE_PERROR = @REPLACE_PERROR@
 REPLACE_POLL = @REPLACE_POLL@
 REPLACE_POPEN = @REPLACE_POPEN@
+REPLACE_POSIX_FALLOCATE = @REPLACE_POSIX_FALLOCATE@
+REPLACE_POSIX_FALLOCATE64 = @REPLACE_POSIX_FALLOCATE64@
 REPLACE_PREAD = @REPLACE_PREAD@
 REPLACE_PRINTF = @REPLACE_PRINTF@
 REPLACE_PTHREAD_SIGMASK = @REPLACE_PTHREAD_SIGMASK@
@@ -1359,6 +1394,7 @@ STDBOOL_H = @STDBOOL_H@
 STDDEF_H = @STDDEF_H@
 STDINT_H = @STDINT_H@
 STRIP = @STRIP@
+SUNCC = @SUNCC@
 SYS_IOCTL_H_HAVE_WINSOCK2_H = @SYS_IOCTL_H_HAVE_WINSOCK2_H@
 SYS_IOCTL_H_HAVE_WINSOCK2_H_AND_USE_SOCKETS = @SYS_IOCTL_H_HAVE_WINSOCK2_H_AND_USE_SOCKETS@
 SYS_TIME_H_DEFINES_STRUCT_TIMESPEC = @SYS_TIME_H_DEFINES_STRUCT_TIMESPEC@
@@ -1371,6 +1407,7 @@ UNISTD_H_HAVE_WINSOCK2_H = @UNISTD_H_HAVE_WINSOCK2_H@
 UNISTD_H_HAVE_WINSOCK2_H_AND_USE_SOCKETS = @UNISTD_H_HAVE_WINSOCK2_H_AND_USE_SOCKETS@
 VERSION = @VERSION@
 WARN_CFLAGS = @WARN_CFLAGS@
+WARN_LDFLAGS = @WARN_LDFLAGS@
 WCHAR_T_SUFFIX = @WCHAR_T_SUFFIX@
 WINDOWS_64_BIT_OFF_T = @WINDOWS_64_BIT_OFF_T@
 WINDOWS_64_BIT_ST_SIZE = @WINDOWS_64_BIT_ST_SIZE@
@@ -1388,6 +1425,7 @@ ac_ct_CXX = @ac_ct_CXX@
 ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
 ac_ct_OBJC = @ac_ct_OBJC@
 ac_ct_OBJCXX = @ac_ct_OBJCXX@
+acl_cv_wl = @acl_cv_wl@
 am__leading_dot = @am__leading_dot@
 am__tar = @am__tar@
 am__untar = @am__untar@

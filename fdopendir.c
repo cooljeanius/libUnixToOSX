@@ -1,4 +1,4 @@
-/* provide a replacement fdopendir function
+/* fdopendir.c: provide a replacement fdopendir function
    Copyright (C) 2004-2012 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -12,7 +12,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* written by Jim Meyering */
 
@@ -31,11 +31,11 @@
 
 # if GNULIB_DIRENT_SAFER
 #  include "dirent--.h"
-# endif
+# endif /* GNULIB_DIRENT_SAFER */
 
 # ifndef REPLACE_FCHDIR
 #  define REPLACE_FCHDIR 0
-# endif
+# endif /* !REPLACE_FCHDIR */
 
 static DIR *fdopendir_with_dup (int, int, struct saved_cwd const *);
 static DIR *fd_clone_opendir (int, struct saved_cwd const *);

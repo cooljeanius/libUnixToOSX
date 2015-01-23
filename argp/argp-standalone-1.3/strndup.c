@@ -1,5 +1,5 @@
 /* strndup.c
- *
+ * (for argp)
  */
 
 /* Written by Niels Möller <nisse@lysator.liu.se>

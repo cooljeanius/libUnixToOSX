@@ -1,4 +1,4 @@
-# serial 16
+# serial 17
 # Configure fcntl.h.
 dnl# Copyright (C) 2006-2007, 2009-2012 Free Software Foundation, Inc.
 dnl# This file is free software; the Free Software Foundation
@@ -35,14 +35,17 @@ AC_DEFUN([gl_FCNTL_MODULE_INDICATOR],[
 ])dnl
 
 AC_DEFUN([gl_FCNTL_H_DEFAULTS],[
-  GNULIB_FCNTL=0;        AC_SUBST([GNULIB_FCNTL])
-  GNULIB_NONBLOCKING=0;  AC_SUBST([GNULIB_NONBLOCKING])
-  GNULIB_OPEN=0;         AC_SUBST([GNULIB_OPEN])
-  GNULIB_OPENAT=0;       AC_SUBST([GNULIB_OPENAT])
-  dnl Assume proper GNU behavior unless another module says otherwise.
-  HAVE_FCNTL=1;          AC_SUBST([HAVE_FCNTL])
-  HAVE_OPENAT=1;         AC_SUBST([HAVE_OPENAT])
-  REPLACE_FCNTL=0;       AC_SUBST([REPLACE_FCNTL])
-  REPLACE_OPEN=0;        AC_SUBST([REPLACE_OPEN])
-  REPLACE_OPENAT=0;      AC_SUBST([REPLACE_OPENAT])
+  GNULIB_FCNTL=0;              AC_SUBST([GNULIB_FCNTL])
+  GNULIB_NONBLOCKING=0;        AC_SUBST([GNULIB_NONBLOCKING])
+  GNULIB_OPEN=0;               AC_SUBST([GNULIB_OPEN])
+  GNULIB_OPENAT=0;             AC_SUBST([GNULIB_OPENAT])
+  dnl# Assume proper GNU behavior unless another module says otherwise:
+  HAVE_FCNTL=1;                AC_SUBST([HAVE_FCNTL])
+  HAVE_OPENAT=1;               AC_SUBST([HAVE_OPENAT])
+  REPLACE_FCNTL=0;             AC_SUBST([REPLACE_FCNTL])
+  REPLACE_OPEN=0;              AC_SUBST([REPLACE_OPEN])
+  REPLACE_OPENAT=0;            AC_SUBST([REPLACE_OPENAT])
+  REPLACE_FALLOCATE=0;         AC_SUBST([REPLACE_FALLOCATE])
+  REPLACE_POSIX_FALLOCATE=0;   AC_SUBST([REPLACE_POSIX_FALLOCATE])
+  REPLACE_POSIX_FALLOCATE64=0; AC_SUBST([REPLACE_POSIX_FALLOCATE64])
 ])dnl

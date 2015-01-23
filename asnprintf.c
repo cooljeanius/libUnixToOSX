@@ -1,4 +1,4 @@
-/* Formatted output to strings.
+/* asnprintf.c: Formatted output to strings.
    Copyright (C) 1999, 2002, 2006, 2009-2012 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
@@ -22,13 +22,15 @@
 #include <stdarg.h>
 
 char *
-asnprintf (char *resultbuf, size_t *lengthp, const char *format, ...)
+asnprintf(char *resultbuf, size_t *lengthp, const char *format, ...)
 {
   va_list args;
   char *result;
 
-  va_start (args, format);
-  result = vasnprintf (resultbuf, lengthp, format, args);
-  va_end (args);
+  va_start(args, format);
+  result = vasnprintf(resultbuf, lengthp, format, args);
+  va_end(args);
   return result;
 }
+
+/* EOF */

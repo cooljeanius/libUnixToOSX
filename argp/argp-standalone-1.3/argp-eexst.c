@@ -19,14 +19,19 @@
    Boston, MA 02111-1307, USA.  */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+# include <config.h>
+#endif /* HAVE_CONFIG_H */
 
 #include <sysexits.h>
 
 #include "argp.h"
 
 /* The exit status that argp will use when exiting due to a parsing error.
-   If not defined or set by the user program, this defaults to EX_USAGE from
-   <sysexits.h>.  */
+ * If not defined or set by the user program, then this will default to
+ * EX_USAGE from <sysexits.h>: */
+#if defined(__clang__) && !defined(_ARGP_H)
+extern error_t argp_err_exit_status;
+#endif /* __clang__ */
 error_t argp_err_exit_status = EX_USAGE;
+
+/* EOF */

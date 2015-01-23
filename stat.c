@@ -17,13 +17,13 @@
 
 /* written by Eric Blake */
 
-/* If the user's config.h happens to include <sys/stat.h>, let it include only
- * the system's <sys/stat.h> here, so that orig_stat does NOT recurse to
- * rpl_stat.  */
+/* If the user's config.h happens to include <sys/stat.h>, let it include
+ * only the system's <sys/stat.h> here, so that orig_stat does NOT recurse
+ * to rpl_stat(): */
 #define __need_system_sys_stat_h
 #include <config.h>
 
-/* Get the original definition of stat. It might be defined as a macro. */
+/* Get the original definition of stat. It might be defined as a macro: */
 #include <sys/types.h>
 #include <sys/stat.h>
 #undef __need_system_sys_stat_h
@@ -59,9 +59,9 @@
 #endif /* !INLINECALL */
 
 static INLINECALL int
-orig_stat (const char *filename, struct stat *buf)
+orig_stat(const char *filename, struct stat *buf)
 {
-  return stat (filename, buf);
+  return stat(filename, buf);
 }
 
 /* Specification.  */
@@ -84,7 +84,13 @@ orig_stat (const char *filename, struct stat *buf)
 # ifndef PATH_MAX
 #  error "Please port this replacement to your platform by defining PATH_MAX"
 # endif /* !PATH_MAX */
-#endif
+/* we use verify in this condition, which invariably triggers this: */
+# if defined(__GNUC__) && defined(__GNUC_MINOR__)
+#  if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
+#   pragma GCC diagnostic ignored "-Wnested-externs"
+#  endif /* GCC 4.1+ */
+# endif /* gcc */
+#endif /* REPLACE_FUNC_STAT_DIR */
 
 /* Store information about NAME into ST. Work around bugs with
  * trailing slashes. Mingw has other bugs (such as st_ino always

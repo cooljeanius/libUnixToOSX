@@ -14,7 +14,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #include <config.h>
 
@@ -28,18 +28,20 @@
    present.  */
 
 bool
-strip_trailing_slashes (char *file)
+strip_trailing_slashes(char *file)
 {
-  char *base = last_component (file);
+  char *base = last_component(file);
   char *base_lim;
   bool had_slash;
 
   /* last_component returns "" for file system roots, but we need to turn
-     "///" into "/".  */
+   * "///" into "/".  */
   if (! *base)
     base = file;
-  base_lim = base + base_len (base);
+  base_lim = (base + base_len(base));
   had_slash = (*base_lim != '\0');
   *base_lim = '\0';
   return had_slash;
 }
+
+/* EOF */

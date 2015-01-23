@@ -1,4 +1,4 @@
-/* Save and restore current working directory.
+/* save-cwd.h: Save and restore current working directory.
 
    Copyright (C) 1995, 1997-1998, 2003, 2009-2012 Free Software Foundation,
    Inc.
@@ -14,7 +14,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* Written by Jim Meyering.  */
 
@@ -23,12 +23,12 @@
 
 struct saved_cwd
   {
-    int desc;
+    long desc; /* used to be just an 'int', but we need an extra 4 bytes */
     char *name;
   };
 
-int save_cwd (struct saved_cwd *cwd);
-int restore_cwd (const struct saved_cwd *cwd);
-void free_cwd (struct saved_cwd *cwd);
+int save_cwd(struct saved_cwd *cwd);
+int restore_cwd(const struct saved_cwd *cwd);
+void free_cwd(struct saved_cwd *cwd);
 
 #endif /* SAVE_CWD_H */

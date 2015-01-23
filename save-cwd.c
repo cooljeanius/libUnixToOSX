@@ -61,19 +61,20 @@
  * send email to the maintainer of this code.
  */
 int
-save_cwd(struct saved_cwd *cwd) {
+save_cwd(struct saved_cwd *cwd)
+{
   cwd->name = NULL;
 
   cwd->desc = open(".", O_SEARCH);
   if (!GNULIB_FCNTL_SAFER) {
-	  cwd->desc = fd_safer(cwd->desc);
+	  cwd->desc = fd_safer((int)cwd->desc);
   }
-  if (cwd->desc < 0) {
-      cwd->name = getcwd(NULL, (size_t)0);
+  if (cwd->desc < 0L) {
+      cwd->name = getcwd(NULL, (size_t)0UL);
       return (cwd->name ? 0 : -1);
   }
 
-  set_cloexec_flag(cwd->desc, (bool)true);
+  set_cloexec_flag((int)cwd->desc, (bool)true);
   return 0;
 }
 
@@ -83,18 +84,18 @@ save_cwd(struct saved_cwd *cwd) {
 int
 restore_cwd(const struct saved_cwd *cwd)
 {
-  if (0 <= cwd->desc) {
-	  return fchdir(cwd->desc);
+  if (0L <= cwd->desc) {
+	  return fchdir((int)cwd->desc);
   } else {
-	  return chdir_long (cwd->name);
+	  return chdir_long(cwd->name);
   }
 }
 
 void
 free_cwd(struct saved_cwd *cwd)
 {
-  if (cwd->desc >= 0) {
-	  close(cwd->desc);
+  if (cwd->desc >= 0L) {
+	  close((int)cwd->desc);
   }
   free(cwd->name);
 }

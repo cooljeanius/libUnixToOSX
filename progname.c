@@ -19,7 +19,7 @@
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #undef ENABLE_RELOCATABLE /* avoid defining set_program_name as a macro */
 #include "progname.h"
 

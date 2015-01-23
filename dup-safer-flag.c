@@ -1,5 +1,5 @@
-/* dup-safer-flag.c: Duplicate a file descriptor result, avoiding clobbering
- * STD{IN,OUT,ERR}_FILENO, with specific flags.
+/* dup-safer-flag.c: Duplicate a file descriptor result, while avoiding
+ * clobbering STD{IN,OUT,ERR}_FILENO, with specific flags.
  *
  * Copyright (C) 2001, 2004-2006, 2009-2012 Free Software Foundation, Inc.
  *
@@ -21,7 +21,7 @@
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include "unistd-safer.h"
 /* also here: */
 #include "dup.h"

@@ -18,7 +18,7 @@
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include <wchar.h>
 
 #include <stdio.h>

@@ -30,7 +30,7 @@
 #include <string.h>
 #include <unistd.h>
 
-/* Define this independently so that stdint.h is not a prerequisite.  */
+/* Define this independently so that stdint.h is not a prerequisite: */
 #ifndef SIZE_MAX
 # define SIZE_MAX ((size_t)-1)
 #endif /* !SIZE_MAX */

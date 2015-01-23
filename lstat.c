@@ -18,9 +18,9 @@
 
 /* written by Jim Meyering */
 
-/* If the user's config.h happens to include <sys/stat.h>, let it include only
- * the system's <sys/stat.h> here, so that orig_lstat does NOT recurse to
- * rpl_lstat.  */
+/* If the user's config.h happens to include <sys/stat.h>, let it include
+ * only the system's <sys/stat.h> here, so that orig_lstat does NOT recurse
+ * to rpl_lstat: */
 #ifndef __need_system_sys_stat_h
 # define __need_system_sys_stat_h 1
 #endif /* !__need_system_sys_stat_h */
@@ -33,7 +33,7 @@
 typedef int lstat_c_dummy_t;
 #else /* HAVE_LSTAT */
 
-/* Get the original definition of lstat. It might be defined as a macro. */
+/* Get the original definition of lstat. It might be defined as a macro: */
 # include <sys/types.h>
 # include <sys/stat.h>
 # undef __need_system_sys_stat_h
@@ -70,7 +70,7 @@ int
 rpl_lstat(const char *file, struct stat *sbuf)
 {
   size_t len;
-  int lstat_result = orig_lstat (file, sbuf);
+  int lstat_result = orig_lstat(file, sbuf);
 
 	if (lstat_result != 0) {
 		return lstat_result;
@@ -82,7 +82,7 @@ rpl_lstat(const char *file, struct stat *sbuf)
    * not compile this file.  0 len should have already been filtered
    * out above, with a failure return of ENOENT.  */
   len = strlen (file);
-	if (file[len - 1] != '/' || S_ISDIR (sbuf->st_mode)) {
+	if ((file[len - 1] != '/') || S_ISDIR(sbuf->st_mode)) {
 		return 0;
 	}
 
@@ -91,7 +91,7 @@ rpl_lstat(const char *file, struct stat *sbuf)
    * directory, not the symlink.  Call stat() to get info about the
    * link's referent.  Our replacement stat guarantees valid results,
    * even if the symlink is not pointing to a directory.  */
-  if (!S_ISLNK (sbuf->st_mode)) {
+  if (!S_ISLNK(sbuf->st_mode)) {
       errno = ENOTDIR;
       return -1;
   }

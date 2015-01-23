@@ -67,6 +67,18 @@ static inline int lchownat(int fd, char const *file, uid_t owner, gid_t group)
 #endif /* GNULIB_FCHOWNAT */
 
 #if defined(GNULIB_FCHMODAT) && GNULIB_FCHMODAT
+/* we already cast, which fails to fix the warning, so turn it off: */
+# if defined(__GNUC__) && defined(__GNUC_MINOR__)
+#  if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
+#   if (__GNUC__ == 4) && (__GNUC_MINOR__ >= 6)
+/* can push and pop with this version, so do so: */
+#    pragma GCC diagnostic push
+#    pragma GCC diagnostic ignored "-Wtraditional-conversion"
+#   else
+#    pragma GCC diagnostic ignored "-Wconversion"
+#   endif /* GCC 4.6+ || not */
+#  endif /* GCC 4.1+ */
+# endif /* gcc */
 static inline int chmodat(int fd, char const *file, mode_t mode)
 {
   return fchmodat(fd, file, (mode_t)mode, 0);
@@ -76,6 +88,12 @@ static inline int lchmodat(int fd, char const *file, mode_t mode)
 {
   return fchmodat(fd, file, (mode_t)mode, AT_SYMLINK_NOFOLLOW);
 }
+/* keep condition (essentially) the same as where we push: */
+# if defined(__GNUC__) && defined(__GNUC_MINOR__)
+#  if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 6))
+#   pragma GCC diagnostic pop
+#  endif /* GCC 4.6+ */
+# endif /* gcc */
 #endif /* GNULIB_FCHMODAT */
 
 #if GNULIB_FSTATAT

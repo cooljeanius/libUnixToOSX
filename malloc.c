@@ -57,15 +57,19 @@ void *rpl_malloc(size_t n)
 	}
 #endif /* NEED_MALLOC_GNU */
 
-  result = malloc (n);
+  result = malloc(n);
 
 #if !HAVE_MALLOC_POSIX
-	if (result == NULL) {
+    if (result == NULL) {
 		errno = ENOMEM;
 	}
 #endif /* !HAVE_MALLOC_POSIX */
 
   return result;
 }
+
+#ifdef _GL_USE_STDLIB_ALLOC
+# undef _GL_USE_STDLIB_ALLOC
+#endif /* _GL_USE_STDLIB_ALLOC */
 
 /* EOF */

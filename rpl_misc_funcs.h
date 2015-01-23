@@ -9,6 +9,12 @@
 #ifndef __RPL_MISC_FUNCS_H__
 #define __RPL_MISC_FUNCS_H__ 1
 
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
+#   pragma GCC diagnostic ignored "-Wredundant-decls"
+# endif /* GCC 4.1+ */
+#endif /* gcc */
+
 #include <stdio.h> /* required for file pointers */
 #include <sys/stat.h> /* needed for 'struct stat' */
 

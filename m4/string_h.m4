@@ -5,44 +5,40 @@
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
 
-# serial 21
+# serial 22
 
 # Written by Paul Eggert.
 
-AC_DEFUN([gl_HEADER_STRING_H],
-[
-  dnl Use AC_REQUIRE here, so that the default behavior below is expanded
-  dnl once only, before all statements that occur in other macros.
-  AC_REQUIRE([gl_HEADER_STRING_H_BODY])
-])
+AC_DEFUN([gl_HEADER_STRING_H],[
+  dnl# Use AC_REQUIRE here, so that the default behavior below is expanded
+  dnl# once only, before all statements that occur in other macros.
+  AC_REQUIRE([gl_HEADER_STRING_H_BODY])dnl
+])dnl
 
-AC_DEFUN([gl_HEADER_STRING_H_BODY],
-[
-  AC_REQUIRE([AC_C_RESTRICT])
-  AC_REQUIRE([gl_HEADER_STRING_H_DEFAULTS])
-  gl_NEXT_HEADERS([string.h])
+AC_DEFUN([gl_HEADER_STRING_H_BODY],[
+  AC_REQUIRE([AC_C_RESTRICT])dnl
+  AC_REQUIRE([gl_HEADER_STRING_H_DEFAULTS])dnl
+  gl_NEXT_HEADERS([string.h])dnl
 
-  dnl Check for declarations of anything we want to poison if the
-  dnl corresponding gnulib module is not in use, and which is not
-  dnl guaranteed by C89.
+  dnl# Check for declarations of anything we want to poison if the
+  dnl# corresponding gnulib module is not in use, and which is not
+  dnl# guaranteed by C89.
   gl_WARN_ON_USE_PREPARE([[#include <string.h>
     ]],
     [ffsl ffsll memmem mempcpy memrchr rawmemchr stpcpy stpncpy strchrnul
      strdup strncat strndup strnlen strpbrk strsep strcasestr strtok_r
-     strerror_r strsignal strverscmp])
-])
+     strerror_r strsignal strverscmp])dnl
+])dnl
 
-AC_DEFUN([gl_STRING_MODULE_INDICATOR],
-[
-  dnl Use AC_REQUIRE here, so that the default settings are expanded once only.
-  AC_REQUIRE([gl_HEADER_STRING_H_DEFAULTS])
-  gl_MODULE_INDICATOR_SET_VARIABLE([$1])
-  dnl Define it also as a C macro, for the benefit of the unit tests.
-  gl_MODULE_INDICATOR_FOR_TESTS([$1])
-])
+AC_DEFUN([gl_STRING_MODULE_INDICATOR],[
+  dnl# Use AC_REQUIRE here, so the default settings are expanded once only.
+  AC_REQUIRE([gl_HEADER_STRING_H_DEFAULTS])dnl
+  gl_MODULE_INDICATOR_SET_VARIABLE([$1])dnl
+  dnl# Define it also as a C macro, for the benefit of the unit tests.
+  gl_MODULE_INDICATOR_FOR_TESTS([$1])dnl
+])dnl
 
-AC_DEFUN([gl_HEADER_STRING_H_DEFAULTS],
-[
+AC_DEFUN([gl_HEADER_STRING_H_DEFAULTS],[
   GNULIB_FFSL=0;        AC_SUBST([GNULIB_FFSL])
   GNULIB_FFSLL=0;       AC_SUBST([GNULIB_FFSLL])
   GNULIB_MEMCHR=0;      AC_SUBST([GNULIB_MEMCHR])
@@ -81,7 +77,7 @@ AC_DEFUN([gl_HEADER_STRING_H_DEFAULTS],
   GNULIB_STRSIGNAL=0;   AC_SUBST([GNULIB_STRSIGNAL])
   GNULIB_STRVERSCMP=0;  AC_SUBST([GNULIB_STRVERSCMP])
   HAVE_MBSLEN=0;        AC_SUBST([HAVE_MBSLEN])
-  dnl Assume proper GNU behavior unless another module says otherwise.
+  dnl# Assume proper GNU behavior unless another module says otherwise:
   HAVE_FFSL=1;                  AC_SUBST([HAVE_FFSL])
   HAVE_FFSLL=1;                 AC_SUBST([HAVE_FFSLL])
   HAVE_MEMCHR=1;                AC_SUBST([HAVE_MEMCHR])
@@ -117,4 +113,4 @@ AC_DEFUN([gl_HEADER_STRING_H_DEFAULTS],
   REPLACE_STRSIGNAL=0;          AC_SUBST([REPLACE_STRSIGNAL])
   REPLACE_STRTOK_R=0;           AC_SUBST([REPLACE_STRTOK_R])
   UNDEFINE_STRTOK_R=0;          AC_SUBST([UNDEFINE_STRTOK_R])
-])
+])dnl

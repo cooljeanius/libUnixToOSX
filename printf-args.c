@@ -26,7 +26,7 @@
 # include <config.h>
 #endif /* !PRINTF_FETCHARGS */
 
-/* Specification.  */
+/* Specification: */
 #ifndef PRINTF_FETCHARGS
 # include "printf-args.h"
 #endif /* !PRINTF_FETCHARGS */

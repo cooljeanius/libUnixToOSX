@@ -14,7 +14,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #include <config.h>
 
@@ -29,10 +29,12 @@
    "memory exhausted" condition and exit.  */
 
 char *
-dir_name (char const *file)
+dir_name(char const *file)
 {
-  char *result = mdir_name (file);
+  char *result = mdir_name(file);
   if (!result)
-    xalloc_die ();
+    xalloc_die();
   return result;
 }
+
+/* EOF */

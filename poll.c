@@ -1,4 +1,4 @@
-/* Emulation for poll(2)
+/* poll.c: Emulation for poll(2)
    Contributed by Paolo Bonzini.
 
    Copyright 2001-2003, 2006-2012 Free Software Foundation, Inc.
@@ -30,14 +30,14 @@
 
 #include <sys/types.h>
 
-/* Specification.  */
+/* Specification: */
 #include <poll.h>
 
 #include <errno.h>
 #include <limits.h>
 #include <assert.h>
 
-#if (defined _WIN32 || defined __WIN32__) && ! defined __CYGWIN__
+#if (defined(_WIN32) || defined(__WIN32__)) && ! defined(__CYGWIN__)
 # define WINDOWS_NATIVE
 # include <winsock2.h>
 # include <windows.h>
@@ -50,48 +50,48 @@
 # include <sys/socket.h>
 # include <sys/select.h>
 # include <unistd.h>
-#endif
+#endif /* (_WIN32 || __WIN32__) && !__CYGWIN__ */
 
 #ifdef HAVE_SYS_IOCTL_H
 # include <sys/ioctl.h>
-#endif
+#endif /* HAVE_SYS_IOCTL_H */
 #ifdef HAVE_SYS_FILIO_H
 # include <sys/filio.h>
-#endif
+#endif /* HAVE_SYS_FILIO_H */
 
 #include <time.h>
 
 #ifndef INFTIM
 # define INFTIM (-1)
-#endif
+#endif /* !INFTIM */
 
 /* BeOS does not have MSG_PEEK.  */
 #ifndef MSG_PEEK
 # define MSG_PEEK 0
-#endif
+#endif /* !MSG_PEEK */
 
 #ifdef WINDOWS_NATIVE
 
 /* Optimized test whether a HANDLE refers to a console.
-   See <http://lists.gnu.org/archive/html/bug-gnulib/2009-08/msg00065.html>.  */
-#define IsConsoleHandle(h) (((intptr_t) (h) & 3) == 3)
+ * See <http://lists.gnu.org/archive/html/bug-gnulib/2009-08/msg00065.html>: */
+# define IsConsoleHandle(h) (((intptr_t)(h) & 3) == 3)
 
 static BOOL
-IsSocketHandle (HANDLE h)
+IsSocketHandle(HANDLE h)
 {
   WSANETWORKEVENTS ev;
 
-  if (IsConsoleHandle (h))
+  if (IsConsoleHandle(h))
     return FALSE;
 
   /* Under Wine, it seems that getsockopt returns 0 for pipes too.
      WSAEnumNetworkEvents instead distinguishes the two correctly.  */
   ev.lNetworkEvents = 0xDEADBEEF;
-  WSAEnumNetworkEvents ((SOCKET) h, NULL, &ev);
+  WSAEnumNetworkEvents((SOCKET)h, NULL, &ev);
   return ev.lNetworkEvents != 0xDEADBEEF;
 }
 
-/* Declare data structures for ntdll functions.  */
+/* Declare data structures for ntdll functions: */
 typedef struct _FILE_PIPE_LOCAL_INFORMATION {
   ULONG NamedPipeType;
   ULONG NamedPipeConfiguration;
@@ -123,7 +123,7 @@ typedef DWORD (WINAPI *PNtQueryInformationFile)
 
 # ifndef PIPE_BUF
 #  define PIPE_BUF      512
-# endif
+# endif /* !PIPE_BUF */
 
 /* Compute revents values for file handle H.  If some events cannot happen
    for the handle, eliminate them from *P_SOUGHT.  */
@@ -157,9 +157,10 @@ windows_compute_revents (HANDLE h, int *p_sought)
           if (avail)
             happened |= *p_sought & (POLLIN | POLLRDNORM);
         }
-      else if (GetLastError () == ERROR_BROKEN_PIPE)
-        happened |= POLLHUP;
-
+      else if (GetLastError() == ERROR_BROKEN_PIPE)
+        {
+          happened |= POLLHUP;
+        }
       else
         {
           /* It was the write-end of the pipe.  Check if it is writable.
@@ -233,8 +234,9 @@ windows_compute_revents_socket (SOCKET h, int sought, long lNetworkEvents)
   int happened = 0;
 
   if ((lNetworkEvents & (FD_READ | FD_ACCEPT | FD_CLOSE)) == FD_ACCEPT)
-    happened |= (POLLIN | POLLRDNORM) & sought;
-
+    {
+      happened |= (POLLIN | POLLRDNORM) & sought;
+    }
   else if (lNetworkEvents & (FD_READ | FD_ACCEPT | FD_CLOSE))
     {
       int r, error;
@@ -246,13 +248,15 @@ windows_compute_revents_socket (SOCKET h, int sought, long lNetworkEvents)
       WSASetLastError (0);
 
       if (r > 0 || error == WSAENOTCONN)
-        happened |= (POLLIN | POLLRDNORM) & sought;
-
-      /* Distinguish hung-up sockets from other errors.  */
+        {
+          happened |= (POLLIN | POLLRDNORM) & sought;
+        }
+      /* Distinguish hung-up sockets from other errors: */
       else if (r == 0 || error == WSAESHUTDOWN || error == WSAECONNRESET
                || error == WSAECONNABORTED || error == WSAENETRESET)
-        happened |= POLLHUP;
-
+        {
+          happened |= POLLHUP;
+        }
       else
         happened |= POLLERR;
     }
@@ -324,7 +328,7 @@ compute_revents (int fd, int sought, fd_set *rfds, fd_set *wfds, fd_set *efds)
 #endif /* !MinGW */
 
 int
-poll (struct pollfd *pfd, nfds_t nfd, int timeout)
+poll(struct pollfd *pfd, nfds_t nfd, int timeout)
 {
 #ifndef WINDOWS_NATIVE
   fd_set rfds, wfds, efds;
@@ -370,8 +374,8 @@ poll (struct pollfd *pfd, nfds_t nfd, int timeout)
   else if (timeout > 0)
     {
       ptv = &tv;
-      ptv->tv_sec = timeout / 1000;
-      ptv->tv_usec = (timeout % 1000) * 1000;
+      ptv->tv_sec = (timeout / 1000);
+      ptv->tv_usec = ((timeout % 1000) * 1000);
     }
   else if (timeout == INFTIM)
     /* wait forever */
@@ -384,25 +388,25 @@ poll (struct pollfd *pfd, nfds_t nfd, int timeout)
 
   /* create fd sets and determine max fd */
   maxfd = -1;
-  FD_ZERO (&rfds);
-  FD_ZERO (&wfds);
-  FD_ZERO (&efds);
+  FD_ZERO(&rfds);
+  FD_ZERO(&wfds);
+  FD_ZERO(&efds);
   for (i = 0; i < nfd; i++)
     {
       if (pfd[i].fd < 0)
         continue;
 
       if (pfd[i].events & (POLLIN | POLLRDNORM))
-        FD_SET (pfd[i].fd, &rfds);
+        FD_SET(pfd[i].fd, &rfds);
 
       /* see select(2): "the only exceptional condition detectable
          is out-of-band data received on a socket", hence we push
          POLLWRBAND events onto wfds instead of efds. */
       if (pfd[i].events & (POLLOUT | POLLWRNORM | POLLWRBAND))
-        FD_SET (pfd[i].fd, &wfds);
+        FD_SET(pfd[i].fd, &wfds);
       if (pfd[i].events & (POLLPRI | POLLRDBAND))
-        FD_SET (pfd[i].fd, &efds);
-      if (pfd[i].fd >= maxfd
+        FD_SET(pfd[i].fd, &efds);
+      if ((pfd[i].fd >= maxfd)
           && (pfd[i].events & (POLLIN | POLLOUT | POLLPRI
                                | POLLRDNORM | POLLRDBAND
                                | POLLWRNORM | POLLWRBAND)))
@@ -416,8 +420,8 @@ poll (struct pollfd *pfd, nfds_t nfd, int timeout)
         }
     }
 
-  /* examine fd sets */
-  rc = select (maxfd + 1, &rfds, &wfds, &efds, ptv);
+  /* examine fd sets: */
+  rc = select(maxfd + 1, &rfds, &wfds, &efds, ptv);
   if (rc < 0)
     return rc;
 
@@ -426,7 +430,7 @@ poll (struct pollfd *pfd, nfds_t nfd, int timeout)
   for ((i = 0); (i < nfd); i++)
 	if (pfd[i].fd < 0) {
       pfd[i].revents = 0;
-	}else {
+	} else {
         int happened = compute_revents(pfd[i].fd, pfd[i].events,
 									   &rfds, &wfds, &efds);
         if (happened) {
@@ -600,7 +604,7 @@ restart:
 
   if (!rc && timeout == INFTIM)
     {
-      SleepEx (1, TRUE);
+      SleepEx(1, TRUE);
       goto restart;
     }
 

@@ -7,6 +7,12 @@
  *
  */
 
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
+#   pragma GCC diagnostic ignored "-Wredundant-decls"
+# endif /* GCC 4.1+ */
+#endif /* gcc */
+
 #include "fclose.h"
 
 /* Notes from Linux manpage: */
@@ -20,10 +26,11 @@
 
 /* Notes from Apple documentation: */
 /* Although OS X supports fclose, fcloseall is not supported.
- * You can use fclose to implement fcloseall by storing the file pointers in
- * an array and iterating through the array. */
+ * You can use fclose to implement fcloseall by storing the file pointers
+ * in an array and iterating through the array. */
 
-int fcloseall(void) {
+int fcloseall(void)
+{
 	int succeeded; /* return value */
 	FILE *fds_to_close[3]; /* the size being hardcoded to '3' is temporary */
 	int i; /* loop counter */

@@ -12,7 +12,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* Write a finite, positive number x as
      x = mantissa * 2^exp
@@ -20,4 +20,6 @@
          mantissa < 2.0,
          if x is not a denormalized number then mantissa >= 1.0.
    Store exp in *EXPPTR and return mantissa.  */
-extern double printf_frexp (double x, int *expptr);
+extern double printf_frexp(double x, int *expptr);
+
+/* EOF */

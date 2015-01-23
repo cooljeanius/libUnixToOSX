@@ -13,14 +13,14 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* Written by Jim Meyering <jim@meyering.net>
    and Bruno Haible <bruno@clisp.org>.  */
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include "xreadlink.h"
 
 #include <errno.h>
@@ -35,10 +35,12 @@
    give a diagnostic and exit.  */
 
 char *
-xreadlink (char const *filename)
+xreadlink(char const *filename)
 {
-  char *result = areadlink (filename);
-  if (result == NULL && errno == ENOMEM)
-    xalloc_die ();
+  char *result = areadlink(filename);
+  if ((result == NULL) && (errno == ENOMEM))
+    xalloc_die();
   return result;
 }
+
+/* EOF */

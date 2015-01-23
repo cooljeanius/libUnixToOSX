@@ -1,4 +1,4 @@
-/* Skipping input from a FILE stream.
+/* freadseek.c: Skipping input from a FILE stream.
    Copyright (C) 2007-2012 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -12,11 +12,11 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include "freadseek.h"
 
 #include <stdlib.h>
@@ -34,7 +34,7 @@ static inline void freadptrinc(FILE *fp, size_t increment)
 {
   /* Keep this code in sync with freadptr!  */
 #if defined(HAVE___FREADPTRINC) && HAVE___FREADPTRINC  /* musl libc */
-  __freadptrinc (fp, increment);
+  __freadptrinc(fp, increment);
 #elif defined(_IO_ftrylockfile) || (defined(__GNU_LIBRARY__) && (__GNU_LIBRARY__ == 1)) /* GNU libc, BeOS, Haiku, Linux libc5 */
   fp->_IO_read_ptr += increment;
 #elif defined __sferror || defined __DragonFly__ /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin */
@@ -53,8 +53,8 @@ static inline void freadptrinc(FILE *fp, size_t increment)
 # ifdef __STDIO_BUFFERS
   fp->__bufpos += increment;
 # else
-  abort ();
-# endif
+  abort();
+# endif /* __STDIO_BUFFERS */
 #elif defined __QNX__               /* QNX */
   fp->_Next += increment;
 #elif defined __MINT__              /* Atari FreeMiNT */
@@ -62,13 +62,14 @@ static inline void freadptrinc(FILE *fp, size_t increment)
 #elif defined EPLAN9                /* Plan9 */
   fp->rp += increment;
 #elif defined SLOW_BUT_NO_HACKS     /* users can define this */
+  return;
 #else
  #error "Please port gnulib freadseek.c to your platform! Look at the definition of getc, getc_unlocked on your system, then report this to bug-gnulib."
 #endif
 }
 
 int
-freadseek (FILE *fp, size_t offset)
+freadseek(FILE *fp, size_t offset)
 {
   size_t total_buffered;
   int fd;
@@ -78,18 +79,18 @@ freadseek (FILE *fp, size_t offset)
 
   /* Seek over the already read and buffered input as quickly as possible,
      without doing any system calls.  */
-  total_buffered = freadahead (fp);
-  /* This loop is usually executed at most twice: once for ungetc buffer (if
-     present) and once for the main buffer.  */
+  total_buffered = freadahead(fp);
+  /* This loop is usually executed at most twice: once for ungetc buffer
+   * (if present) and once for the main buffer.  */
   while (total_buffered > 0)
     {
       size_t buffered;
 
-      if (freadptr (fp, &buffered) != NULL && buffered > 0)
+      if ((freadptr(fp, &buffered) != NULL) && (buffered > 0))
         {
-          size_t increment = (buffered < offset ? buffered : offset);
+          size_t increment = ((buffered < offset) ? buffered : offset);
 
-          freadptrinc (fp, increment);
+          freadptrinc(fp, increment);
           offset -= increment;
           if (offset == 0)
             return 0;
@@ -99,7 +100,7 @@ freadseek (FILE *fp, size_t offset)
         }
       /* Read one byte.  If we were reading from the ungetc buffer, this
          switches the stream back to the main buffer.  */
-      if (fgetc (fp) == EOF)
+      if (fgetc(fp) == EOF)
         goto eof;
       offset--;
       if (offset == 0)
@@ -129,10 +130,12 @@ freadseek (FILE *fp, size_t offset)
   }
 
  eof:
-  /* EOF, or error before or while reading.  */
-  if (ferror (fp))
+  /* EOF, or error before or while reading: */
+  if (ferror(fp))
     return EOF;
   else
-    /* Encountered EOF.  */
+    /* Encountered EOF: */
     return 0;
 }
+
+/* EOF */

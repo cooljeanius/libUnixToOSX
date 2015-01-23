@@ -13,7 +13,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #ifndef _FPUCW_H
 #define _FPUCW_H
@@ -62,7 +62,8 @@
  */
 
 /* Inline assembler like this works only with GNU C.  */
-#if (defined __i386__ || defined __x86_64__) && defined __GNUC__
+#if (defined(__i386__) || defined(__x86_64__)) && \
+    (defined(__GNUC__) && !defined(__STRICT_ANSI__))
 
 typedef unsigned short fpucw_t; /* glibc calls this fpu_control_t */
 
@@ -103,7 +104,7 @@ typedef unsigned int fpucw_t;
 # define BEGIN_LONG_DOUBLE_ROUNDING()
 # define END_LONG_DOUBLE_ROUNDING()
 
-#endif
+#endif /* (__i386__ || __x86_64__) && (__GNUC__ && !__STRICT_ANSI__) */
 
 #endif /* _FPUCW_H */
 

@@ -1,4 +1,4 @@
-/* Invoke opendir, but avoid some glitches.
+/* opendir-safer.c: Invoke opendir, but avoid some glitches.
 
    Copyright (C) 2009-2012 Free Software Foundation, Inc.
 
@@ -13,7 +13,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* Written by Eric Blake.  */
 
@@ -25,18 +25,17 @@
 #include <unistd.h>
 #include "unistd-safer.h"
 
-/* Like opendir, but do not clobber stdin, stdout, or stderr.  */
-
+/* Like opendir, but do not clobber stdin, stdout, or stderr: */
 DIR *
-opendir_safer (char const *name)
+opendir_safer(char const *name)
 {
-  DIR *dp = opendir (name);
+  DIR *dp = opendir(name);
 
   if (dp)
     {
-      int fd = dirfd (dp);
+      int fd = dirfd(dp);
 
-      if (0 <= fd && fd <= STDERR_FILENO)
+      if ((0 <= fd) && (fd <= STDERR_FILENO))
         {
           /* If fdopendir is native (as on Linux), then it is safe to
              assume dirfd(fdopendir(n))==n.  If we are using the
@@ -60,11 +59,11 @@ opendir_safer (char const *name)
 				  close(f);
 			  }
 		  }
-#else /* !FDOPENDIR */
-          newdp = opendir_safer (name);
+#else /* !FDOPENDIR: */
+          newdp = opendir_safer(name);
           e = errno;
-#endif
-          closedir (dp);
+#endif /* (HAVE_FDOPENDIR || GNULIB_FDOPENDIR) || neither */
+          closedir(dp);
           errno = e;
           dp = newdp;
         }
@@ -72,3 +71,5 @@ opendir_safer (char const *name)
 
   return dp;
 }
+
+/* EOF */

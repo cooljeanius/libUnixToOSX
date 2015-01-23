@@ -1,4 +1,4 @@
-/* POSIX compatible FILE stream write function.
+/* stdio-write.c: POSIX compatible FILE stream write function.
    Copyright (C) 2008-2012 Free Software Foundation, Inc.
    Written by Bruno Haible <bruno@clisp.org>, 2008.
 
@@ -13,11 +13,11 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include <stdio.h>
 
 /* Replace these functions only if module 'nonblocking' or module 'sigpipe' is
@@ -95,104 +95,106 @@
 #  endif
 
 #  define CALL_WITH_SIGPIPE_EMULATION(RETTYPE, EXPRESSION, FAILED) \
-  if (ferror (stream))                                                        \
-    return (EXPRESSION);                                                      \
-  else                                                                        \
-    {                                                                         \
-      RETTYPE ret;                                                            \
-      CLEAR_ERRNO                                                             \
-      CLEAR_LastError                                                         \
-      ret = (EXPRESSION);                                                     \
-      if (FAILED)                                                             \
-        {                                                                     \
-          HANDLE_ENOSPC                                                       \
-          HANDLE_ERROR_NO_DATA                                                \
-          ;                                                                   \
-        }                                                                     \
-      return ret;                                                             \
+  if (ferror(stream))                                                     \
+    return (EXPRESSION);                                                  \
+  else                                                                    \
+    {                                                                     \
+      RETTYPE ret;                                                        \
+      CLEAR_ERRNO                                                         \
+      CLEAR_LastError                                                     \
+      ret = (EXPRESSION);                                                 \
+      if (FAILED)                                                         \
+        {                                                                 \
+          HANDLE_ENOSPC                                                   \
+          HANDLE_ERROR_NO_DATA                                            \
+          ;                                                               \
+        }                                                                 \
+      return ret;                                                         \
     }
 
 #  if !REPLACE_PRINTF_POSIX /* avoid collision with printf.c */
 int
-printf (const char *format, ...)
+printf(const char *format, ...)
 {
   int retval;
   va_list args;
 
-  va_start (args, format);
-  retval = vfprintf (stdout, format, args);
-  va_end (args);
+  va_start(args, format);
+  retval = vfprintf(stdout, format, args);
+  va_end(args);
 
   return retval;
 }
-#  endif
+#  endif /* !REPLACE_PRINTF_POSIX */
 
 #  if !REPLACE_FPRINTF_POSIX /* avoid collision with fprintf.c */
 int
-fprintf (FILE *stream, const char *format, ...)
+fprintf(FILE *stream, const char *format, ...)
 {
   int retval;
   va_list args;
 
-  va_start (args, format);
-  retval = vfprintf (stream, format, args);
-  va_end (args);
+  va_start(args, format);
+  retval = vfprintf(stream, format, args);
+  va_end(args);
 
   return retval;
 }
-#  endif
+#  endif /* !REPLACE_FPRINTF_POSIX */
 
 #  if !REPLACE_VPRINTF_POSIX /* avoid collision with vprintf.c */
 int
-vprintf (const char *format, va_list args)
+vprintf(const char *format, va_list args)
 {
-  return vfprintf (stdout, format, args);
+  return vfprintf(stdout, format, args);
 }
-#  endif
+#  endif /* !REPLACE_VPRINTF_POSIX */
 
 #  if !REPLACE_VFPRINTF_POSIX /* avoid collision with vfprintf.c */
 int
-vfprintf (FILE *stream, const char *format, va_list args)
+vfprintf(FILE *stream, const char *format, va_list args)
 #undef vfprintf
 {
-  CALL_WITH_SIGPIPE_EMULATION (int, vfprintf (stream, format, args), ret == EOF)
+  CALL_WITH_SIGPIPE_EMULATION(int, vfprintf(stream, format, args), (ret == EOF))
 }
-#  endif
+#  endif /* !REPLACE_VFPRINTF_POSIX */
 
 int
-putchar (int c)
+putchar(int c)
 {
-  return fputc (c, stdout);
+  return fputc(c, stdout);
 }
 
 int
 fputc (int c, FILE *stream)
 #undef fputc
 {
-  CALL_WITH_SIGPIPE_EMULATION (int, fputc (c, stream), ret == EOF)
+  CALL_WITH_SIGPIPE_EMULATION(int, fputc(c, stream), (ret == EOF))
 }
 
 int
 fputs (const char *string, FILE *stream)
 #undef fputs
 {
-  CALL_WITH_SIGPIPE_EMULATION (int, fputs (string, stream), ret == EOF)
+  CALL_WITH_SIGPIPE_EMULATION(int, fputs(string, stream), (ret == EOF))
 }
 
 int
-puts (const char *string)
+puts(const char *string)
 #undef puts
 {
   FILE *stream = stdout;
-  CALL_WITH_SIGPIPE_EMULATION (int, puts (string), ret == EOF)
+  CALL_WITH_SIGPIPE_EMULATION(int, puts(string), (ret == EOF))
 }
 
 size_t
-fwrite (const void *ptr, size_t s, size_t n, FILE *stream)
+fwrite(const void *ptr, size_t s, size_t n, FILE *stream)
 #undef fwrite
 {
-  CALL_WITH_SIGPIPE_EMULATION (size_t, fwrite (ptr, s, n, stream), ret < n)
+  CALL_WITH_SIGPIPE_EMULATION(size_t, fwrite(ptr, s, n, stream), (ret < n))
 }
 
 # endif
 #endif
+
+/* EOF */

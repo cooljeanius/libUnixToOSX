@@ -17,7 +17,7 @@
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include "memcmp2.h"
 
 #include <string.h>

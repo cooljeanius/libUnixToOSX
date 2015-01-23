@@ -16,6 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
+#   pragma GCC diagnostic ignored "-Wredundant-decls"
+# endif /* GCC 4.1+ */
+#endif /* gcc */
+
 #include <config.h>
 
 #include "mntent.h"
@@ -236,15 +242,15 @@
 #undef closedir
 
 #ifndef ME_DUMMY
-# define ME_DUMMY(Fs_name, Fs_type)             \
-    (strcmp (Fs_type, "autofs") == 0            \
-     || strcmp (Fs_type, "none") == 0           \
-     || strcmp (Fs_type, "proc") == 0           \
-     || strcmp (Fs_type, "subfs") == 0          \
-     /* for NetBSD 3.0 */                       \
-     || strcmp (Fs_type, "kernfs") == 0         \
-     /* for Irix 6.5 */                         \
-     || strcmp (Fs_type, "ignore") == 0)
+# define ME_DUMMY(Fs_name, Fs_type)              \
+    ((strcmp(Fs_type, "autofs") == 0)            \
+     || (strcmp(Fs_type, "none") == 0)           \
+     || (strcmp(Fs_type, "proc") == 0)           \
+     || (strcmp(Fs_type, "subfs") == 0)          \
+     /* for NetBSD 3.0: */                       \
+     || (strcmp(Fs_type, "kernfs") == 0)         \
+     /* for Irix 6.5: */                         \
+     || (strcmp(Fs_type, "ignore") == 0))
 #endif /* !ME_DUMMY */
 
 #if defined(__CYGWIN__) || defined(HAVE_WINDOWS_H)

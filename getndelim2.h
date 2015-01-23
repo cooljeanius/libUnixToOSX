@@ -1,4 +1,4 @@
-/* getndelim2 - Read a line from a stream, stopping at one of 2 delimiters,
+/* getndelim2.h: Read a line from a stream, stopping at 1 of 2 delimiters,
    with bounded memory allocation.
 
    Copyright (C) 2003-2004, 2006, 2009-2012 Free Software Foundation, Inc.
@@ -14,7 +14,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #ifndef GETNDELIM2_H
 #define GETNDELIM2_H 1
@@ -22,7 +22,9 @@
 #include <stdio.h>
 #include <sys/types.h>
 
-#define GETNLINE_NO_LIMIT ((size_t) -1)
+#ifndef GETNLINE_NO_LIMIT
+# define GETNLINE_NO_LIMIT ((size_t)-1L)
+#endif /* !GETNLINE_NO_LIMIT */
 
 /* Read into a buffer *LINEPTR returned from malloc (or NULL),
    pointing to *LINESIZE bytes of space.  Store the input bytes
@@ -35,8 +37,10 @@
    input bytes from STREAM.
    Return the number of bytes read and stored at *LINEPTR + OFFSET (not
    including the NUL terminator), or -1 on error or EOF.  */
-extern ssize_t getndelim2 (char **lineptr, size_t *linesize, size_t offset,
-                           size_t nmax, int delim1, int delim2,
-                           FILE *stream);
+extern ssize_t getndelim2(char **lineptr, size_t *linesize, size_t offset,
+                          size_t nmax, int delim1, int delim2,
+                          FILE *stream);
 
 #endif /* GETNDELIM2_H */
+
+/* EOF */

@@ -17,7 +17,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* written by Jim Meyering */
 
@@ -64,7 +64,7 @@
    fchdir workaround to call lchown for lchownat, but there is no need
    to penalize chownat.  */
 static int
-local_lchownat (int fd, char const *file, uid_t owner, gid_t group);
+local_lchownat(int fd, char const *file, uid_t owner, gid_t group);
 
 #  define AT_FUNC_NAME local_lchownat
 #  define AT_FUNC_F1 lchown
@@ -76,17 +76,16 @@ local_lchownat (int fd, char const *file, uid_t owner, gid_t group);
 #  undef AT_FUNC_POST_FILE_PARAM_DECLS
 #  undef AT_FUNC_POST_FILE_ARGS
 
-# endif
+# endif /* FCHOWNAT_NOFOLLOW_BUG */
 
 /* Work around bugs with trailing slash, using the same workarounds as
-   chown and lchown.  */
-
+ * chown and lchown: */
 int
-rpl_fchownat (int fd, char const *file, uid_t owner, gid_t group, int flag)
+rpl_fchownat(int fd, char const *file, uid_t owner, gid_t group, int flag)
 {
 # if FCHOWNAT_NOFOLLOW_BUG
   if (flag == AT_SYMLINK_NOFOLLOW)
-    return local_lchownat (fd, file, owner, group);
+    return local_lchownat(fd, file, owner, group);
 # endif
 # if FCHOWNAT_EMPTY_FILENAME_BUG
   if (file[0] == '\0')
@@ -97,18 +96,20 @@ rpl_fchownat (int fd, char const *file, uid_t owner, gid_t group, int flag)
 # endif
 # if CHOWN_TRAILING_SLASH_BUG
   {
-    size_t len = strlen (file);
+    size_t len = strlen(file);
     struct stat st;
-    if (len && file[len - 1] == '/')
+    if (len && (file[len - 1] == '/'))
       {
-        if (statat (fd, file, &st))
+        if (statat(fd, file, &st))
           return -1;
         if (flag == AT_SYMLINK_NOFOLLOW)
-          return fchownat (fd, file, owner, group, 0);
+          return fchownat(fd, file, owner, group, 0);
       }
   }
-# endif
-  return fchownat (fd, file, owner, group, flag);
+# endif /* CHOWN_TRAILING_SLASH_BUG */
+  return fchownat(fd, file, owner, group, flag);
 }
 
 #endif /* HAVE_FCHOWNAT */
+
+/* EOF */

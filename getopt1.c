@@ -14,14 +14,14 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #ifdef _LIBC
 # include <getopt.h>
 #else
 # include <config.h>
 # include "getopt.h"
-#endif
+#endif /* _LIBC */
 #include "getopt_int.h"
 
 #include <stdio.h>
@@ -29,28 +29,28 @@
 /* This needs to come after some library #include
    to get __GNU_LIBRARY__ defined.  */
 #ifdef __GNU_LIBRARY__
-#include <stdlib.h>
-#endif
+# include <stdlib.h>
+#endif /* __GNU_LIBRARY__ */
 
 #ifndef NULL
-#define NULL 0
-#endif
+# define NULL 0
+#endif /* !NULL */
 
 int
-getopt_long (int argc, char *__getopt_argv_const *argv, const char *options,
-             const struct option *long_options, int *opt_index)
+getopt_long(int argc, char *__getopt_argv_const *argv, const char *options,
+            const struct option *long_options, int *opt_index)
 {
-  return _getopt_internal (argc, (char **) argv, options, long_options,
-                           opt_index, 0, 0);
+  return _getopt_internal(argc, (char **)argv, options, long_options,
+                          opt_index, 0, 0);
 }
 
 int
-_getopt_long_r (int argc, char **argv, const char *options,
-                const struct option *long_options, int *opt_index,
-                struct _getopt_data *d)
+_getopt_long_r(int argc, char **argv, const char *options,
+               const struct option *long_options, int *opt_index,
+               struct _getopt_data *d)
 {
-  return _getopt_internal_r (argc, argv, options, long_options, opt_index,
-                             0, d, 0);
+  return _getopt_internal_r(argc, argv, options, long_options, opt_index,
+                            0, d, 0);
 }
 
 /* Like getopt_long, but '-' as well as '--' can indicate a long option.
@@ -59,27 +59,27 @@ _getopt_long_r (int argc, char **argv, const char *options,
    instead.  */
 
 int
-getopt_long_only (int argc, char *__getopt_argv_const *argv,
-                  const char *options,
-                  const struct option *long_options, int *opt_index)
+getopt_long_only(int argc, char *__getopt_argv_const *argv,
+                 const char *options, const struct option *long_options,
+                 int *opt_index)
 {
-  return _getopt_internal (argc, (char **) argv, options, long_options,
-                           opt_index, 1, 0);
+  return _getopt_internal(argc, (char **)argv, options, long_options,
+                          opt_index, 1, 0);
 }
 
 int
-_getopt_long_only_r (int argc, char **argv, const char *options,
-                     const struct option *long_options, int *opt_index,
-                     struct _getopt_data *d)
+_getopt_long_only_r(int argc, char **argv, const char *options,
+                    const struct option *long_options, int *opt_index,
+                    struct _getopt_data *d)
 {
-  return _getopt_internal_r (argc, argv, options, long_options, opt_index,
-                             1, d, 0);
+  return _getopt_internal_r(argc, argv, options, long_options, opt_index,
+                            1, d, 0);
 }
 
 
 #ifdef TEST
 
-#include <stdio.h>
+# include <stdio.h>
 
 int main(int argc, char **argv)
 {
@@ -94,13 +94,13 @@ int main(int argc, char **argv)
       int option_index = 0;
       static const struct option long_options[] =
       {
-        {"add", 1, 0, 0},
-        {"append", 0, 0, 0},
-        {"delete", 1, 0, 0},
-        {"verbose", 0, 0, 0},
-        {"create", 0, 0, 0},
-        {"file", 1, 0, 0},
-        {0, 0, 0, 0}
+        { "add", 1, 0, 0 },
+        { "append", 0, 0, 0 },
+        { "delete", 1, 0, 0 },
+        { "verbose", 0, 0, 0 },
+        { "create", 0, 0, 0 },
+        { "file", 1, 0, 0 },
+        { 0, 0, 0, 0 }
       };
 
       c = getopt_long(argc, argv, "abc:d:0123456789", long_options,

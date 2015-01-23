@@ -2,8 +2,8 @@
  * Copyright (C) 1995-2012 Free Software Foundation, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation; either version 2.1 of the License, or
+ * it under the terms of the GNU Lesser General Public License as published
+ * by the Free Software Foundation; either version 2.1 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -36,9 +36,9 @@
 
 #if HAVE_USELOCALE
 /* Mac OS X 10.5 defines the locale_t type in <xlocale.h>.  */
-# if defined __APPLE__ && defined __MACH__
+# if defined(__APPLE__) && defined(__MACH__)
 #  include <xlocale.h>
-# endif
+# endif /* __APPLE__ && __MACH__ */
 # include <langinfo.h>
 # if !defined IN_LIBINTL
 #  include "glthread/lock.h"
@@ -2389,12 +2389,13 @@ string_hash(const void *x)
 }
 
 /* A hash table of fixed size.  Multiple threads can access it read-only
- simultaneously, but only one thread can insert into it at the same time.  */
+ simultaneously, but only 1 thread can insert into it at the same time.  */
 
-/* A node in a hash bucket collision list.  */
+/* A node in a hash bucket collision list: */
 struct hash_node {
     struct hash_node * volatile next;
     char contents[100]; /* has variable size */
+    int padding; /* should be 4 bytes */
 };
 
 # define HASH_TABLE_SIZE 257

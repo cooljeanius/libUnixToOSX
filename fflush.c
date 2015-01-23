@@ -17,9 +17,15 @@
 
 /* Written by Eric Blake. */
 
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
+#   pragma GCC diagnostic ignored "-Wredundant-decls"
+# endif /* GCC 4.1+ */
+#endif /* gcc */
+
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include <stdio.h>
 
 #include <errno.h>
@@ -64,7 +70,7 @@ clear_ungetc_buffer(FILE *fp)
       fp->_rcount = - fp->_rcount;
   }
 # elif defined _IOERR /* Minix, AIX, HP-UX, IRIX, OSF/1, Solaris, OpenServer, mingw, NonStop Kernel */
-  /* Nothing to do.  */
+  ; /* Nothing to do.  */
 # else                              /* other implementations */
   fseeko(fp, 0, SEEK_CUR);
 # endif /* different platforms */
@@ -91,12 +97,12 @@ restore_seek_optimization(FILE *fp, int saved_flags)
 #endif /* platforms */
 
 static inline void
-update_fpos_cache(FILE *fp _GL_UNUSED_PARAMETER,
-				  off_t pos _GL_UNUSED_PARAMETER)
+update_fpos_cache(FILE *fp, off_t pos)
 {
-#if defined __sferror || defined __DragonFly__ /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin */
-# if defined __CYGWIN__
-  /* fp_->_offset is typed as an integer.  */
+  /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin: */
+#if defined(__sferror) || defined(__DragonFly__)
+# if defined(__CYGWIN__)
+  /* fp_->_offset is typed as an integer: */
   fp_->_offset = pos;
 # else
   /* fp_->_offset is an fpos_t.  */
@@ -111,6 +117,10 @@ update_fpos_cache(FILE *fp _GL_UNUSED_PARAMETER,
   fp_->_offset = u.f;
 # endif /* __CYGWIN__ */
   fp_->_flags |= __SOFF;
+#else
+  if (pos == 0L) {
+    ; /* FIXME: use 'fp_' here somehow */
+  }
 #endif /* different platforms */
 }
 
@@ -138,8 +148,8 @@ rpl_fflush(FILE *stream)
    * We test ! freading (stream) here, rather than fwriting (stream), because
    * what we need to know is whether the stream holds a "read buffer", and on
    * mingw this is indicated by _IOREAD, regardless of _IOWRT.  */
-  if (stream == NULL || ! freading (stream)) {
-    return fflush (stream);
+  if ((stream == NULL) || ! freading(stream)) {
+    return fflush(stream);
   }
 
 #if defined _IO_ftrylockfile || (defined(__GNU_LIBRARY__) && (__GNU_LIBRARY__ == 1)) /* GNU libc, BeOS, Haiku, Linux libc5 */
@@ -178,7 +188,7 @@ rpl_fflush(FILE *stream)
         return EOF;
 	}
 
-    /* Clear the ungetc buffer.  */
+    /* Clear the ungetc buffer: */
     clear_ungetc_buffer(stream);
 
     /* To get here, we must be flushing a seekable input stream, so the
@@ -190,15 +200,53 @@ rpl_fflush(FILE *stream)
         return result;
 	  }
     }
-# if (defined __sferror || defined __DragonFly__) && defined __SNPT /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin */
+# if (defined(__sferror) || defined(__DragonFly__)) && defined(__SNPT)
+    /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin */
     {
-      /* Disable seek optimization for the next fseeko call.  This tells the
-       * following fseeko call to seek to the desired position directly, rather
-       * than to seek to a block-aligned boundary.  */
-      int saved_flags = disable_seek_optimization (stream);
+      /* Disable seek optimization for the next fseeko call.  This tells
+       * the following fseeko call to seek to the desired position
+       * directly, rather than to seek to a block-aligned boundary: */
+      int saved_flags = disable_seek_optimization(stream);
       int result = fseeko(stream, pos, SEEK_SET);
 
       restore_seek_optimization(stream, saved_flags);
+      if (result != -1) {
+        return result;
+      } else {
+        switch (errno) {
+          /* these 1st 4 are listed in the fseeko(3) manpage: */
+          case EBADF:
+            /* FIXME: do something unique here: */
+            return result;
+          case EINVAL:
+            /* FIXME: do something unique here: */
+            return result;
+          case EOVERFLOW:
+            /* FIXME: do something unique here: */
+            return result;
+          case ESPIPE:
+            /* FIXME: do something unique here: */
+            return result;
+          /* it also says that these values from the fstat(2) manpage can
+           * be set: */
+          case EFAULT:
+            /* FIXME: do something unique here: */
+            return result;
+          case EIO:
+            /* FIXME: do something unique here: */
+            return result;
+          /* ...and also that this value from the malloc(3) manpage can be
+           * set: */
+          case ENOMEM:
+            /* FIXME: do something unique here: */
+            return result;
+          default:
+            /* (should never get here, the previous errno values should
+             * cover this...) */
+            break;
+        }
+      }
+      update_fpos_cache(stream, pos); /*NOTREACHED*/
       return result;
     }
 # else
@@ -206,8 +254,8 @@ rpl_fflush(FILE *stream)
 	if (pos == -1) {
       return EOF;
 	}
-    /* After a successful lseek, update the file descriptor's position cache
-     * in the stream.  */
+    /* After a successful lseek, update the file descriptor's position
+     * cache in the stream: */
     update_fpos_cache(stream, pos);
 
     return 0;

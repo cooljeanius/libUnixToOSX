@@ -32,12 +32,13 @@
  * Use this only with GCC.  If we were willing to slow 'configure'
  * down we could also use it with other compilers, but since this
  * affects only the quality of diagnostics, why bother?  */
-# if (4 < __GNUC__ || (__GNUC__ == 4 && 6 <= __GNUC_MINOR__)) && !defined __cplusplus
+# if ((4 < __GNUC__) || ((__GNUC__ == 4) && (6 <= __GNUC_MINOR__))) && \
+     !defined(__cplusplus)
 #  define _GL_HAVE__STATIC_ASSERT 1
 # endif /* GCC 4.6+ && !__cplusplus */
 /* The condition (99 < __GNUC__) is temporary, until we know about the
  * first G++ release that supports static_assert.  */
-# if (99 < __GNUC__) && defined __cplusplus
+# if (99 < __GNUC__) && defined(__cplusplus)
 #  define _GL_HAVE_STATIC_ASSERT 1
 # endif /* G++ version check */
 
@@ -141,15 +142,25 @@
    * In C++, any struct definition inside sizeof is invalid.
      Use a template type to work around the problem.  */
 
-/* Concatenate two preprocessor tokens.  */
-# define _GL_CONCAT(x, y) _GL_CONCAT0 (x, y)
+/* try to deal with warnings mentioned above: */
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
+#  if (__GNUC__ == 4) && (__GNUC_MINOR__ < 3)
+#   pragma GCC diagnostic ignored "-Wredundant-decls"
+#  endif /* GCC 4, pre-4.3 */
+#  pragma GCC diagnostic ignored "-Wnested-externs"
+# endif /* GCC 4.1+ */
+#endif /* gcc */
+
+/* Concatenate two preprocessor tokens: */
+# define _GL_CONCAT(x, y) _GL_CONCAT0(x, y)
 # define _GL_CONCAT0(x, y) x##y
 
 /* _GL_COUNTER is an integer, preferably one that changes each time we
  * use it.  Use __COUNTER__ if it works, falling back on __LINE__
  * otherwise.  __LINE__ is NOT perfect, but it is better than a
  * constant.  */
-# if defined __COUNTER__ && __COUNTER__ != __COUNTER__
+# if defined(__COUNTER__) && (__COUNTER__ != __COUNTER__)
 #  define _GL_COUNTER __COUNTER__
 # else
 #  define _GL_COUNTER __LINE__
@@ -157,14 +168,14 @@
 
 /* Generate a symbol with the given prefix, making it unique if
  * possible.  */
-# define _GL_GENSYM(prefix) _GL_CONCAT (prefix, _GL_COUNTER)
+# define _GL_GENSYM(prefix) _GL_CONCAT(prefix, _GL_COUNTER)
 
 /* Verify requirement R at compile-time, as an integer constant expression
  * that returns 1.  If R is false, fail at compile-time, preferably
  * with a diagnostic that includes the string-literal DIAGNOSTIC.
  */
 # define _GL_VERIFY_TRUE(R, DIAGNOSTIC) \
-    (!!sizeof (_GL_VERIFY_TYPE (R, DIAGNOSTIC)))
+    (!!sizeof(_GL_VERIFY_TYPE(R, DIAGNOSTIC)))
 
 # ifdef __cplusplus
 #  if !GNULIB_defined_struct__gl_verify_type
@@ -198,11 +209,11 @@ template <int w>
 #  define _GL_VERIFY _Static_assert
 # else
 #  define _GL_VERIFY(R, DIAGNOSTIC)				       \
-     extern int (*_GL_GENSYM (_gl_verify_function) (void))	       \
-       [_GL_VERIFY_TRUE (R, DIAGNOSTIC)]
+     extern int(*_GL_GENSYM(_gl_verify_function)(void))	       \
+       [_GL_VERIFY_TRUE(R, DIAGNOSTIC)]
 # endif /* _GL_HAVE__STATIC_ASSERT */
 
-/* _GL_STATIC_ASSERT_H is defined if this code is copied into assert.h.  */
+/* _GL_STATIC_ASSERT_H is defined if this code is copied into assert.h: */
 # ifdef _GL_STATIC_ASSERT_H
 #  if !defined _GL_HAVE__STATIC_ASSERT && !defined _Static_assert
 #   define _Static_assert(R, DIAGNOSTIC) _GL_VERIFY (R, DIAGNOSTIC)
@@ -228,18 +239,18 @@ template <int w>
  *
  * verify_true is obsolescent; please use verify_expr instead.
  */
-# define verify_true(R) _GL_VERIFY_TRUE (R, "verify_true (" #R ")")
+# define verify_true(R) _GL_VERIFY_TRUE(R, "verify_true(" #R ")")
 
 /* Verify requirement R at compile-time. Return the value of the
  * expression E.  */
 
 # define verify_expr(R, E) \
-    (_GL_VERIFY_TRUE (R, "verify_expr (" #R ", " #E ")") ? (E) : (E))
+    (_GL_VERIFY_TRUE(R, "verify_expr(" #R ", " #E ")") ? (E) : (E))
 
 /* Verify requirement R at compile-time, as a declaration without a
  * trailing ';'.  */
 
-# define verify(R) _GL_VERIFY (R, "verify (" #R ")")
+# define verify(R) _GL_VERIFY(R, "verify(" #R ")")
 
 /* @assert.h omit end@  */
 

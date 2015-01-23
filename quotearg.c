@@ -184,7 +184,9 @@ set_custom_quoting(struct quoting_options *o,
 static struct quoting_options /* NOT PURE!! */
 quoting_options_from_style(enum quoting_style style)
 {
-  struct quoting_options o = { 0, 0, { 0 }, NULL, NULL };
+  struct quoting_options o = {
+      (enum quoting_style)0, 0, { 0 }, NULL, NULL
+  };
   if (style == custom_quoting_style) {
 	  abort();
   }
@@ -401,8 +403,8 @@ quotearg_buffer_restyled(char *buffer, size_t buffersize,
 					  case '!': case '\'':
 					  case '(': case ')': case '-': case '/':
 					  case '<': case '=': case '>':
-						  /* Escape the second '?' in what would otherwise be
-						   * a trigraph. */
+						  /* Escape the second '?' in what would otherwise
+                           * be a trigraph: */
 						  if (elide_outer_quotes) {
 							  goto force_outer_quoting_style;
 						  }
@@ -420,6 +422,13 @@ quotearg_buffer_restyled(char *buffer, size_t buffersize,
 			  } /* end if */
               break;
 
+            case literal_quoting_style: /*FALLTHROUGH*/
+            case shell_quoting_style: /*FALLTHROUGH*/
+            case c_maybe_quoting_style: /*FALLTHROUGH*/
+            case escape_quoting_style: /*FALLTHROUGH*/
+            case locale_quoting_style: /*FALLTHROUGH*/
+            case clocale_quoting_style: /*FALLTHROUGH*/
+            case custom_quoting_style: /*FALLTHROUGH*/
             default:
               break;
 		  } /* end switch quoting_style */

@@ -215,6 +215,9 @@ chdir_long(char *dir)
 # include "closeout.h"
 # include "error.h"
 
+# if defined(__clang__) || defined(__APPLE__)
+extern
+#endif /* __clang__ || __APPLE__ */
 char *program_name;
 
 int main(int argc, char *argv[])

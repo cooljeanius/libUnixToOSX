@@ -1,4 +1,4 @@
-/* Auxiliary definitions for <float.h>.
+/* float.c: Auxiliary definitions for <float.h>.
    Copyright (C) 2011-2012 Free Software Foundation, Inc.
    Written by Bruno Haible <bruno@clisp.org>, 2011.
 
@@ -13,21 +13,30 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include <float.h>
 
-#if (defined _ARCH_PPC || defined _POWER) && (defined _AIX || defined __linux__) && (LDBL_MANT_DIG == 106) && defined __GNUC__
+#ifndef _FLOATPLUS_H
+# include "float+.h"
+#endif /* !_FLOATPLUS_H */
+
+#if (defined(_ARCH_PPC) || defined(_POWER) || defined(__ppc__)) && \
+    (defined(_AIX) || defined(__linux__)) && (LDBL_MANT_DIG == 106) && \
+    defined(__GNUC__)
 const union gl_long_double_union gl_LDBL_MAX =
   { { DBL_MAX, DBL_MAX / (double)134217728UL / (double)134217728UL } };
-#elif defined __i386__
+#elif defined(__i386__)
 const union gl_long_double_union gl_LDBL_MAX =
   { { 0xFFFFFFFF, 0xFFFFFFFF, 32766 } };
 #else
 /* This declaration is solely to ensure that after preprocessing
-   this file is never empty.  */
-typedef int dummy;
-#endif
+ * this file is never empty: */
+typedef float _float_c_dummy_t;
+extern _float_c_dummy_t _float_c_dummy_var;
+#endif /* misc. defs */
+
+/* EOF */

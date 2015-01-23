@@ -1,4 +1,4 @@
-/* Report a memory allocation failure and exit.
+/* xalloc-die.c: Report a memory allocation failure and exit.
 
    Copyright (C) 1997-2000, 2002-2004, 2006, 2009-2012 Free Software
    Foundation, Inc.
@@ -14,7 +14,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #include <config.h>
 
@@ -26,16 +26,18 @@
 #include "exitfail.h"
 
 #include "gettext.h"
-#define _(msgid) gettext (msgid)
+#define _(msgid) gettext(msgid)
 
 void
-xalloc_die (void)
+xalloc_die(void)
 {
-  error (exit_failure, 0, "%s", _("memory exhausted"));
+  error(exit_failure, 0, "%s", _("memory exhausted"));
 
   /* _Noreturn cannot be given to error, since it may return if
-     its first argument is 0.  To help compilers understand the
-     xalloc_die does not return, call abort.  Also, the abort is a
-     safety feature if exit_failure is 0 (which shouldn't happen).  */
-  abort ();
+   * its first argument is 0.  To help compilers understand the
+   * xalloc_die does not return, call abort.  Also, the abort is a
+   * safety feature if exit_failure is 0 (which should never happen).  */
+  abort();
 }
+
+/* EOF */

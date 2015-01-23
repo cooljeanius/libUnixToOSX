@@ -41,25 +41,23 @@
 # endif /* !memory_full */
 #endif /* emacs */
 
-/* If compiling with GCC 2, this file is not needed. */
-#if !defined (__GNUC__) || (__GNUC__ < 2)
+/* If compiling with GCC 2, then this file is not needed: */
+#if !defined(__GNUC__) || (__GNUC__ < 2)
 
-/* If someone has defined alloca as a macro, there must be some other way
- * that alloca is supposed to work. */
+/* If someone has defined alloca as a macro, then there must be some other
+ * way that alloca is supposed to work: */
 # ifndef alloca
 
 #  ifdef emacs
 #   ifdef static
 /* actually, only want this if static is defined as ""
-   -- this is for usg, in which emacs must undefine static
-   in order to make unexec workable
-   */
+ * -- this is for usg, in which emacs must undefine static in order
+ * to make unexec workable: */
 #    ifndef STACK_DIRECTION
-you
-lose
+you_lose
 -- must know STACK_DIRECTION at compile-time
-/* Using #error here is not wise since this file should work for
-   old and obscure compilers.  */
+/* Using #error here is not wise since this file should work for old
+ * and obscure compilers.  */
 #    endif /* STACK_DIRECTION undefined */
 #   endif /* static */
 #  endif /* emacs */
@@ -67,12 +65,12 @@ lose
 /* If your stack is a linked list of frames, you have to
    provide an "address metric" ADDRESS_FUNCTION macro.  */
 
-#  if defined (CRAY) && defined (CRAY_STACKSEG_END)
-long i00afunc ();
-#   define ADDRESS_FUNCTION(arg) (char *) i00afunc (&(arg))
+#  if defined(CRAY) && defined(CRAY_STACKSEG_END)
+long i00afunc();
+#   define ADDRESS_FUNCTION(arg) (char *)i00afunc(&(arg))
 #  else
 #   define ADDRESS_FUNCTION(arg) &(arg)
-#  endif
+#  endif /* CRAY && CRAY_STACKSEG_END */
 
 /* Define STACK_DIRECTION if you know the direction of stack
    growth for your system; otherwise it will be automatically
@@ -84,7 +82,7 @@ long i00afunc ();
 
 #  ifndef STACK_DIRECTION
 #   define STACK_DIRECTION      0       /* Direction unknown.  */
-#  endif
+#  endif /* !STACK_DIRECTION */
 
 #  if STACK_DIRECTION != 0
 
@@ -96,14 +94,14 @@ static int stack_dir;           /* 1 or -1 once known.  */
 #   define STACK_DIR    stack_dir
 
 static int
-find_stack_direction (int *addr, int depth)
+find_stack_direction(int *addr, int depth)
 {
   int dir, dummy = 0;
   if (! addr)
     addr = &dummy;
-  *addr = addr < &dummy ? 1 : addr == &dummy ? 0 : -1;
-  dir = depth ? find_stack_direction (addr, depth - 1) : 0;
-  return dir + dummy;
+  *addr = ((addr < &dummy) ? 1 : ((addr == &dummy) ? 0 : -1));
+  dir = (depth ? find_stack_direction(addr, depth - 1) : 0);
+  return (dir + dummy);
 }
 
 #  endif /* STACK_DIRECTION == 0 */
@@ -115,9 +113,9 @@ find_stack_direction (int *addr, int depth)
    It is very important that sizeof(header) agree with malloc
    alignment chunk size.  The following default should work okay.  */
 
-#  ifndef       ALIGN_SIZE
+#  ifndef ALIGN_SIZE
 #   define ALIGN_SIZE   sizeof(double)
-#  endif
+#  endif /* !ALIGN_SIZE */
 
 typedef union hdr
 {
@@ -129,7 +127,7 @@ typedef union hdr
     } h;
 } header;
 
-static header *last_alloca_header = NULL;       /* -> last alloca header.  */
+static header *last_alloca_header = NULL;     /* -> last alloca header.  */
 
 /* Return a pointer to at least SIZE bytes of storage,
    which will be automatically reclaimed upon exit from
@@ -139,15 +137,15 @@ static header *last_alloca_header = NULL;       /* -> last alloca header.  */
    implementations of C, for example under Gould's UTX/32.  */
 
 void *
-alloca (size_t size)
+alloca(size_t size)
 {
   auto char probe;              /* Probes stack depth: */
-  register char *depth = ADDRESS_FUNCTION (probe);
+  register char *depth = ADDRESS_FUNCTION(probe);
 
 #  if STACK_DIRECTION == 0
-  if (STACK_DIR == 0)           /* Unknown growth direction.  */
-    STACK_DIR = find_stack_direction (NULL, (size & 1) + 20);
-#  endif
+  if (STACK_DIR == 0)           /* Unknown growth direction: */
+    STACK_DIR = find_stack_direction(NULL, (size & 1) + 20);
+#  endif /* STACK_DIRECTION == 0 */
 
   /* Reclaim garbage, defined as all alloca'd storage that
      was allocated from deeper in the stack than currently.  */
@@ -157,15 +155,15 @@ alloca (size_t size)
 
 #  ifdef emacs
     BLOCK_INPUT;
-#  endif
+#  endif /* emacs */
 
     for (hp = last_alloca_header; hp != NULL;)
-      if ((STACK_DIR > 0 && hp->h.deep > depth)
-          || (STACK_DIR < 0 && hp->h.deep < depth))
+      if (((STACK_DIR > 0) && (hp->h.deep > depth))
+          || ((STACK_DIR < 0) && (hp->h.deep < depth)))
         {
           register header *np = hp->h.next;
 
-          free (hp);            /* Collect garbage.  */
+          free(hp);            /* Collect garbage.  */
 
           hp = np;              /* -> next header.  */
         }
@@ -176,7 +174,7 @@ alloca (size_t size)
 
 #  ifdef emacs
     UNBLOCK_INPUT;
-#  endif
+#  endif /* emacs */
   }
 
   if (size == 0)
@@ -185,14 +183,14 @@ alloca (size_t size)
   /* Allocate combined header + user data storage.  */
 
   {
-    /* Address of header.  */
+    /* Address of header: */
     register header *new;
 
-    size_t combined_size = sizeof (header) + size;
-    if (combined_size < sizeof (header))
+    size_t combined_size = (sizeof(header) + size);
+    if (combined_size < sizeof(header))
       memory_full();
 
-    new = malloc (combined_size);
+    new = malloc(combined_size);
 
     if (! new)
       memory_full();
@@ -202,17 +200,16 @@ alloca (size_t size)
 
     last_alloca_header = new;
 
-    /* User storage begins just after header.  */
-
-    return (void *) (new + 1);
+    /* User storage begins just after header: */
+    return (void *)(new + 1);
   }
 }
 
-#  if defined (CRAY) && defined (CRAY_STACKSEG_END)
+#  if defined(CRAY) && defined(CRAY_STACKSEG_END)
 
 #   ifdef DEBUG_I00AFUNC
 #    include <stdio.h>
-#   endif
+#   endif /* DEBUG_I00AFUNC */
 
 #   ifndef CRAY_STACK
 #    define CRAY_STACK
@@ -326,10 +323,9 @@ struct stk_trailer
 
 #   ifdef CRAY2
 /* Determine a "stack measure" for an arbitrary ADDRESS.
-   I doubt that "lint" will like this much.  */
-
+ * I doubt that "lint" will like this much: */
 static long
-i00afunc (long *address)
+i00afunc(long *address)
 {
   struct stk_stat status;
   struct stk_trailer *trailer;
@@ -343,27 +339,24 @@ i00afunc (long *address)
 
   STKSTAT (&status);
 
-  /* Set up the iteration.  */
-
-  trailer = (struct stk_trailer *) (status.current_address
-                                    + status.current_size
-                                    - 15);
+  /* Set up the iteration: */
+  trailer = (struct stk_trailer *)(status.current_address
+                                   + status.current_size - 15);
 
   /* There must be at least one stack segment.  Therefore it is
      a fatal error if "trailer" is null.  */
 
   if (trailer == 0)
-    abort ();
+    abort();
 
-  /* Discard segments that do not contain our argument address.  */
-
+  /* Discard segments that do not contain our argument address: */
   while (trailer != 0)
     {
-      block = (long *) trailer->this_address;
+      block = (long *)trailer->this_address;
       size = trailer->this_size;
-      if (block == 0 || size == 0)
-        abort ();
-      trailer = (struct stk_trailer *) trailer->link;
+      if ((block == 0) || (size == 0))
+        abort();
+      trailer = (struct stk_trailer *)trailer->link;
       if ((block <= address) && (address < (block + size)))
         break;
     }
@@ -381,9 +374,9 @@ i00afunc (long *address)
   do
     {
       if (trailer->this_size <= 0)
-        abort ();
+        abort();
       result += trailer->this_size;
-      trailer = (struct stk_trailer *) trailer->link;
+      trailer = (struct stk_trailer *)trailer->link;
     }
   while (trailer != 0);
 
@@ -403,7 +396,7 @@ i00afunc (long *address)
    for alloca.  */
 
 static long
-i00afunc (long address)
+i00afunc(long address)
 {
   long stkl = 0;
 
@@ -420,8 +413,8 @@ i00afunc (long address)
      B67 also points to the stack segment linkage control
      area, which is what we are really interested in.  */
 
-  stkl = CRAY_STACKSEG_END ();
-  ssptr = (struct stack_segment_linkage *) stkl;
+  stkl = CRAY_STACKSEG_END();
+  ssptr = (struct stack_segment_linkage *)stkl;
 
   /* If one subtracts 'size' from the end of the segment,
      one has the address of the first word of the segment.
@@ -432,17 +425,17 @@ i00afunc (long address)
   pseg = ssptr->sspseg;
   size = ssptr->sssize;
 
-  this_segment = stkl - size;
+  this_segment = (stkl - size);
 
   /* It is possible that calling this routine itself caused
      a stack overflow.  Discard stack segments which do not
      contain the target address.  */
 
-  while (!(this_segment <= address && address <= stkl))
+  while (!((this_segment <= address) && (address <= stkl)))
     {
 #    ifdef DEBUG_I00AFUNC
-      fprintf (stderr, "%011o %011o %011o\n", this_segment, address, stkl);
-#    endif
+      fprintf(stderr, "%011o %011o %011o\n", this_segment, address, stkl);
+#    endif /* DEBUG_I00AFUNC */
       if (pseg == 0)
         break;
       stkl = stkl - pseg;

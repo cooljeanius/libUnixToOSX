@@ -13,12 +13,11 @@ dnl# with or without modifications, as long as this notice is preserved.
 # - On IRIX, neither exists, and a file descriptor opened to /dev/zero
 #   must be used.
 
-AC_DEFUN([gl_FUNC_MMAP_ANON],
-[
+AC_DEFUN([gl_FUNC_MMAP_ANON],[
   dnl# Persuade glibc <sys/mman.h> to define MAP_ANONYMOUS.
   AC_REQUIRE([gl_USE_SYSTEM_EXTENSIONS])dnl
 
-  # Check for mmap(). Don't use AC_FUNC_MMAP, because it checks too much:
+  # Check for mmap(). Do NOT use AC_FUNC_MMAP, because it checks too much:
   # it fails on HP-UX 11, because MAP_FIXED mappings do not work. But this
   # is irrelevant for anonymous mappings.
   AC_CHECK_FUNC([mmap],[gl_have_mmap=yes],[gl_have_mmap=no])dnl

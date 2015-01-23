@@ -16,6 +16,12 @@
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
 
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
+#   pragma GCC diagnostic ignored "-Wredundant-decls"
+# endif /* GCC 4.1+ */
+#endif /* gcc */
+
 #ifdef HAVE_CONFIG_H
 # include "config.h"
 #endif /* HAVE_CONFIG_H */
@@ -26,8 +32,8 @@
  * If no '\0' terminator is found in that many characters, return MAXLEN.
  */
 #ifndef strnlen
-/* this prototype would not be necessary if I were using gnulib properly, or if
- * I were on a system that already had strnlen()... */
+/* this prototype would not be necessary if I were using gnulib properly,
+ * or if I were on a system that already had strnlen()... */
 size_t strnlen(const char *string, size_t maxlen);
 #endif /* !strnlen */
 size_t strnlen(const char *string, size_t maxlen)

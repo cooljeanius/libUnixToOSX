@@ -77,7 +77,7 @@ typedef long int long_int;
 #else
 typedef long long int long_int;
 #endif
-verify (long_int_is_wide_enough, INT_MAX == INT_MAX * (long_int) 2 / 2);
+verify(long_int_is_wide_enough, INT_MAX == (INT_MAX * (long_int)2 / 2));
 
 /* Shift A right by B bits portably, by dividing A by 2**B and
    truncating towards minus infinity.  A and B should be free of side
@@ -131,11 +131,27 @@ verify (long_int_is_wide_enough, INT_MAX == INT_MAX * (long_int) 2 / 2);
 #endif
 #define TIME_T_MIDPOINT (SHR (TIME_T_MIN + TIME_T_MAX, 1) + 1)
 
-verify (time_t_is_integer, TYPE_IS_INTEGER (time_t));
-verify (twos_complement_arithmetic,
-	(TYPE_TWOS_COMPLEMENT (int)
-	 && TYPE_TWOS_COMPLEMENT (long_int)
-	 && TYPE_TWOS_COMPLEMENT (time_t)));
+/* no idea why this gets triggered here, but it seems wrong: */
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 9))
+/* can push and pop with this version, so do so: */
+#  pragma GCC diagnostic push
+#  pragma GCC diagnostic ignored "-Wunsuffixed-float-constants"
+# endif /* GCC 4.9+ */
+#endif /* gcc */
+
+verify(time_t_is_integer, TYPE_IS_INTEGER(time_t));
+verify(twos_complement_arithmetic,
+	(TYPE_TWOS_COMPLEMENT(int)
+	 && TYPE_TWOS_COMPLEMENT(long_int)
+	 && TYPE_TWOS_COMPLEMENT(time_t)));
+
+/* keep condition the same as where we push: */
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 9))
+#  pragma GCC diagnostic pop
+# endif /* GCC 4.9+ */
+#endif /* gcc */
 
 #define EPOCH_YEAR 1970
 #define TM_YEAR_BASE 1900
@@ -156,7 +172,7 @@ leapyear (long_int year)
 /* How many days come before each month (0-12).  */
 #ifndef _LIBC
 static
-#endif
+#endif /* !_LIBC */
 const unsigned short int __mon_yday[2][13] =
   {
     /* Normal years.  */
@@ -175,7 +191,7 @@ const unsigned short int __mon_yday[2][13] =
 # define __localtime_r localtime_r
 # define __mktime_internal mktime_internal
 # include "mktime-internal.h"
-#endif
+#endif /* !_LIBC */
 
 /* Return 1 if the values A and B differ according to the rules for
    tm_isdst: A and B differ if one is zero and the other positive.  */
@@ -224,31 +240,31 @@ ydhms_diff(long_int year1, long_int yday1, int hour1, int min1, int sec1,
 
 /* Return the average of A and B, even if A + B would overflow: */
 static time_t
-time_t_avg (time_t a, time_t b)
+time_t_avg(time_t a, time_t b)
 {
-  return SHR (a, 1) + SHR (b, 1) + (a & b & 1);
+  return (SHR(a, 1) + SHR(b, 1) + (a & b & 1));
 }
 
 /* Return 1 if A + B does not overflow.  If time_t is unsigned and if
    B's top bit is set, assume that the sum represents A - -B, and
    return 1 if the subtraction does not wrap around.  */
 static int
-time_t_add_ok (time_t a, time_t b)
+time_t_add_ok(time_t a, time_t b)
 {
-  if (! TYPE_SIGNED (time_t))
+  if (! TYPE_SIGNED(time_t))
     {
-      time_t sum = a + b;
-      return (sum < a) == (TIME_T_MIDPOINT <= b);
+      time_t sum = (a + b);
+      return ((sum < a) == (TIME_T_MIDPOINT <= b));
     }
   else if (WRAPV)
     {
-      time_t sum = a + b;
-      return (sum < a) == (b < 0);
+      time_t sum = (a + b);
+      return ((sum < a) == (b < 0));
     }
   else
     {
-      time_t avg = time_t_avg (a, b);
-      return TIME_T_MIN / 2 <= avg && avg <= TIME_T_MAX / 2;
+      time_t avg = time_t_avg(a, b);
+      return (((TIME_T_MIN / 2) <= avg) && (avg <= (TIME_T_MAX / 2)));
     }
 }
 
@@ -314,10 +330,10 @@ ranged_convert (struct tm *(*convert) (const time_t *, struct tm *),
       /* BAD is a known unconvertible time_t, and OK is a known good one.
 	 Use binary search to narrow the range between BAD and OK until
 	 they differ by 1.  */
-      while (bad != ok + (bad < 0 ? -1 : 1))
+      while (bad != (ok + ((bad < 0) ? -1 : 1)))
 	{
-	  time_t mid = *t = time_t_avg (ok, bad);
-	  r = convert (t, tp);
+	  time_t mid = *t = time_t_avg(ok, bad);
+	  r = convert(t, tp);
 	  if (r)
 	    ok = mid;
 	  else
@@ -329,7 +345,7 @@ ranged_convert (struct tm *(*convert) (const time_t *, struct tm *),
 	  /* The last conversion attempt failed;
 	     revert to the most recent successful attempt.  */
 	  *t = ok;
-	  r = convert (t, tp);
+	  r = convert(t, tp);
 	}
     }
 
@@ -344,9 +360,9 @@ ranged_convert (struct tm *(*convert) (const time_t *, struct tm *),
    If *OFFSET's guess is correct, only one CONVERT call is needed.
    This function is external because it is used also by timegm.c.  */
 time_t
-__mktime_internal (struct tm *tp,
-		   struct tm *(*convert) (const time_t *, struct tm *),
-		   time_t *offset)
+__mktime_internal(struct tm *tp,
+		  struct tm *(*convert)(const time_t *, struct tm *),
+		  time_t *offset)
 {
   time_t t, gt, t0, t1, t2;
   struct tm tm;
@@ -406,7 +422,7 @@ __mktime_internal (struct tm *tp,
 
   /* Invert CONVERT by probing. First assume the same offset as last time: */
   t0 = ydhms_diff(year, yday, hour, min, sec, (EPOCH_YEAR - TM_YEAR_BASE),
-				  0, 0, 0, (int)-(guessed_offset));
+                  0, 0, 0, (int)-(guessed_offset));
 
   if ((TIME_T_MAX / INT_MAX / 366 / 24 / 60 / 60) < 3) {
       /* time_t is NOT large enough to rule out overflows, so check
@@ -567,7 +583,7 @@ __mktime_internal (struct tm *tp,
 
 /* FIXME: This should use a signed type wide enough to hold any UTC
    offset in seconds.  'int' should be good enough for GNU code.  We
-   can't fix this unilaterally though, as other modules invoke
+   cannot fix this unilaterally though, as other modules invoke
    __mktime_internal.  */
 static time_t localtime_offset;
 
@@ -579,20 +595,20 @@ mktime (struct tm *tp)
   /* POSIX.1 8.1.1 requires that whenever mktime() is called, the
      time zone names contained in the external variable 'tzname' shall
      be set as if the tzset() function had been called.  */
-  __tzset ();
-#endif
+  __tzset();
+#endif /* _LIBC */
 
-  return __mktime_internal (tp, __localtime_r, &localtime_offset);
+  return __mktime_internal(tp, __localtime_r, &localtime_offset);
 }
 
 #ifdef weak_alias
-weak_alias (mktime, timelocal)
-#endif
+weak_alias(mktime, timelocal)
+#endif /* weak_alias */
 
 #ifdef _LIBC
-libc_hidden_def (mktime)
-libc_hidden_weak (timelocal)
-#endif
+libc_hidden_def(mktime)
+libc_hidden_weak(timelocal)
+#endif /* _LIBC */
 
 #if defined(DEBUG) && DEBUG
 
@@ -646,7 +662,7 @@ int main(int argc, char **argv)
   char trailer;
 
   printf("Debug message: running from path '%s' with '%i' args.\n",
-		 argv[0], argc);
+         argv[0], argc);
 
   if (((argc == 3) || (argc == 4))
       && (sscanf(argv[1], "%d-%d-%d%c",

@@ -22,7 +22,7 @@
 #else
 # include <config.h>
 # include "obstack.h"
-#endif
+#endif /* _LIBC || not */
 
 /* NOTE BEFORE MODIFYING THIS FILE: This version number must be
  * incremented whenever callers compiled using an old obstack.h can no
@@ -55,7 +55,7 @@
 
 # include <stdint.h>
 
-/* Determine default alignment. */
+/* Determine default alignment: */
 union fooround
 {
   uintmax_t i;
@@ -120,15 +120,15 @@ compat_symbol(libc, _obstack_compat, _obstack, GLIBC_2_0);
 
 # define CALL_CHUNKFUN(h, size) \
   (((h) -> use_extra_arg) \
-   ? (*(h)->chunkfun) ((h)->extra_arg, (size)) \
-   : (*(struct _obstack_chunk *(*) (long)) (h)->chunkfun) ((size)))
+   ? (*(h)->chunkfun)((h)->extra_arg, (size)) \
+   : (*(struct _obstack_chunk *(*)(long))(h)->chunkfun)((size)))
 
 # define CALL_FREEFUN(h, old_chunk) \
   do { \
     if ((h) -> use_extra_arg) {\
-      (*(h)->freefun) ((h)->extra_arg, (old_chunk)); \
+      (*(h)->freefun)((h)->extra_arg, (old_chunk)); \
     } else {\
-      (*(void (*) (void *)) (h)->freefun) ((old_chunk)); \
+      (*(void (*)(void *))(h)->freefun)((old_chunk)); \
     }\
   } while (0)
 
@@ -148,7 +148,7 @@ _obstack_begin(struct obstack *h, int size, int alignment,
   if (alignment == 0) {
 	  alignment = DEFAULT_ALIGNMENT;
   }
-  /* Default size is what GNU malloc can fit in a 4096-byte block. */
+  /* Default size is what GNU malloc can fit in a 4096-byte block: */
   if (size == 0) {
       /* 12 is sizeof (mhead) and 4 is EXTRA from GNU malloc.
        * Use the values for range checking, because if range checking is off,
@@ -189,13 +189,13 @@ _obstack_begin(struct obstack *h, int size, int alignment,
   } else {
 	  /* not sure what to do here, either... */ ;
   }
-  /* The initial chunk now contains no empty object. */
+  /* The initial chunk now contains no empty object: */
   h->maybe_empty_object = 0;
   h->alloc_failed = 0;
   return 1;
 }
 
-/* next level func */
+/* next level func: */
 int
 _obstack_begin_1(struct obstack *h, int size, int alignment,
 				 void *(*chunkfun)(void *, long),
@@ -206,7 +206,7 @@ _obstack_begin_1(struct obstack *h, int size, int alignment,
   if (alignment == 0) {
 	  alignment = DEFAULT_ALIGNMENT;
   }
-  /* Default size is what GNU malloc can fit in a 4096-byte block. */
+  /* Default size is what GNU malloc can fit in a 4096-byte block: */
   if (size == 0) {
       /* 12 is sizeof (mhead) and 4 is EXTRA from GNU malloc. Use the values for
 	   * range checking, because if range checking is off, the extra bytes
@@ -221,8 +221,8 @@ _obstack_begin_1(struct obstack *h, int size, int alignment,
       size = (4096 - extra);
   }
 
-  h->chunkfun = (struct _obstack_chunk * (*)(void *,long)) chunkfun;
-  h->freefun = (void (*) (void *, struct _obstack_chunk *)) freefun;
+  h->chunkfun = (struct _obstack_chunk *(*)(void *, long))chunkfun;
+  h->freefun = (void (*)(void *, struct _obstack_chunk *))freefun;
   h->chunk_size = size;
   h->alignment_mask = alignment - 1;
   h->extra_arg = arg;
@@ -268,13 +268,13 @@ _obstack_newchunk(struct obstack *h, int length)
   long already;
   char *object_base;
 
-  /* Compute size for new chunk. */
+  /* Compute size for new chunk: */
   new_size = ((obj_size + length) + (obj_size >> 3) + h->alignment_mask + 100);
   if (new_size < h->chunk_size) {
     new_size = h->chunk_size;
   }
 
-  /* Allocate and initialize the new chunk. */
+  /* Allocate and initialize the new chunk: */
   new_chunk = CALL_CHUNKFUN(h, new_size);
   if (!new_chunk) {
 	  (*obstack_alloc_failed_handler)();
@@ -341,7 +341,7 @@ libc_hidden_def(_obstack_newchunk)
 int _obstack_allocated_p(struct obstack *h, void *obj);
 
 int
-_obstack_allocated_p (struct obstack *h, void *obj)
+_obstack_allocated_p(struct obstack *h, void *obj)
 {
   register struct _obstack_chunk *lp; /* below addr of any objs in this chunk */
   register struct _obstack_chunk *plp; /* point to previous chunk if any */
@@ -350,7 +350,7 @@ _obstack_allocated_p (struct obstack *h, void *obj)
   /* We use '>=' rather than '>' since the object cannot be exactly at the
    * beginning of the chunk but might be an empty object exactly at the end of
    * an adjacent chunk. */
-  while ((lp != 0) && ((void *)lp >= obj || (void *)(lp)->limit < obj)) {
+  while ((lp != 0) && (((void *)lp >= obj) || (void *)(lp)->limit < obj)) {
       plp = lp->prev;
       lp = plp;
   }

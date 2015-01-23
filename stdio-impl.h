@@ -1,4 +1,4 @@
-/* Implementation details of FILE streams.
+/* stdio-impl.h: Implementation details of FILE streams.
    Copyright (C) 2007-2008, 2010-2012 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -12,7 +12,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* Many stdio implementations have the same logic and therefore can share
    the same implementation of stdio extension API, except that some fields
@@ -21,17 +21,17 @@
 
 /* BSD stdio derived implementations.  */
 
-#if defined __NetBSD__                         /* NetBSD */
-/* Get __NetBSD_Version__.  */
+#if defined(__NetBSD__) || defined(HAVE_SYS_PARAM_H) /* NetBSD & similar */
+/* Get __NetBSD_Version__ from this header:  */
 # include <sys/param.h>
-#endif
+#endif /* __NetBSD__ || HAVE_SYS_PARAM_H */
 
 #include <errno.h>                             /* For detecting Plan9.  */
 
-#if defined __sferror || defined __DragonFly__ /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin */
+#if defined(__sferror) || defined(__DragonFly__) /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin */
 
-# if defined __DragonFly__          /* DragonFly */
-  /* See <http://www.dragonflybsd.org/cvsweb/src/lib/libc/stdio/priv_stdio.h?rev=HEAD&content-type=text/x-cvsweb-markup>.  */
+# if defined(__DragonFly__)          /* DragonFly */
+/* See <http://www.dragonflybsd.org/cvsweb/src/lib/libc/stdio/priv_stdio.h?rev=HEAD&content-type=text/x-cvsweb-markup>: */
 #  define fp_ ((struct { struct __FILE_public pub; \
                          struct { unsigned char *_base; int _size; } _bf; \
                          void *cookie; \
@@ -48,31 +48,32 @@
                          fpos_t _offset; \
                          /* More fields, not relevant here.  */ \
                        } *) fp)
-  /* See <http://www.dragonflybsd.org/cvsweb/src/include/stdio.h?rev=HEAD&content-type=text/x-cvsweb-markup>.  */
+/* See <http://www.dragonflybsd.org/cvsweb/src/include/stdio.h?rev=HEAD&content-type=text/x-cvsweb-markup>: */
 #  define _p pub._p
 #  define _flags pub._flags
 #  define _r pub._r
 #  define _w pub._w
 # else
 #  define fp_ fp
-# endif
+# endif /* __DragonFly__ || not */
 
-# if (defined __NetBSD__ && __NetBSD_Version__ >= 105270000) || defined __OpenBSD__ /* NetBSD >= 1.5ZA, OpenBSD */
-  /* See <http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/libc/stdio/fileext.h?rev=HEAD&content-type=text/x-cvsweb-markup>
-     and <http://www.openbsd.org/cgi-bin/cvsweb/src/lib/libc/stdio/fileext.h?rev=HEAD&content-type=text/x-cvsweb-markup> */
-  struct __sfileext
-    {
-      struct  __sbuf _ub; /* ungetc buffer */
-      /* More fields, not relevant here.  */
-    };
-#  define fp_ub ((struct __sfileext *) fp->_ext._base)->_ub
+# if (defined(__NetBSD__) && defined(__NetBSD_Version__) && (__NetBSD_Version__ >= 105270000)) || \
+     defined(__OpenBSD__) /* NetBSD >= 1.5ZA, OpenBSD */
+/* See <http://cvsweb.netbsd.org/bsdweb.cgi/src/lib/libc/stdio/fileext.h?rev=HEAD&content-type=text/x-cvsweb-markup>
+ * and <http://www.openbsd.org/cgi-bin/cvsweb/src/lib/libc/stdio/fileext.h?rev=HEAD&content-type=text/x-cvsweb-markup> */
+struct __sfileext
+  {
+    struct  __sbuf _ub; /* ungetc buffer */
+    /* More fields, not relevant here.  */
+  };
+#  define fp_ub ((struct __sfileext *)fp->_ext._base)->_ub
 # else                                         /* FreeBSD, NetBSD <= 1.5Z, DragonFly, Mac OS X, Cygwin */
 #  define fp_ub fp_->_ub
-# endif
+# endif /* end conditional on flavor of BSD */
 
 # define HASUB(fp) (fp_ub._base != NULL)
 
-#endif
+#endif /* __sferror || __DragonFly__ */
 
 
 /* SystemV derived implementations.  */
@@ -80,17 +81,17 @@
 #ifdef __TANDEM                     /* NonStop Kernel */
 # ifndef _IOERR
 /* These values were determined by the program 'stdioext-flags' at
-   <http://lists.gnu.org/archive/html/bug-gnulib/2010-12/msg00165.html>.  */
+ * <http://lists.gnu.org/archive/html/bug-gnulib/2010-12/msg00165.html>: */
 #  define _IOERR   0x40
 #  define _IOREAD  0x80
 #  define _IOWRT    0x4
 #  define _IORW   0x100
-# endif
-#endif
+# endif /* !_IOERR */
+#endif /* __TANDEM */
 
 #if defined _IOERR
 
-# if defined __sun && defined _LP64 /* Solaris/{SPARC,AMD64} 64-bit */
+# if defined(__sun) && defined(_LP64) /* Solaris/{SPARC,AMD64} 64-bit */
 #  define fp_ ((struct { unsigned char *_ptr; \
                          unsigned char *_base; \
                          unsigned char *_end; \
@@ -100,13 +101,15 @@
                        } *) fp)
 # else
 #  define fp_ fp
-# endif
+# endif /* __sun && _LP64 */
 
 # if defined _SCO_DS                /* OpenServer */
 #  define _cnt __cnt
 #  define _ptr __ptr
 #  define _base __base
 #  define _flag __flag
-# endif
+# endif /* _SCO_DS */
 
-#endif
+#endif /* _IOERR */
+
+/* EOF */

@@ -32,16 +32,16 @@
 
 # include "argp.h"
 
-# if (defined(_LIBC) && _LIBC) || (defined (HAVE_FLOCKFILE) && defined(HAVE_PUTC_UNLOCKED) \
-&& defined (HAVE_FPUTS_UNLOCKED) && defined (HAVE_FWRITE_UNLOCKED) )
-/* Use locking funxtions */
+# if (defined(_LIBC) && _LIBC) || (defined(HAVE_FLOCKFILE) && defined(HAVE_PUTC_UNLOCKED) \
+     && defined(HAVE_FPUTS_UNLOCKED) && defined(HAVE_FWRITE_UNLOCKED))
+/* Use locking funxtions: */
 #  define FLOCKFILE(f) flockfile(f)
 #  define FUNLOCKFILE(f) funlockfile(f)
 #  define PUTC_UNLOCKED(c, f) putc_unlocked((c), (f))
 #  define FPUTS_UNLOCKED(s, f) fputs_unlocked((s), (f))
 #  define FWRITE_UNLOCKED(b, s, n, f) fwrite_unlocked((b), (s), (n), (f))
 # else
-/* Disable stdio locking */
+/* Disable stdio locking: */
 #  define FLOCKFILE(f)
 #  define FUNLOCKFILE(f)
 #  define PUTC_UNLOCKED(c, f) putc((c), (f))

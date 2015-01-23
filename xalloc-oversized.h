@@ -13,7 +13,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #ifndef XALLOC_OVERSIZED_H_
 # define XALLOC_OVERSIZED_H_
@@ -33,6 +33,8 @@
    exactly-SIZE_MAX allocations on such hosts; this avoids a test and
    branch when S is known to be 1.  */
 # define xalloc_oversized(n, s) \
-    ((size_t) (sizeof (ptrdiff_t) <= sizeof (size_t) ? -1 : -2) / (s) < (n))
+    ((size_t)(sizeof(ptrdiff_t) <= sizeof(size_t) ? -1 : -2) / (s) < (n))
 
 #endif /* !XALLOC_OVERSIZED_H_ */
+
+/* EOF */

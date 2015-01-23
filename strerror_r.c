@@ -35,12 +35,14 @@
 
 #include "strerror-override.h"
 
-#if (__GLIBC__ >= 2 || defined __UCLIBC__ || defined __CYGWIN__) && HAVE___XPG_STRERROR_R /* glibc >= 2.3.4, cygwin >= 1.7.9 */
+#if ((defined(__GLIBC__) && (__GLIBC__ >= 2)) || defined(__UCLIBC__) || defined(__CYGWIN__)) && \
+    HAVE___XPG_STRERROR_R /* glibc >= 2.3.4, cygwin >= 1.7.9 */
 
 # define USE_XPG_STRERROR_R 1
-extern int __xpg_strerror_r (int errnum, char *buf, size_t buflen);
+extern int __xpg_strerror_r(int errnum, char *buf, size_t buflen);
 
-#elif HAVE_DECL_STRERROR_R && !(__GLIBC__ >= 2 || defined __UCLIBC__ || defined __CYGWIN__)
+#elif (defined(HAVE_DECL_STRERROR_R) && HAVE_DECL_STRERROR_R) && \
+      !((defined(__GLIBC__) && (__GLIBC__ >= 2)) || defined(__UCLIBC__) || defined(__CYGWIN__))
 
 /* The system's strerror_r function is OK, except that its third argument
    is 'int', not 'size_t', or its return type is wrong.  */
@@ -49,7 +51,7 @@ extern int __xpg_strerror_r (int errnum, char *buf, size_t buflen);
 
 # define USE_SYSTEM_STRERROR_R 1
 
-#else /* (__GLIBC__ >= 2 || defined __UCLIBC__ || defined __CYGWIN__ ? !HAVE___XPG_STRERROR_R : !HAVE_DECL_STRERROR_R) */
+#else /* ((__GLIBC__ >= 2) || defined(__UCLIBC__) || defined(__CYGWIN__) ? !HAVE___XPG_STRERROR_R : !HAVE_DECL_STRERROR_R) */
 
 /* Use the system's strerror().  Exclude glibc and cygwin because the
    system strerror_r has the wrong return type, and cygwin 1.7.9
@@ -58,26 +60,29 @@ extern int __xpg_strerror_r (int errnum, char *buf, size_t buflen);
 
 # define USE_SYSTEM_STRERROR 1
 
-# if defined __NetBSD__ || defined __hpux || ((defined _WIN32 || defined __WIN32__) && !defined __CYGWIN__) || defined __sgi || (defined __sun && !defined _LP64) || defined __CYGWIN__
+# if defined(__NetBSD__) || defined(__hpux) || \
+     ((defined(_WIN32) || defined(__WIN32__)) && !defined(__CYGWIN__)) || \
+     defined(__sgi) || (defined(__sun) && !defined(_LP64)) || \
+     defined(__CYGWIN__)
 
 /* No locking needed.  */
 
-/* Get catgets internationalization functions.  */
+/* Get catgets internationalization functions: */
 #  if HAVE_CATGETS
 #   include <nl_types.h>
-#  endif
+#  endif /* HAVE_CATGETS */
 
 /* Get sys_nerr, sys_errlist on HP-UX (otherwise only declared in C++ mode).
    Get sys_nerr, sys_errlist on IRIX (otherwise only declared with _SGIAPI).  */
 #  if defined __hpux || defined __sgi
 extern int sys_nerr;
 extern char *sys_errlist[];
-#  endif
+#  endif /* __hpux || __sgi */
 
-/* Get sys_nerr on Solaris.  */
+/* Get sys_nerr on Solaris: */
 #  if defined __sun && !defined _LP64
 extern int sys_nerr;
-#  endif
+#  endif /* __sun && !_LP64 */
 
 # else
 
@@ -97,20 +102,20 @@ gl_lock_define_initialized(static, strerror_lock)
    does not NUL terminate, like strncpy).  */
 #if !HAVE_SNPRINTF
 static int
-local_snprintf (char *buf, size_t buflen, const char *format, ...)
+local_snprintf(char *buf, size_t buflen, const char *format, ...)
 {
   va_list args;
   int result;
 
-  va_start (args, format);
-  result = _vsnprintf (buf, buflen, format, args);
-  va_end (args);
-  if (buflen > 0 && (result < 0 || result >= buflen))
+  va_start(args, format);
+  result = _vsnprintf(buf, buflen, format, args);
+  va_end(args);
+  if ((buflen > 0) && ((result < 0) || (result >= buflen)))
     buf[buflen - 1] = '\0';
   return result;
 }
 # define snprintf local_snprintf
-#endif
+#endif /* !HAVE_SNPRINTF */
 
 /* Copy as much of MSG into BUF as possible, without corrupting errno.
    Return 0 if MSG fit in BUFLEN, otherwise return ERANGE.  */
@@ -271,13 +276,13 @@ strerror_r (int errnum, char *buf, size_t buflen)
 #  else
         const char *errmsg = sys_errlist[errnum];
 #  endif
-        if (errmsg == NULL || *errmsg == '\0')
+        if ((errmsg == NULL) || (*errmsg == '\0'))
           ret = EINVAL;
         else
           ret = safe_copy (buf, buflen, errmsg);
 #  if HAVE_CATGETS && (defined __NetBSD__ || defined __hpux)
         if (catd != (nl_catd)-1)
-          catclose (catd);
+          catclose(catd);
 #  endif
       }
     else
@@ -287,44 +292,46 @@ strerror_r (int errnum, char *buf, size_t buflen)
 
     /* For a valid error number, the system's strerror() function returns
        a pointer to a not copied string, not to a buffer.  */
-    if (errnum >= 0 && errnum < sys_nerr)
+    if ((errnum >= 0) && (errnum < sys_nerr))
       {
-        char *errmsg = strerror (errnum);
+        char *errmsg = strerror(errnum);
 
-        if (errmsg == NULL || *errmsg == '\0')
+        if ((errmsg == NULL) || (*errmsg == '\0'))
           ret = EINVAL;
         else
-          ret = safe_copy (buf, buflen, errmsg);
+          ret = safe_copy(buf, buflen, errmsg);
       }
     else
       ret = EINVAL;
 
 # else
 
-    gl_lock_lock (strerror_lock);
+    gl_lock_lock(strerror_lock);
 
     {
-      char *errmsg = strerror (errnum);
+      char *errmsg = strerror(errnum);
 
       /* For invalid error numbers, strerror() on
-           - IRIX 6.5 returns NULL,
-           - HP-UX 11 returns an empty string.  */
-      if (errmsg == NULL || *errmsg == '\0')
+       *   - IRIX 6.5 returns NULL,
+       *   - HP-UX 11 returns an empty string: */
+      if ((errmsg == NULL) || (*errmsg == '\0'))
         ret = EINVAL;
       else
-        ret = safe_copy (buf, buflen, errmsg);
+        ret = safe_copy(buf, buflen, errmsg);
     }
 
-    gl_lock_unlock (strerror_lock);
+    gl_lock_unlock(strerror_lock);
 
 # endif
 
 #endif
 
-    if (ret == EINVAL && !*buf)
-      snprintf (buf, buflen, "Unknown error %d", errnum);
+    if ((ret == EINVAL) && !*buf)
+      snprintf(buf, buflen, "Unknown error %d", errnum);
 
     errno = saved_errno;
     return ret;
   }
 }
+
+/* EOF */

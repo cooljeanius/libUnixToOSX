@@ -1,4 +1,4 @@
-/* help detect directory cycles efficiently
+/* cycle-check.c: help detect directory cycles efficiently
 
    Copyright (C) 2003-2006, 2009-2012 Free Software Foundation, Inc.
 
@@ -13,7 +13,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* Written by Jim Meyering */
 
@@ -31,16 +31,15 @@
 
 #define CC_MAGIC 9827862
 
-/* Return true if I is a power of 2, or is zero.  */
-
+/* Return true if I is a power of 2, or is zero: */
 static inline bool
-is_zero_or_power_of_two (uintmax_t i)
+is_zero_or_power_of_two(uintmax_t i)
 {
-  return (i & (i - 1)) == 0;
+  return ((i & (i - 1)) == 0);
 }
 
 void
-cycle_check_init (struct cycle_check_state *state)
+cycle_check_init(struct cycle_check_state *state)
 {
   state->chdir_counter = 0;
   state->magic = CC_MAGIC;
@@ -55,24 +54,24 @@ cycle_check_init (struct cycle_check_state *state)
    the cycle is detected.  */
 
 bool
-cycle_check (struct cycle_check_state *state, struct stat const *sb)
+cycle_check(struct cycle_check_state *state, struct stat const *sb)
 {
-  assert (state->magic == CC_MAGIC);
+  assert(state->magic == CC_MAGIC);
 
   /* If the current directory ever happens to be the same
      as the one we last recorded for the cycle detection,
-     then it's obviously part of a cycle.  */
-  if (state->chdir_counter && SAME_INODE (*sb, state->dev_ino))
+     then it is obviously part of a cycle: */
+  if (state->chdir_counter && SAME_INODE(*sb, state->dev_ino))
     return true;
 
   /* If the number of "descending" chdir calls is a power of two,
      record the dev/ino of the current directory.  */
-  if (is_zero_or_power_of_two (++(state->chdir_counter)))
+  if (is_zero_or_power_of_two(++(state->chdir_counter)))
     {
       /* On all architectures that we know about, if the counter
          overflows then there is a directory cycle here somewhere,
-         even if we haven't detected it yet.  Typically this happens
-         only after the counter is incremented 2**64 times, so it's a
+         even if we have NOT detected it yet.  Typically this happens
+         only after the counter is incremented 2**64 times, so it is a
          fairly theoretical point.  */
       if (state->chdir_counter == 0)
         return true;
@@ -83,3 +82,5 @@ cycle_check (struct cycle_check_state *state, struct stat const *sb)
 
   return false;
 }
+
+/* EOF */

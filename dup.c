@@ -1,4 +1,4 @@
-/* Duplicate an open file descriptor.
+/* dup.c: Duplicate an open file descriptor.
 
  Copyright (C) 2011 Free Software Foundation, Inc.
 
@@ -17,7 +17,7 @@
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include <unistd.h>
 
 #include <errno.h>
@@ -47,7 +47,7 @@ static inline int dup_nothrow(int fd)
 }
 #else
 # define dup_nothrow dup
-#endif
+#endif /* HAVE_MSVC_INVALID_PARAMETER_HANDLER */
 
 
 int rpl_dup(int fd)

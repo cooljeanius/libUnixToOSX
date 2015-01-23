@@ -20,7 +20,7 @@
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include <fcntl.h>
 
 #if defined(HAVE_SYS_FCNTL_H) && !defined(_SYS_FCNTL_H_)
@@ -42,10 +42,10 @@
 # define WIN32_LEAN_AND_MEAN
 # include <windows.h>
 
-/* Get _get_osfhandle.  */
+/* Get _get_osfhandle from here: */
 # include "msvc-nothrow.h"
 
-/* Upper bound on getdtablesize().  See lib/getdtablesize.c.  */
+/* Upper bound on getdtablesize().  See lib/getdtablesize.c for more: */
 # define OPEN_MAX_MAX 0x10000
 
 /* Duplicate OLDFD into the first available slot of at least NEWFD,
@@ -360,5 +360,9 @@ int rpl_fcntl(int fd, int action, /* arg */...)
   va_end(arg);
   return result;
 }
+
+#ifdef HAVE_DUPFD
+# undef HAVE_DUPFD
+#endif /* HAVE_DUPFD */
 
 /* EOF */

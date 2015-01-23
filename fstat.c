@@ -15,13 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/* If the user's config.h happens to include <sys/stat.h>, let it include only
- * the system's <sys/stat.h> here, so that orig_fstat does NOT recurse to
- * rpl_fstat.  */
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
+#   pragma GCC diagnostic ignored "-Wredundant-decls"
+# endif /* GCC 4.1+ */
+#endif /* gcc */
+
+/* If the user's config.h happens to include <sys/stat.h>, let it include
+ * only the system's <sys/stat.h> here, so that orig_fstat does NOT recurse
+ * to rpl_fstat: */
 #define __need_system_sys_stat_h
 #include <config.h>
 
-/* Get the original definition of fstat.  It might be defined as a macro.  */
+/* Get the original definition of fstat; it might be defined as a macro: */
 #include <sys/types.h>
 #include <sys/stat.h>
 #include "rpl_misc_funcs.h"

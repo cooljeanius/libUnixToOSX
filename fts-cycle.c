@@ -78,9 +78,9 @@ static size_t AD_hash(void const *x, size_t table_size)
   return ((uintmax_t)ax->ino % table_size);
 }
 
-/* the functions after this are only used when this file is being included from
- * fts.c, so ignore warnings about them being unused if this file is being
- * compiled all by itself: */
+/* the functions after this are only used when this file is being included
+ * from fts.c, so ignore warnings about them being unused if this file is
+ * being compiled all by itself: */
 #if defined(__GNUC__) && defined(__GNUC_MINOR__)
 # if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 6))
 #  if !defined(__FTS_C__)
@@ -188,7 +188,7 @@ static void free_dir(FTS *sp)
 {
   if (sp->fts_options & (FTS_TIGHT_CYCLE_CHECK | FTS_LOGICAL)) {
       if (sp->fts_cycle.ht) {
-		  hash_free (sp->fts_cycle.ht);
+		  hash_free(sp->fts_cycle.ht);
 	  }
   } else {
 	  free(sp->fts_cycle.state);
@@ -198,3 +198,5 @@ static void free_dir(FTS *sp)
 /* EOF */
 
 #endif /* !__FTS_CYCLE_C__ */
+
+/* EOF for real now */

@@ -1,4 +1,4 @@
-/* fclose replacement.
+/* fclose.c: fclose replacement.
    Copyright (C) 2008-2012 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -14,9 +14,15 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
+#   pragma GCC diagnostic ignored "-Wredundant-decls"
+# endif /* GCC 4.1+ */
+#endif /* gcc */
+
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include <stdio.h>
 
 #include <errno.h>
@@ -29,14 +35,14 @@
 
 #undef fclose
 
-#if defined(HAVE_MSVC_INVALID_PARAMETER_HANDLE) && HAVE_MSVC_INVALID_PARAMETER_HANDLER
+#if defined(HAVE_MSVC_INVALID_PARAMETER_HANDLER) && HAVE_MSVC_INVALID_PARAMETER_HANDLER
 static int fclose_nothrow(FILE *fp)
 {
   int result;
 
   TRY_MSVC_INVAL
     {
-      result = fclose (fp);
+      result = fclose(fp);
     }
   CATCH_MSVC_INVAL
     {
@@ -49,26 +55,25 @@ static int fclose_nothrow(FILE *fp)
 }
 #else
 # define fclose_nothrow fclose
-#endif
+#endif /* HAVE_MSVC_INVALID_PARAMETER_HANDLER */
 
-/* Override fclose() to call the overridden fflush() or close().  */
-
+/* Override fclose() to call the overridden fflush() or close(): */
 int
-rpl_fclose (FILE *fp)
+rpl_fclose(FILE *fp)
 {
   int saved_errno = 0;
   int fd;
   int result = 0;
 
-  /* Don't change behavior on memstreams.  */
-  fd = fileno (fp);
+  /* Do NOT change behavior on memstreams: */
+  fd = fileno(fp);
   if (fd < 0)
-    return fclose_nothrow (fp);
+    return fclose_nothrow(fp);
 
   /* We only need to flush the file if it is not reading or if it is
      seekable.  This only guarantees the file position of input files
      if the fflush module is also in use.  */
-  if ((!freading(fp) || lseek(fileno(fp), (off_t)0, SEEK_CUR) != -1)
+  if ((!freading(fp) || (lseek(fileno(fp), (off_t)0L, SEEK_CUR) != -1))
       && fflush(fp))
     saved_errno = errno;
 
@@ -78,11 +83,11 @@ rpl_fclose (FILE *fp)
   /* Call the overridden close(), then the original fclose().
      Note about multithread-safety: There is a race condition where some
      other thread could open fd between our close and fclose.  */
-  if (close (fd) < 0 && saved_errno == 0)
+  if ((close(fd) < 0) && (saved_errno == 0))
     saved_errno = errno;
 
-  fclose_nothrow (fp); /* will fail with errno = EBADF,
-                          if we did not lose a race */
+  fclose_nothrow(fp); /* will fail with errno = EBADF,
+                       * if we did not lose a race */
 
 #else /* !WINDOWS_SOCKETS: */
   /* Call fclose() and invoke all hooks of the overridden close().  */
@@ -91,13 +96,13 @@ rpl_fclose (FILE *fp)
   /* Note about multithread-safety: There is a race condition here as well.
      Some other thread could open fd between our calls to fclose and
      _gl_unregister_fd.  */
-  result = fclose_nothrow (fp);
+  result = fclose_nothrow(fp);
   if (result == 0)
-    _gl_unregister_fd (fd);
+    _gl_unregister_fd(fd);
 # else
-  /* No race condition here.  */
-  result = fclose_nothrow (fp);
-# endif
+  /* No race condition here: */
+  result = fclose_nothrow(fp);
+# endif /* REPLACE_FCHDIR || not */
 
 #endif /* !WINDOWS_SOCKETS */
 
@@ -109,3 +114,5 @@ rpl_fclose (FILE *fp)
 
   return result;
 }
+
+/* EOF */

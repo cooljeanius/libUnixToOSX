@@ -1,4 +1,4 @@
-/* Default definition for ARGP_PROGRAM_BUG_ADDRESS.
+/* argp-ba.c: Default definition for ARGP_PROGRAM_BUG_ADDRESS.
    Copyright (C) 1996, 1997, 1999, 2004 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
    Written by Miles Bader <miles@gnu.ai.mit.edu>.
@@ -15,12 +15,17 @@
 
    You should have received a copy of the GNU Library General Public
    License along with the GNU C Library; see the file COPYING.LIB.  If not,
-   write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+   write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330,
    Boston, MA 02111-1307, USA.  */
 
 /* If set by the user program, it should point to string that is the
-   bug-reporting address for the program.  It will be printed by argp_help if
-   the ARGP_HELP_BUG_ADDR flag is set (as it is by various standard help
-   messages), embedded in a sentence that says something like `Report bugs to
-   ADDR.'.  */
+ * bug-reporting address for the program.  It will be printed by argp_help
+ * if the ARGP_HELP_BUG_ADDR flag is set (as it is by various standard help
+ * messages), embedded in a sentence that says something like `Report bugs
+ * to ADDR.': */
+#if defined(__clang__) && !defined(_ARGP_H)
+extern const char *argp_program_bug_address;
+#endif /* __clang__ */
 const char *argp_program_bug_address = 0;
+
+/* EOF */

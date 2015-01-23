@@ -13,7 +13,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #include <config.h>
 
@@ -25,7 +25,7 @@
 
 /* A hash function for NUL-terminated char* strings using
  * the method described by Bruno Haible.
- * See http://www.haible.de/bruno/hashfunc.html.
+ * See <http://www.haible.de/bruno/hashfunc.html>.
  */
 size_t hash_pjw(const void *x, size_t tablesize)
 {

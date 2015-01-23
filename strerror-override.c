@@ -13,7 +13,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* Written by Bruno Haible <bruno@clisp.org>, 2010.  */
 
@@ -23,8 +23,9 @@
 
 #include <errno.h>
 
-#if GNULIB_defined_EWINSOCK /* native Windows platforms */
-# if HAVE_WINSOCK2_H
+#if defined(GNULIB_defined_EWINSOCK) && GNULIB_defined_EWINSOCK
+/* native Windows platforms: */
+# if defined(HAVE_WINSOCK2_H) && HAVE_WINSOCK2_H
 #  include <winsock2.h>
 # endif /* HAVE_WINSOCK2_H */
 #endif /* GNULIB_defined_EWINSOCK */
@@ -42,7 +43,8 @@ strerror_override (int errnum)
       return "Success";
 #endif /* REPLACE_STRERROR_0 */
 
-#if GNULIB_defined_ESOCK /* native Windows platforms with older <errno.h> */
+#if defined(GNULIB_defined_ESOCK) && GNULIB_defined_ESOCK
+    /* native Windows platforms with older <errno.h> */
     case EINPROGRESS:
       return "Operation now in progress";
     case EALREADY:
@@ -90,7 +92,8 @@ strerror_override (int errnum)
     case EWOULDBLOCK:
       return "Operation would block";
 #endif /* GNULIB_defined_ESOCK */
-#if GNULIB_defined_ESTREAMS /* native Windows platforms with older <errno.h> */
+#if defined(GNULIB_defined_ESTREAMS) && GNULIB_defined_ESTREAMS
+    /* native Windows platforms with older <errno.h> */
     case ETXTBSY:
       return "Text file busy";
     case ENODATA:
@@ -104,7 +107,8 @@ strerror_override (int errnum)
     case EOTHER:
       return "Other error";
 #endif /* GNULIB_defined_ESTREAMS */
-#if GNULIB_defined_EWINSOCK /* native Windows platforms */
+#if defined(GNULIB_defined_EWINSOCK) && GNULIB_defined_EWINSOCK
+    /* native Windows platforms */
     case ESOCKTNOSUPPORT:
       return "Socket type not supported";
     case EPFNOSUPPORT:
@@ -216,67 +220,67 @@ strerror_override (int errnum)
 # endif /* HAVE_WINSOCK2_H */
 #endif /* GNULIB_defined_EWINSOCK */
 
-#if GNULIB_defined_ENOMSG
+#if defined(GNULIB_defined_ENOMSG) && GNULIB_defined_ENOMSG
     case ENOMSG:
       return "No message of desired type";
 #endif /* GNULIB_defined_ENOMSG */
 
-#if GNULIB_defined_EIDRM
+#if defined(GNULIB_defined_EIDRM) && GNULIB_defined_EIDRM
     case EIDRM:
       return "Identifier removed";
 #endif /* GNULIB_defined_EIDRM */
 
-#if GNULIB_defined_ENOLINK
+#if defined(GNULIB_defined_ENOLINK) && GNULIB_defined_ENOLINK
     case ENOLINK:
       return "Link has been severed";
-#endif
+#endif /* GNULIB_defined_ENOLINK */
 
-#if GNULIB_defined_EPROTO
+#if defined(GNULIB_defined_EPROTO) && GNULIB_defined_EPROTO
     case EPROTO:
       return "Protocol error";
 #endif /* GNULIB_defined_EPROTO */
 
-#if GNULIB_defined_EMULTIHOP
+#if defined(GNULIB_defined_EMULTIHOP) && GNULIB_defined_EMULTIHOP
     case EMULTIHOP:
       return "Multihop attempted";
 #endif /* GNULIB_defined_EPROTO */
 
-#if GNULIB_defined_EBADMSG
+#if defined(GNULIB_defined_EBADMSG) && GNULIB_defined_EBADMSG
     case EBADMSG:
       return "Bad message";
 #endif /* GNULIB_defined_EBADMSG */
 
-#if GNULIB_defined_EOVERFLOW
+#if defined(GNULIB_defined_EOVERFLOW) && GNULIB_defined_EOVERFLOW
     case EOVERFLOW:
       return "Value too large for defined data type";
 #endif /* GNULIB_defined_EOVERFLOW */
 
-#if GNULIB_defined_ENOTSUP
+#if defined(GNULIB_defined_ENOTSUP) && GNULIB_defined_ENOTSUP
     case ENOTSUP:
       return "Not supported";
 #endif /* GNULIB_defined_ENOTSUP */
 
-#if GNULIB_defined_ENETRESET
+#if defined(GNULIB_defined_ENETRESET) && GNULIB_defined_ENETRESET
     case ENETRESET:
       return "Network dropped connection on reset";
 #endif /* GNULIB_defined_ENETRESET */
 
-#if GNULIB_defined_ECONNABORTED
+#if defined(GNULIB_defined_ECONNABORTED) && GNULIB_defined_ECONNABORTED
     case ECONNABORTED:
       return "Software caused connection abort";
 #endif /* GNULIB_defined_ECONNABORTED */
 
-#if GNULIB_defined_ESTALE
+#if defined(GNULIB_defined_ESTALE) && GNULIB_defined_ESTALE
     case ESTALE:
       return "Stale NFS file handle";
 #endif /* GNULIB_defined_ESTALE */
 
-#if GNULIB_defined_EDQUOT
+#if defined(GNULIB_defined_EDQUOT) && GNULIB_defined_EDQUOT
     case EDQUOT:
       return "Disk quota exceeded";
 #endif /* GNULIB_defined_EDQUOT */
 
-#if GNULIB_defined_ECANCELED
+#if defined(GNULIB_defined_ECANCELED) && GNULIB_defined_ECANCELED
     case ECANCELED:
       return "Operation canceled";
 #endif /* GNULIB_defined_ECANCELED */

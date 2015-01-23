@@ -23,9 +23,9 @@ AC_CONFIG_HEADERS([config.h])dnl
 # errno.h to declare program_invocation_name. Enable it on all
 # systems; no problems have been reported with it so far.
 m4_ifdef([gl_USE_SYSTEM_EXTENSIONS],[
-gl_USE_SYSTEM_EXTENSIONS
+  gl_USE_SYSTEM_EXTENSIONS
 ],[
-AC_USE_SYSTEM_EXTENSIONS
+  AC_USE_SYSTEM_EXTENSIONS
 ])dnl
 	
 # Checks for programs.
@@ -53,7 +53,7 @@ AX_CREATE_STDINT_H([argp-stdint.h],[])dnl
 AC_CHECK_HEADERS([assert.h errno.h libintl.h libio/libioP.h \
                   limits.h linewrap.h malloc.h malloc/malloc.h \
                   stddef.h time.h varargs.h])dnl
-# ctype.h and stdarg.h are checked elsewhere
+  ## (<ctype.h> and <stdarg.h> are checked elsewhere)
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -78,16 +78,16 @@ if test "x${ac_cv_func_strnlen_working}" = "xno"; then
 fi
 AC_FUNC_VPRINTF
 m4_ifdef([LSH_FUNC_STRERROR],[
-LSH_FUNC_STRERROR
+  LSH_FUNC_STRERROR
 ],[
-AC_FUNC_STRERROR_R
-AC_CHECK_FUNCS([strerror])dnl
-m4_ifdef([gl_FUNC_STRERROR_R],[
-  gl_FUNC_STRERROR_R
-  if test ${HAVE_DECL_STRERROR_R} = 0; then
-    gl_PREREQ_STRERROR_R
-  fi
-])dnl
+  AC_FUNC_STRERROR_R
+  AC_CHECK_FUNCS([strerror])dnl
+  m4_ifdef([gl_FUNC_STRERROR_R],[
+    gl_FUNC_STRERROR_R
+    if test ${HAVE_DECL_STRERROR_R} = 0; then
+      gl_PREREQ_STRERROR_R
+    fi
+  ])dnl
 ])dnl
 m4_ifdef([gl_FUNC_STRSIGNAL],[
   gl_FUNC_STRSIGNAL
@@ -98,7 +98,7 @@ m4_ifdef([gl_FUNC_STRSIGNAL],[
 
 AC_REPLACE_FUNCS([mempcpy rawmemchr strndup strchrnul])dnl
 # keep autoscan happy:
-if test "x" = "y"; then
+if test "x" = "Y0"; then
   test -x `which autoscan`
   AC_CHECK_FUNCS([mempcpy strndup])
 fi
@@ -159,5 +159,6 @@ fi
 
 CPPFLAGS="${CPPFLAGS} -I${srcdir}"
 
+# Output.
 AC_CONFIG_FILES([Makefile testsuite/Makefile])dnl
 AC_OUTPUT

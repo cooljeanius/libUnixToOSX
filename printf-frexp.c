@@ -20,7 +20,7 @@
 # include <config.h>
 #endif /* !USE_LONG_DOUBLE */
 
-/* Specification.  */
+/* Specification: */
 #ifdef USE_LONG_DOUBLE
 # include "printf-frexpl.h"
 #else

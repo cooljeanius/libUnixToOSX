@@ -1,4 +1,4 @@
-/* Supplemental information about the floating-point formats.
+/* float+.h: Supplemental information about the floating-point formats.
    Copyright (C) 2007, 2009-2012 Free Software Foundation, Inc.
    Written by Bruno Haible <bruno@clisp.org>, 2007.
 
@@ -22,28 +22,28 @@
 #include <limits.h>
 
 /* Number of bits in the mantissa of a floating-point number, including the
-   "hidden bit".  */
-#if FLT_RADIX == 2
+ * "hidden bit": */
+#if (FLT_RADIX == 2)
 # define FLT_MANT_BIT FLT_MANT_DIG
 # define DBL_MANT_BIT DBL_MANT_DIG
 # define LDBL_MANT_BIT LDBL_MANT_DIG
-#elif FLT_RADIX == 4
+#elif (FLT_RADIX == 4)
 # define FLT_MANT_BIT (FLT_MANT_DIG * 2)
 # define DBL_MANT_BIT (DBL_MANT_DIG * 2)
 # define LDBL_MANT_BIT (LDBL_MANT_DIG * 2)
-#elif FLT_RADIX == 16
+#elif (FLT_RADIX == 16)
 # define FLT_MANT_BIT (FLT_MANT_DIG * 4)
 # define DBL_MANT_BIT (DBL_MANT_DIG * 4)
 # define LDBL_MANT_BIT (LDBL_MANT_DIG * 4)
-#endif
+#endif /* FLT_RADIX == [2|4|16] */
 
-/* Bit mask that can be used to mask the exponent, as an unsigned number.  */
+/* Bit mask that can be used to mask the exponent, as an unsigned number: */
 #define FLT_EXP_MASK ((FLT_MAX_EXP - FLT_MIN_EXP) | 7)
 #define DBL_EXP_MASK ((DBL_MAX_EXP - DBL_MIN_EXP) | 7)
 #define LDBL_EXP_MASK ((LDBL_MAX_EXP - LDBL_MIN_EXP) | 7)
 
-/* Number of bits used for the exponent of a floating-point number, including
-   the exponent's sign.  */
+/* Number of bits used for the exponent of a floating-point number,
+ * including the exponent's sign: */
 #define FLT_EXP_BIT \
   (FLT_EXP_MASK < 0x100 ? 8 : \
    FLT_EXP_MASK < 0x200 ? 9 : \
@@ -126,22 +126,24 @@
 /* Number of bits used for a floating-point number: the mantissa (not
    counting the "hidden bit", since it may or may not be explicit), the
    exponent, and the sign.  */
-#define FLT_TOTAL_BIT ((FLT_MANT_BIT - 1) + FLT_EXP_BIT + 1)
-#define DBL_TOTAL_BIT ((DBL_MANT_BIT - 1) + DBL_EXP_BIT + 1)
-#define LDBL_TOTAL_BIT ((LDBL_MANT_BIT - 1) + LDBL_EXP_BIT + 1)
+#define FLT_TOTAL_BIT ((FLT_MANT_BIT - 1UL) + FLT_EXP_BIT + 1UL)
+#define DBL_TOTAL_BIT ((DBL_MANT_BIT - 1UL) + DBL_EXP_BIT + 1UL)
+#define LDBL_TOTAL_BIT ((LDBL_MANT_BIT - 1UL) + LDBL_EXP_BIT + 1UL)
 
 /* Number of bytes used for a floating-point number.
    This can be smaller than the 'sizeof'.  For example, on i386 systems,
    'long double' most often have LDBL_MANT_BIT = 64, LDBL_EXP_BIT = 16, hence
    LDBL_TOTAL_BIT = 80 bits, i.e. 10 bytes of consecutive memory, but
    sizeof (long double) = 12 or = 16.  */
-#define SIZEOF_FLT ((FLT_TOTAL_BIT + CHAR_BIT - 1) / CHAR_BIT)
-#define SIZEOF_DBL ((DBL_TOTAL_BIT + CHAR_BIT - 1) / CHAR_BIT)
-#define SIZEOF_LDBL ((LDBL_TOTAL_BIT + CHAR_BIT - 1) / CHAR_BIT)
+#define SIZEOF_FLT ((FLT_TOTAL_BIT + CHAR_BIT - 1UL) / CHAR_BIT)
+#define SIZEOF_DBL ((DBL_TOTAL_BIT + CHAR_BIT - 1UL) / CHAR_BIT)
+#define SIZEOF_LDBL ((LDBL_TOTAL_BIT + CHAR_BIT - 1UL) / CHAR_BIT)
 
 /* Verify that SIZEOF_FLT <= sizeof (float) etc.  */
-typedef int verify_sizeof_flt[SIZEOF_FLT <= sizeof (float) ? 1 : -1];
-typedef int verify_sizeof_dbl[SIZEOF_DBL <= sizeof (double) ? 1 : - 1];
-typedef int verify_sizeof_ldbl[SIZEOF_LDBL <= sizeof (long double) ? 1 : - 1];
+typedef int verify_sizeof_flt[SIZEOF_FLT <= sizeof(float) ? 1 : -1];
+typedef int verify_sizeof_dbl[SIZEOF_DBL <= sizeof(double) ? 1 : - 1];
+typedef int verify_sizeof_ldbl[SIZEOF_LDBL <= sizeof(long double) ? 1 : - 1];
 
 #endif /* _FLOATPLUS_H */
+
+/* EOF */

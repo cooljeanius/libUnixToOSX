@@ -13,7 +13,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #ifndef _GL_STRERROR_OVERRIDE_H
 # define _GL_STRERROR_OVERRIDE_H
@@ -50,6 +50,8 @@
 extern const char *strerror_override (int errnum);
 # else
 #  define strerror_override(ignored) NULL
-# endif
+# endif /* REPLACE_STRERROR_0 || (a lot of other things) */
 
 #endif /* _GL_STRERROR_OVERRIDE_H */
+
+/* EOF */

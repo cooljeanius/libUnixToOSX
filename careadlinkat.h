@@ -13,7 +13,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* Written by Paul Eggert, Bruno Haible, and Jim Meyering.  */
 
@@ -46,11 +46,11 @@ struct allocator;
    If successful, return the buffer address; otherwise return NULL and
    set errno.  */
 
-char *careadlinkat (int fd, char const *filename,
-                    char *buffer, size_t buffer_size,
-                    struct allocator const *alloc,
-                    ssize_t (*preadlinkat) (int, char const *,
-                                            char *, size_t));
+char *careadlinkat(int fd, char const *filename,
+                   char *buffer, size_t buffer_size,
+                   struct allocator const *alloc,
+                   ssize_t (*preadlinkat)(int, char const *,
+                                          char *, size_t));
 
 /* Suitable values for careadlinkat's FD and PREADLINKAT arguments,
    when doing a plain readlink:
@@ -64,9 +64,11 @@ char *careadlinkat (int fd, char const *filename,
    as fcntl-h.  */
 # ifndef AT_FDCWD
 #  define AT_FDCWD (-3041965)
-# endif
-#endif
-ssize_t careadlinkatcwd (int fd, char const *filename,
-                         char *buffer, size_t buffer_size);
+# endif /* !AT_FDCWD */
+#endif /* HAVE_READLINKAT */
+ssize_t careadlinkatcwd(int fd, char const *filename,
+                        char *buffer, size_t buffer_size);
 
 #endif /* _GL_CAREADLINKAT_H */
+
+/* EOF */

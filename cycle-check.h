@@ -1,4 +1,4 @@
-/* help detect directory cycles efficiently
+/* cycle-check.h: help detect directory cycles efficiently
 
    Copyright (C) 2003-2004, 2006, 2009-2012 Free Software Foundation, Inc.
 
@@ -13,7 +13,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* Written by Jim Meyering */
 
@@ -30,24 +30,23 @@ struct cycle_check_state
   struct dev_ino dev_ino;
   uintmax_t chdir_counter;
   int magic;
+  int padding; /* should be 4 bytes */
 };
 
-void cycle_check_init (struct cycle_check_state *state);
-bool cycle_check (struct cycle_check_state *state, struct stat const *sb);
+void cycle_check_init(struct cycle_check_state *state);
+bool cycle_check(struct cycle_check_state *state, struct stat const *sb);
 
 # define CYCLE_CHECK_REFLECT_CHDIR_UP(State, SB_dir, SB_subdir) \
-  do                                                            \
-    {                                                           \
-      /* You must call cycle_check at least once before using this macro.  */ \
-      if ((State)->chdir_counter == 0)                          \
-        abort ();                                               \
-      if (SAME_INODE ((State)->dev_ino, SB_subdir))             \
-        {                                                       \
-          (State)->dev_ino.st_dev = (SB_dir).st_dev;            \
-          (State)->dev_ino.st_ino = (SB_dir).st_ino;            \
-        }                                                       \
-    }                                                           \
-  while (0)
+  do {                                                           \
+    /* You must use cycle_check at least once before using this macro: */ \
+    if ((State)->chdir_counter == 0)                          \
+      abort();                                                \
+    if (SAME_INODE((State)->dev_ino, SB_subdir))              \
+      {                                                       \
+        (State)->dev_ino.st_dev = (SB_dir).st_dev;            \
+        (State)->dev_ino.st_ino = (SB_dir).st_ino;            \
+      }                                                       \
+  } while (0)
 
 #endif /* !CYCLE_CHECK_H */
 

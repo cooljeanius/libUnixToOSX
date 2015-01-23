@@ -24,16 +24,19 @@
 
 enum canonicalize_mode_t
   {
-    /* All components must exist.  */
+    /* All components must exist: */
     CAN_EXISTING = 0,
 
-    /* All components excluding last one must exist.  */
+    /* All components excluding last one must exist: */
     CAN_ALL_BUT_LAST = 1,
 
-    /* No requirements on components existence.  */
+    /* No requirements on components existence: */
     CAN_MISSING = 2,
 
-    /* Do NOT expand symlinks.  */
+    /* Corresponds to the above define: */
+    CAN_MODE_MASK_ENUMERATOR_VALUE = 3,
+
+    /* Do NOT expand symlinks: */
     CAN_NOLINKS = 4
   };
 typedef enum canonicalize_mode_t canonicalize_mode_t;

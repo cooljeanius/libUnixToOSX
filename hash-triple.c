@@ -12,7 +12,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* written by Jim Meyering */
 
@@ -27,7 +27,7 @@
 #include "same.h"
 #include "same-inode.h"
 
-#define STREQ(a, b) (strcmp (a, b) == 0)
+#define STREQ(a, b) (strcmp(a, b) == 0)
 
 /* Hash an F_triple, and *do* consider the file name: */
 size_t triple_hash(void const *x, size_t table_size)

@@ -23,8 +23,7 @@
 
 #include <stddef.h>
 
-/* An object describing a memory allocator family. */
-
+/* An object describing a memory allocator family: */
 struct allocator
 {
   /* Do not use GCC attributes such as __attribute__ ((malloc)) with
@@ -35,7 +34,7 @@ struct allocator
   /* Call ALLOCATE to allocate memory, like 'malloc'. On failure ALLOCATE should
    * return NULL, though not necessarily set errno. When given a 0 size it may
    * return NULL even if successful. */
-  void *(*allocate) (size_t);
+  void *(*allocate)(size_t);
 
   /* If nonnull, call REALLOCATE to reallocate memory, like 'realloc'.
    * On failure REALLOCATE should return NULL, though not necessarily set errno.

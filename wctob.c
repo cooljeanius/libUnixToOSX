@@ -1,4 +1,4 @@
-/* Convert wide character to unibyte character.
+/* wctob.c: Convert wide character to unibyte character.
    Copyright (C) 2008, 2010-2012 Free Software Foundation, Inc.
    Written by Bruno Haible <bruno@clisp.org>, 2008.
 
@@ -13,27 +13,29 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include <wchar.h>
 
 #include <stdio.h>
 #include <stdlib.h>
 
 int
-wctob (wint_t wc)
+wctob(wint_t wc)
 {
   char buf[64];
 
   if (!(MB_CUR_MAX <= (int)sizeof(buf))) {
     abort();
   }
-  /* Handle the case where WEOF is a value that does not fit in a wchar_t.  */
+  /* Handle the case where WEOF is a value that does not fit in a wchar_t: */
   if (wc == (wchar_t)wc)
-    if (wctomb (buf, (wchar_t)wc) == 1)
-      return (unsigned char) buf[0];
+    if (wctomb(buf, (wchar_t)wc) == 1)
+      return (unsigned char)buf[0];
   return EOF;
 }
+
+/* EOF */

@@ -21,7 +21,7 @@
 #endif /* !_GL_USE_STDLIB_ALLOC */
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include "malloca.h"
 
 #include <stdint.h>
@@ -34,6 +34,13 @@
  * are only invoked for big memory sizes. */
 
 #if HAVE_ALLOCA
+
+/* we use verify here, which invariably triggers this: */
+# if defined(__GNUC__) && defined(__GNUC_MINOR__)
+#  if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
+#   pragma GCC diagnostic ignored "-Wnested-externs"
+#  endif /* GCC 4.1+ */
+# endif /* gcc */
 
 /* Store the mmalloca() results in a hash table. This is needed to reliably
  * distinguish a mmalloca() result and an alloca() result.
@@ -50,12 +57,13 @@
  */
 
 # define MAGIC_NUMBER 0x1415fb4a
-# define MAGIC_SIZE sizeof (int)
+# define MAGIC_SIZE sizeof(int)
 /* This is how the header info would look like without any alignment
  * considerations. */
 struct preliminary_header {
 	void *next;
 	char room[MAGIC_SIZE];
+    int padding; /* '-Wpadded' says these 4 bytes get added anyways */
 };
 /* But the header's size must be a multiple of sa_alignment_max. */
 # define HEADER_SIZE \
@@ -63,6 +71,7 @@ struct preliminary_header {
 struct header {
 	void *next;
 	char room[(HEADER_SIZE - sizeof(struct preliminary_header) + MAGIC_SIZE)];
+    int padding; /* '-Wpadded' says these 4 bytes get added anyways */
 };
 verify(HEADER_SIZE == sizeof(struct header));
 /* We make the hash table quite big, so that during lookups the probability

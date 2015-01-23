@@ -1,4 +1,4 @@
-# errno_h.m4 serial 12
+# errno_h.m4 serial 13
 dnl# Copyright (C) 2004, 2006, 2008-2012 Free Software Foundation, Inc.
 dnl# This file is free software; the Free Software Foundation
 dnl# gives unlimited permission to copy and/or distribute it,
@@ -71,9 +71,24 @@ booboo
   fi
   AC_SUBST([ERRNO_H])dnl
   AM_CONDITIONAL([GL_GENERATE_ERRNO_H],[test -n "${ERRNO_H}"])dnl
+  dnl# now that we are adding more of these, let us alphabetize them for
+  dnl# easier reference:
+  gl_REPLACE_ERRNO_VALUE([EBADMSG])dnl
+  gl_REPLACE_ERRNO_VALUE([ECANCELED])dnl
+  gl_REPLACE_ERRNO_VALUE([ECONNABORTED])dnl
+  gl_REPLACE_ERRNO_VALUE([EDQUOT])dnl
+  gl_REPLACE_ERRNO_VALUE([EIDRM])dnl
   gl_REPLACE_ERRNO_VALUE([EMULTIHOP])dnl
+  gl_REPLACE_ERRNO_VALUE([ENETRESET])dnl
   gl_REPLACE_ERRNO_VALUE([ENOLINK])dnl
+  gl_REPLACE_ERRNO_VALUE([ENOMSG])dnl
+  gl_REPLACE_ERRNO_VALUE([ENOTSUP])dnl
   gl_REPLACE_ERRNO_VALUE([EOVERFLOW])dnl
+  gl_REPLACE_ERRNO_VALUE([EPROTO])dnl
+  gl_REPLACE_ERRNO_VALUE([ESOCK])dnl
+  gl_REPLACE_ERRNO_VALUE([ESTALE])dnl
+  gl_REPLACE_ERRNO_VALUE([ESTREAMS])dnl
+  gl_REPLACE_ERRNO_VALUE([EWINSOCK])dnl
 ])dnl
 
 # Assuming $1 = EOVERFLOW.

@@ -16,9 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef _GNU_SOURCE
+# define _GNU_SOURCE 1
+#endif /* !_GNU_SOURCE */
+
 #include <config.h>
 
-/* Specification. */
+/* Specification: */
 #include "xstrndup.h"
 
 #include <string.h>
@@ -30,8 +34,9 @@
 #include "xalloc.h"
 
 /* not sure if this "&&" should be an "||" instead: */
-#if !defined(HAVE_STRNDUP) && !defined(strndup)
-/* only try to get strndup from elsewhere if darwin does not already provide it: */
+#if !defined(HAVE_STRNDUP) && !defined(strndup) && !defined(__STRING_H)
+/* only try to get strndup from elsewhere if darwin does not already
+ * provide it: */
 # if defined(__APPLE__) && (!defined(__DARWIN_C_LEVEL) || (defined(__DARWIN_C_LEVEL) && (__DARWIN_C_LEVEL < 200809L)))
 #  if defined(HAVE_PUBLIB_H) && defined(HAVE_PUBLIB_STRUTIL_H)
 #   include <publib.h>
@@ -49,7 +54,7 @@
 #   endif /* HAVE_PUBLIB_STRUTIL_H */
 #  endif /* HAVE_PUBLIB_H && HAVE_PUBLIB_STRUTIL_H */
 # endif /* Apple pre-POSIX.1-2008 */
-#endif /* !HAVE_STRNDUP && !strndup */
+#endif /* !HAVE_STRNDUP && !strndup && !__STRING_H */
 
 /* Return a newly allocated copy of at most N bytes of STRING.
  * In other words, return a copy of the initial segment of length N of

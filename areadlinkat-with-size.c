@@ -14,7 +14,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* Written by Jim Meyering <jim@meyering.net>
    and Eric Blake <ebb9@byu.net>.  */
@@ -32,17 +32,17 @@
 #if defined(HAVE_READLINKAT) && HAVE_READLINKAT
 
 # ifndef SSIZE_MAX
-#  define SSIZE_MAX ((ssize_t) (SIZE_MAX / 2))
-# endif
+#  define SSIZE_MAX ((ssize_t)(SIZE_MAX / 2))
+# endif /* !SSIZE_MAX */
 
 /* SYMLINK_MAX is used only for an initial memory-allocation sanity
-   check, so it's OK to guess too small on hosts where there is no
+   check, so it is OK to guess too small on hosts where there is no
    arbitrary limit to symbolic link length.  */
 # ifndef SYMLINK_MAX
 #  define SYMLINK_MAX 1024
-# endif
+# endif /* !SYMLINK_MAX */
 
-# define MAXSIZE (SIZE_MAX < SSIZE_MAX ? SIZE_MAX : SSIZE_MAX)
+# define MAXSIZE ((SIZE_MAX < SSIZE_MAX) ? SIZE_MAX : SSIZE_MAX)
 
 /* Call readlinkat to get the symbolic link value of FILE, relative to FD.
    SIZE is a hint as to how long the link is expected to be;
@@ -54,34 +54,35 @@
    a diagnostic and exit.  */
 
 char *
-areadlinkat_with_size (int fd, char const *file, size_t size)
+areadlinkat_with_size(int fd, char const *file, size_t size)
 {
   /* Some buggy file systems report garbage in st_size.  Defend
      against them by ignoring outlandish st_size values in the initial
      memory allocation.  */
   size_t symlink_max = SYMLINK_MAX;
-  size_t INITIAL_LIMIT_BOUND = 8 * 1024;
-  size_t initial_limit = (symlink_max < INITIAL_LIMIT_BOUND
-                          ? symlink_max + 1
+  size_t INITIAL_LIMIT_BOUND = (8UL * 1024UL); /* (8 * 1024) = 8192 */
+  size_t initial_limit = ((symlink_max < INITIAL_LIMIT_BOUND)
+                          ? (symlink_max + 1UL)
                           : INITIAL_LIMIT_BOUND);
 
-  /* The initial buffer size for the link value.  */
-  size_t buf_size = size < initial_limit ? size + 1 : initial_limit;
+  /* The initial buffer size for the link value: */
+  size_t buf_size;
+  buf_size = ((size < initial_limit) ? (size + 1UL) : initial_limit);
 
   while (1)
     {
       ssize_t r;
       size_t link_length;
-      char *buffer = malloc (buf_size);
+      char *buffer = (char *)malloc(buf_size);
 
       if (buffer == NULL)
         return NULL;
-      r = readlinkat (fd, file, buffer, buf_size);
+      r = readlinkat(fd, file, buffer, buf_size);
       link_length = r;
 
       /* On AIX 5L v5.3 and HP-UX 11i v2 04/09, readlink returns -1
          with errno == ERANGE if the buffer is too small.  */
-      if (r < 0 && errno != ERANGE)
+      if ((r < 0) && (errno != ERANGE))
         {
           int saved_errno = errno;
           free (buffer);
@@ -130,3 +131,5 @@ areadlinkat_with_size (int fd, char const *file, size_t size)
 # undef AT_FUNC_FAIL
 
 #endif /* !HAVE_READLINKAT */
+
+/* EOF */

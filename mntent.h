@@ -47,6 +47,11 @@ typedef struct mntent
     int mnt_passno;
 } mntent_t;
 
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
+#   pragma GCC diagnostic ignored "-Wredundant-decls"
+# endif /* GCC 4.1+ */
+#endif /* gcc */
 
 #if defined(__BEGIN_DECLS) && defined(__END_DECLS)
 __BEGIN_DECLS

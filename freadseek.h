@@ -1,4 +1,4 @@
-/* Skipping input from a FILE stream.
+/* freadseek.h: Skipping input from a FILE stream.
    Copyright (C) 2007-2012 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -12,14 +12,14 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #include <stddef.h>
 #include <stdio.h>
 
 #ifdef __cplusplus
 extern "C" {
-#endif
+#endif /* __cplusplus */
 
 /* Assuming the stream STREAM is open for reading:
 
@@ -35,8 +35,10 @@ extern "C" {
 
    STREAM must not be wide-character oriented.  */
 
-extern int freadseek (FILE *stream, size_t offset);
+extern int freadseek(FILE *stream, size_t offset);
 
 #ifdef __cplusplus
 }
-#endif
+#endif /* __cplusplus */
+
+/* EOF */

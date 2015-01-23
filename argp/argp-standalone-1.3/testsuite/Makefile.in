@@ -545,6 +545,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+AUTOMAKE_OPTIONS = 1.8 foreign no-dependencies subdir-objects
 TS_SH = ex1-test permute-test
 TS_PROGS = 
 MY_TS_SH_HERE = ./ex1-test ./permute-test
@@ -1068,6 +1069,11 @@ $(MY_TS_SH_HERE):
 
 ../libargp.a: ../Makefile
 	if test -e ../Makefile; then $(MAKE) -C .. libargp.a; fi
+
+###########################################################################
+ex1.o: ex1.c
+ex3.o: ex3.c
+ex4.o: ex4.c
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

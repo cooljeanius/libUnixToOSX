@@ -1,4 +1,4 @@
-/* Read a symlink relative to an open directory.
+/* readlinkat.c: Read a symlink relative to an open directory.
    Copyright (C) 2009-2012 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -12,7 +12,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* written by Eric Blake */
 
@@ -45,3 +45,5 @@
 #undef AT_FUNC_POST_FILE_PARAM_DECLS
 #undef AT_FUNC_POST_FILE_ARGS
 #undef AT_FUNC_RESULT
+
+/* End of readlinkat.c */

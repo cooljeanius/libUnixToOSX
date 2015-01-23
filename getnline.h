@@ -13,7 +13,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #ifndef GETNLINE_H
 #define GETNLINE_H 1
@@ -21,7 +21,9 @@
 #include <stdio.h>
 #include <sys/types.h>
 
-#define GETNLINE_NO_LIMIT ((size_t) -1)
+#ifndef GETNLINE_NO_LIMIT
+# define GETNLINE_NO_LIMIT ((size_t)-1L)
+#endif /* !GETNLINE_NO_LIMIT */
 
 /* Read a line, up to the next newline, from STREAM, and store it in *LINEPTR.
    *LINEPTR is a pointer returned from malloc (or NULL), pointing to *LINESIZE
@@ -30,8 +32,8 @@
    thrown away.
    Return the number of bytes read and stored at *LINEPTR (not including the
    NUL terminator), or -1 on error or EOF.  */
-extern ssize_t getnline (char **lineptr, size_t *linesize, size_t nmax,
-                         FILE *stream);
+extern ssize_t getnline(char **lineptr, size_t *linesize, size_t nmax,
+                        FILE *stream);
 
 /* Read a line, up to the next occurrence of DELIMITER, from STREAM, and store
    it in *LINEPTR.
@@ -41,7 +43,7 @@ extern ssize_t getnline (char **lineptr, size_t *linesize, size_t nmax,
    thrown away.
    Return the number of bytes read and stored at *LINEPTR (not including the
    NUL terminator), or -1 on error or EOF.  */
-extern ssize_t getndelim (char **lineptr, size_t *linesize, size_t nmax,
-                          int delimiter, FILE *stream);
+extern ssize_t getndelim(char **lineptr, size_t *linesize, size_t nmax,
+                         int delimiter, FILE *stream);
 
 #endif /* GETNLINE_H */

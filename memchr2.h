@@ -1,4 +1,4 @@
-/* Scan memory for the first of two bytes.
+/* memchr2.h: Scan memory for the first of two bytes.
    Copyright (C) 2008-2012 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -12,21 +12,23 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #include <stddef.h>
 
 #ifdef __cplusplus
 extern "C" {
-#endif
+#endif /* __cplusplus */
 
 /* Return the first address of either C1 or C2 (treated as unsigned
    char) that occurs within N bytes of the memory region S.  If
    neither byte appears, return NULL.  */
 
-extern void *memchr2 (void const *s, int c1, int c2, size_t n)
+extern void *memchr2(void const *s, int c1, int c2, size_t n)
   _GL_ATTRIBUTE_PURE;
 
 #ifdef __cplusplus
 }
-#endif
+#endif /* __cplusplus */
+
+/* EOF */

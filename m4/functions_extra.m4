@@ -10,7 +10,7 @@ AC_DEFUN([AC_CHECK_FUNCS_IF_NOT_CACHED],[
     fi
     unset cache_value_to_check
   done
-])
+])dnl
 
 dnl# keep all umbrella macros in alphabetical order, please.
 
@@ -230,6 +230,20 @@ AC_DEFUN([gl_FREAD_UMBRELLA],[
   fi
   AC_REQUIRE([gl_FUNC_FREADSEEK])dnl
   AC_REQUIRE([AC_FUNC_FSEEKO])dnl
+])dnl
+
+dnl# checks related to ftruncate():
+AC_DEFUN([gl_FTRUNCATE_UMBRELLA],[
+  AC_REQUIRE([gl_FUNC_FTRUNCATE])dnl
+  ## if failed:
+  if test ${HAVE_FTRUNCATE} = 0 || test ${REPLACE_FTRUNCATE} = 1; then
+    AC_LIBOBJ([ftruncate])dnl
+    gl_PREREQ_FTRUNCATE dnl# for ftruncate.c
+    ## ok
+  fi
+  m4_ifdef([gl_UNISTD_MODULE_INDICATOR],[
+    gl_UNISTD_MODULE_INDICATOR([ftruncate])dnl
+  ])dnl
 ])dnl
 
 dnl# checks related to getdelim():
@@ -481,6 +495,26 @@ AC_DEFUN([gl_POLL_UMBRELLA],[
   AC_REQUIRE([AC_FUNC_SELECT_ARGTYPES])dnl
 ])dnl
 
+dnl# checks related to the posix_fallocate() family of functions:
+AC_DEFUN([gl_POSIX_FALLOCATE_UMBRELLA],[
+  AC_REQUIRE([gl_FUNC_FALLOCATE])dnl
+  AC_REQUIRE([gl_FUNC_POSIX_FALLOCATE])dnl
+  AC_REQUIRE([gl_FUNC_POSIX_FALLOCATE64])dnl
+])dnl
+
+dnl# checks related to pread():
+AC_DEFUN([gl_PREAD_UMBRELLA],[
+  AC_REQUIRE([gl_FUNC_PREAD])dnl
+  ## if failed:
+  if test ${HAVE_PREAD} = 0 || test ${REPLACE_PREAD} = 1; then
+    AC_LIBOBJ([pread])dnl
+    ## ok
+  fi
+  m4_ifdef([gl_UNISTD_MODULE_INDICATOR],[
+    gl_UNISTD_MODULE_INDICATOR([pread])dnl
+  ])dnl
+])dnl
+
 dnl# checks for the printf() family of functions:
 AC_DEFUN([gl_PRINTF_FAMILY_UMBRELLA],[
   AC_REQUIRE([gl_FUNC_OBSTACK_PRINTF])dnl
@@ -490,6 +524,19 @@ AC_DEFUN([gl_PRINTF_FAMILY_UMBRELLA],[
   AC_REQUIRE([gl_FUNC_VASNPRINTF])dnl
   AC_REQUIRE([gl_FUNC_VASNPRINTF_POSIX])dnl
   AC_REQUIRE([AC_FUNC_VPRINTF])dnl
+])dnl
+
+dnl# checks related to pwrite():
+AC_DEFUN([gl_PWRITE_UMBRELLA],[
+  AC_REQUIRE([gl_FUNC_PWRITE])dnl
+  ## if failed:
+  if test ${HAVE_PWRITE} = 0 || test ${REPLACE_PWRITE} = 1; then
+    AC_LIBOBJ([pwrite])dnl
+    ## ok
+  fi
+  m4_ifdef([gl_UNISTD_MODULE_INDICATOR],[
+    gl_UNISTD_MODULE_INDICATOR([pwrite])dnl
+  ])dnl
 ])dnl
 
 dnl# checks related to quoting:
@@ -685,6 +732,7 @@ AC_DEFUN([gl_ALL_FUNC_UMBRELLAS_META_UMBRELLA],[
   AC_REQUIRE([AC_FORK_UMBRELLA])dnl
   AC_REQUIRE([gl_FPENDING_UMBRELLA])dnl
   AC_REQUIRE([gl_FREAD_UMBRELLA])dnl
+  AC_REQUIRE([gl_FTRUNCATE_UMBRELLA])dnl
   AC_REQUIRE([gl_GETDELIM_UMBRELLA])dnl
   AC_REQUIRE([gl_GETLINE_UMBRELLA])dnl
   AC_REQUIRE([gl_GETOPT_UMBRELLA])dnl
@@ -703,7 +751,10 @@ AC_DEFUN([gl_ALL_FUNC_UMBRELLAS_META_UMBRELLA],[
   AC_REQUIRE([gl_OPEN_UMBRELLA])dnl
   AC_REQUIRE([gl_PIPE_UMBRELLA])dnl
   AC_REQUIRE([gl_POLL_UMBRELLA])dnl
+  AC_REQUIRE([gl_POSIX_FALLOCATE_UMBRELLA])dnl
+  AC_REQUIRE([gl_PREAD_UMBRELLA])dnl
   AC_REQUIRE([gl_PRINTF_FAMILY_UMBRELLA])dnl
+  AC_REQUIRE([gl_PWRITE_UMBRELLA])dnl
   AC_REQUIRE([gl_QUOTE_UMBRELLA])dnl
   AC_REQUIRE([gl_READLINK_FAMILY_UMBRELLA])dnl
   AC_REQUIRE([gl_REALLOC_UMBRELLA])dnl
@@ -719,4 +770,3 @@ AC_DEFUN([gl_ALL_FUNC_UMBRELLAS_META_UMBRELLA],[
   AC_REQUIRE([gl_WIDE_CHAR_FUNCS_UMBRELLA])dnl
   AC_REQUIRE([gl_XWRAPPING_FUNCS_UMBRELLA])dnl
 ])dnl
-

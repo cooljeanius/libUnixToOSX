@@ -1,38 +1,37 @@
-# unistd_h.m4 serial 65
-dnl Copyright (C) 2006-2012 Free Software Foundation, Inc.
-dnl This file is free software; the Free Software Foundation
-dnl gives unlimited permission to copy and/or distribute it,
-dnl with or without modifications, as long as this notice is preserved.
+# unistd_h.m4 serial 66
+dnl# Copyright (C) 2006-2012 Free Software Foundation, Inc.
+dnl# This file is free software; the Free Software Foundation
+dnl# gives unlimited permission to copy and/or distribute it,
+dnl# with or without modifications, as long as this notice is preserved.
 
-dnl Written by Simon Josefsson, Bruno Haible.
+dnl# Written by Simon Josefsson, Bruno Haible.
 
-AC_DEFUN([gl_UNISTD_H],
-[
-  dnl Use AC_REQUIRE here, so that the default behavior below is expanded
-  dnl once only, before all statements that occur in other macros.
-  AC_REQUIRE([gl_UNISTD_H_DEFAULTS])
-  AC_REQUIRE([AC_C_INLINE])
+AC_DEFUN([gl_UNISTD_H],[
+  dnl# Use AC_REQUIRE here, so that the default behavior below is expanded
+  dnl# once only, before all statements that occur in other macros.
+  AC_REQUIRE([gl_UNISTD_H_DEFAULTS])dnl
+  AC_REQUIRE([AC_C_INLINE])dnl
 
   gl_CHECK_NEXT_HEADERS([unistd.h])
-  if test $ac_cv_header_unistd_h = yes; then
+  if test "x${ac_cv_header_unistd_h}" = "xyes"; then
     HAVE_UNISTD_H=1
   else
     HAVE_UNISTD_H=0
   fi
-  AC_SUBST([HAVE_UNISTD_H])
+  AC_SUBST([HAVE_UNISTD_H])dnl
 
-  dnl Ensure the type pid_t gets defined.
+  dnl# Ensure the type pid_t gets defined:
   AC_REQUIRE([AC_TYPE_PID_T])
 
-  dnl Determine WINDOWS_64_BIT_OFF_T.
-  AC_REQUIRE([gl_TYPE_OFF_T])
+  dnl# Determine WINDOWS_64_BIT_OFF_T here:
+  AC_REQUIRE([gl_TYPE_OFF_T])dnl
 
-  dnl Check for declarations of anything we want to poison if the
-  dnl corresponding gnulib module is not in use.
+  dnl# Check for declarations of anything we want to poison if the
+  dnl# corresponding gnulib module is not in use.
   gl_WARN_ON_USE_PREPARE([[
 #if HAVE_UNISTD_H
 # include <unistd.h>
-#endif
+#endif /* HAVE_UNISTD_H */
 /* Some systems declare various items in the wrong headers.  */
 #if !(defined __GLIBC__ && !defined __UCLIBC__)
 # include <fcntl.h>
@@ -40,28 +39,26 @@ AC_DEFUN([gl_UNISTD_H],
 # include <stdlib.h>
 # if (defined _WIN32 || defined __WIN32__) && ! defined __CYGWIN__
 #  include <io.h>
-# endif
-#endif
-    ]], [chdir chown dup dup2 dup3 environ euidaccess faccessat fchdir fchownat
-    fdatasync fsync ftruncate getcwd getdomainname getdtablesize getgroups
-    gethostname getlogin getlogin_r getpagesize
+# endif /* (_WIN32 || __WIN32__) && !__CYGWIN__ */
+#endif /* !__GLIBC__ */
+    ]],[chdir chown dup dup2 dup3 environ euidaccess faccessat fchdir
+    fchownat fdatasync fsync ftruncate getcwd getdomainname getdtablesize
+    getgroups gethostname getlogin getlogin_r getpagesize
     getusershell setusershell endusershell
     group_member isatty lchown link linkat lseek pipe pipe2 pread pwrite
     readlink readlinkat rmdir sethostname sleep symlink symlinkat ttyname_r
-    unlink unlinkat usleep])
-])
+    unlink unlinkat usleep])dnl
+])dnl
 
-AC_DEFUN([gl_UNISTD_MODULE_INDICATOR],
-[
-  dnl Use AC_REQUIRE here, so that the default settings are expanded once only.
-  AC_REQUIRE([gl_UNISTD_H_DEFAULTS])
-  gl_MODULE_INDICATOR_SET_VARIABLE([$1])
-  dnl Define it also as a C macro, for the benefit of the unit tests.
-  gl_MODULE_INDICATOR_FOR_TESTS([$1])
-])
+AC_DEFUN([gl_UNISTD_MODULE_INDICATOR],[
+  dnl# Use AC_REQUIRE here, so the default settings are expanded once only:
+  AC_REQUIRE([gl_UNISTD_H_DEFAULTS])dnl
+  gl_MODULE_INDICATOR_SET_VARIABLE([$1])dnl
+  dnl# Define it also as a C macro, for the benefit of the unit tests.
+  gl_MODULE_INDICATOR_FOR_TESTS([$1])dnl
+])dnl
 
-AC_DEFUN([gl_UNISTD_H_DEFAULTS],
-[
+AC_DEFUN([gl_UNISTD_H_DEFAULTS],[
   GNULIB_CHDIR=0;                AC_SUBST([GNULIB_CHDIR])
   GNULIB_CHOWN=0;                AC_SUBST([GNULIB_CHOWN])
   GNULIB_CLOSE=0;                AC_SUBST([GNULIB_CLOSE])
@@ -110,7 +107,7 @@ AC_DEFUN([gl_UNISTD_H_DEFAULTS],
   GNULIB_UNLINKAT=0;             AC_SUBST([GNULIB_UNLINKAT])
   GNULIB_USLEEP=0;               AC_SUBST([GNULIB_USLEEP])
   GNULIB_WRITE=0;                AC_SUBST([GNULIB_WRITE])
-  dnl Assume proper GNU behavior unless another module says otherwise.
+  dnl# Assume proper GNU behavior unless another module says otherwise:
   HAVE_CHOWN=1;           AC_SUBST([HAVE_CHOWN])
   HAVE_DUP2=1;            AC_SUBST([HAVE_DUP2])
   HAVE_DUP3=1;            AC_SUBST([HAVE_DUP3])
@@ -183,5 +180,5 @@ AC_DEFUN([gl_UNISTD_H_DEFAULTS],
   REPLACE_WRITE=0;        AC_SUBST([REPLACE_WRITE])
   UNISTD_H_HAVE_WINSOCK2_H=0; AC_SUBST([UNISTD_H_HAVE_WINSOCK2_H])
   UNISTD_H_HAVE_WINSOCK2_H_AND_USE_SOCKETS=0;
-                           AC_SUBST([UNISTD_H_HAVE_WINSOCK2_H_AND_USE_SOCKETS])
-])
+                       AC_SUBST([UNISTD_H_HAVE_WINSOCK2_H_AND_USE_SOCKETS])
+])dnl

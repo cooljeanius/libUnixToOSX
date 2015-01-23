@@ -1,4 +1,4 @@
-/* Create a pipe, with specific opening flags.
+/* pipe2.c: Create a pipe, with specific opening flags.
    Copyright (C) 2009-2012 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
@@ -16,7 +16,7 @@
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include <unistd.h>
 
 #include <errno.h>
@@ -27,17 +27,23 @@
 
 #if GNULIB_defined_O_NONBLOCK
 # include "nonblocking.h"
-#endif
+#endif /* GNULIB_defined_O_NONBLOCK */
 
-#if (defined _WIN32 || defined __WIN32__) && ! defined __CYGWIN__
-/* Native Windows API.  */
-
+#if (defined(_WIN32) || defined(__WIN32__)) && ! defined(__CYGWIN__)
+/* Native Windows API: */
 # include <io.h>
-
-#endif
+# if !defined(GNULIB_defined_O_NONBLOCK) || !GNULIB_defined_O_NONBLOCK
+/* we use verify in this condition, which invariably triggers this: */
+#  if defined(__GNUC__) && defined(__GNUC_MINOR__)
+#   if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
+#    pragma GCC diagnostic ignored "-Wnested-externs"
+#   endif /* GCC 4.1+ */
+#  endif /* gcc */
+# endif /* !GNULIB_defined_O_NONBLOCK */
+#endif /* native Windows */
 
 int
-pipe2 (int fd[2], int flags)
+pipe2(int fd[2], int flags)
 {
   /* Mingw _pipe() corrupts fd on failure; also, if we succeed at
      creating the pipe but later fail at changing fcntl, we want
@@ -55,8 +61,8 @@ pipe2 (int fd[2], int flags)
     static int have_pipe2_really; /* 0 = unknown, 1 = yes, -1 = no */
     if (have_pipe2_really >= 0)
       {
-        int result = pipe2 (fd, flags);
-        if (!(result < 0 && errno == ENOSYS))
+        int result = pipe2(fd, flags);
+        if (!((result < 0) && (errno == ENOSYS)))
           {
             have_pipe2_really = 1;
             return result;
@@ -64,9 +70,9 @@ pipe2 (int fd[2], int flags)
         have_pipe2_really = -1;
       }
   }
-#endif
+#endif /* HAVE_PIPE2 */
 
-  /* Check the supported flags.  */
+  /* Check the supported flags: */
   if ((flags & ~(O_CLOEXEC | O_NONBLOCK | O_BINARY | O_TEXT)) != 0)
     {
       errno = EINVAL;
@@ -76,7 +82,7 @@ pipe2 (int fd[2], int flags)
 #if (defined _WIN32 || defined __WIN32__) && ! defined __CYGWIN__
 /* Native Windows API.  */
 
-  if (_pipe (fd, 4096, flags & ~O_NONBLOCK) < 0)
+  if (_pipe(fd, 4096, flags & ~O_NONBLOCK) < 0)
     {
       fd[0] = tmp[0];
       fd[1] = tmp[1];
@@ -89,22 +95,22 @@ pipe2 (int fd[2], int flags)
 # if GNULIB_defined_O_NONBLOCK
   if (flags & O_NONBLOCK)
     {
-      if (set_nonblocking_flag (fd[0], true) != 0
-          || set_nonblocking_flag (fd[1], true) != 0)
+      if ((set_nonblocking_flag(fd[0], true) != 0)
+          || (set_nonblocking_flag(fd[1], true) != 0))
         goto fail;
     }
 # else
   {
-    verify (O_NONBLOCK == 0);
+    verify(O_NONBLOCK == 0);
   }
-# endif
+# endif /* GNULIB_defined_O_NONBLOCK */
 
   return 0;
 
 #else
 /* Unix API.  */
 
-  if (pipe (fd) < 0)
+  if (pipe(fd) < 0)
     return -1;
 
   /* POSIX <http://www.opengroup.org/onlinepubs/9699919799/functions/pipe.html>
@@ -112,15 +118,18 @@ pipe2 (int fd[2], int flags)
      both fd[0] and fd[1].  */
 
   /* O_NONBLOCK handling.
-     On Unix platforms, O_NONBLOCK is defined by the system.  Use fcntl().  */
+   * On Unix platforms, O_NONBLOCK is defined by the system, so use fcntl()
+   * here: */
   if (flags & O_NONBLOCK)
     {
+      /* FIXME: clang says that this condition will never be reached...
+       * find a way to shut it up... */
       int fcntl_flags;
 
-      if ((fcntl_flags = fcntl (fd[1], F_GETFL, 0)) < 0
-          || fcntl (fd[1], F_SETFL, fcntl_flags | O_NONBLOCK) == -1
-          || (fcntl_flags = fcntl (fd[0], F_GETFL, 0)) < 0
-          || fcntl (fd[0], F_SETFL, fcntl_flags | O_NONBLOCK) == -1)
+      if (((fcntl_flags = fcntl(fd[1], F_GETFL, 0)) < 0)
+          || (fcntl(fd[1], F_SETFL, fcntl_flags | O_NONBLOCK) == -1)
+          || ((fcntl_flags = fcntl(fd[0], F_GETFL, 0)) < 0)
+          || (fcntl(fd[0], F_SETFL, fcntl_flags | O_NONBLOCK) == -1))
         goto fail;
     }
 
@@ -128,23 +137,23 @@ pipe2 (int fd[2], int flags)
     {
       int fcntl_flags;
 
-      if ((fcntl_flags = fcntl (fd[1], F_GETFD, 0)) < 0
-          || fcntl (fd[1], F_SETFD, fcntl_flags | FD_CLOEXEC) == -1
-          || (fcntl_flags = fcntl (fd[0], F_GETFD, 0)) < 0
-          || fcntl (fd[0], F_SETFD, fcntl_flags | FD_CLOEXEC) == -1)
+      if (((fcntl_flags = fcntl(fd[1], F_GETFD, 0)) < 0)
+          || (fcntl(fd[1], F_SETFD, fcntl_flags | FD_CLOEXEC) == -1)
+          || ((fcntl_flags = fcntl (fd[0], F_GETFD, 0)) < 0)
+          || (fcntl(fd[0], F_SETFD, fcntl_flags | FD_CLOEXEC) == -1))
         goto fail;
     }
 
 # if O_BINARY
   if (flags & O_BINARY)
     {
-      setmode (fd[1], O_BINARY);
-      setmode (fd[0], O_BINARY);
+      setmode(fd[1], O_BINARY);
+      setmode(fd[0], O_BINARY);
     }
   else if (flags & O_TEXT)
     {
-      setmode (fd[1], O_TEXT);
-      setmode (fd[0], O_TEXT);
+      setmode(fd[1], O_TEXT);
+      setmode(fd[0], O_TEXT);
     }
 # endif
 
@@ -166,3 +175,5 @@ pipe2 (int fd[2], int flags)
   }
 #endif
 }
+
+/* EOF */

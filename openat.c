@@ -1,4 +1,4 @@
-/* provide a replacement openat function
+/* openat.c: provide a replacement openat function
    Copyright (C) 2004-2012 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -12,7 +12,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* written by Jim Meyering */
 
@@ -31,12 +31,13 @@
 static inline int orig_openat(int fd, char const *filename, int flags,
 							  mode_t mode)
 {
-  return openat (fd, filename, flags, mode);
+  return openat(fd, filename, flags, mode);
 }
-#endif
+#endif /* HAVE_OPENAT */
 
-/* Write "fcntl.h" here, not <fcntl.h>, otherwise OSF/1 5.1 DTK cc eliminates
-   this include because of the preliminary #include <fcntl.h> above.  */
+/* Write "fcntl.h" here, not <fcntl.h>, otherwise OSF/1 5.1 DTK cc
+ * eliminates this include because of the preliminary #include <fcntl.h>
+ * from above: */
 #include "fcntl.h"
 
 #include "openat.h"
@@ -144,6 +145,19 @@ int rpl_openat(int dfd, char const *filename, int flags, ...)
 # include "openat-priv.h"
 # include "save-cwd.h"
 
+/* we already cast, which fails to fix the warning, so turn it off: */
+# if defined(__GNUC__) && defined(__GNUC_MINOR__)
+#  if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
+#   if (__GNUC__ == 4) && (__GNUC_MINOR__ >= 6)
+/* can push and pop with this version, so do so: */
+#    pragma GCC diagnostic push
+#    pragma GCC diagnostic ignored "-Wtraditional-conversion"
+#   else
+#    pragma GCC diagnostic ignored "-Wconversion"
+#   endif /* GCC 4.6+ || not */
+#  endif /* GCC 4.1+ */
+# endif /* gcc */
+
 /* Replacement for Solaris' openat function.
    <http://www.google.com/search?q=openat+site:docs.sun.com>
    First, try to simulate it via open ("/proc/self/fd/FD/FILE").
@@ -170,6 +184,13 @@ openat (int fd, char const *file, int flags, ...)
 
   return openat_permissive(fd, file, flags, (mode_t)mode, NULL);
 }
+
+/* keep condition (essentially) the same as where we push: */
+# if defined(__GNUC__) && defined(__GNUC_MINOR__)
+#  if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 6))
+#   pragma GCC diagnostic pop
+#  endif /* GCC 4.6+ */
+# endif /* gcc */
 
 /* Like openat (FD, FILE, FLAGS, MODE), but if CWD_ERRNO is
    nonnull, set *CWD_ERRNO to an errno value if unable to save

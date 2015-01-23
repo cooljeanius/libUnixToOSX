@@ -1,4 +1,4 @@
-/* Searching in a string.
+/* strchrnul.c: Searching in a string.
    Copyright (C) 2003, 2007-2012 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -12,11 +12,17 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
+
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
+#   pragma GCC diagnostic ignored "-Wredundant-decls"
+# endif /* GCC 4.1+ */
+#endif /* gcc */
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include <string.h>
 
 #include "rawmemchr.h"
@@ -81,7 +87,7 @@ char *strchrnul(const char *s, int c_in)
      to testing whether *any of the four* bytes in longword1 or
      longword2 is zero.
 
-     Let's consider longword1.  We compute tmp =
+     Let us consider longword1.  We compute tmp =
        ((longword1 - repeated_one) & ~longword1) & (repeated_one << 7).
      That is, we perform the following operations:
        1. Subtract repeated_one.
@@ -125,7 +131,7 @@ char *strchrnul(const char *s, int c_in)
       longword_ptr++;
     }
 
-  char_ptr = (const unsigned char *) longword_ptr;
+  char_ptr = (const unsigned char *)longword_ptr;
 
   /* dummy condition to use value stored to 'char_ptr': */
   if (char_ptr == NULL) {
@@ -139,7 +145,7 @@ char *strchrnul(const char *s, int c_in)
    * iteration.  But this does not work on big-endian machines.
    * Choose code that works in both cases.  */
 
-  char_ptr = (unsigned char *) longword_ptr;
+  char_ptr = (unsigned char *)longword_ptr;
   while (*char_ptr && (*char_ptr != c)) {
     char_ptr++;
   }

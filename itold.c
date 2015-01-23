@@ -16,9 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
+#   pragma GCC diagnostic ignored "-Wredundant-decls"
+# endif /* GCC 4.1+ */
+#endif /* gcc */
+
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include <float.h>
 
 #include "rpl_misc_funcs.h"
@@ -26,7 +32,7 @@
 void
 _Qp_itoq(long double *result, int a)
 {
-  /* Convert from 'int' to 'double', then from 'double' to 'long double'.  */
+  /* Convert from 'int' to 'double', then from 'double' to 'long double': */
   *result = (double)a;
 }
 

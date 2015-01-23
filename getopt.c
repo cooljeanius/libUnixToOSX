@@ -1,6 +1,6 @@
-/* Getopt for GNU.
-   NOTE: getopt is part of the C library, so if you don't know what
-   "Keep this file name-space clean" means, talk to drepper@gnu.org
+/* getopt.c: Getopt for GNU.
+   NOTE: getopt is part of the C library, so if you do NOT know what
+   "Keep this file name-space clean" means, then talk to <drepper@gnu.org>
    before changing it!
    Copyright (C) 1987-1996, 1998-2004, 2006, 2008-2012 Free Software
    Foundation, Inc.
@@ -17,11 +17,11 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #ifndef _LIBC
 # include <config.h>
-#endif
+#endif /* !_LIBC */
 
 #include "getopt.h"
 
@@ -35,11 +35,11 @@
 #else
 # include "gettext.h"
 # define _(msgid) gettext (msgid)
-#endif
+#endif /* _LIBC */
 
 #if defined _LIBC && defined USE_IN_LIBIO
 # include <wchar.h>
-#endif
+#endif /* _LIBC && USE_IN_LIBIO */
 
 /* This version of 'getopt' appears to the caller like standard Unix 'getopt'
    but it behaves differently for the user, since it allows the user
@@ -64,6 +64,9 @@
    Also, when 'ordering' is RETURN_IN_ORDER,
    each non-option ARGV-element is returned here.  */
 
+#if defined(__clang__) && !defined(_GETOPT_INT_H)
+extern char *optarg;
+#endif /* __clang__ && !_GETOPT_INT_H */
 char *optarg;
 
 /* Index in ARGV of the next element to be scanned.
@@ -1085,27 +1088,27 @@ _getopt_internal_r (int argc, char **argv, const char *optstring,
 #if defined _LIBC && defined USE_IN_LIBIO
                     char *buf;
 
-                    if (__asprintf (&buf, _("\
+                    if (__asprintf(&buf, _("\
 %s: option requires an argument -- '%c'\n"),
-                                    argv[0], c) >= 0)
+                                   argv[0], c) >= 0)
                       {
-                        _IO_flockfile (stderr);
+                        _IO_flockfile(stderr);
 
-                        int old_flags2 = ((_IO_FILE *) stderr)->_flags2;
-                        ((_IO_FILE *) stderr)->_flags2 |= _IO_FLAGS2_NOTCANCEL;
+                        int old_flags2 = ((_IO_FILE *)stderr)->_flags2;
+                        ((_IO_FILE *)stderr)->_flags2 |= _IO_FLAGS2_NOTCANCEL;
 
-                        __fxprintf (NULL, "%s", buf);
+                        __fxprintf(NULL, "%s", buf);
 
-                        ((_IO_FILE *) stderr)->_flags2 = old_flags2;
-                        _IO_funlockfile (stderr);
+                        ((_IO_FILE *)stderr)->_flags2 = old_flags2;
+                        _IO_funlockfile(stderr);
 
-                        free (buf);
+                        free(buf);
                       }
 #else
-                    fprintf (stderr,
-                             _("%s: option requires an argument -- '%c'\n"),
-                             argv[0], c);
-#endif
+                    fprintf(stderr,
+                            _("%s: option requires an argument -- '%c'\n"),
+                            argv[0], c);
+#endif /* _LIBC && USE_IN_LIBIO */
                   }
                 d->optopt = c;
                 if (optstring[0] == ':')
@@ -1125,18 +1128,18 @@ _getopt_internal_r (int argc, char **argv, const char *optstring,
 }
 
 int
-_getopt_internal (int argc, char **argv, const char *optstring,
-                  const struct option *longopts, int *longind, int long_only,
-                  int posixly_correct)
+_getopt_internal(int argc, char **argv, const char *optstring,
+                 const struct option *longopts, int *longind, int long_only,
+                 int posixly_correct)
 {
   int result;
 
   getopt_data.optind = optind;
   getopt_data.opterr = opterr;
 
-  result = _getopt_internal_r (argc, argv, optstring, longopts,
-                               longind, long_only, &getopt_data,
-                               posixly_correct);
+  result = _getopt_internal_r(argc, argv, optstring, longopts,
+                              longind, long_only, &getopt_data,
+                              posixly_correct);
 
   optind = getopt_data.optind;
   optarg = getopt_data.optarg;
@@ -1146,29 +1149,26 @@ _getopt_internal (int argc, char **argv, const char *optstring,
 }
 
 /* glibc gets a LSB-compliant getopt.
-   Standalone applications get a POSIX-compliant getopt.  */
+ * Standalone applications get a POSIX-compliant getopt.  */
 #if defined(_LIBC) && _LIBC
 enum { POSIXLY_CORRECT = 0 };
 #else
 enum { POSIXLY_CORRECT = 1 };
-#endif
+#endif /* _LIBC */
 
 int
-getopt (int argc, char *const *argv, const char *optstring)
+getopt(int argc, char *const *argv, const char *optstring)
 {
-  return _getopt_internal (argc, (char **) argv, optstring,
-                           (const struct option *) 0,
-                           (int *) 0,
-                           0, POSIXLY_CORRECT);
+  return _getopt_internal(argc, (char **)argv, optstring,
+                          (const struct option *)0, (int *)0, 0,
+                          POSIXLY_CORRECT);
 }
 
 #ifdef _LIBC
 int __posix_getopt(int argc, char *const *argv, const char *optstring)
 {
-  return _getopt_internal (argc, argv, optstring,
-                           (const struct option *) 0,
-                           (int *) 0,
-                           0, 1);
+  return _getopt_internal(argc, argv, optstring, (const struct option *)0,
+                          (int *)0, 0, 1);
 }
 #endif /* _LIBC */
 

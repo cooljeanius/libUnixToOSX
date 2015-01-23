@@ -1,4 +1,4 @@
-/* Like unistd.h, but redefine some names to avoid glitches.
+/* unistd--.h: Like unistd.h, but redefine some names to avoid glitches.
 
    Copyright (C) 2005, 2009-2012 Free Software Foundation, Inc.
 
@@ -13,7 +13,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* Written by Paul Eggert.  */
 
@@ -29,4 +29,6 @@
 #if GNULIB_PIPE2_SAFER
 # undef pipe2
 # define pipe2 pipe2_safer
-#endif
+#endif /* GNULIB_PIPE2_SAFER */
+
+/* EOF */

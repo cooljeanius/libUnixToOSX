@@ -1,4 +1,4 @@
-/* Retrieve information about a FILE stream.
+/* freadahead.c: Retrieve information about a FILE stream.
    Copyright (C) 2007-2012 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -12,33 +12,34 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include "freadahead.h"
 
 #include <stdlib.h>
 #include "stdio-impl.h"
 
 size_t
-freadahead (FILE *fp)
+freadahead(FILE *fp)
 {
 #if defined _IO_ftrylockfile || (defined(__GNU_LIBRARY__) && (__GNU_LIBRARY__ == 1)) /* GNU libc, BeOS, Haiku, Linux libc5 */
   if (fp->_IO_write_ptr > fp->_IO_write_base)
     return 0;
-  return (fp->_IO_read_end - fp->_IO_read_ptr)
-         + (fp->_flags & _IO_IN_BACKUP ? fp->_IO_save_end - fp->_IO_save_base :
-            0);
-#elif defined __sferror || defined __DragonFly__ /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin */
-  if ((fp_->_flags & __SWR) != 0 || fp_->_r < 0)
+  return ((fp->_IO_read_end - fp->_IO_read_ptr)
+          + ((fp->_flags & _IO_IN_BACKUP)
+             ? (fp->_IO_save_end - fp->_IO_save_base)
+             : 0));
+#elif defined(__sferror) || defined(__DragonFly__) /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin */
+  if (((fp_->_flags & __SWR) != 0) || (fp_->_r < 0))
     return 0;
 # if defined __DragonFly__
   return __sreadahead(fp);
 # else
   return (size_t)(fp_->_r + (HASUB(fp) ? fp_->_ur : 0));
-# endif
+# endif /* __DragonFly__ */
 #elif defined __EMX__               /* emx+gcc */
   if ((fp->_flags & _IOWRT) != 0)
     return 0;
@@ -59,34 +60,36 @@ freadahead (FILE *fp)
 # ifdef __STDIO_BUFFERS
   if (fp->__modeflags & __FLAG_WRITING)
     return 0;
-  return (fp->__bufread - fp->__bufpos)
-         + (fp->__modeflags & __FLAG_UNGOT ? 1 : 0);
+  return ((fp->__bufread - fp->__bufpos)
+          + (fp->__modeflags & __FLAG_UNGOT ? 1 : 0));
 # else
   return 0;
-# endif
+# endif /* __STDIO_BUFFERS */
 #elif defined __QNX__               /* QNX */
   if ((fp->_Mode & 0x2000 /* _MWRITE */) != 0)
     return 0;
   /* fp->_Buf <= fp->_Next <= fp->_Rend,
-     and fp->_Rend may be overridden by fp->_Rsave. */
-  return ((fp->_Rsave ? fp->_Rsave : fp->_Rend) - fp->_Next)
-         + (fp->_Mode & 0x4000 /* _MBYTE */
-            ? (fp->_Back + sizeof (fp->_Back)) - fp->_Rback
-            : 0);
+   * and fp->_Rend may be overridden by fp->_Rsave. */
+  return (((fp->_Rsave ? fp->_Rsave : fp->_Rend) - fp->_Next)
+          + ((fp->_Mode & 0x4000) /* _MBYTE */
+             ? ((fp->_Back + sizeof(fp->_Back)) - fp->_Rback)
+             : 0));
 #elif defined __MINT__              /* Atari FreeMiNT */
   if (!fp->__mode.__read)
     return 0;
   return (fp->__pushed_back
-          ? fp->__get_limit - fp->__pushback_bufp + 1
-          : fp->__get_limit - fp->__bufp);
+          ? (fp->__get_limit - fp->__pushback_bufp + 1)
+          : (fp->__get_limit - fp->__bufp));
 #elif defined EPLAN9                /* Plan9 */
-  if (fp->state == 4 /* WR */ || fp->rp >= fp->wp)
+  if ((fp->state == 4) /* WR */ || (fp->rp >= fp->wp))
     return 0;
   return fp->wp - fp->rp;
 #elif defined SLOW_BUT_NO_HACKS     /* users can define this */
-  abort ();
+  abort();
   return 0;
 #else
  #error "Please port gnulib freadahead.c to your platform! Look at the definition of fflush, fread, ungetc on your system, then report this to bug-gnulib."
-#endif
+#endif /* misc. defs */
 }
+
+/* EOF */

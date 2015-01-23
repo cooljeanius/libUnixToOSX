@@ -14,6 +14,13 @@
 #include <stdlib.h> /* for atoi() */
 
 #ifdef __ANDROID__
+/* prototype: */
+# ifdef __WINESRC__
+static
+# endif /* __WINESRC__ */
+struct mntent *getmntent_replacement(FILE *f);
+
+/* helper function: */
 static char *unescape_field(char *str)
 {
     char *in, *out;
@@ -60,9 +67,13 @@ static inline char *get_field(char **str)
  *
  * getmntent replacement for Android.
  *
- * N.B.: returned static buffer is not thread safe; protect with dir_section.
+ * N.B.: returned static buffer is not thread safe; protect it with
+ * dir_section:
  */
-static struct mntent *getmntent_replacement(FILE *f)
+#ifdef __WINESRC__
+static
+#endif /* __WINESRC__ */
+struct mntent *getmntent_replacement(FILE *f)
 {
     static struct mntent mount_entry;
     static char buf[4096];

@@ -53,6 +53,12 @@ MOSTLYCLEANFILES = @MAINT@ argp-stdint.h
 
 DISTCLEANFILES += argp-stdint.h
 
+## extend the automake verbosity control:
+AM_V_v = $(am__v_v_@AM_V@)
+am__v_v_ = $(am__v_v_@AM_DEFAULT_V@)
+am__v_v_0 =
+am__v_v_1 = -v
+
 argp-stdint.h: stamp-h1
 	@test -f $@ || rm -f $<
 	@test -f $@ || $(MAKE) $(AM_MAKEFLAGS) $<
@@ -63,44 +69,44 @@ argp-stdint.h: stamp-h1
 ## places (further down in this rule):
 .PHONY: distclean-local
 distclean-local:
-	rm -fv @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
-	rm -rfv autom4te.cache || rmdir autom4te.cache
-	rm -rfv .deps || rmdir .deps
+	rm -f $(AM_V_v) @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	rm -rf $(AM_V_v) autom4te.cache || rmdir autom4te.cache
+	rm -rf $(AM_V_v) .deps || rmdir .deps
 	-(test -w @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && (rm -rf @PACKAGE_TARNAME@-@PACKAGE_VERSION@ || rmdir @PACKAGE_TARNAME@-@PACKAGE_VERSION@)) || stat @PACKAGE_TARNAME@-*.* || echo "it can be difficult to distclean the results of distcheck"
 	-(find . -name .DS_Store -delete 2>&1) || test -x "`which find`"
 	if ((test -e mempcpy.c || test -e ../../mempcpy.c) && test -w ../mempcpy.c); then \
-	  rm -fv ../mempcpy.c; \
+	  rm -f $(AM_V_v) ../mempcpy.c; \
 	fi
 	if ((test -e strchrnul.c || test -e ../../strchrnul.c) && test -w ../strchrnul.c); then \
-	  rm -fv ../strchrnul.c; \
+	  rm -f $(AM_V_v) ../strchrnul.c; \
 	fi
 	if ((test -e strndup.c || test -e ../../strndup.c) && test -w ../strndup.c); then \
-	  rm -fv ../strndup.c; \
+	  rm -f $(AM_V_v) ../strndup.c; \
 	fi
 	if (test -e ../../malloc.c && test -w ../malloc.c); then \
-	  rm -fv ../malloc.c; \
+	  rm -f $(AM_V_v) ../malloc.c; \
 	fi
 	if (test -e ../../rawmemchr.c && test -w ../rawmemchr.c); then \
-	  rm -fv ../rawmemchr.c; \
+	  rm -f $(AM_V_v) ../rawmemchr.c; \
 	fi
 	if (test -e ../../rawmemchr.h && test -w ../rawmemchr.h); then \
-	  rm -fv ../rawmemchr.h; \
+	  rm -f $(AM_V_v) ../rawmemchr.h; \
 	fi
 	if (test -e ../../realloc.c && test -w ../realloc.c); then \
-	  rm -fv ../realloc.c; \
+	  rm -f $(AM_V_v) ../realloc.c; \
 	fi
 	if (test -e ../../strnlen.c && test -w ../strnlen.c); then \
-	  rm -fv ../strnlen.c; \
+	  rm -f $(AM_V_v) ../strnlen.c; \
 	fi
 	if (test -d ../../m4 && test -w ../m4); then \
-	  (rm -rfv ../m4 || rmdir ../m4); \
+	  (rm -rf $(AM_V_v) ../m4 || rmdir ../m4); \
 	fi
 	if (test -d ../../build-aux && test -w ../build-aux); then \
-	  (rm -rfv ../build-aux || rmdir ../build-aux); \
+	  (rm -rf $(AM_V_v) ../build-aux || rmdir ../build-aux); \
 	fi
 
 nodist_noinst_DATA = @MAINT@ configure.scan
-configure.scan: distclean-local
+configure.scan: @MAINT@ distclean-local
 	autoscan || (touch configure.scan && mkdir autom4te.cache)
 
 MAINTAINERCLEANFILES = configure.scan
@@ -121,8 +127,8 @@ noinst_MANS = ansi2knr.1
 ## necessary.
 ANSI2KNR = @ANSI2KNR@
 ansi2knr: ansi2knr.$(OBJEXT)
-	$(LINK) ansi2knr.$(OBJEXT) $(LIBS)
-ansi2knr.$(OBJEXT): $(CONFIG_HEADER)
+	$(AM_V_CCLD)$(LINK) ansi2knr.$(OBJEXT) $(LIBS)
+ansi2knr.$(OBJEXT): ansi2knr.c $(CONFIG_HEADER)
 
 ## ------------------- ##
 ## Cleaning ansi2knr.  ##
@@ -152,3 +158,20 @@ mostlyclean-kr:
 ## deleting sources that happen to end in "_" after being truncated on a
 ## DOS 8.3 filesystem with srcdir==builddir.
 	-test "$U" = "" || rm -f *_.c
+
+###########################################################################
+### seeing as we specify the "no-dependencies" option in our automake
+### options, manually list dependencies here:
+## (ansi2knr.$(OBJEXT) is done above)
+argp-ba.o: argp-ba.c
+argp-eexst.o: argp-eexst.c config.h argp.h
+argp-fmtstream.o: argp-fmtstream.c config.h argp-fmtstream.h argp.h \
+  argp-namefrob.h
+argp-help.o: argp-help.c config.h argp.h argp-fmtstream.h argp-namefrob.h
+argp-parse.o: argp-parse.c config.h argp.h argp-namefrob.h
+argp-pv.o: argp-pv.c
+argp-pvh.o: argp-pvh.c
+argp-test.o: argp-test.c config.h argp.h
+mempcpy.o: mempcpy.c
+strchrnul.o: strchrnul.c
+strndup.o: strndup.c

@@ -48,6 +48,12 @@
 #ifndef _RELOCWRAPPER_C_
 #define _RELOCWRAPPER_C_ 1
 
+#if !defined(ENABLE_RELOCATABLE) || (ENABLE_RELOCATABLE != 1)
+# if defined(__GNUC__) && !defined(__STRICT_ANSI__)
+#  warning "relocwrapper.c expects ENABLE_RELOCATABLE to be defined to 1."
+# endif /* __GNUC__ && !__STRICT_ANSI__ */
+#endif /* !ENABLE_RELOCATABLE */
+
 #if defined(__GNUC__) && defined(__GNUC_MINOR__)
 # if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 2))
 #  pragma GCC diagnostic ignored "-Wunused-macros"
@@ -58,6 +64,13 @@
 # define _GL_USE_STDLIB_ALLOC 1
 #endif /* !_GL_USE_STDLIB_ALLOC */
 #include <config.h>
+
+#if !defined(INSTALLPREFIX)
+# if defined(__GNUC__) && !defined(__STRICT_ANSI__) && \
+     defined(HAVE_CONFIG_H)
+#  warning "relocwrapper.c expects INSTALLPREFIX to be defined."
+# endif /* __GNUC__ && !__STRICT_ANSI__ && HAVE_CONFIG_H */
+#endif /* !INSTALLPREFIX */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -76,21 +89,22 @@
 # define EXEEXT ""
 #endif /* !EXEEXT */
 
-/* Use the system functions, not the gnulib overrides in this file.  */
+/* Use the system functions, not the gnulib overrides in this file: */
 #undef fprintf
 
 /* Return a copy of the filename, with an extra ".bin" at the end.
- * More generally, it replaces "${EXEEXT}" at the end with ".bin${EXEEXT}".  */
+ * More generally, it replaces "${EXEEXT}" at the end with ".bin${EXEEXT}": */
 static char *
 add_dotbin(const char *filename)
 {
   size_t filename_len = strlen(filename);
-  char *result = (char *)malloc(filename_len + 4 + 1); /* why not just "+ 5"? */
+  char *result;
+  result = (char *)malloc(filename_len + 4 + 1); /* why not just "+ 5"? */
 
   if (result != NULL) {
       if (sizeof(EXEEXT) > sizeof("")) {
-          /* EXEEXT handling.  */
-          const size_t exeext_len = sizeof (EXEEXT) - sizeof ("");
+          /* EXEEXT handling: */
+          const size_t exeext_len = (sizeof(EXEEXT) - sizeof(""));
           static const char exeext[] = EXEEXT;
           if (filename_len > exeext_len) {
               /* Compare using an inlined copy of c_strncasecmp(), because
@@ -118,7 +132,7 @@ add_dotbin(const char *filename)
             }
         }
      simple_append:
-		/* Simply append ".bin".  */
+		/* Simply append ".bin": */
 		memcpy(result, filename, filename_len);
 		memcpy((result + filename_len), ".bin",
 			   (size_t)(4L + 1L)); /* why not just 5? */
@@ -129,6 +143,13 @@ add_dotbin(const char *filename)
   }
 }
 
+/* we use verify here, which invariably triggers this: */
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
+#  pragma GCC diagnostic ignored "-Wnested-externs"
+# endif /* GCC 4.1+ */
+#endif /* gcc */
+
 #ifndef LIBDIRS
 # if defined(LIBDIR) && 0
 #  define LIBDIRS LIBDIR, /* pasting the comma on with '##' fails here */
@@ -136,9 +157,9 @@ add_dotbin(const char *filename)
 #  define LIBDIRS NULL, /* likewise in this condition */
 # endif /* LIBDIR */
 #endif /* !LIBDIRS */
-/* List of directories that contain the libraries.  */
+/* List of directories that contain the libraries: */
 static const char *libdirs[] = { LIBDIRS NULL };
-/* Verify that at least one directory is given.  */
+/* Verify that at least one directory is given: */
 verify((sizeof(libdirs) / sizeof(libdirs[0])) > 1);
 
 /* Relocate the list of directories that contain the libraries.  */
@@ -152,18 +173,18 @@ static void relocate_libdirs(void)
 }
 
 #ifndef LIBPATHVAR
-# if defined _WIN32 || defined __WIN32__ || defined __CYGWIN__
-/* Native Windows, Cygwin */
+# if defined(_WIN32) || defined(__WIN32__) || defined(__CYGWIN__)
+/* Native Windows, Cygwin: */
 #  define LIBPATHVAR "PATH"
-# elif defined __APPLE__ && defined __MACH__
+# elif defined(__APPLE__) && defined(__MACH__)
 /* Mac OS X */
 #  define LIBPATHVAR "DYLD_LIBRARY_PATH"
 # else
-/* "Normal" Unix */
+/* "Normal" Unix: */
 #  define LIBPATHVAR "LD_LIBRARY_PATH"
-# endif
+# endif /* platform check */
 #endif /* !LIBPATHVAR */
-/* Activate the list of directories in the LIBPATHVAR.  */
+/* Activate the list of directories in the LIBPATHVAR: */
 static void activate_libdirs(void)
 {
   const char *old_value;
@@ -176,34 +197,34 @@ static void activate_libdirs(void)
   if (old_value == NULL)
     old_value = "";
 
-  total = 0;
-  for (i = 0; i < sizeof (libdirs) / sizeof (libdirs[0]) - 1; i++)
-    total += strlen (libdirs[i]) + 1;
-  total += strlen (old_value) + 1;
+  total = 0UL;
+  for (i = 0UL; i < (sizeof(libdirs) / sizeof(libdirs[0]) - 1L); i++)
+    total += (strlen(libdirs[i]) + 1UL);
+  total += (strlen(old_value) + 1UL);
 
-  value = (char *) malloc (total);
+  value = (char *)malloc(total);
   if (value == NULL)
     {
-      fprintf (stderr, "%s: %s\n", program_name, "memory exhausted");
-      exit (1);
+      fprintf(stderr, "%s: %s\n", program_name, "memory exhausted");
+      exit(1);
     }
   p = value;
-  for (i = 0; i < sizeof (libdirs) / sizeof (libdirs[0]) - 1; i++)
+  for (i = 0UL; i < (sizeof(libdirs) / sizeof(libdirs[0]) - 1L); i++)
     {
-      size_t len = strlen (libdirs[i]);
-      memcpy (p, libdirs[i], len);
+      size_t len = strlen(libdirs[i]);
+      memcpy(p, libdirs[i], len);
       p += len;
       *p++ = ':';
     }
   if (old_value[0] != '\0')
-    strcpy (p, old_value);
+    strcpy(p, old_value);
   else
     p[-1] = '\0';
 
-  if (setenv (LIBPATHVAR, value, 1) < 0)
+  if (setenv(LIBPATHVAR, value, 1) < 0)
     {
-      fprintf (stderr, "%s: %s\n", program_name, "memory exhausted");
-      exit (1);
+      fprintf(stderr, "%s: %s\n", program_name, "memory exhausted");
+      exit(1);
     }
 }
 
@@ -215,6 +236,9 @@ static void activate_libdirs(void)
 # elif defined INSTALLPREFIX
 #  define INSTALLDIR INSTALLPREFIX
 # else
+#  if defined(__GNUC__) && !defined(__STRICT_ANSI__)
+#   warning "INSTALLDIR is undefined; assuming we should use '.' for it."
+#  endif /* __GNUC__ && !__STRICT_ANSI__ */
 #  define INSTALLDIR "." /* I was tempted to use '/dev/null' in this case... */
 # endif /* BINDIR || SBINDIR || INSTALLPREFIX */
 #endif /* !INSTALLDIR */
@@ -244,5 +268,9 @@ int main(int argc, char *argv[])
 }
 
 #endif /* !_RELOCWRAPPER_C_ */
+
+#ifdef _GL_USE_STDLIB_ALLOC
+# undef _GL_USE_STDLIB_ALLOC
+#endif /* _GL_USE_STDLIB_ALLOC */
 
 /* EOF */

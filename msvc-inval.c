@@ -17,7 +17,7 @@
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include "msvc-inval.h"
 
 #if (defined(HAVE_MSVC_INVALID_PARAMETER_HANDLER) && HAVE_MSVC_INVALID_PARAMETER_HANDLER) \
@@ -33,10 +33,9 @@ static void cdecl
 gl_msvc_invalid_parameter_handler(const wchar_t *expression,
 								  const wchar_t *function,
 								  const wchar_t *file,
-								  unsigned int line,
-								  uintptr_t dummy)
+								  unsigned int line, uintptr_t dummy)
 {
-	;
+	return;
 }
 
 # else /* not default handling: */
@@ -51,15 +50,14 @@ static void cdecl
 gl_msvc_invalid_parameter_handler(const wchar_t *expression,
 								  const wchar_t *function,
 								  const wchar_t *file,
-								  unsigned int line,
-								  uintptr_t dummy)
+								  unsigned int line, uintptr_t dummy)
 {
   RaiseException(STATUS_GNULIB_INVALID_PARAMETER, 0, 0, NULL);
 }
 
 #  else /* not _MSC_VER: */
 
-/* An index to thread-local storage.  */
+/* An index to thread-local storage: */
 static DWORD tls_index;
 static int tls_initialized /* = 0 */;
 
@@ -70,25 +68,25 @@ struct gl_msvc_inval_per_thread *
 gl_msvc_inval_current(void)
 {
   if (!tls_initialized) {
-      tls_index = TlsAlloc ();
+      tls_index = TlsAlloc();
       tls_initialized = 1;
   }
   if (tls_index == TLS_OUT_OF_INDEXES) {
-    /* TlsAlloc had failed.  */
+    /* TlsAlloc had failed: */
     return &not_per_thread;
   } else {
       struct gl_msvc_inval_per_thread *pointer =
         (struct gl_msvc_inval_per_thread *) TlsGetValue (tls_index);
       if (pointer == NULL) {
-          /* First call.  Allocate a new 'struct gl_msvc_inval_per_thread'.  */
+          /* 1st call; allocate a new 'struct gl_msvc_inval_per_thread': */
           pointer =
             (struct gl_msvc_inval_per_thread *)
             malloc (sizeof (struct gl_msvc_inval_per_thread));
           if (pointer == NULL) {
-			  /* Could not allocate memory.  Use the global storage.  */
+			  /* Could not allocate memory.  Use the global storage: */
 			  pointer = &not_per_thread;
 		  }
-          TlsSetValue (tls_index, pointer);
+          TlsSetValue(tls_index, pointer);
 	  }
       return pointer;
   }
@@ -96,10 +94,9 @@ gl_msvc_inval_current(void)
 
 static void cdecl
 gl_msvc_invalid_parameter_handler(const wchar_t *expression,
-								  const wchar_t *function,
-								  const wchar_t *file,
-								  unsigned int line,
-								  uintptr_t dummy)
+                                  const wchar_t *function,
+                                  const wchar_t *file,
+								  unsigned int line, uintptr_t dummy)
 {
   struct gl_msvc_inval_per_thread *current = gl_msvc_inval_current();
   if (current->restart_valid) {
@@ -118,7 +115,7 @@ gl_msvc_invalid_parameter_handler(const wchar_t *expression,
 static int gl_msvc_inval_initialized /* = 0 */;
 
 void
-gl_msvc_inval_ensure_handler (void)
+gl_msvc_inval_ensure_handler(void)
 {
   if (gl_msvc_inval_initialized == 0) {
       _set_invalid_parameter_handler(gl_msvc_invalid_parameter_handler);

@@ -21,6 +21,13 @@
 #include <stdbool.h>
 #include "verify.h"
 
+/* we use verify here, which invariably triggers this: */
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
+#   pragma GCC diagnostic ignored "-Wnested-externs"
+# endif /* GCC 4.1+ */
+#endif /* gcc */
+
 enum { I_RING_SIZE = 4 };
 verify(1 <= I_RING_SIZE);
 
@@ -39,6 +46,8 @@ struct I_ring
   unsigned int ir_front;
   unsigned int ir_back;
   bool ir_empty;
+  char padding_1; /* suffix == bytes */
+  short padding_2; /* likewise ((1 + 2) == 3) */
 };
 typedef struct I_ring I_ring;
 

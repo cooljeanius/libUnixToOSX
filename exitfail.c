@@ -1,4 +1,4 @@
-/* Failure exit status
+/* exitfail.c: Failure exit status
 
    Copyright (C) 2002-2003, 2005-2007, 2009-2012 Free Software Foundation, Inc.
 
@@ -13,7 +13,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #include <config.h>
 
@@ -22,3 +22,5 @@
 #include <stdlib.h>
 
 int volatile exit_failure = EXIT_FAILURE;
+
+/* EOF */

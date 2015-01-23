@@ -1,4 +1,4 @@
-/* Change the protections of file relative to an open directory.
+/* fchmodat.c: Change the protections of file relative to an open directory
    Copyright (C) 2006, 2009-2012 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -12,7 +12,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* written by Jim Meyering */
 
@@ -28,12 +28,12 @@
 # undef lchmod
 # define lchmod lchmod_rpl
 static int
-lchmod (char const *f _GL_UNUSED, mode_t m _GL_UNUSED)
+lchmod(char const *f _GL_UNUSED, mode_t m _GL_UNUSED)
 {
   errno = ENOSYS;
   return -1;
 }
-#endif
+#endif /* !HAVE_LCHMOD */
 
 /* Solaris 10 has no function like this.
    Invoke chmod or lchmod on file, FILE, using mode MODE, in the directory
@@ -51,3 +51,5 @@ lchmod (char const *f _GL_UNUSED, mode_t m _GL_UNUSED)
 #define AT_FUNC_POST_FILE_PARAM_DECLS , mode_t mode, int flag
 #define AT_FUNC_POST_FILE_ARGS        , mode
 #include "at-func.c"
+
+/* End of fchmodat.c */

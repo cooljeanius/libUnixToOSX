@@ -1,4 +1,4 @@
-/* Duplicate an open file descriptor to a specified file descriptor.
+/* dup2.c: Duplicate an open file descriptor to a specified file descriptor
 
    Copyright (C) 1999, 2004-2007, 2009-2012 Free Software Foundation, Inc.
 
@@ -13,13 +13,13 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* written by Paul Eggert */
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include <unistd.h>
 
 #include <errno.h>
@@ -31,15 +31,15 @@
 
 # undef dup2
 
-# if (defined _WIN32 || defined __WIN32__) && ! defined __CYGWIN__
+# if (defined(_WIN32) || defined(__WIN32__)) && ! defined(__CYGWIN__)
 
-/* Get declarations of the native Windows API functions.  */
+/* Get declarations of the native Windows API functions: */
 #  define WIN32_LEAN_AND_MEAN
 #  include <windows.h>
 
 #  include "msvc-inval.h"
 
-/* Get _get_osfhandle.  */
+/* Get _get_osfhandle: */
 #  include "msvc-nothrow.h"
 
 static int
@@ -87,7 +87,7 @@ ms_windows_dup2(int fd, int desired_fd)
 
 #  define dup2 ms_windows_dup2
 
-# endif
+# endif /* (_WIN32 || __WIN32__) && !__CYGWIN__ */
 
 int
 rpl_dup2(int fd, int desired_fd)
@@ -95,17 +95,17 @@ rpl_dup2(int fd, int desired_fd)
   int result;
 
 # ifdef F_GETFL
-  /* On Linux kernels 2.6.26-2.6.29, dup2 (fd, fd) returns -EBADF.
-   * On Cygwin 1.5.x, dup2 (1, 1) returns 0.
-   * On Haiku, dup2 (fd, fd) mistakenly clears FD_CLOEXEC.  */
+  /* On Linux kernels 2.6.26-2.6.29, dup2(fd, fd) returns -EBADF.
+   * On Cygwin 1.5.x, dup2(1, 1) returns 0.
+   * On Haiku, dup2(fd, fd) mistakenly clears FD_CLOEXEC: */
   if (fd == desired_fd)
-    return fcntl (fd, F_GETFL) == -1 ? -1 : fd;
-# endif
+    return ((fcntl(fd, F_GETFL) == -1) ? -1 : fd);
+# endif /* F_GETFL */
 
   result = dup2 (fd, desired_fd);
 
-  /* Correct an errno value on FreeBSD 6.1 and Cygwin 1.5.x.  */
-  if (result == -1 && errno == EMFILE)
+  /* Correct an errno value on FreeBSD 6.1 and Cygwin 1.5.x: */
+  if ((result == -1) && (errno == EMFILE))
     errno = EBADF;
 # if defined(REPLACE_FCHDIR) && REPLACE_FCHDIR
   if ((fd != desired_fd) && (result != -1))
@@ -116,7 +116,7 @@ rpl_dup2(int fd, int desired_fd)
 
 #else /* !HAVE_DUP2 */
 
-/* On older platforms, dup2 did not exist.  */
+/* On older platforms, dup2 did not exist: */
 # if !defined(dupfd) && (!defined(F_DUPFD) || !defined(HAVE_DUPFD))
 static int
 dupfd(int fd, int desired_fd)
@@ -136,10 +136,10 @@ dupfd(int fd, int desired_fd)
 # endif /* !dupfd && (!F_DUPFD || !HAVE_DUPFD) */
 
 int
-dup2 (int fd, int desired_fd)
+dup2(int fd, int desired_fd)
 {
-  int result = fcntl(fd, F_GETFL) < 0 ? -1 : fd;
-  if (result == -1 || fd == desired_fd)
+  int result = ((fcntl(fd, F_GETFL) < 0) ? -1 : fd);
+  if ((result == -1) || (fd == desired_fd))
     return result;
   close(desired_fd);
 # ifdef F_DUPFD
@@ -149,9 +149,9 @@ dup2 (int fd, int desired_fd)
     result = _gl_register_dup(fd, result);
 #  endif
 # else
-  result = dupfd (fd, desired_fd);
+  result = dupfd(fd, desired_fd);
 # endif
-  if (result == -1 && (errno == EMFILE || errno == EINVAL))
+  if ((result == -1) && ((errno == EMFILE) || (errno == EINVAL)))
     errno = EBADF;
   return result;
 }

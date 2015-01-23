@@ -12,7 +12,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #include <stddef.h>
 
@@ -20,4 +20,6 @@
    and return the hash code modulo TABLESIZE.
    The result is platform dependent: it depends on the size of the 'size_t'
    type and on the signedness of the 'char' type.  */
-extern size_t hash_pjw (void const *x, size_t tablesize) _GL_ATTRIBUTE_PURE;
+extern size_t hash_pjw(void const *x, size_t tablesize) _GL_ATTRIBUTE_PURE;
+
+/* EOF */

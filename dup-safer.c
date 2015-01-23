@@ -1,4 +1,4 @@
-/* Invoke dup, but avoid some glitches.
+/* dup-safer.c: Invoke dup, but avoid some glitches.
 
    Copyright (C) 2001, 2004-2006, 2009-2012 Free Software Foundation, Inc.
 
@@ -13,7 +13,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* Written by Paul Eggert.  */
 
@@ -28,7 +28,9 @@
    STDERR_FILENO.  */
 
 int
-dup_safer (int fd)
+dup_safer(int fd)
 {
-  return fcntl (fd, F_DUPFD, STDERR_FILENO + 1);
+  return fcntl(fd, F_DUPFD, (STDERR_FILENO + 1));
 }
+
+/* EOF */

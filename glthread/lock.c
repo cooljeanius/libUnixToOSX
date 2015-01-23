@@ -1,4 +1,4 @@
-/* Locking in multithreaded situations.
+/* lock.c: Locking in multithreaded situations.
    Copyright (C) 2005-2012 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
@@ -22,24 +22,24 @@
 
 #include "glthread/lock.h"
 
-/* ========================================================================= */
+/* ===================================================================== */
 
 #if USE_POSIX_THREADS
 
-/* -------------------------- gl_lock_t datatype -------------------------- */
+/* ------------------------- gl_lock_t datatype ------------------------ */
 
-/* ------------------------- gl_rwlock_t datatype ------------------------- */
+/* ------------------------ gl_rwlock_t datatype ----------------------- */
 
 # if HAVE_PTHREAD_RWLOCK
 
 #  if !defined PTHREAD_RWLOCK_INITIALIZER
 
 int
-glthread_rwlock_init_multithreaded (gl_rwlock_t *lock)
+glthread_rwlock_init_multithreaded(gl_rwlock_t *lock)
 {
   int err;
 
-  err = pthread_rwlock_init (&lock->rwlock, NULL);
+  err = pthread_rwlock_init(&lock->rwlock, NULL);
   if (err != 0)
     return err;
   lock->initialized = 1;
@@ -47,95 +47,95 @@ glthread_rwlock_init_multithreaded (gl_rwlock_t *lock)
 }
 
 int
-glthread_rwlock_rdlock_multithreaded (gl_rwlock_t *lock)
+glthread_rwlock_rdlock_multithreaded(gl_rwlock_t *lock)
 {
   if (!lock->initialized)
     {
       int err;
 
-      err = pthread_mutex_lock (&lock->guard);
+      err = pthread_mutex_lock(&lock->guard);
       if (err != 0)
         return err;
       if (!lock->initialized)
         {
-          err = glthread_rwlock_init_multithreaded (lock);
+          err = glthread_rwlock_init_multithreaded(lock);
           if (err != 0)
             {
-              pthread_mutex_unlock (&lock->guard);
+              pthread_mutex_unlock(&lock->guard);
               return err;
             }
         }
-      err = pthread_mutex_unlock (&lock->guard);
+      err = pthread_mutex_unlock(&lock->guard);
       if (err != 0)
         return err;
     }
-  return pthread_rwlock_rdlock (&lock->rwlock);
+  return pthread_rwlock_rdlock(&lock->rwlock);
 }
 
 int
-glthread_rwlock_wrlock_multithreaded (gl_rwlock_t *lock)
+glthread_rwlock_wrlock_multithreaded(gl_rwlock_t *lock)
 {
   if (!lock->initialized)
     {
       int err;
 
-      err = pthread_mutex_lock (&lock->guard);
+      err = pthread_mutex_lock(&lock->guard);
       if (err != 0)
         return err;
       if (!lock->initialized)
         {
-          err = glthread_rwlock_init_multithreaded (lock);
+          err = glthread_rwlock_init_multithreaded(lock);
           if (err != 0)
             {
-              pthread_mutex_unlock (&lock->guard);
+              pthread_mutex_unlock(&lock->guard);
               return err;
             }
         }
-      err = pthread_mutex_unlock (&lock->guard);
+      err = pthread_mutex_unlock(&lock->guard);
       if (err != 0)
         return err;
     }
-  return pthread_rwlock_wrlock (&lock->rwlock);
+  return pthread_rwlock_wrlock(&lock->rwlock);
 }
 
 int
-glthread_rwlock_unlock_multithreaded (gl_rwlock_t *lock)
+glthread_rwlock_unlock_multithreaded(gl_rwlock_t *lock)
 {
   if (!lock->initialized)
     return EINVAL;
-  return pthread_rwlock_unlock (&lock->rwlock);
+  return pthread_rwlock_unlock(&lock->rwlock);
 }
 
 int
-glthread_rwlock_destroy_multithreaded (gl_rwlock_t *lock)
+glthread_rwlock_destroy_multithreaded(gl_rwlock_t *lock)
 {
   int err;
 
   if (!lock->initialized)
     return EINVAL;
-  err = pthread_rwlock_destroy (&lock->rwlock);
+  err = pthread_rwlock_destroy(&lock->rwlock);
   if (err != 0)
     return err;
   lock->initialized = 0;
   return 0;
 }
 
-#  endif
+#  endif /* !PTHREAD_RWLOCK_INITIALIZER */
 
-# else
+# else /* !HAVE_PTHREAD_RWLOCK */
 
 int
-glthread_rwlock_init_multithreaded (gl_rwlock_t *lock)
+glthread_rwlock_init_multithreaded(gl_rwlock_t *lock)
 {
   int err;
 
-  err = pthread_mutex_init (&lock->lock, NULL);
+  err = pthread_mutex_init(&lock->lock, NULL);
   if (err != 0)
     return err;
-  err = pthread_cond_init (&lock->waiting_readers, NULL);
+  err = pthread_cond_init(&lock->waiting_readers, NULL);
   if (err != 0)
     return err;
-  err = pthread_cond_init (&lock->waiting_writers, NULL);
+  err = pthread_cond_init(&lock->waiting_writers, NULL);
   if (err != 0)
     return err;
   lock->waiting_writers_count = 0;
@@ -144,43 +144,43 @@ glthread_rwlock_init_multithreaded (gl_rwlock_t *lock)
 }
 
 int
-glthread_rwlock_rdlock_multithreaded (gl_rwlock_t *lock)
+glthread_rwlock_rdlock_multithreaded(gl_rwlock_t *lock)
 {
   int err;
 
-  err = pthread_mutex_lock (&lock->lock);
+  err = pthread_mutex_lock(&lock->lock);
   if (err != 0)
     return err;
-  /* Test whether only readers are currently running, and whether the runcount
-     field will not overflow.  */
+  /* Test whether only readers are currently running, and whether the
+   * runcount field will not overflow.  */
   /* POSIX says: "It is implementation-defined whether the calling thread
-     acquires the lock when a writer does not hold the lock and there are
-     writers blocked on the lock."  Let's say, no: give the writers a higher
-     priority.  */
-  while (!(lock->runcount + 1 > 0 && lock->waiting_writers_count == 0))
+   * acquires the lock when a writer does not hold the lock and there are
+   * writers blocked on the lock."  Let us say, no: give the writers a
+   * higher priority: */
+  while (!((lock->runcount + 1 > 0) && (lock->waiting_writers_count == 0)))
     {
       /* This thread has to wait for a while.  Enqueue it among the
-         waiting_readers.  */
-      err = pthread_cond_wait (&lock->waiting_readers, &lock->lock);
+       * waiting_readers: */
+      err = pthread_cond_wait(&lock->waiting_readers, &lock->lock);
       if (err != 0)
         {
-          pthread_mutex_unlock (&lock->lock);
+          pthread_mutex_unlock(&lock->lock);
           return err;
         }
     }
   lock->runcount++;
-  return pthread_mutex_unlock (&lock->lock);
+  return pthread_mutex_unlock(&lock->lock);
 }
 
 int
-glthread_rwlock_wrlock_multithreaded (gl_rwlock_t *lock)
+glthread_rwlock_wrlock_multithreaded(gl_rwlock_t *lock)
 {
   int err;
 
-  err = pthread_mutex_lock (&lock->lock);
+  err = pthread_mutex_lock(&lock->lock);
   if (err != 0)
     return err;
-  /* Test whether no readers or writers are currently running.  */
+  /* Test whether no readers or writers are currently running: */
   while (!(lock->runcount == 0))
     {
       /* This thread has to wait for a while.  Enqueue it among the
@@ -200,16 +200,16 @@ glthread_rwlock_wrlock_multithreaded (gl_rwlock_t *lock)
 }
 
 int
-glthread_rwlock_unlock_multithreaded (gl_rwlock_t *lock)
+glthread_rwlock_unlock_multithreaded(gl_rwlock_t *lock)
 {
   int err;
 
-  err = pthread_mutex_lock (&lock->lock);
+  err = pthread_mutex_lock(&lock->lock);
   if (err != 0)
     return err;
   if (lock->runcount < 0)
     {
-      /* Drop a writer lock.  */
+      /* Drop a writer lock: */
       if (!(lock->runcount == -1))
         {
           pthread_mutex_unlock (&lock->lock);
@@ -256,81 +256,81 @@ glthread_rwlock_unlock_multithreaded (gl_rwlock_t *lock)
 }
 
 int
-glthread_rwlock_destroy_multithreaded (gl_rwlock_t *lock)
+glthread_rwlock_destroy_multithreaded(gl_rwlock_t *lock)
 {
   int err;
 
-  err = pthread_mutex_destroy (&lock->lock);
+  err = pthread_mutex_destroy(&lock->lock);
   if (err != 0)
     return err;
-  err = pthread_cond_destroy (&lock->waiting_readers);
+  err = pthread_cond_destroy(&lock->waiting_readers);
   if (err != 0)
     return err;
-  err = pthread_cond_destroy (&lock->waiting_writers);
+  err = pthread_cond_destroy(&lock->waiting_writers);
   if (err != 0)
     return err;
   return 0;
 }
 
-# endif
+# endif /* HAVE_PTHREAD_RWLOCK || not */
 
-/* --------------------- gl_recursive_lock_t datatype --------------------- */
+/* -------------------- gl_recursive_lock_t datatype ------------------- */
 
 # if HAVE_PTHREAD_MUTEX_RECURSIVE
 
 #  if defined PTHREAD_RECURSIVE_MUTEX_INITIALIZER || defined PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP
 
 int
-glthread_recursive_lock_init_multithreaded (gl_recursive_lock_t *lock)
+glthread_recursive_lock_init_multithreaded(gl_recursive_lock_t *lock)
 {
   pthread_mutexattr_t attributes;
   int err;
 
-  err = pthread_mutexattr_init (&attributes);
+  err = pthread_mutexattr_init(&attributes);
   if (err != 0)
     return err;
-  err = pthread_mutexattr_settype (&attributes, PTHREAD_MUTEX_RECURSIVE);
+  err = pthread_mutexattr_settype(&attributes, PTHREAD_MUTEX_RECURSIVE);
   if (err != 0)
     {
-      pthread_mutexattr_destroy (&attributes);
+      pthread_mutexattr_destroy(&attributes);
       return err;
     }
-  err = pthread_mutex_init (lock, &attributes);
+  err = pthread_mutex_init(lock, &attributes);
   if (err != 0)
     {
-      pthread_mutexattr_destroy (&attributes);
+      pthread_mutexattr_destroy(&attributes);
       return err;
     }
-  err = pthread_mutexattr_destroy (&attributes);
+  err = pthread_mutexattr_destroy(&attributes);
   if (err != 0)
     return err;
   return 0;
 }
 
-#  else
+#  else /* neither: */
 
 int
-glthread_recursive_lock_init_multithreaded (gl_recursive_lock_t *lock)
+glthread_recursive_lock_init_multithreaded(gl_recursive_lock_t *lock)
 {
   pthread_mutexattr_t attributes;
   int err;
 
-  err = pthread_mutexattr_init (&attributes);
+  err = pthread_mutexattr_init(&attributes);
   if (err != 0)
     return err;
-  err = pthread_mutexattr_settype (&attributes, PTHREAD_MUTEX_RECURSIVE);
+  err = pthread_mutexattr_settype(&attributes, PTHREAD_MUTEX_RECURSIVE);
   if (err != 0)
     {
-      pthread_mutexattr_destroy (&attributes);
+      pthread_mutexattr_destroy(&attributes);
       return err;
     }
-  err = pthread_mutex_init (&lock->recmutex, &attributes);
+  err = pthread_mutex_init(&lock->recmutex, &attributes);
   if (err != 0)
     {
-      pthread_mutexattr_destroy (&attributes);
+      pthread_mutexattr_destroy(&attributes);
       return err;
     }
-  err = pthread_mutexattr_destroy (&attributes);
+  err = pthread_mutexattr_destroy(&attributes);
   if (err != 0)
     return err;
   lock->initialized = 1;
@@ -338,79 +338,79 @@ glthread_recursive_lock_init_multithreaded (gl_recursive_lock_t *lock)
 }
 
 int
-glthread_recursive_lock_lock_multithreaded (gl_recursive_lock_t *lock)
+glthread_recursive_lock_lock_multithreaded(gl_recursive_lock_t *lock)
 {
   if (!lock->initialized)
     {
       int err;
 
-      err = pthread_mutex_lock (&lock->guard);
+      err = pthread_mutex_lock(&lock->guard);
       if (err != 0)
         return err;
       if (!lock->initialized)
         {
-          err = glthread_recursive_lock_init_multithreaded (lock);
+          err = glthread_recursive_lock_init_multithreaded(lock);
           if (err != 0)
             {
-              pthread_mutex_unlock (&lock->guard);
+              pthread_mutex_unlock(&lock->guard);
               return err;
             }
         }
-      err = pthread_mutex_unlock (&lock->guard);
+      err = pthread_mutex_unlock(&lock->guard);
       if (err != 0)
         return err;
     }
-  return pthread_mutex_lock (&lock->recmutex);
+  return pthread_mutex_lock(&lock->recmutex);
 }
 
 int
-glthread_recursive_lock_unlock_multithreaded (gl_recursive_lock_t *lock)
+glthread_recursive_lock_unlock_multithreaded(gl_recursive_lock_t *lock)
 {
   if (!lock->initialized)
     return EINVAL;
-  return pthread_mutex_unlock (&lock->recmutex);
+  return pthread_mutex_unlock(&lock->recmutex);
 }
 
 int
-glthread_recursive_lock_destroy_multithreaded (gl_recursive_lock_t *lock)
+glthread_recursive_lock_destroy_multithreaded(gl_recursive_lock_t *lock)
 {
   int err;
 
   if (!lock->initialized)
     return EINVAL;
-  err = pthread_mutex_destroy (&lock->recmutex);
+  err = pthread_mutex_destroy(&lock->recmutex);
   if (err != 0)
     return err;
   lock->initialized = 0;
   return 0;
 }
 
-#  endif
+#  endif /* (PTHREAD_RECURSIVE_MUTEX_INITIALIZER || PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP) || neither */
 
-# else
+# else /* !HAVE_PTHREAD_MUTEX_RECURSIVE: */
 
 int
-glthread_recursive_lock_init_multithreaded (gl_recursive_lock_t *lock)
+glthread_recursive_lock_init_multithreaded(gl_recursive_lock_t *lock)
 {
   int err;
 
-  err = pthread_mutex_init (&lock->mutex, NULL);
+  err = pthread_mutex_init(&lock->mutex, NULL);
   if (err != 0)
     return err;
-  lock->owner = (pthread_t) 0;
+  lock->owner = (pthread_t)0;
   lock->depth = 0;
   return 0;
 }
 
 int
-glthread_recursive_lock_lock_multithreaded (gl_recursive_lock_t *lock)
+glthread_recursive_lock_lock_multithreaded(gl_recursive_lock_t *lock)
 {
-  pthread_t self = pthread_self ();
+  pthread_t self = pthread_self();
   if (lock->owner != self)
     {
       int err;
 
-      err = pthread_mutex_lock (&lock->mutex);
+      err = pthread_mutex_lock(&lock->mutex);
       if (err != 0)
         return err;
       lock->owner = self;
@@ -424,44 +424,44 @@ glthread_recursive_lock_lock_multithreaded (gl_recursive_lock_t *lock)
 }
 
 int
-glthread_recursive_lock_unlock_multithreaded (gl_recursive_lock_t *lock)
+glthread_recursive_lock_unlock_multithreaded(gl_recursive_lock_t *lock)
 {
-  if (lock->owner != pthread_self ())
+  if (lock->owner != pthread_self())
     return EPERM;
   if (lock->depth == 0)
     return EINVAL;
   if (--(lock->depth) == 0)
     {
-      lock->owner = (pthread_t) 0;
-      return pthread_mutex_unlock (&lock->mutex);
+      lock->owner = (pthread_t)0;
+      return pthread_mutex_unlock(&lock->mutex);
     }
   else
     return 0;
 }
 
 int
-glthread_recursive_lock_destroy_multithreaded (gl_recursive_lock_t *lock)
+glthread_recursive_lock_destroy_multithreaded(gl_recursive_lock_t *lock)
 {
-  if (lock->owner != (pthread_t) 0)
+  if (lock->owner != (pthread_t)0)
     return EBUSY;
-  return pthread_mutex_destroy (&lock->mutex);
+  return pthread_mutex_destroy(&lock->mutex);
 }
 
-# endif
+# endif /* HAVE_PTHREAD_MUTEX_RECURSIVE || not */
 
-/* -------------------------- gl_once_t datatype -------------------------- */
+/* ------------------------- gl_once_t datatype ------------------------ */
 
 static const pthread_once_t fresh_once = PTHREAD_ONCE_INIT;
 
 int
-glthread_once_singlethreaded (pthread_once_t *once_control)
+glthread_once_singlethreaded(pthread_once_t *once_control)
 {
-  /* We don't know whether pthread_once_t is an integer type, a floating-point
-     type, a pointer type, or a structure type.  */
+  /* We do NOT know whether pthread_once_t is an integer type,
+   * a floating-point type, a pointer type, or a structure type: */
   char *firstbyte = (char *)once_control;
   if (*firstbyte == *(const char *)&fresh_once)
     {
-      /* First time use of once_control.  Invert the first byte.  */
+      /* First time use of once_control.  Invert the first byte: */
       *firstbyte = ~ *(const char *)&fresh_once;
       return 1;
     }
@@ -469,24 +469,24 @@ glthread_once_singlethreaded (pthread_once_t *once_control)
     return 0;
 }
 
-#endif
+#endif /* USE_POSIX_THREADS */
 
-/* ========================================================================= */
+/* ===================================================================== */
 
 #if defined(USE_PTH_THREADS) && USE_PTH_THREADS
 
 /* Use the GNU Pth threads library.  */
 
-/* -------------------------- gl_lock_t datatype -------------------------- */
+/* ------------------------ gl_lock_t datatype ------------------------- */
 
-/* ------------------------- gl_rwlock_t datatype ------------------------- */
+/* ----------------------- gl_rwlock_t datatype ------------------------ */
 
-/* --------------------- gl_recursive_lock_t datatype --------------------- */
+/* ------------------- gl_recursive_lock_t datatype -------------------- */
 
-/* -------------------------- gl_once_t datatype -------------------------- */
+/* ------------------------ gl_once_t datatype ------------------------- */
 
 static void
-glthread_once_call (void *arg)
+glthread_once_call(void *arg)
 {
   void (**gl_once_temp_addr) (void) = (void (**) (void)) arg;
   void (*initfunction) (void) = *gl_once_temp_addr;
@@ -494,62 +494,63 @@ glthread_once_call (void *arg)
 }
 
 int
-glthread_once_multithreaded (pth_once_t *once_control, void (*initfunction) (void))
+glthread_once_multithreaded(pth_once_t *once_control,
+                            void (*initfunction)(void))
 {
-  void (*temp) (void) = initfunction;
-  return (!pth_once (once_control, glthread_once_call, &temp) ? errno : 0);
+  void (*temp)(void) = initfunction;
+  return (!pth_once(once_control, glthread_once_call, &temp) ? errno : 0);
 }
 
 int
-glthread_once_singlethreaded (pth_once_t *once_control)
+glthread_once_singlethreaded(pth_once_t *once_control)
 {
-  /* We know that pth_once_t is an integer type.  */
+  /* We know that pth_once_t is an integer type: */
   if (*once_control == PTH_ONCE_INIT)
     {
-      /* First time use of once_control.  Invert the marker.  */
-      *once_control = ~ PTH_ONCE_INIT;
+      /* First time use of once_control.  Invert the marker: */
+      *once_control = ~PTH_ONCE_INIT;
       return 1;
     }
   else
     return 0;
 }
 
-#endif
+#endif /* USE_PTH_THREADS */
 
-/* ========================================================================= */
+/* ===================================================================== */
 
 #if defined(USE_SOLARIS_THREADS) && USE_SOLARIS_THREADS
 
 /* Use the old Solaris threads library.  */
 
-/* -------------------------- gl_lock_t datatype -------------------------- */
+/* ------------------------- gl_lock_t datatype ------------------------ */
 
-/* ------------------------- gl_rwlock_t datatype ------------------------- */
+/* ------------------------ gl_rwlock_t datatype ----------------------- */
 
-/* --------------------- gl_recursive_lock_t datatype --------------------- */
+/* -------------------- gl_recursive_lock_t datatype ------------------- */
 
 int
-glthread_recursive_lock_init_multithreaded (gl_recursive_lock_t *lock)
+glthread_recursive_lock_init_multithreaded(gl_recursive_lock_t *lock)
 {
   int err;
 
-  err = mutex_init (&lock->mutex, USYNC_THREAD, NULL);
+  err = mutex_init(&lock->mutex, USYNC_THREAD, NULL);
   if (err != 0)
     return err;
-  lock->owner = (thread_t) 0;
+  lock->owner = (thread_t)0;
   lock->depth = 0;
   return 0;
 }
 
 int
-glthread_recursive_lock_lock_multithreaded (gl_recursive_lock_t *lock)
+glthread_recursive_lock_lock_multithreaded(gl_recursive_lock_t *lock)
 {
-  thread_t self = thr_self ();
+  thread_t self = thr_self();
   if (lock->owner != self)
     {
       int err;
 
-      err = mutex_lock (&lock->mutex);
+      err = mutex_lock(&lock->mutex);
       if (err != 0)
         return err;
       lock->owner = self;
@@ -563,127 +564,129 @@ glthread_recursive_lock_lock_multithreaded (gl_recursive_lock_t *lock)
 }
 
 int
-glthread_recursive_lock_unlock_multithreaded (gl_recursive_lock_t *lock)
+glthread_recursive_lock_unlock_multithreaded(gl_recursive_lock_t *lock)
 {
-  if (lock->owner != thr_self ())
+  if (lock->owner != thr_self())
     return EPERM;
   if (lock->depth == 0)
     return EINVAL;
   if (--(lock->depth) == 0)
     {
-      lock->owner = (thread_t) 0;
-      return mutex_unlock (&lock->mutex);
+      lock->owner = (thread_t)0;
+      return mutex_unlock(&lock->mutex);
     }
   else
     return 0;
 }
 
 int
-glthread_recursive_lock_destroy_multithreaded (gl_recursive_lock_t *lock)
+glthread_recursive_lock_destroy_multithreaded(gl_recursive_lock_t *lock)
 {
-  if (lock->owner != (thread_t) 0)
+  if (lock->owner != (thread_t)0)
     return EBUSY;
-  return mutex_destroy (&lock->mutex);
+  return mutex_destroy(&lock->mutex);
 }
 
-/* -------------------------- gl_once_t datatype -------------------------- */
+/* ------------------------- gl_once_t datatype ------------------------ */
 
 int
-glthread_once_multithreaded (gl_once_t *once_control, void (*initfunction) (void))
+glthread_once_multithreaded(gl_once_t *once_control,
+                            void (*initfunction)(void))
 {
   if (!once_control->inited)
     {
       int err;
 
-      /* Use the mutex to guarantee that if another thread is already calling
-         the initfunction, this thread waits until it's finished.  */
-      err = mutex_lock (&once_control->mutex);
+      /* Use the mutex to guarantee that if another thread is already
+       * calling the initfunction, then this thread will wait until it has
+       * finished: */
+      err = mutex_lock(&once_control->mutex);
       if (err != 0)
         return err;
       if (!once_control->inited)
         {
           once_control->inited = 1;
-          initfunction ();
+          initfunction();
         }
-      return mutex_unlock (&once_control->mutex);
+      return mutex_unlock(&once_control->mutex);
     }
   else
     return 0;
 }
 
 int
-glthread_once_singlethreaded (gl_once_t *once_control)
+glthread_once_singlethreaded(gl_once_t *once_control)
 {
-  /* We know that gl_once_t contains an integer type.  */
+  /* We know that gl_once_t contains an integer type: */
   if (!once_control->inited)
     {
-      /* First time use of once_control.  Invert the marker.  */
-      once_control->inited = ~ 0;
+      /* First time use of once_control.  Invert the marker: */
+      once_control->inited = ~0;
       return 1;
     }
   else
     return 0;
 }
 
-#endif
+#endif /* USE_SOLARIS_THREADS */
 
-/* ========================================================================= */
+/* ===================================================================== */
 
 #if defined(USE_WINDOWS_THREADS) && USE_WINDOWS_THREADS
 
-/* -------------------------- gl_lock_t datatype -------------------------- */
+/* ------------------------- gl_lock_t datatype ------------------------ */
 
 void
-glthread_lock_init_func (gl_lock_t *lock)
+glthread_lock_init_func(gl_lock_t *lock)
 {
   InitializeCriticalSection (&lock->lock);
   lock->guard.done = 1;
 }
 
 int
-glthread_lock_lock_func (gl_lock_t *lock)
+glthread_lock_lock_func(gl_lock_t *lock)
 {
   if (!lock->guard.done)
     {
-      if (InterlockedIncrement (&lock->guard.started) == 0)
-        /* This thread is the first one to need this lock.  Initialize it.  */
-        glthread_lock_init (lock);
+      if (InterlockedIncrement(&lock->guard.started) == 0)
+        /* This thread is the first one to need this lock.  Initialize it: */
+        glthread_lock_init(lock);
       else
         /* Yield the CPU while waiting for another thread to finish
-           initializing this lock.  */
+         * initializing this lock: */
         while (!lock->guard.done)
-          Sleep (0);
+          Sleep(0);
     }
-  EnterCriticalSection (&lock->lock);
+  EnterCriticalSection(&lock->lock);
   return 0;
 }
 
 int
-glthread_lock_unlock_func (gl_lock_t *lock)
+glthread_lock_unlock_func(gl_lock_t *lock)
 {
   if (!lock->guard.done)
     return EINVAL;
-  LeaveCriticalSection (&lock->lock);
+  LeaveCriticalSection(&lock->lock);
   return 0;
 }
 
 int
-glthread_lock_destroy_func (gl_lock_t *lock)
+glthread_lock_destroy_func(gl_lock_t *lock)
 {
   if (!lock->guard.done)
     return EINVAL;
-  DeleteCriticalSection (&lock->lock);
+  DeleteCriticalSection(&lock->lock);
   lock->guard.done = 0;
   return 0;
 }
 
-/* ------------------------- gl_rwlock_t datatype ------------------------- */
+/* ------------------------ gl_rwlock_t datatype ----------------------- */
 
-/* In this file, the waitqueues are implemented as circular arrays.  */
+/* In this file, the waitqueues are implemented as circular arrays: */
 #define gl_waitqueue_t gl_carray_waitqueue_t
 
 static inline void
-gl_waitqueue_init (gl_waitqueue_t *wq)
+gl_waitqueue_init(gl_waitqueue_t *wq)
 {
   wq->array = NULL;
   wq->count = 0;
@@ -694,7 +697,7 @@ gl_waitqueue_init (gl_waitqueue_t *wq)
 /* Enqueues the current thread, represented by an event, in a wait queue.
    Returns INVALID_HANDLE_VALUE if an allocation failure occurs.  */
 static HANDLE
-gl_waitqueue_add (gl_waitqueue_t *wq)
+gl_waitqueue_add(gl_waitqueue_t *wq)
 {
   HANDLE event;
   unsigned int index;
@@ -742,20 +745,20 @@ gl_waitqueue_add (gl_waitqueue_t *wq)
   return event;
 }
 
-/* Notifies the first thread from a wait queue and dequeues it.  */
+/* Notifies the first thread from a wait queue and dequeues it: */
 static inline void
-gl_waitqueue_notify_first (gl_waitqueue_t *wq)
+gl_waitqueue_notify_first(gl_waitqueue_t *wq)
 {
-  SetEvent (wq->array[wq->offset + 0]);
+  SetEvent(wq->array[wq->offset + 0]);
   wq->offset++;
   wq->count--;
-  if (wq->count == 0 || wq->offset == wq->alloc)
+  if ((wq->count == 0) || (wq->offset == wq->alloc))
     wq->offset = 0;
 }
 
-/* Notifies all threads from a wait queue and dequeues them all.  */
+/* Notifies all threads from a wait queue and dequeues them all: */
 static inline void
-gl_waitqueue_notify_all (gl_waitqueue_t *wq)
+gl_waitqueue_notify_all(gl_waitqueue_t *wq)
 {
   unsigned int i;
 
@@ -771,11 +774,11 @@ gl_waitqueue_notify_all (gl_waitqueue_t *wq)
 }
 
 void
-glthread_rwlock_init_func (gl_rwlock_t *lock)
+glthread_rwlock_init_func(gl_rwlock_t *lock)
 {
-  InitializeCriticalSection (&lock->lock);
-  gl_waitqueue_init (&lock->waiting_readers);
-  gl_waitqueue_init (&lock->waiting_writers);
+  InitializeCriticalSection(&lock->lock);
+  gl_waitqueue_init(&lock->waiting_readers);
+  gl_waitqueue_init(&lock->waiting_writers);
   lock->runcount = 0;
   lock->guard.done = 1;
 }
@@ -830,7 +833,7 @@ glthread_rwlock_rdlock_func (gl_rwlock_t *lock)
         }
     }
   lock->runcount++;
-  LeaveCriticalSection (&lock->lock);
+  LeaveCriticalSection(&lock->lock);
   return 0;
 }
 
@@ -883,12 +886,12 @@ glthread_rwlock_wrlock_func (gl_rwlock_t *lock)
         }
     }
   lock->runcount--; /* runcount becomes -1 */
-  LeaveCriticalSection (&lock->lock);
+  LeaveCriticalSection(&lock->lock);
   return 0;
 }
 
 int
-glthread_rwlock_unlock_func (gl_rwlock_t *lock)
+glthread_rwlock_unlock_func(gl_rwlock_t *lock)
 {
   if (!lock->guard.done)
     return EINVAL;
@@ -932,25 +935,25 @@ glthread_rwlock_unlock_func (gl_rwlock_t *lock)
 }
 
 int
-glthread_rwlock_destroy_func (gl_rwlock_t *lock)
+glthread_rwlock_destroy_func(gl_rwlock_t *lock)
 {
   if (!lock->guard.done)
     return EINVAL;
   if (lock->runcount != 0)
     return EBUSY;
-  DeleteCriticalSection (&lock->lock);
+  DeleteCriticalSection(&lock->lock);
   if (lock->waiting_readers.array != NULL)
-    free (lock->waiting_readers.array);
+    free(lock->waiting_readers.array);
   if (lock->waiting_writers.array != NULL)
-    free (lock->waiting_writers.array);
+    free(lock->waiting_writers.array);
   lock->guard.done = 0;
   return 0;
 }
 
-/* --------------------- gl_recursive_lock_t datatype --------------------- */
+/* -------------------- gl_recursive_lock_t datatype ------------------- */
 
 void
-glthread_recursive_lock_init_func (gl_recursive_lock_t *lock)
+glthread_recursive_lock_init_func(gl_recursive_lock_t *lock)
 {
   lock->owner = 0;
   lock->depth = 0;
@@ -959,7 +962,7 @@ glthread_recursive_lock_init_func (gl_recursive_lock_t *lock)
 }
 
 int
-glthread_recursive_lock_lock_func (gl_recursive_lock_t *lock)
+glthread_recursive_lock_lock_func(gl_recursive_lock_t *lock)
 {
   if (!lock->guard.done)
     {
@@ -989,7 +992,7 @@ glthread_recursive_lock_lock_func (gl_recursive_lock_t *lock)
 }
 
 int
-glthread_recursive_lock_unlock_func (gl_recursive_lock_t *lock)
+glthread_recursive_lock_unlock_func(gl_recursive_lock_t *lock)
 {
   if (lock->owner != GetCurrentThreadId ())
     return EPERM;
@@ -1004,7 +1007,7 @@ glthread_recursive_lock_unlock_func (gl_recursive_lock_t *lock)
 }
 
 int
-glthread_recursive_lock_destroy_func (gl_recursive_lock_t *lock)
+glthread_recursive_lock_destroy_func(gl_recursive_lock_t *lock)
 {
   if (lock->owner != 0)
     return EBUSY;
@@ -1013,17 +1016,17 @@ glthread_recursive_lock_destroy_func (gl_recursive_lock_t *lock)
   return 0;
 }
 
-/* -------------------------- gl_once_t datatype -------------------------- */
+/* ------------------------- gl_once_t datatype ------------------------ */
 
 void
-glthread_once_func (gl_once_t *once_control, void (*initfunction) (void))
+glthread_once_func(gl_once_t *once_control, void (*initfunction)(void))
 {
   if (once_control->inited <= 0)
     {
-      if (InterlockedIncrement (&once_control->started) == 0)
+      if (InterlockedIncrement(&once_control->started) == 0)
         {
-          /* This thread is the first one to come to this once_control.  */
-          InitializeCriticalSection (&once_control->lock);
+          /* This thread is the first one to come to this once_control: */
+          InitializeCriticalSection(&once_control->lock);
           EnterCriticalSection (&once_control->lock);
           once_control->inited = 0;
           initfunction ();
@@ -1038,7 +1041,7 @@ glthread_once_func (gl_once_t *once_control, void (*initfunction) (void))
              Yield the CPU while waiting for the other thread to finish
              initializing and taking the lock.  */
           while (once_control->inited < 0)
-            Sleep (0);
+            Sleep(0);
           if (once_control->inited <= 0)
             {
               /* Take the lock.  This blocks until the other thread has
@@ -1046,12 +1049,14 @@ glthread_once_func (gl_once_t *once_control, void (*initfunction) (void))
               EnterCriticalSection (&once_control->lock);
               LeaveCriticalSection (&once_control->lock);
               if (!(once_control->inited > 0))
-                abort ();
+                abort();
             }
         }
     }
 }
 
-#endif
+#endif /* USE_WINDOWS_THREADS */
 
-/* ========================================================================= */
+/* ===================================================================== */
+
+/* EOF */

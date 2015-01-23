@@ -1,13 +1,13 @@
-/* Copyright (C) 1991, 1993, 1996-1997, 1999-2000, 2003-2004, 2006, 2008-2012
-   Free Software Foundation, Inc.
-
-   Based on strlen implementation by Torbjorn Granlund (tege@sics.se),
-   with help from Dan Sahlin (dan@sics.se) and
-   commentary by Jim Blandy (jimb@ai.mit.edu);
-   adaptation to memchr suggested by Dick Karpinski (dick@cca.ucsf.edu),
-   and implemented in glibc by Roland McGrath (roland@ai.mit.edu).
-   Extension to memchr2 implemented by Eric Blake (ebb9@byu.net).
-
+/* memchr2.c: Copyright (C) 1991, 1993, 1996-1997, 1999-2000, 2003-2004,
+ * 2006, 2008-2012 Free Software Foundation, Inc.
+ *
+ * Based on strlen implementation by Torbjorn Granlund <tege@sics.se>,
+ * with help from Dan Sahlin <dan@sics.se> and
+ * commentary by Jim Blandy <jimb@ai.mit.edu>;
+ * adaptation to memchr suggested by Dick Karpinski <dick@cca.ucsf.edu>,
+ * and implemented in glibc by Roland McGrath <roland@ai.mit.edu>.
+ * Extension to memchr2 implemented by Eric Blake <ebb9@byu.net>.  */
+/*
 This program is free software: you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
 Free Software Foundation; either version 3 of the License, or any
@@ -33,7 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
    char) that occurs within N bytes of the memory region S.  If
    neither byte appears, return NULL.  */
 void *
-memchr2 (void const *s, int c1_in, int c2_in, size_t n)
+memchr2(void const *s, int c1_in, int c2_in, size_t n)
 {
   /* On 32-bit hardware, choosing longword to be a 32-bit unsigned
      long instead of a 64-bit uintmax_t tends to give better
@@ -132,10 +132,10 @@ memchr2 (void const *s, int c1_in, int c2_in, size_t n)
      to testing whether tmp1 is nonzero or tmp2 is nonzero.  We can combine
      this into a single test, whether (tmp1 | tmp2) is nonzero.  */
 
-  while (n >= sizeof (longword))
+  while (n >= sizeof(longword))
     {
-      longword longword1 = *longword_ptr ^ repeated_c1;
-      longword longword2 = *longword_ptr ^ repeated_c2;
+      longword longword1 = (*longword_ptr ^ repeated_c1);
+      longword longword2 = (*longword_ptr ^ repeated_c2);
 
       if (((((longword1 - repeated_one) & ~longword1)
             | ((longword2 - repeated_one) & ~longword2))
@@ -145,7 +145,7 @@ memchr2 (void const *s, int c1_in, int c2_in, size_t n)
       n -= sizeof (longword);
     }
 
-  char_ptr = (const unsigned char *) longword_ptr;
+  char_ptr = (const unsigned char *)longword_ptr;
 
   /* At this point, we know that either n < sizeof (longword), or one of the
      sizeof (longword) bytes starting at char_ptr is == c1 or == c2.  On
@@ -156,9 +156,11 @@ memchr2 (void const *s, int c1_in, int c2_in, size_t n)
 
   for (; n > 0; --n, ++char_ptr)
     {
-      if (*char_ptr == c1 || *char_ptr == c2)
-        return (void *) char_ptr;
+      if ((*char_ptr == c1) || (*char_ptr == c2))
+        return (void *)char_ptr;
     }
 
   return NULL;
 }
+
+/* EOF */

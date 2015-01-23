@@ -1,4 +1,4 @@
-/* Close standard output and standard error.
+/* closeout.h: Close standard output and standard error.
 
    Copyright (C) 1998, 2000, 2003-2004, 2006, 2008-2012 Free Software
    Foundation, Inc.
@@ -14,7 +14,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #ifndef CLOSEOUT_H
 # define CLOSEOUT_H 1
@@ -23,14 +23,16 @@
 
 # ifdef __cplusplus
 extern "C" {
-# endif
+# endif /* __cplusplus */
 
-void close_stdout_set_file_name (const char *file);
-void close_stdout_set_ignore_EPIPE (bool ignore);
-void close_stdout (void);
+void close_stdout_set_file_name(const char *file);
+void close_stdout_set_ignore_EPIPE(bool ignore);
+void close_stdout(void);
 
 # ifdef __cplusplus
 }
-# endif
+# endif /* __cplusplus */
 
-#endif
+#endif /* !CLOSEOUT_H */
+
+/* EOF */

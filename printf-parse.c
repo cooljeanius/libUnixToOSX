@@ -486,7 +486,7 @@ PRINTF_PARSE(const CHAR_T *format, DIRECTIVES *d, arguments *a)
                     type = TYPE_COUNT_INT_POINTER;
                   break;
 #if defined(ENABLE_UNISTDIO) && ENABLE_UNISTDIO
-                /* The unistdio extensions.  */
+                /* The unistdio extensions: */
                 case 'U':
                   if (flags >= 16)
                     type = TYPE_U32_STRING;
@@ -495,12 +495,12 @@ PRINTF_PARSE(const CHAR_T *format, DIRECTIVES *d, arguments *a)
                   else
                     type = TYPE_U8_STRING;
                   break;
-#endif
+#endif /* ENABLE_UNISTDIO */
                 case '%':
                   type = TYPE_NONE;
                   break;
                 default:
-                  /* Unknown conversion character.  */
+                  /* Unknown conversion character: */
                   goto error;
                 }
             }
@@ -510,7 +510,7 @@ PRINTF_PARSE(const CHAR_T *format, DIRECTIVES *d, arguments *a)
                 if (dp->arg_index == ARG_NONE) {
                     dp->arg_index = arg_posn++;
                     if (dp->arg_index == ARG_NONE)
-                      /* arg_posn wrapped around.  */
+                      /* arg_posn wrapped around: */
                       goto error;
 				}
                 REGISTER_ARG(dp->arg_index, type);
@@ -524,19 +524,19 @@ PRINTF_PARSE(const CHAR_T *format, DIRECTIVES *d, arguments *a)
               size_t memory_size;
               DIRECTIVE *memory;
 
-              d_allocated = xtimes (d_allocated, 2);
-              memory_size = xtimes (d_allocated, sizeof (DIRECTIVE));
+              d_allocated = xtimes(d_allocated, 2);
+              memory_size = xtimes(d_allocated, sizeof(DIRECTIVE));
               if (size_overflow_p (memory_size))
                 /* Overflow, would lead to out of memory.  */
                 goto out_of_memory;
-              memory = (DIRECTIVE *) (d->dir != d->direct_alloc_dir
-                                      ? realloc (d->dir, memory_size)
-                                      : malloc (memory_size));
+              memory = (DIRECTIVE *)((d->dir != d->direct_alloc_dir)
+                                     ? realloc(d->dir, memory_size)
+                                     : malloc(memory_size));
               if (memory == NULL)
-                /* Out of memory.  */
+                /* Out of memory: */
                 goto out_of_memory;
               if (d->dir == d->direct_alloc_dir)
-                memcpy (memory, d->dir, d->count * sizeof (DIRECTIVE));
+                memcpy (memory, d->dir, d->count * sizeof(DIRECTIVE));
               d->dir = memory;
 		  }
         }

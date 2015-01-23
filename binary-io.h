@@ -1,4 +1,4 @@
-/* Binary mode I/O.
+/* binary-io.h: Binary mode I/O.
    Copyright (C) 2001, 2003, 2005, 2008-2012 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -12,7 +12,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #ifndef _BINARY_H
 #define _BINARY_H
@@ -63,3 +63,5 @@ set_binary_mode (int fd, int mode)
 #endif
 
 #endif /* _BINARY_H */
+
+/* EOF */

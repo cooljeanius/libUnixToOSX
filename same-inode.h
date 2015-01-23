@@ -1,4 +1,4 @@
-/* Determine whether two stat buffers refer to the same file.
+/* same-inode.h: Determine whether two stat buffers refer to the same file.
 
    Copyright (C) 2006, 2009-2012 Free Software Foundation, Inc.
 
@@ -13,7 +13,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #ifndef SAME_INODE_H
 # define SAME_INODE_H 1
@@ -28,6 +28,8 @@
 #  define SAME_INODE(a, b)    \
     ((a).st_ino == (b).st_ino \
      && (a).st_dev == (b).st_dev)
-# endif
+# endif /* __VMS */
 
-#endif
+#endif /* !SAME_INODE_H */
+
+/* EOF */

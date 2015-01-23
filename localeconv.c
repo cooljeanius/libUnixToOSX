@@ -17,7 +17,7 @@
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include <locale.h>
 
 #if defined(HAVE_STRUCT_LCONV_DECIMAL_POINT) && HAVE_STRUCT_LCONV_DECIMAL_POINT
@@ -122,8 +122,8 @@ localeconv(void)
   if (retv == NULL) {
 	  ;
   }
-  /* clang's static analyzer complains about addresses of stack memory being
-   * returned, so tell it that we are returning something else: */
+  /* clang's static analyzer complains about addresses of stack memory
+   * being returned, so tell it that we are returning something else: */
   return (struct lconv *)NULL;
 #else /* normal compiling: */
   return retv;

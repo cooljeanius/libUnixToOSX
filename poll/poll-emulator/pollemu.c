@@ -1,4 +1,4 @@
-/*---------------------------------------------------------------------------*\
+/*-----------------------------------------------------------------------*\
  * $Id$
  *
  * NAME
@@ -66,12 +66,12 @@
  * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-\*---------------------------------------------------------------------------*/
+\*-----------------------------------------------------------------------*/
 
 
-/*---------------------------------------------------------------------------*\
+/*-----------------------------------------------------------------------*\
  *				 Includes
-\*---------------------------------------------------------------------------*/
+\*-----------------------------------------------------------------------*/
 
 #include <unistd.h>			     /* standard Unix definitions */
 #include <sys/types.h>           /* system types */
@@ -80,17 +80,17 @@
 #include <string.h>              /* string functions */
 #include "pollemu.h"             /* this package */
 
-/*---------------------------------------------------------------------------*\
+/*-----------------------------------------------------------------------*\
  *				  Macros
-\*---------------------------------------------------------------------------*/
+\*-----------------------------------------------------------------------*/
 
 #ifndef MAX
 # define MAX(a,b)	((a) > (b) ? (a) : (b))
 #endif /* !MAX */
 
-/*---------------------------------------------------------------------------*\
+/*-----------------------------------------------------------------------*\
  *			     Private Functions
-\*---------------------------------------------------------------------------*/
+\*-----------------------------------------------------------------------*/
 
 /* map_poll_spec(): */
 static int map_poll_spec
@@ -129,12 +129,12 @@ static int map_poll_spec
 
 	if (pCur->events & POLLIN) {
 	    /* "Input Ready" notification desired. */
-	    FD_SET (pCur->fd, pReadSet);
+	    FD_SET(pCur->fd, pReadSet);
 	}
 
 	if (pCur->events & POLLOUT) {
 	    /* "Output Possible" notification desired. */
-	    FD_SET (pCur->fd, pWriteSet);
+	    FD_SET(pCur->fd, pWriteSet);
 	}
 
 	if (pCur->events & POLLPRI) {
@@ -238,18 +238,15 @@ static void map_select_results
             continue;
 		}
 
-		/* Exception events take priority over input events. */
-
+		/* Exception events take priority over input events: */
 		pCur->revents = 0;
-		if (FD_ISSET (pCur->fd, pExceptSet)) {
+		if (FD_ISSET(pCur->fd, pExceptSet)) {
 			pCur->revents |= POLLPRI;
-		}
-
-		else if (FD_ISSET (pCur->fd, pReadSet)) {
+		} else if (FD_ISSET(pCur->fd, pReadSet)) {
 			pCur->revents |= POLLIN;
 		}
 
-		if (FD_ISSET (pCur->fd, pWriteSet)) {
+		if (FD_ISSET(pCur->fd, pWriteSet)) {
 			pCur->revents |= POLLOUT;
 		}
     }
@@ -257,9 +254,9 @@ static void map_select_results
     return;
 }
 
-/*---------------------------------------------------------------------------*\
+/*-----------------------------------------------------------------------*\
  *			     Public Functions
-\*---------------------------------------------------------------------------*/
+\*-----------------------------------------------------------------------*/
 
 /* poll(): */
 int poll
@@ -281,11 +278,11 @@ int poll
     int	    max_fd;            /* maximum fd value */
     struct  timeval *pTimeout; /* actually passed */
 
-    FD_ZERO (&read_descs);
-    FD_ZERO (&write_descs);
-    FD_ZERO (&except_descs);
+    FD_ZERO(&read_descs);
+    FD_ZERO(&write_descs);
+    FD_ZERO(&except_descs);
 
-    assert (pArray != (struct pollfd *)NULL);
+    assert(pArray != (struct pollfd *)NULL);
 
     /* Map the poll() file descriptor list in the select() data structures. */
 

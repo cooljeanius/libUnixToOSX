@@ -19,7 +19,7 @@
 
 #include <config.h>
 
-/* ========================================================================= */
+/* ===================================================================== */
 
 #if USE_POSIX_THREADS
 /* Use the POSIX threads library.  */
@@ -60,7 +60,7 @@ int glthread_in_use(void)
 
 #endif /* USE_POSIX_THREADS */
 
-/* ========================================================================= */
+/* ===================================================================== */
 
 /* This declaration is solely to ensure that after preprocessing
  * this file is never empty.  */

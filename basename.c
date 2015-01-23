@@ -14,7 +14,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #include <config.h>
 
@@ -25,19 +25,19 @@
 #include "xstrndup.h"
 
 char *
-base_name (char const *name)
+base_name(char const *name)
 {
-  char const *base = last_component (name);
+  char const *base = last_component(name);
   size_t length;
 
   /* If there is no last component, then name is a file system root or the
-     empty string.  */
+   * empty string: */
   if (! *base)
-    return xstrndup (name, base_len (name));
+    return xstrndup(name, base_len(name));
 
   /* Collapse a sequence of trailing slashes into one.  */
-  length = base_len (base);
-  if (ISSLASH (base[length]))
+  length = base_len(base);
+  if (ISSLASH(base[length]))
     length++;
 
   /* On systems with drive letters, "a/b:c" must return "./b:c" rather
@@ -56,3 +56,5 @@ base_name (char const *name)
   /* Finally, copy the basename: */
   return xstrndup(base, length);
 }
+
+/* EOF */

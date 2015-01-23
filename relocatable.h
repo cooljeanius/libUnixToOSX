@@ -55,7 +55,7 @@ extern RELOCATABLE_DLL_EXPORTED void
    directory.
    The returned string is either PATHNAME unmodified or a freshly allocated
    string that you can free with free() after casting it to 'char *'.  */
-extern const char * relocate(const char *pathname);
+extern const char *relocate(const char *pathname);
 
 /* Memory management: relocate() potentially allocates memory, because it has
    to construct a fresh pathname.  If this is a problem because your program
@@ -67,13 +67,13 @@ extern const char * relocate(const char *pathname);
    installation prefix, the original installation directory of a particular
    file, and the current pathname of this file.
    Returns it, freshly allocated.  Returns NULL upon failure.  */
-extern char * compute_curr_prefix(const char *orig_installprefix,
-								  const char *orig_installdir,
-								  const char *curr_pathname);
+extern char *compute_curr_prefix(const char *orig_installprefix,
+                                 const char *orig_installdir,
+                                 const char *curr_pathname);
 
 #else
 
-/* By default, we use the hardwired pathnames.  */
+/* By default, we use the hardwired pathnames: */
 #define relocate(pathname) (pathname)
 
 #endif /* ENABLE_RELOCATABLE */

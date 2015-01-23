@@ -6035,7 +6035,7 @@ _ACEOF
 fi
 
 done
-# ctype.h and stdarg.h are checked elsewhere
+  ## (<ctype.h> and <stdarg.h> are checked elsewhere)
 
 # Checks for typedefs, structures, and compiler characteristics.
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for an ANSI C-conforming const" >&5
@@ -6238,13 +6238,12 @@ _ACEOF
 esac
 
 
-
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether the compiler generally respects inline" >&5
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether the compiler generally respects inline" >&5
 $as_echo_n "checking whether the compiler generally respects inline... " >&6; }
 if ${gl_cv_c_inline_effective+:} false; then :
   $as_echo_n "(cached) " >&6
 else
-  if test $ac_cv_c_inline = no; then
+  if test "x${ac_cv_c_inline}" = "xno"; then
        gl_cv_c_inline_effective=no
      else
                                           cat confdefs.h - <<_ACEOF >conftest.$ac_ext
@@ -6271,7 +6270,7 @@ rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: result: $gl_cv_c_inline_effective" >&5
 $as_echo "$gl_cv_c_inline_effective" >&6; }
-  if test $gl_cv_c_inline_effective = yes; then
+  if test "x${gl_cv_c_inline_effective}" = "xyes"; then
 
 $as_echo "#define HAVE_INLINE 1" >>confdefs.h
 
@@ -6918,7 +6917,7 @@ done
 
 
 
-ac_fn_c_check_decl "$LINENO" "strerror_r" "ac_cv_have_decl_strerror_r" "$ac_includes_default"
+  ac_fn_c_check_decl "$LINENO" "strerror_r" "ac_cv_have_decl_strerror_r" "$ac_includes_default"
 if test "x$ac_cv_have_decl_strerror_r" = xyes; then :
   ac_have_decl=1
 else
@@ -7294,7 +7293,7 @@ esac
 fi
 
 # keep autoscan happy:
-if test "x" = "y"; then
+if test "x" = "Y0"; then
   test -x `which autoscan`
   for ac_func in mempcpy strndup
 do :
@@ -7438,6 +7437,7 @@ fi
 
 CPPFLAGS="${CPPFLAGS} -I${srcdir}"
 
+# Output.
 ac_config_files="$ac_config_files Makefile testsuite/Makefile"
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure

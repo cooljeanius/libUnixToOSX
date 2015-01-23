@@ -24,11 +24,11 @@
 # endif /* __GNUC__ && !__STRICT_ANSI__ && !__STDC__ */
 #endif /* !_WIN32 */
 
-/* Specification.  */
+/* Specification: */
 #include "msvc-nothrow.h"
 
 #if defined(HAVE_WINDOWS_H) || defined(_MSC_VER)
-/* Get declarations of the native Windows API functions.  */
+/* Get declarations of the native Windows API functions: */
 # define WIN32_LEAN_AND_MEAN 1
 # include <windows.h>
 #else

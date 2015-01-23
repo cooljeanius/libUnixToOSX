@@ -1,4 +1,4 @@
-/* hash - hashing table processing.
+/* hash.h - hashing table processing.
    Copyright (C) 1998-1999, 2001, 2003, 2009-2012 Free Software Foundation,
    Inc.
    Written by Jim Meyering <meyering@ascend.com>, 1998.
@@ -14,12 +14,13 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* A generic hash table package.  */
 
 /* Make sure USE_OBSTACK is defined to 1 if you want the allocator to use
-   obstacks instead of malloc, and recompile 'hash.c' with same setting.  */
+ * obstacks instead of malloc, and then recompile 'hash.c' with the same
+ * setting.  */
 
 #ifndef HASH_H_
 # define HASH_H_
@@ -28,38 +29,40 @@
 # include <stdbool.h>
 
 /* The __attribute__ feature is available in gcc versions 2.5 and later.
-   The warn_unused_result attribute appeared first in gcc-3.4.0.  */
-# if __GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 4)
+ * The warn_unused_result attribute appeared first in gcc-3.4.0.  */
+# if (__GNUC__ > 3) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 4))
 #  define _GL_ATTRIBUTE_WUR __attribute__ ((__warn_unused_result__))
 # else
 #  define _GL_ATTRIBUTE_WUR /* empty */
 # endif /* GCC 3.4+ */
 
 # ifndef _GL_ATTRIBUTE_DEPRECATED
-/* The __attribute__((__deprecated__)) feature
-   is available in gcc versions 3.1 and newer.  */
-#  if __GNUC__ < 3 || (__GNUC__ == 3 && __GNUC_MINOR__ < 1)
+/* The __attribute__((__deprecated__)) feature is available in gcc
+ * versions 3.1 and newer: */
+#  if (__GNUC__ < 3) || ((__GNUC__ == 3) && (__GNUC_MINOR__ < 1))
 #   define _GL_ATTRIBUTE_DEPRECATED /* empty */
 #  else
 #   define _GL_ATTRIBUTE_DEPRECATED __attribute__ ((__deprecated__))
 #  endif /* GCC 3.1 or newer */
 # endif /* !_GL_ATTRIBUTE_DEPRECATED */
 
-typedef size_t (*Hash_hasher) (const void *, size_t);
-typedef bool (*Hash_comparator) (const void *, const void *);
-typedef void (*Hash_data_freer) (void *);
-typedef bool (*Hash_processor) (void *, void *);
+typedef size_t (*Hash_hasher)(const void *, size_t);
+typedef bool (*Hash_comparator)(const void *, const void *);
+typedef void (*Hash_data_freer)(void *);
+typedef bool (*Hash_processor)(void *, void *);
 
 struct hash_tuning
   {
     /* This structure is mainly used for 'hash_initialize', see the block
        documentation of 'hash_reset_tuning' for more complete comments.  */
 
-    float shrink_threshold;     /* ratio of used buckets to trigger a shrink */
-    float shrink_factor;        /* ratio of new smaller size to original size */
-    float growth_threshold;     /* ratio of used buckets to trigger a growth */
-    float growth_factor;        /* ratio of new bigger size to original size */
+    float shrink_threshold; /* ratio of used buckets to trigger a shrink */
+    float shrink_factor;   /* ratio of new smaller size to original size */
+    float growth_threshold; /* ratio of used buckets to trigger a growth */
+    float growth_factor;    /* ratio of new bigger size to original size */
     bool is_n_buckets;          /* if CANDIDATE really means table size */
+    char padding_1; /* suffix == bytes */
+    short padding_2; /* likewise ((1 + 2) == 3) */
   };
 
 typedef struct hash_tuning Hash_tuning;
@@ -68,41 +71,45 @@ struct hash_table;
 
 typedef struct hash_table Hash_table;
 
-/* Information and lookup.  */
-size_t hash_get_n_buckets (const Hash_table *) _GL_ATTRIBUTE_PURE;
-size_t hash_get_n_buckets_used (const Hash_table *) _GL_ATTRIBUTE_PURE;
-size_t hash_get_n_entries (const Hash_table *) _GL_ATTRIBUTE_PURE;
-size_t hash_get_max_bucket_length (const Hash_table *) _GL_ATTRIBUTE_PURE;
-bool hash_table_ok (const Hash_table *) _GL_ATTRIBUTE_PURE;
-void hash_print_statistics (const Hash_table *, FILE *);
-void *hash_lookup (const Hash_table *, const void *);
+/* Information and lookup: */
+size_t hash_get_n_buckets(const Hash_table *) _GL_ATTRIBUTE_PURE;
+size_t hash_get_n_buckets_used(const Hash_table *) _GL_ATTRIBUTE_PURE;
+size_t hash_get_n_entries(const Hash_table *) _GL_ATTRIBUTE_PURE;
+size_t hash_get_max_bucket_length(const Hash_table *) _GL_ATTRIBUTE_PURE;
+bool hash_table_ok(const Hash_table *) _GL_ATTRIBUTE_PURE;
+void hash_print_statistics(const Hash_table *, FILE *);
+void *hash_lookup(const Hash_table *, const void *);
 
-/* Walking.  */
-void *hash_get_first (const Hash_table *) _GL_ATTRIBUTE_PURE;
-void *hash_get_next (const Hash_table *, const void *);
-size_t hash_get_entries (const Hash_table *, void **, size_t);
-size_t hash_do_for_each (const Hash_table *, Hash_processor, void *);
+/* Walking: */
+void *hash_get_first(const Hash_table *) _GL_ATTRIBUTE_PURE;
+void *hash_get_next(const Hash_table *, const void *);
+size_t hash_get_entries(const Hash_table *, void **, size_t);
+size_t hash_do_for_each(const Hash_table *, Hash_processor, void *);
 
-/* Allocation and clean-up.  */
-size_t hash_string (const char *, size_t) _GL_ATTRIBUTE_PURE;
-void hash_reset_tuning (Hash_tuning *);
-Hash_table *hash_initialize (size_t, const Hash_tuning *,
-                             Hash_hasher, Hash_comparator,
-                             Hash_data_freer) _GL_ATTRIBUTE_WUR;
-void hash_clear (Hash_table *);
-void hash_free (Hash_table *);
+/* Allocation and clean-up: */
+size_t hash_string(const char *, size_t) _GL_ATTRIBUTE_PURE;
+void hash_reset_tuning(Hash_tuning *);
+Hash_table *hash_initialize(size_t, const Hash_tuning *,
+                            Hash_hasher, Hash_comparator,
+                            Hash_data_freer) _GL_ATTRIBUTE_WUR;
+void hash_clear(Hash_table *);
+void hash_free(Hash_table *);
 
-/* Insertion and deletion.  */
-bool hash_rehash (Hash_table *, size_t) _GL_ATTRIBUTE_WUR;
-void *hash_insert (Hash_table *, const void *) _GL_ATTRIBUTE_WUR;
+/* Insertion and deletion: */
+bool hash_rehash(Hash_table *, size_t) _GL_ATTRIBUTE_WUR;
+void *hash_insert(Hash_table *, const void *) _GL_ATTRIBUTE_WUR;
 
-/* Deprecate this interface.  It has been renamed to hash_insert_if_absent.  */
-int hash_insert0 (Hash_table *table, /* FIXME: remove in 2013 */
-                  const void *entry,
-                  const void **matched_ent) _GL_ATTRIBUTE_DEPRECATED;
-int hash_insert_if_absent (Hash_table *table, const void *entry,
-                           const void **matched_ent);
-void *hash_delete (Hash_table *, const void *);
+/* Deprecate this interface; it has been renamed to hash_insert_if_absent: */
+int hash_insert0(Hash_table *table, /* FIXME: remove in 2013 */
+                 const void *entry,
+                 const void **matched_ent) _GL_ATTRIBUTE_DEPRECATED;
+int hash_insert_if_absent(Hash_table *table, const void *entry,
+                          const void **matched_ent);
+void *hash_delete(Hash_table *, const void *);
+
+# if defined(TESTING) && TESTING
+void hash_print(const Hash_table *);
+# endif /* TESTING */
 
 #endif /* !HASH_H_ */
 

@@ -19,7 +19,7 @@
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include "fd-hook.h"
 
 #include <stdlib.h>

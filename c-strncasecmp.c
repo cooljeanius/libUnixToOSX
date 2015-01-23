@@ -17,7 +17,7 @@
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include "c-strcase.h"
 
 #include <limits.h>

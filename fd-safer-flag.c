@@ -1,5 +1,5 @@
-/* fd-safer-flag.c: Adjust a file descriptor result so that it avoids clobbering
- * STD{IN,OUT,ERR}_FILENO, with specific flags.
+/* fd-safer-flag.c: Adjust a file descriptor result so that it avoids
+ * clobbering STD{IN,OUT,ERR}_FILENO, with specific flags.
  *
  * Copyright (C) 2005-2006, 2009-2012 Free Software Foundation, Inc.
  *
@@ -18,6 +18,12 @@
  */
 
 /* Written by Paul Eggert and Eric Blake.  */
+
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
+#   pragma GCC diagnostic ignored "-Wredundant-decls"
+# endif /* GCC 4.1+ */
+#endif /* gcc */
 
 #include <config.h>
 

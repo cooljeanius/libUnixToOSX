@@ -1,5 +1,5 @@
-/* localcharset.c: Determine a canonical name for the current locale's character
- * encoding.
+/* localcharset.c: Determine a canonical name for the current locale's
+ * character encoding.
  *
  * Copyright (C) 2000-2006, 2008-2012 Free Software Foundation, Inc.
  *
@@ -21,7 +21,7 @@
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include "localcharset.h"
 
 #include <fcntl.h>
@@ -30,15 +30,15 @@
 #include <string.h>
 #include <stdlib.h>
 
-#if defined __APPLE__ && defined __MACH__ && HAVE_LANGINFO_CODESET
+#if defined(__APPLE__) && defined(__MACH__) && HAVE_LANGINFO_CODESET
 # define DARWIN7 1 /* Darwin 7 or newer, i.e. Mac OS X 10.3 or newer */
 #endif /* __APPLE__ && __MACH__ && HAVE_LANGINFO_CODESET */
 
-#if defined _WIN32 || defined __WIN32__
+#if defined(_WIN32) || defined(__WIN32__)
 # define WINDOWS_NATIVE 1
 #endif /* _WIN32 || __WIN32__ */
 
-#if defined __EMX__
+#if defined(__EMX__)
 /* Assume EMX program runs on OS/2, even if compiled under DOS.  */
 # ifndef OS2
 #  define OS2 1
@@ -78,12 +78,12 @@
 # endif /* !(defined DARWIN7 || defined VMS || defined WINDOWS_NATIVE || defined __CYGWIN__) */
 #endif /* ENABLE_RELOCATABLE */
 
-/* Get LIBDIR.  */
+/* Get LIBDIR: */
 #ifndef LIBDIR
 # include "configmake.h"
 #endif /* !LIBDIR */
 
-/* Define O_NOFOLLOW to 0 on platforms where it does not exist.  */
+/* Define O_NOFOLLOW to 0 on platforms where it does not exist: */
 #ifndef O_NOFOLLOW
 # define O_NOFOLLOW 0
 #endif /* !O_NOFOLLOW */
@@ -167,7 +167,7 @@ get_charset_aliases(void)
       }
 
       if (file_name == NULL) {
-		  /* Out of memory.  Treat the file as empty.  */
+		  /* Out of memory.  Treat the file as empty: */
 		  cp = "";
       } else {
           int fd;

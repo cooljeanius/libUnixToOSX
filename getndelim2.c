@@ -30,15 +30,15 @@
 
 #if USE_UNLOCKED_IO
 # include "unlocked-io.h"
-#endif
+#endif /* USE_UNLOCKED_IO */
 #if !HAVE_FLOCKFILE
 # undef flockfile
-# define flockfile(x) ((void) 0)
-#endif
+# define flockfile(x) ((void)0)
+#endif /* !HAVE_FLOCKFILE */
 #if !HAVE_FUNLOCKFILE
 # undef funlockfile
-# define funlockfile(x) ((void) 0)
-#endif
+# define funlockfile(x) ((void)0)
+#endif /* !HAVE_FUNLOCKFILE */
 
 #include <limits.h>
 #include <stdint.h>
@@ -48,15 +48,24 @@
 #include "memchr2.h"
 
 #ifndef SSIZE_MAX
-# define SSIZE_MAX ((ssize_t) (SIZE_MAX / 2))
-#endif
+# define SSIZE_MAX ((ssize_t)(SIZE_MAX / 2))
+#endif /* !SSIZE_MAX */
 
-/* Use this to suppress gcc's "...may be used before initialized" warnings. */
+#ifndef lint
+# if defined(DEBUG) || defined(_DEBUG) || defined(TESTING) || defined(__clang__) || \
+     (defined(__GNUC__) && defined(__GNUC_MINOR__) && \
+      ((__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 6))))
+#  define lint 1
+# endif /* DEBUG || _DEBUG || TESTING || __clang__ || gcc 4.6+ */
+#endif /* !lint */
+
+/* Use this to suppress gcc's "...may be used before initialized"
+ * warnings: */
 #ifdef lint
 # define IF_LINT(Code) Code
 #else
 # define IF_LINT(Code) /* empty */
-#endif
+#endif /* lint */
 
 /* The maximum value that getndelim2 can return without suffering from
    overflow problems, either internally (because of pointer
@@ -68,8 +77,8 @@
 #define MIN_CHUNK 64
 
 ssize_t
-getndelim2 (char **lineptr, size_t *linesize, size_t offset, size_t nmax,
-            int delim1, int delim2, FILE *stream)
+getndelim2(char **lineptr, size_t *linesize, size_t offset, size_t nmax,
+           int delim1, int delim2, FILE *stream)
 {
   size_t nbytes_avail;          /* Allocated but unused bytes in *LINEPTR.  */
   char *read_pos;               /* Where we're reading into *LINEPTR. */
@@ -213,3 +222,5 @@ getndelim2 (char **lineptr, size_t *linesize, size_t offset, size_t nmax,
   *linesize = size;
   return bytes_stored ? bytes_stored : -1;
 }
+
+/* EOF */

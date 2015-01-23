@@ -1,4 +1,4 @@
-/* Hierarchial argument parsing
+/* argp-parse.c: Hierarchial argument parsing.
    Copyright (C) 1995, 96, 97, 98, 99, 2000,2003 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
    Written by Miles Bader <miles@gnu.ai.mit.edu>.
@@ -15,18 +15,18 @@
 
    You should have received a copy of the GNU Library General Public
    License along with the GNU C Library; see the file COPYING.LIB.  If not,
-   write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+   write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330,
    Boston, MA 02111-1307, USA.  */
 
 #ifndef _GNU_SOURCE
 # define _GNU_SOURCE	1
-#endif
+#endif /* !_GNU_SOURCE */
 
 #ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+# include <config.h>
+#endif /* HAVE_CONFIG_H */
 
-/* AIX requires this to be the first thing in the file.  */
+/* AIX requires this to be the first thing in the file: */
 #ifndef __GNUC__
 # if HAVE_ALLOCA_H
 #  include <alloca.h>
@@ -34,12 +34,12 @@
 #  ifdef _AIX
  #pragma alloca
 #  else
-#   ifndef alloca /* predefined by HP cc +Olibcalls */
-char *alloca ();
-#   endif
-#  endif
-# endif
-#endif
+#   ifndef alloca /* predefined by HP cc +Olibcalls: */
+char *alloca();
+#   endif /* !alloca */
+#  endif /* _AIX */
+# endif /* HAVE_ALLOCA_H */
+#endif /* !__GNUC__ */
 
 #include <stdlib.h>
 #include <string.h>
@@ -49,30 +49,30 @@ char *alloca ();
 
 #ifndef _
 /* This is for other GNU distributions with internationalized messages.
-   When compiling libc, the _ macro is predefined.  */
+ * When compiling libc, the '_' macro is predefined: */
 # if (defined(HAVE_LIBINTL_H) && (defined(ENABLE_NLS) && ENABLE_NLS)) || defined _LIBC
 #  include <libintl.h>
 #  ifdef _LIBC
 #   undef dgettext
-#   define dgettext(domain, msgid) __dcgettext (domain, msgid, LC_MESSAGES)
-#  endif
+#   define dgettext(domain, msgid) __dcgettext(domain, msgid, LC_MESSAGES)
+#  endif /* _LIBC */
 # else
 #  define dgettext(domain, msgid) (msgid)
 #  ifndef gettext
 #   define gettext(msgid) (msgid)
 #  endif /* !gettext */
-# endif
-#endif
+# endif /* (HAVE_LIBINTL_H && ENABLE_NLS) || _LIBC */
+#endif /* !_ */
 #ifndef N_
 # define N_(msgid) (msgid)
-#endif
+#endif /* !N_ */
 
 #if (defined(_LIBC) && (_LIBC - 0))
 # include <bits/libc-lock.h>
 #else
-#ifdef HAVE_CTHREADS_H
-#include <cthreads.h>
-#endif
+# ifdef HAVE_CTHREADS_H
+#  include <cthreads.h>
+# endif /* HAVE_CTHREADS_H */
 #endif /* _LIBC */
 
 #include "argp.h"
@@ -85,8 +85,8 @@ char *alloca ();
 #endif /* gcc */
 
 #ifndef QUOTE
-/* The meta-argument used to prevent any further arguments being interpreted
- * as options: */
+/* The meta-argument used to prevent any further arguments being
+ * interpreted as options: */
 # define QUOTE "--"
 #endif /* !QUOTE */
 
@@ -135,7 +135,7 @@ argp_default_parser (int key, char *arg, struct argp_state *state)
     case OPT_PROGNAME:		/* Set the program name.  */
 #if HAVE_DECL_PROGRAM_INVOCATION_NAME
       program_invocation_name = arg;
-#endif
+#endif /* HAVE_DECL_PROGRAM_INVOCATION_NAME */
       /* [Note that some systems only have PROGRAM_INVOCATION_SHORT_NAME (aka
 	 __PROGNAME), in which case, PROGRAM_INVOCATION_NAME is just defined
 	 to be that, so we have to be a bit careful here.]  */
@@ -146,7 +146,7 @@ argp_default_parser (int key, char *arg, struct argp_state *state)
 
 #if HAVE_DECL_PROGRAM_INVOCATION_SHORT_NAME
       program_invocation_short_name = state->name;
-#endif
+#endif /* HAVE_DECL_PROGRAM_INVOCATION_SHORT_NAME */
 
       if ((state->flags & (ARGP_PARSE_ARGV0 | ARGP_NO_ERRS))
 	  == ARGP_PARSE_ARGV0)
@@ -170,13 +170,14 @@ argp_default_parser (int key, char *arg, struct argp_state *state)
 }
 
 static const struct argp argp_default_argp =
-  {argp_default_options, &argp_default_parser, NULL, NULL, NULL, NULL, "libc"};
+  { argp_default_options, &argp_default_parser, NULL, NULL, NULL, NULL,
+    "libc" };
 
 
 static const struct argp_option argp_version_options[] =
 {
-  {"version",	  'V',    	0, 0,  N_("Print program version"), -1},
-  {0, 0, 0, 0, 0, 0 }
+  { "version",	  'V',    	0, 0,  N_("Print program version"), -1 },
+  { 0, 0, 0, 0, 0, 0 }
 };
 
 static error_t
@@ -351,8 +352,8 @@ enum match_result { MATCH_EXACT, MATCH_PARTIAL, MATCH_NO };
 
 /* If defined, allow complete.el-like abbreviations of long options. */
 #ifndef ARGP_COMPLETE
-#define ARGP_COMPLETE 0
-#endif
+# define ARGP_COMPLETE 0
+#endif /* !ARGP_COMPLETE */
 
 /* Matches an encountern long-option argument ARG against an option NAME.
  * ARG is terminated by NUL or '='. */
@@ -366,14 +367,14 @@ match_option(const char *arg, const char *name)
 	{
 	case '\0':
 	case '=':
-	  return name[j] ? MATCH_PARTIAL : MATCH_EXACT;
+	  return (name[j] ? MATCH_PARTIAL : MATCH_EXACT);
 #if ARGP_COMPLETE
 	case '-':
 	  while (name[j] != '-')
 	    if (!name[j++])
 	      return MATCH_NO;
 	  break;
-#endif
+#endif /* ARGP_COMPLETE */
 	default:
 	  if (arg[i] != name[j])
 	    return MATCH_NO;
@@ -1030,7 +1031,7 @@ parser_parse_next (struct parser *parser, int *arg_ebadkey)
 	{
 	  *arg_ebadkey = 1;
 	  if (parser->state.next >= parser->state.argc)
-	    /* We're done. */
+	    /* We are done: */
 	    return EBADKEY;
 	  else
 	    return parser_parse_arg(parser,
@@ -1046,7 +1047,7 @@ parser_parse_next (struct parser *parser, int *arg_ebadkey)
 	    {
 	      exchange(parser);
 
-	      /* Start processing the arguments we skipped previously. */
+	      /* Start processing the arguments we skipped previously: */
 	      parser->state.next = parser->first_nonopt;
 
 	      parser->first_nonopt = parser->last_nonopt = 0;
@@ -1055,7 +1056,7 @@ parser_parse_next (struct parser *parser, int *arg_ebadkey)
 	      return 0;
 	    }
 	  else
-	    /* Indicate that we're really done. */
+	    /* Indicate that we are really done. */
 	    return EBADKEY;
 	}
       else
@@ -1072,18 +1073,18 @@ parser_parse_next (struct parser *parser, int *arg_ebadkey)
 	      switch (parser->ordering)
 		{
 		case PERMUTE:
-		  if (parser->first_nonopt == parser->last_nonopt)
-		    /* Skipped sequence is empty; start a new one. */
+                  if (parser->first_nonopt == parser->last_nonopt) {
+		    /* Skipped sequence is empty; start a new one: */
 		    parser->first_nonopt = parser->last_nonopt = parser->state.next;
-
-		  else if (parser->last_nonopt != parser->state.next)
-		    /* We have a non-empty skipped sequence, and
-		       we're not at the end-point, so move it. */
+		  } else if (parser->last_nonopt != parser->state.next) {
+                    /* We have a non-empty skipped sequence, and we are not
+                     * at the end-point, so move it. */
 		    exchange(parser);
+                  }
 
 		  assert(parser->last_nonopt == parser->state.next);
 
-		  /* Skip this argument for now. */
+		  /* Skip this argument for now: */
 		  parser->state.next++;
 		  parser->last_nonopt = parser->state.next;
 
@@ -1102,9 +1103,9 @@ parser_parse_next (struct parser *parser, int *arg_ebadkey)
 		  abort();
 		}
 	    case ARG_QUOTE:
-	      /* Skip it, then exchange with any previous non-options. */
+	      /* Skip it, then exchange with any previous non-options: */
 	      parser->state.next++;
-	      assert (parser->last_nonopt != parser->state.next);
+	      assert(parser->last_nonopt != parser->state.next);
 
 	      if (parser->first_nonopt != parser->last_nonopt)
 		{
@@ -1137,11 +1138,11 @@ parser_parse_next (struct parser *parser, int *arg_ebadkey)
 
 		if (!option)
 		  {
-		    /* NOTE: This includes any "=something" in the output. */
-		    fprintf (parser->state.err_stream,
-			     dgettext(parser->state.root_argp->argp_domain,
-				      "%s: unrecognized option `%s'\n"),
-			     parser->state.name, arg);
+		    /* NOTE: This includes any "=something" in the output: */
+		    fprintf(parser->state.err_stream,
+			    dgettext(parser->state.root_argp->argp_domain,
+                                     "%s: unrecognized option `%s'\n"),
+			    parser->state.name, arg);
 		    *arg_ebadkey = 0;
 		    return EBADKEY;
 		  }
@@ -1155,16 +1156,16 @@ parser_parse_next (struct parser *parser, int *arg_ebadkey)
 		  {
 		    if (token == ARG_LONG_OPTION)
 		      /* --option */
-		      fprintf (parser->state.err_stream,
-			       dgettext(parser->state.root_argp->argp_domain,
-					"%s: option `--%s' doesn't allow an argument\n"),
-			       parser->state.name, option->name);
+		      fprintf(parser->state.err_stream,
+			      dgettext(parser->state.root_argp->argp_domain,
+                                       "%s: option `--%s' does NOT allow an argument\n"),
+			      parser->state.name, option->name);
 		    else
 		      /* +option or -option */
-		      fprintf (parser->state.err_stream,
-			       dgettext(parser->state.root_argp->argp_domain,
-					"%s: option `%c%s' doesn't allow an argument\n"),
-			       parser->state.name, arg[0], option->name);
+		      fprintf(parser->state.err_stream,
+			      dgettext(parser->state.root_argp->argp_domain,
+                                       "%s: option `%c%s' does NOT allow an argument\n"),
+			      parser->state.name, arg[0], option->name);
 
 		    *arg_ebadkey = 0;
 		    return EBADKEY;
@@ -1218,49 +1219,49 @@ parser_parse_next (struct parser *parser, int *arg_ebadkey)
    unknown option is present, EINVAL is returned; if some parser routine
    returned a non-zero value, it is returned; otherwise 0 is returned.  */
 error_t
-__argp_parse (const struct argp *argp, int argc, char **argv, unsigned flags,
-	      int *end_index, void *input)
+__argp_parse(const struct argp *argp, int argc, char **argv, unsigned flags,
+	     int *end_index, void *input)
 {
   error_t err;
   struct parser parser;
 
-  /* If true, then err == EBADKEY is a result of a non-option argument failing
-     to be parsed (which in some cases isn't actually an error).  */
+  /* If true, then err == EBADKEY is a result of a non-option argument
+   * failing to be parsed (which in some cases is actually a non-error): */
   int arg_ebadkey = 0;
 
   if (! (flags & ARGP_NO_HELP)) {
-	  /* Add our own options: */
-      struct argp_child *child;
-      struct argp *top_argp;
+    /* Add our own options: */
+    struct argp_child *child;
+    struct argp *top_argp;
 
-	  child = (struct argp_child *)alloca(4 * sizeof(struct argp_child));
-	  top_argp = (struct argp *)alloca(sizeof(struct argp));
-      /* TOP_ARGP has no options, it just serves to group the user & default
-	   * argps: */
-      memset(top_argp, 0, sizeof(*top_argp));
-      top_argp->children = child;
+    child = (struct argp_child *)alloca(4 * sizeof(struct argp_child));
+    top_argp = (struct argp *)alloca(sizeof(struct argp));
+    /* TOP_ARGP has no options, it just serves to group the user & default
+     * argps: */
+    memset(top_argp, 0, sizeof(*top_argp));
+    top_argp->children = child;
 
-      memset(child, 0, (4 * sizeof(struct argp_child)));
+    memset(child, 0, (4 * sizeof(struct argp_child)));
 
-      if (argp)
-	(child++)->argp = argp;
-      (child++)->argp = &argp_default_argp;
-      if (argp_program_version || argp_program_version_hook)
-	(child++)->argp = &argp_version_argp;
-      child->argp = 0;
+    if (argp)
+      (child++)->argp = argp;
+    (child++)->argp = &argp_default_argp;
+    if (argp_program_version || argp_program_version_hook)
+      (child++)->argp = &argp_version_argp;
+    child->argp = 0;
 
-      argp = top_argp;
-    }
+    argp = top_argp;
+  }
 
-  /* Construct a parser for these arguments.  */
+  /* Construct a parser for these arguments: */
   err = parser_init(&parser, argp, argc, argv, (int)flags, input);
 
   if (! err) {
-	  /* Parse! */
-	  while (! err) {
-		  err = parser_parse_next(&parser, &arg_ebadkey);
-	  }
-      err = parser_finalize(&parser, err, arg_ebadkey, end_index);
+    /* Parse! */
+    while (! err) {
+      err = parser_parse_next(&parser, &arg_ebadkey);
+    }
+    err = parser_finalize(&parser, err, arg_ebadkey, end_index);
   }
 
   return err;
@@ -1269,8 +1270,8 @@ __argp_parse (const struct argp *argp, int argc, char **argv, unsigned flags,
 weak_alias (__argp_parse, argp_parse)
 #endif
 
-/* Return the input field for ARGP in the parser corresponding to STATE; used
- * by the help routines: */
+/* Return the input field for ARGP in the parser corresponding to STATE;
+ * used by the help routines: */
 void *__argp_input(const struct argp *argp, const struct argp_state *state)
 {
   if (state) {
@@ -1279,28 +1280,28 @@ void *__argp_input(const struct argp *argp, const struct argp_state *state)
 	  parser = (struct parser *)state->pstate;
 
       for ((group = parser->groups); (group < parser->egroup); group++) {
-		  if (group->argp == argp) {
-			  return group->input;
-		  }
-	  }
+        if (group->argp == argp) {
+          return group->input;
+        }
+      }
   }
 
   return 0;
 }
 #ifdef weak_alias
 weak_alias (__argp_input, _argp_input)
-#endif
+#endif /* weak_alias */
 
 /* Defined here, in case a user is not inlining the definitions in
  * argp.h */
 void
-__argp_usage (__const struct argp_state *__state) __THROW
+__argp_usage(__const struct argp_state *__state) __THROW
 {
-  __argp_state_help (__state, stderr, ARGP_HELP_STD_USAGE);
+  __argp_state_help(__state, stderr, ARGP_HELP_STD_USAGE);
 }
 
 int
-__option_is_short (__const struct argp_option *__opt) __THROW
+__option_is_short(__const struct argp_option *__opt) __THROW
 {
   if (__opt->flags & OPTION_DOC)
     return 0;
@@ -1309,12 +1310,21 @@ __option_is_short (__const struct argp_option *__opt) __THROW
       int __key = __opt->key;
       /* FIXME: whether or not a particular key implies a short option
        * ought not to be locale dependent. */
-      return __key > 0 && isprint (__key);
+      return (__key > 0) && isprint(__key);
     }
 }
 
 int
-__option_is_end (__const struct argp_option *__opt) __THROW
+__option_is_end(__const struct argp_option *__opt) __THROW
 {
   return !__opt->key && !__opt->name && !__opt->doc && !__opt->group;
 }
+
+#ifdef gettext
+# undef gettext
+#endif /* gettext */
+#ifdef QUOTE
+# undef QUOTE
+#endif /* QUOTE */
+
+/* EOF */

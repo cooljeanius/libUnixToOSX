@@ -1,4 +1,4 @@
-/* a simple ring buffer
+/* i-ring.c: a simple ring buffer
    Copyright (C) 2006, 2009-2012 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -12,7 +12,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* written by Jim Meyering */
 
@@ -22,7 +22,7 @@
 #include <stdlib.h>
 
 void
-i_ring_init (I_ring *ir, int default_val)
+i_ring_init(I_ring *ir, int default_val)
 {
   int i;
   ir->ir_empty = true;
@@ -34,13 +34,13 @@ i_ring_init (I_ring *ir, int default_val)
 }
 
 bool
-i_ring_empty (I_ring const *ir)
+i_ring_empty(I_ring const *ir)
 {
   return ir->ir_empty;
 }
 
 int
-i_ring_push (I_ring *ir, int val)
+i_ring_push(I_ring *ir, int val)
 {
   unsigned int dest_idx = (ir->ir_front + !ir->ir_empty) % I_RING_SIZE;
   int old_val = ir->ir_data[dest_idx];
@@ -53,11 +53,11 @@ i_ring_push (I_ring *ir, int val)
 }
 
 int
-i_ring_pop (I_ring *ir)
+i_ring_pop(I_ring *ir)
 {
   int top_val;
-  if (i_ring_empty (ir))
-    abort ();
+  if (i_ring_empty(ir))
+    abort();
   top_val = ir->ir_data[ir->ir_front];
   ir->ir_data[ir->ir_front] = ir->ir_default_val;
   if (ir->ir_front == ir->ir_back)
@@ -66,3 +66,5 @@ i_ring_pop (I_ring *ir)
     ir->ir_front = ((ir->ir_front + I_RING_SIZE - 1) % I_RING_SIZE);
   return top_val;
 }
+
+/* EOF */

@@ -1,4 +1,4 @@
-/* POSIX compatible FILE stream read function.
+/* stdio-read.c: POSIX compatible FILE stream read function.
    Copyright (C) 2008-2012 Free Software Foundation, Inc.
    Written by Bruno Haible <bruno@clisp.org>, 2011.
 
@@ -13,11 +13,11 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include <stdio.h>
 
 /* Replace these functions only if module 'nonblocking' is requested.  */
@@ -40,67 +40,67 @@
 #  include "msvc-nothrow.h"
 
 #  define CALL_WITH_ERRNO_FIX(RETTYPE, EXPRESSION, FAILED) \
-  if (ferror (stream))                                                        \
-    return (EXPRESSION);                                                      \
-  else                                                                        \
-    {                                                                         \
-      RETTYPE ret;                                                            \
-      SetLastError (0);                                                       \
-      ret = (EXPRESSION);                                                     \
-      if (FAILED)                                                             \
-        {                                                                     \
-          if (GetLastError () == ERROR_NO_DATA && ferror (stream))            \
-            {                                                                 \
-              int fd = fileno (stream);                                       \
-              if (fd >= 0)                                                    \
-                {                                                             \
-                  HANDLE h = (HANDLE) _get_osfhandle (fd);                    \
-                  if (GetFileType (h) == FILE_TYPE_PIPE)                      \
-                    {                                                         \
-                      /* h is a pipe or socket.  */                           \
-                      DWORD state;                                            \
-                      if (GetNamedPipeHandleState (h, &state, NULL, NULL,     \
-                                                   NULL, NULL, 0)             \
-                          && (state & PIPE_NOWAIT) != 0)                      \
-                        /* h is a pipe in non-blocking mode.                  \
-                           Change errno from EINVAL to EAGAIN.  */            \
-                        errno = EAGAIN;                                       \
-                    }                                                         \
-                }                                                             \
-            }                                                                 \
-        }                                                                     \
-      return ret;                                                             \
+  if (ferror(stream))                                                     \
+    return (EXPRESSION);                                                  \
+  else                                                                    \
+    {                                                                     \
+      RETTYPE ret;                                                        \
+      SetLastError (0);                                                   \
+      ret = (EXPRESSION);                                                 \
+      if (FAILED)                                                         \
+        {                                                                 \
+          if ((GetLastError() == ERROR_NO_DATA) && ferror(stream))        \
+            {                                                             \
+              int fd = fileno(stream);                                    \
+              if (fd >= 0)                                                \
+                {                                                         \
+                  HANDLE h = (HANDLE)_get_osfhandle(fd);                  \
+                  if (GetFileType(h) == FILE_TYPE_PIPE)                   \
+                    {                                                     \
+                      /* h is a pipe or socket: */                        \
+                      DWORD state;                                        \
+                      if (GetNamedPipeHandleState(h, &state, NULL, NULL,  \
+                                                  NULL, NULL, 0)          \
+                          && ((state & PIPE_NOWAIT) != 0))                \
+                        /* h is a pipe in non-blocking mode.              \
+                         * Change errno from EINVAL to EAGAIN: */         \
+                        errno = EAGAIN;                                   \
+                    }                                                     \
+                }                                                         \
+            }                                                             \
+        }                                                                 \
+      return ret;                                                         \
     }
 
 /* Enable this function definition only if gnulib's <stdio.h> has prepared it.
    Otherwise we get a function definition conflict with mingw64's <stdio.h>.  */
 #  if GNULIB_SCANF
 int
-scanf (const char *format, ...)
+scanf(const char *format, ...)
 {
   int retval;
   va_list args;
 
-  va_start (args, format);
-  retval = vfscanf (stdin, format, args);
-  va_end (args);
+  va_start(args, format);
+  retval = vfscanf(stdin, format, args);
+  va_end(args);
 
   return retval;
 }
-#  endif
+#  endif /* GNULIB_SCANF */
 
 /* Enable this function definition only if gnulib's <stdio.h> has prepared it.
    Otherwise we get a function definition conflict with mingw64's <stdio.h>.  */
 #  if GNULIB_FSCANF
 int
-fscanf (FILE *stream, const char *format, ...)
+fscanf(FILE *stream, const char *format, ...)
 {
   int retval;
   va_list args;
 
-  va_start (args, format);
-  retval = vfscanf (stream, format, args);
-  va_end (args);
+  va_start(args, format);
+  retval = vfscanf(stream, format, args);
+  va_end(args);
 
   return retval;
 }
@@ -110,11 +110,11 @@ fscanf (FILE *stream, const char *format, ...)
    Otherwise we get a function definition conflict with mingw64's <stdio.h>.  */
 #  if GNULIB_VSCANF
 int
-vscanf (const char *format, va_list args)
+vscanf(const char *format, va_list args)
 {
-  return vfscanf (stdin, format, args);
+  return vfscanf(stdin, format, args);
 }
-#  endif
+#  endif /* GNULIB_VSCANF */
 
 /* Enable this function definition only if gnulib's <stdio.h> has prepared it.
    Otherwise we get a function definition conflict with mingw64's <stdio.h>.  */
@@ -123,38 +123,40 @@ int
 vfscanf (FILE *stream, const char *format, va_list args)
 #undef vfscanf
 {
-  CALL_WITH_ERRNO_FIX (int, vfscanf (stream, format, args), ret == EOF)
+  CALL_WITH_ERRNO_FIX(int, vfscanf(stream, format, args), (ret == EOF))
 }
-#  endif
+#  endif /* GNULIB_VFSCANF */
 
 int
-getchar (void)
+getchar(void)
 {
-  return fgetc (stdin);
+  return fgetc(stdin);
 }
 
 int
 fgetc (FILE *stream)
 #undef fgetc
 {
-  CALL_WITH_ERRNO_FIX (int, fgetc (stream), ret == EOF)
+  CALL_WITH_ERRNO_FIX(int, fgetc(stream), (ret == EOF))
 }
 
 char *
-fgets (char *s, int n, FILE *stream)
+fgets(char *s, int n, FILE *stream)
 #undef fgets
 {
-  CALL_WITH_ERRNO_FIX (char *, fgets (s, n, stream), ret == NULL)
+  CALL_WITH_ERRNO_FIX(char *, fgets(s, n, stream), (ret == NULL))
 }
 
-/* We intentionally don't bother to fix gets.  */
+/* (We intentionally do NOT bother to fix gets).  */
 
 size_t
-fread (void *ptr, size_t s, size_t n, FILE *stream)
+fread(void *ptr, size_t s, size_t n, FILE *stream)
 #undef fread
 {
-  CALL_WITH_ERRNO_FIX (size_t, fread (ptr, s, n, stream), ret < n)
+  CALL_WITH_ERRNO_FIX(size_t, fread(ptr, s, n, stream), (ret < n))
 }
 
 # endif
 #endif
+
+/* EOF */

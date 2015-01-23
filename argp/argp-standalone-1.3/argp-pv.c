@@ -1,4 +1,4 @@
-/* Default definition for ARGP_PROGRAM_VERSION.
+/* argp-pv.c: Default definition for ARGP_PROGRAM_VERSION.
    Copyright (C) 1996, 1997, 1999, 2004 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
    Written by Miles Bader <miles@gnu.ai.mit.edu>.
@@ -15,11 +15,16 @@
 
    You should have received a copy of the GNU Library General Public
    License along with the GNU C Library; see the file COPYING.LIB.  If not,
-   write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+   write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330,
    Boston, MA 02111-1307, USA.  */
 
 /* If set by the user program to a non-zero value, then a default option
    --version is added (unless the ARGP_NO_HELP flag is used), which will
    print this this string followed by a newline and exit (unless the
-   ARGP_NO_EXIT flag is used).  Overridden by ARGP_PROGRAM_VERSION_HOOK.  */
+   ARGP_NO_EXIT flag is used).  Overridden by ARGP_PROGRAM_VERSION_HOOK: */
+#if defined(__clang__) && !defined(_ARGP_H)
+extern const char *argp_program_version;
+#endif /* __clang__ && !_ARGP_H */
 const char *argp_program_version = 0;
+
+/* EOF */

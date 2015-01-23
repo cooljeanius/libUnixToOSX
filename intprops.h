@@ -116,14 +116,14 @@
    Because _GL_SIGNED_TYPE_OR_EXPR sometimes returns 0 when its argument is
    signed, this macro may overestimate the true bound by one byte when
    applied to unsigned types of size 2, 4, 16, ... bytes.  */
-#define INT_STRLEN_BOUND(t)                                     \
-  (INT_BITS_STRLEN_BOUND (sizeof (t) * CHAR_BIT                 \
-                          - _GL_SIGNED_TYPE_OR_EXPR (t))        \
-   + _GL_SIGNED_TYPE_OR_EXPR (t))
+#define INT_STRLEN_BOUND(t)                                   \
+  (INT_BITS_STRLEN_BOUND(sizeof(t) * CHAR_BIT                 \
+                         - _GL_SIGNED_TYPE_OR_EXPR(t))        \
+   + _GL_SIGNED_TYPE_OR_EXPR(t))
 
 /* Bound on buffer size needed to represent an integer type or expression T,
    including the terminating null.  */
-#define INT_BUFSIZE_BOUND(t) (INT_STRLEN_BOUND (t) + 1)
+#define INT_BUFSIZE_BOUND(t) (INT_STRLEN_BOUND(t) + 1)
 
 
 /* Range overflow checks.

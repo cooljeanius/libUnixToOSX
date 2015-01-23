@@ -25,9 +25,29 @@
 #include <fcntl.h>
 #include "unistd-safer.h"
 
+/* we already cast, which fails to fix the warning, so turn it off: */
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
+#  if (__GNUC__ == 4) && (__GNUC_MINOR__ >= 6)
+/* can push and pop with this version, so do so: */
+#   pragma GCC diagnostic push
+#   pragma GCC diagnostic ignored "-Wtraditional-conversion"
+#  else
+#   pragma GCC diagnostic ignored "-Wconversion"
+#  endif /* GCC 4.6+ || not */
+# endif /* GCC 4.1+ */
+#endif /* gcc */
+
 int creat_safer(char const *file, mode_t mode)
 {
   return fd_safer(creat(file, (mode_t)mode));
 }
+
+/* keep condition (essentially) the same as where we push: */
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 6))
+#  pragma GCC diagnostic pop
+# endif /* GCC 4.6+ */
+#endif /* gcc */
 
 /* EOF */

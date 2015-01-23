@@ -17,6 +17,7 @@ AC_REQUIRE_AUX_FILE([git-version-gen])dnl
 AC_REQUIRE_AUX_FILE([gitlog-to-changelog])dnl
 AC_REQUIRE_AUX_FILE([install-reloc])dnl
 AC_REQUIRE_AUX_FILE([reloc-ldflags])dnl
+AC_REQUIRE_AUX_FILE([depcomp])dnl
 
 # Check system characteristics.
 AC_MSG_CHECKING([the characteristics of your system])
@@ -52,6 +53,7 @@ AC_MSG_RESULT([... .. . ])
 LT_REQUIRE_PREREQS
 LT_INIT([dlopen])dnl
 LT_LANG([C])dnl
+LT_PREREQ([2.4.2])dnl
 
 # Checks for programs.
 AC_MSG_CHECKING([for some programs...])
@@ -68,9 +70,11 @@ AC_REQUIRE_LINT
 # Compiler warnings:
 AC_MSG_CHECKING([which compiler warnings are supported...])
 AC_MSG_RESULT([... .. . ])
+gl_UNKNOWN_WARNINGS_ARE_ERRORS
 dnl#TODO: add a configure flag to enable the warnings conditionally:
 gl_MANYWARN_ALL_GCC([warnings_to_check])
 warnings_to_skip=""
+warnings_to_skip="${warnings_to_skip} -W"          # redundant with -Wextra
 warnings_to_skip="${warnings_to_skip} -Wsystem-headers"         # unfixable
 warnings_to_skip="${warnings_to_skip} -Wvla"        # warnings in gettext.h
 warnings_to_skip="${warnings_to_skip} -Wsuggest-attribute=const"      # ???
@@ -80,9 +84,16 @@ warnings_to_skip="${warnings_to_skip} -Wsuggest-attribute=pure"       # ???
 warnings_to_skip="${warnings_to_skip} -Wmissing-format-attribute"     # ???
 warnings_to_skip="${warnings_to_skip} -Wtraditional"     # not for new code
 warnings_to_skip="${warnings_to_skip} -Wcast-qual"      # I use casts a lot
+warnings_to_skip="${warnings_to_skip} -Wcast-align"              # likewise
 warnings_to_skip="${warnings_to_skip} -Wredundant-decls"  # redundancy=good
 warnings_to_skip="${warnings_to_skip} -Wpedantic"        # too many for now
-warnings_to_skip="${warnings_to_skip} -Wpadded"        # no idea how to fix
+if test "x${GCC}" = "xyes"; then
+ warnings_to_skip="${warnings_to_skip} -Wpadded" # no idea how to fix w/gcc
+fi
+warnings_to_skip="${warnings_to_skip} -Wcomments"   # redundant w/-Wcomment
+warnings_to_skip="${warnings_to_skip} -Wmudflap"      # no longer supported
+warnings_to_skip="${warnings_to_skip} -Wconditionally-supported" # C++ only
+warnings_to_skip="${warnings_to_skip} -Wdelete-incomplete"       # C++ only
 case ${host_cpu} in
   aarch64 | powerpc64 | x86_64)
     warnings_to_skip="${warnings_to_skip} -Wlong-long"  # "long long"=64bit
@@ -102,7 +113,8 @@ else
 fi
 gl_MANYWARN_COMPLEMENT([actual_warnings_to_check],
                        [${warnings_to_check}],
-                       [${warnings_to_skip}])
+                       [${warnings_to_skip}])dnl
+  ## loop through all of them:
 for fsf_gcc_warnflag in ${actual_warnings_to_check}; do
   gl_WARN_ADD([${fsf_gcc_warnflag}])
 done
@@ -116,6 +128,7 @@ case ${host_vendor} in
       -Wshorten-64-to-32 \
       -Wextra-tokens \
       -Waltivec-long-deprecated \
+      -Wnonportable-cfstrings \
       \
       ; do
       dnl# (was actually just a typo)
@@ -123,6 +136,33 @@ case ${host_vendor} in
     done
     ;;
 esac
+
+dnl# These next ones are linker warnings, which we do need to keep
+dnl# conditionalized on the vendor, because preprocessor macro
+dnl# declarations tell us nothing about what the linker accepts.
+dnl# Before we can check them, though, we need to make sure that this
+dnl# variable is defined first, to prevent aclocal/autoconf/autom4te/gm4
+dnl# from choking on the comma when it is used in arguments to the macro
+dnl# that we use:
+if test "x${acl_cv_wl}" = "x"; then
+  test -z "${acl_cv_wl}" && export acl_cv_wl='-Wl,'
+fi
+AC_SUBST([acl_cv_wl])
+WARN_LDFLAGS=""
+dnl# ok, now that set of vendor cases I was mentioning:
+case ${host_vendor} in 
+  apple*)
+    dnl#FIXME: make sure these flags are actually used properly
+    dnl# everywhere:
+    test -n "${LD_WARN_FILE}"
+    gl_WARN_ADD([${acl_cv_wl}-warn_compact_unwind],[WARN_LDFLAGS])
+    gl_WARN_ADD([${acl_cv_wl}-warn_weak_exports],[WARN_LDFLAGS])
+    gl_WARN_ADD([${acl_cv_wl}-warn_stabs],[WARN_LDFLAGS])
+    gl_WARN_ADD([${acl_cv_wl}-warn_commons],[WARN_LDFLAGS])
+    test -n "${LD_WARN_COMMONS}"
+    ;;
+esac
+AC_SUBST([WARN_LDFLAGS])dnl
 
 # Checks for libraries.
 AC_MSG_CHECKING([for some libraries...])
@@ -166,8 +206,9 @@ AC_CHECK_HEADERS([_types/_nl_item.h \
                   sys/_types/_size_t.h sys/_types/_time_t.h \
                   sys/_types/_wchar_t.h sys/cdefs.h sys/event.h \
                   sys/fcntl.h sys/fstyp.h sys/ipc.h sys/mntent.h \
-                  sys/mnttab.h sys/shm.h sys/statfs.h termio.h time.h \
-                  utmp.h utmpx.h values.h wctype.h winbase.h windows.h])dnl
+                  sys/mnttab.h sys/mount.h sys/shm.h sys/statfs.h \
+                  termio.h time.h utmp.h utmpx.h values.h \
+                  wctype.h winbase.h windows.h])dnl
 # CoreFoundation headers:
 AC_CHECK_HEADERS([CoreFoundation/CFString.h CoreFoundation/CFLocale.h \
                   CoreFoundation/CFPreferences.h \
@@ -177,7 +218,8 @@ if test "x" = "Y0"; then
   test -x `which autoscan`
   AC_CHECK_HEADERS([bp-sym.h fcntl.h langinfo.h stdio_ext.h sys/ioctl.h \
                     sys/param.h sys/socket.h sys/statvfs.h sys/time.h \
-                    sys/vfs.h wchar.h])
+                    sys/vfs.h wchar.h])dnl
+  ## should never actually get here though...
 fi
 
 # Checks for typedefs, structures, and compiler characteristics.
@@ -188,6 +230,7 @@ gl_C_MISC
 AC_MSG_CHECKING([for some declarations...])
 AC_MSG_RESULT([... .. . ])
 dnl# might have to get rid of the "_ONCE"s if they jump elsewehere...
+AC_CHECK_DECLS_ONCE([cuserid])dnl
 AC_CHECK_DECLS_ONCE([exit_failure])dnl
 AC_CHECK_DECLS_ONCE([program_invocation_name],[],[],
                     [#include <errno.h>])dnl
@@ -195,10 +238,17 @@ AC_CHECK_DECLS_ONCE([program_invocation_short_name],[],[],
                     [#include <errno.h>])dnl
 AC_CHECK_DECLS_ONCE([kCFStringEncodingASCII])dnl
 AC_CHECK_DECLS_ONCE([kCFPreferencesCurrentApplication])dnl
+AC_CHECK_DECLS_ONCE([_STAT_VER])dnl
 AC_MSG_CHECKING([for some types...])
 AC_MSG_RESULT([... .. . ])
+AC_CHECK_SIZEOF([char])dnl
+AC_CHECK_ALIGNOF([char])dnl
+AC_CHECK_SIZEOF([short])dnl
+AC_CHECK_ALIGNOF([short])dnl
 AC_CHECK_SIZEOF([int])dnl
 AC_CHECK_ALIGNOF([int])dnl
+AC_CHECK_SIZEOF([long])dnl
+AC_CHECK_ALIGNOF([long])dnl
 AC_CHECK_TYPES([ptrdiff_t])dnl
 AC_TYPES_UMBRELLA
 dnl#TODO: check to see if we need CoreFoundation for these next 3:
@@ -213,11 +263,33 @@ AC_CHECK_TYPES([ino_t])dnl
 AC_CHECK_TYPES([key_t])dnl
 AC_CHECK_TYPES([nfds_t])dnl
 AC_CHECK_TYPES([nl_catd])dnl
-AC_CHECK_TYPES([nl_item])
+AC_CHECK_TYPES([nl_item])dnl
+  ## TODO: macro-ize:
 if test "x${ac_cv_type_nlink_t}" = "x"; then
   test -z "${ac_cv_type_nlink_t}"
-  AC_CHECK_TYPES([nlink_t])
+  AC_CHECK_TYPES([nlink_t])dnl
+  ## ok
 fi
+if test "x${ac_cv_type_off_t}" = "xyes"; then
+  AC_CHECK_SIZEOF([off_t])dnl
+  AC_CHECK_ALIGNOF([off_t])dnl
+  ## might be bigger than expected...
+fi
+AC_CHECK_TYPES([off64_t],[
+  AC_CHECK_SIZEOF([off64_t])dnl
+  AC_CHECK_ALIGNOF([off64_t])dnl
+],[
+  if test "x${ac_cv_type_off64_t}" != "x"; then
+    test -n "${ac_cv_type_off64_t}" && unset ac_cv_type_off64_t
+  fi
+  if test "x${ac_cv_type_off_t}" = "xyes"; then
+    _AC_CHECK_TYPE_OLD([off64_t],[off_t])
+  elif test "x${ac_cv_type_long_long_int}" = "xyes"; then
+    _AC_CHECK_TYPE_OLD([off64_t],[long long int])
+  else
+    _AC_CHECK_TYPE_OLD([off64_t],[long int])
+  fi
+])dnl
 dnl#TODO: check to see if _DARWIN_C_SOURCE needs to be defined for this:
 AC_CHECK_TYPES([Dl_info])dnl
 AC_MSG_CHECKING([for some structs and struct members...])
@@ -236,16 +308,19 @@ AC_MSG_CHECKING([for miscellaneous other functions...])
 AC_MSG_RESULT([... .. . ])
 AC_CHECK_FUNCS([GetDriveType])dnl
 AC_CHECK_FUNCS_IF_NOT_CACHED([__fpending _NSGetExecutablePath abort btowc \
-                              close dup2 fchdir getcwd getdelim getmnt \
-                              getmntinfo ioctl listmntent memchr mempcpy \
-                              pathconf setenv setlocale snprintf strndup])
+                              close dup2 fchdir fstatfs ftruncate getcwd \
+                              getdelim getmnt getmntinfo ioctl listmntent \
+                              memchr mempcpy pathconf setenv setlocale \
+                              snprintf strndup])
 AC_CHECK_FUNCS_ONCE([readlinkat])dnl
-AC_CHECK_FUNCS([accept assert atexit atoi clearenv connect \
-                dladdr dupfd end execve fflush fgets freemntlist ftok \
+AC_CHECK_FUNCS([accept assert atexit atoi chsize clearenv connect \
+                dladdr dupfd end execve fflush fgets freemntlist \
+                fstatfs64 fstat64 ftok ftruncate64 fxstat64 \
                 gencat getrlimit gettext getvfsbytype iswprint \
                 kevent kevent64 kqueue localeconv lseek mblen mbrlen \
-                mbtowc memmove memset mntctl printf read recv \
-                select send shm_open shmat shmctl shmdt sprintf \
+                mbtowc memmove memset mntctl posix_fallocate \
+                pread64 pwrite64 printf read recv select send \
+                shm_open shmat shmctl shmdt sprintf statfs statfs64 \
                 strcasecmp strchr strdup strerror strncasecmp strrchr \
                 strsep strspn strstr strtod strtoul system sysconf \
                 vasprintf wctomb wcwidth write])dnl
@@ -279,12 +354,14 @@ unset ac_cv_func_btowc
 unset ac_cv_func_wctob
 unset ac_cv_func_getmntent
 unset ac_cv_func_poll
-AC_REPLACE_FUNCS([btowc wctob dysize fclose fcloseall getmntent poll])
-# keep autoscan happy:
-if test "x" = "y"; then
+AC_REPLACE_FUNCS([btowc wctob dysize fclose fcloseall getmntent poll \
+                  cuserid])dnl
+  ## keep autoscan happy:
+if test "x" = "Y0"; then
   test -x `which autoscan`
-  AC_CHECK_FUNCS([__fpending btowc dup2 fchdir getcwd getdelim memchr \
-                  mempcpy pathconf setenv strndup])
+  AC_CHECK_FUNCS([__fpending btowc dup2 fchdir ftruncate getcwd getdelim \
+                  memchr mempcpy pathconf setenv strndup])dnl
+  ## should never actually get here though...
 fi
 
 # Output:

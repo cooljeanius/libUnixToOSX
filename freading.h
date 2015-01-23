@@ -12,7 +12,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #include <stdbool.h>
 #include <stdio.h>
@@ -37,18 +37,20 @@
 /* Solaris >= 7, not glibc >= 2.2, but glibc >= 2.7, or musl libc  */
 
 # include <stdio_ext.h>
-# define freading(stream) (__freading (stream) != 0)
+# define freading(stream) (__freading(stream) != 0)
 
 #else
 
 # ifdef __cplusplus
 extern "C" {
-# endif
+# endif /* __cplusplus */
 
-extern bool freading (FILE *stream);
+extern bool freading(FILE *stream);
 
 # ifdef __cplusplus
 }
-# endif
+# endif /* __cplusplus */
 
 #endif
+
+/* EOF */

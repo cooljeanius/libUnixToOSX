@@ -1,4 +1,4 @@
-/* much like chdir(2), but safer
+/* chdir-safer.c: much like chdir(2), but safer
 
    Copyright (C) 2005-2006, 2008-2012 Free Software Foundation, Inc.
 
@@ -13,7 +13,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* written by Jim Meyering */
 
@@ -31,22 +31,22 @@
 
 #ifndef HAVE_READLINK
 # define HAVE_READLINK 0
-#endif
+#endif /* !HAVE_READLINK */
 
 /* Like chdir, but fail if DIR is a symbolic link to a directory (or
-   similar funny business).  This avoids a minor race condition
-   between when a directory is created or statted and when the process
-   chdirs into it.
-
-   On older systems lacking full support for O_SEARCH, this function
-   can also fail if DIR is not readable.  */
+ * similar funny business).  This avoids a minor race condition between
+ * when a directory is created or statted and when the process chdirs
+ * into it.
+ *
+ * On older systems lacking full support for O_SEARCH, this function can
+ * also fail if DIR is not readable: */
 int
-chdir_no_follow (char const *dir)
+chdir_no_follow(char const *dir)
 {
   int result = 0;
   int saved_errno;
-  int fd = open (dir,
-                 O_SEARCH | O_DIRECTORY | O_NOCTTY | O_NOFOLLOW | O_NONBLOCK);
+  int fd = open(dir,
+                (O_SEARCH | O_DIRECTORY | O_NOCTTY | O_NOFOLLOW | O_NONBLOCK));
   if (fd < 0)
     return -1;
 
@@ -59,12 +59,12 @@ chdir_no_follow (char const *dir)
   if (HAVE_READLINK && ! HAVE_WORKING_O_NOFOLLOW)
     {
       struct stat sb1;
-      result = lstat (dir, &sb1);
+      result = lstat(dir, &sb1);
       if (result == 0)
         {
           struct stat sb2;
-          result = fstat (fd, &sb2);
-          if (result == 0 && ! SAME_INODE (sb1, sb2))
+          result = fstat(fd, &sb2);
+          if ((result == 0) && ! SAME_INODE(sb1, sb2))
             {
               errno = ELOOP;
               result = -1;
@@ -73,10 +73,12 @@ chdir_no_follow (char const *dir)
     }
 
   if (result == 0)
-    result = fchdir (fd);
+    result = fchdir(fd);
 
   saved_errno = errno;
-  close (fd);
+  close(fd);
   errno = saved_errno;
   return result;
 }
+
+/* EFO */

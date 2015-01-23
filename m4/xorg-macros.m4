@@ -1530,9 +1530,13 @@ AC_LANG_CASE([C],[
 ],[C++],[
   AC_REQUIRE([AC_PROG_CXX])
 ])dnl
-AC_CHECK_DECL([__clang__],[CLANGCC="yes"],[CLANGCC="no"])dnl
-AC_CHECK_DECL([__INTEL_COMPILER],[INTELCC="yes"],[INTELCC="no"])dnl
-AC_CHECK_DECL([__SUNPRO_C],[SUNCC="yes"],[SUNCC="no"])dnl
+AC_CHECK_DECL([__clang__],[export CLANGCC="yes"],[export CLANGCC="no"])dnl
+AC_SUBST([CLANGCC])dnl
+AC_CHECK_DECL([__INTEL_COMPILER],
+              [export INTELCC="yes"],[export INTELCC="no"])dnl
+AC_SUBST([INTELCC])dnl
+AC_CHECK_DECL([__SUNPRO_C],[export SUNCC="yes"],[export SUNCC="no"])dnl
+AC_SUBST([SUNCC])dnl
 ])dnl# XORG_COMPILER_BRAND
 
 # XORG_TESTSET_CFLAG(<variable>, <flag>, [<alternative flag>, ...])

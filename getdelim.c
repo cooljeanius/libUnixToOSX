@@ -19,8 +19,10 @@
 
 #include <config.h>
 
-/* Don't use __attribute__ __nonnull__ in this compilation unit.  Otherwise gcc
-   optimizes away the lineptr == NULL || n == NULL || fp == NULL tests below.  */
+/* Do NOT use __attribute__ __nonnull__ in this compilation unit.
+ * Otherwise gcc optimizes away the
+ * (lineptr == NULL) || (n == NULL) || (fp == NULL) tests below.
+ * So ensure it is off by defining it to nothing like this: */
 #define _GL_ARG_NONNULL(params)
 
 #include <stdio.h>
@@ -33,8 +35,8 @@
 #include <errno.h>
 
 #ifndef SSIZE_MAX
-# define SSIZE_MAX ((ssize_t) (SIZE_MAX / 2))
-#endif
+# define SSIZE_MAX ((ssize_t)(SIZE_MAX / 2))
+#endif /* !SSIZE_MAX */
 
 #if USE_UNLOCKED_IO
 # include "unlocked-io.h"
@@ -56,8 +58,8 @@
    the null terminator), or -1 on error or EOF.  */
 ssize_t getdelim(char **lineptr, size_t *n, int delimiter, FILE *fp)
 {
-  ssize_t result;
-  size_t cur_len = 0;
+  ssize_t result = 0UL;
+  size_t cur_len = 0UL;
 
   if ((lineptr == NULL) || (n == NULL) || (fp == NULL)) {
       errno = EINVAL;
@@ -71,7 +73,7 @@ ssize_t getdelim(char **lineptr, size_t *n, int delimiter, FILE *fp)
       *n = 120;
       new_lineptr = (char *)realloc(*lineptr, *n);
       if (new_lineptr == NULL) {
-          result = -1;
+          result = -1L;
           goto unlock_return;
 	  }
       *lineptr = new_lineptr;
@@ -82,14 +84,14 @@ ssize_t getdelim(char **lineptr, size_t *n, int delimiter, FILE *fp)
 
       i = getc_maybe_unlocked(fp);
       if (i == EOF) {
-          result = -1;
+          result = -1L;
           break;
 	  }
 
-      /* Make enough space for len+1 (for final NUL) bytes.  */
-      if (cur_len + 1 >= *n) {
+      /* Make enough space for len+1 (for final NUL) bytes: */
+      if ((cur_len + 1) >= *n) {
           size_t needed_max =
-            ((SSIZE_MAX < SIZE_MAX) ? ((size_t)SSIZE_MAX + 1) : SIZE_MAX);
+            ((SSIZE_MAX < SIZE_MAX) ? ((size_t)SSIZE_MAX + 1L) : SIZE_MAX);
           size_t needed = ((2 * *n) + 1); /* Be generous. */
           char *new_lineptr;
 
@@ -97,14 +99,14 @@ ssize_t getdelim(char **lineptr, size_t *n, int delimiter, FILE *fp)
 			  needed = needed_max;
 		  }
           if ((cur_len + 1) >= needed) {
-              result = -1;
+              result = -1L;
               errno = EOVERFLOW;
               goto unlock_return;
 		  }
 
           new_lineptr = (char *)realloc(*lineptr, needed);
           if (new_lineptr == NULL) {
-              result = -1;
+              result = -1L;
               goto unlock_return;
 		  }
 

@@ -1,4 +1,4 @@
-/* Invoke open, but avoid some glitches.
+/* open-safer.c: Invoke open, but avoid some glitches.
 
    Copyright (C) 2005-2006, 2008-2012 Free Software Foundation, Inc.
 
@@ -13,7 +13,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* Written by Paul Eggert.  */
 
@@ -26,9 +26,9 @@
 #include "unistd-safer.h"
 
 int
-open_safer (char const *file, int flags, ...)
+open_safer(char const *file, int flags, ...)
 {
-  mode_t mode = 0;
+  mode_t mode = (mode_t)0;
 
   if (flags & O_CREAT) {
       va_list ap;
@@ -41,5 +41,7 @@ open_safer (char const *file, int flags, ...)
       va_end(ap);
   }
 
-  return fd_safer (open (file, flags, mode));
+  return fd_safer(open(file, flags, mode));
 }
+
+/* EOF */

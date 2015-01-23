@@ -22,7 +22,7 @@
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include "areadlink.h"
 
 #include "careadlinkat.h"
@@ -36,7 +36,7 @@
 char *
 areadlink(char const *filename)
 {
-  return careadlinkat(AT_FDCWD, filename, NULL, (size_t)0, NULL,
+  return careadlinkat(AT_FDCWD, filename, NULL, (size_t)0UL, NULL,
 					  careadlinkatcwd);
 }
 

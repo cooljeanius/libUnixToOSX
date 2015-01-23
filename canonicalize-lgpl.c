@@ -64,9 +64,9 @@
 # include "malloca.h"
 # if HAVE_GETCWD
 #  if defined(IN_RELOCWRAPPER) && IN_RELOCWRAPPER
-    /* When building the relocatable program wrapper, use the system's getcwd
-     * function, not the gnulib override, otherwise we would get a link error.
-     */
+ /* When building the relocatable program wrapper, use the system's getcwd
+  * function, not the gnulib override, otherwise we would get a link error.
+  */
 #   undef getcwd
 #  endif /* IN_RELOCWRAPPER */
 #  ifdef VMS
@@ -397,5 +397,12 @@ weak_alias(__canonicalize_file_name, canonicalize_file_name)
  * this file is never empty.  */
 typedef int canonicalize_lgpl_c_dummy_t;
 #endif /* !HAVE_CANONICALIZE_FILE_NAME || !FUNC_REALPATH_WORKS || _LIBC */
+
+#ifdef _GL_USE_STDLIB_ALLOC
+# undef _GL_USE_STDLIB_ALLOC
+#endif /* _GL_USE_STDLIB_ALLOC */
+#ifdef compat_symbol
+# undef compat_symbol
+#endif /* compat_symbol */
 
 /* EOF */

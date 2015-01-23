@@ -1,4 +1,4 @@
-/* Internals for openat-like functions.
+/* openat-priv.h: Internals for openat-like functions.
 
    Copyright (C) 2005-2006, 2009-2012 Free Software Foundation, Inc.
 
@@ -13,7 +13,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* written by Jim Meyering */
 
@@ -44,7 +44,7 @@
 # define OPENAT_BUFFER_SIZE SAFER_ALLOCA (1024)
 #endif
 
-char *openat_proc_name (char buf[OPENAT_BUFFER_SIZE], int fd, char const *file);
+char *openat_proc_name(char buf[OPENAT_BUFFER_SIZE], int fd, char const *file);
 
 /* Trying to access a BUILD_PROC_NAME file will fail on systems without
    /proc support, and even on systems *with* ProcFS support.  Return
@@ -56,9 +56,11 @@ char *openat_proc_name (char buf[OPENAT_BUFFER_SIZE], int fd, char const *file);
    || (Errno) == ENOSYS /* Solaris 8 */         \
    || (Errno) == EOPNOTSUPP /* FreeBSD */)
 
-/* Wrapper function shared among linkat and renameat.  */
-int at_func2 (int fd1, char const *file1,
-              int fd2, char const *file2,
-              int (*func) (char const *file1, char const *file2));
+/* Wrapper function shared among linkat and renameat: */
+int at_func2(int fd1, char const *file1,
+             int fd2, char const *file2,
+             int (*func)(char const *file1, char const *file2));
 
 #endif /* _GL_HEADER_OPENAT_PRIV */
+
+/* EOF */

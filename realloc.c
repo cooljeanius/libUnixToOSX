@@ -41,7 +41,7 @@
  * The gnulib module 'malloc-gnu' defines HAVE_MALLOC_GNU. */
 #if (defined(GNULIB_MALLOC_GNU) && GNULIB_MALLOC_GNU) && HAVE_MALLOC_GNU
 # define SYSTEM_MALLOC_GLIBC_COMPATIBLE 1
-#endif
+#endif /* GNULIB_MALLOC_GNU && HAVE_MALLOC_GNU */
 
 #include <stdlib.h>
 
@@ -64,7 +64,7 @@ rpl_realloc(void *p, size_t n)
   if (n == 0) {
       n = 1;
 
-      /* In theory realloc might fail, so do NOT rely on it to free.  */
+      /* In theory realloc might fail, so do NOT rely on it to free: */
       free(p);
       p = NULL;
   }
@@ -91,5 +91,9 @@ rpl_realloc(void *p, size_t n)
 
   return result;
 }
+
+#ifdef _GL_USE_STDLIB_ALLOC
+# undef _GL_USE_STDLIB_ALLOC
+#endif /* _GL_USE_STDLIB_ALLOC */
 
 /* EOF */

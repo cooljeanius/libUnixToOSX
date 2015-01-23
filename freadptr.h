@@ -12,7 +12,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #include <stddef.h>
 #include <stdio.h>
@@ -31,20 +31,20 @@
 #if defined(HAVE___FREADPTR) && HAVE___FREADPTR /* musl libc */
 
 # include <stdio_ext.h>
-# define freadptr(stream,sizep) __freadptr (stream, sizep)
+# define freadptr(stream,sizep) __freadptr(stream, sizep)
 
 #else
 
 # ifdef __cplusplus
 extern "C" {
-# endif
+# endif /* __cplusplus */
 
-extern const char * freadptr (FILE *stream, size_t *sizep);
+extern const char *freadptr(FILE *stream, size_t *sizep);
 
 # ifdef __cplusplus
 }
-# endif
+# endif /* __cplusplus */
 
-#endif
+#endif /* HAVE___FREADPTR */
 
 /* EOF */

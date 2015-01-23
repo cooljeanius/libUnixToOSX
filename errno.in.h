@@ -17,82 +17,82 @@
 
 #ifndef _@GUARD_PREFIX@_ERRNO_H
 
-#if __GNUC__ >= 3
+#if (__GNUC__ >= 3)
 @PRAGMA_SYSTEM_HEADER@
-#endif
+#endif /* gcc 3+ */
 @PRAGMA_COLUMNS@
 
-/* The include_next requires a split double-inclusion guard.  */
+/* The include_next requires a split double-inclusion guard: */
 #@INCLUDE_NEXT@ @NEXT_ERRNO_H@
 
 #ifndef _@GUARD_PREFIX@_ERRNO_H
 #define _@GUARD_PREFIX@_ERRNO_H
 
 
-/* On native Windows platforms, many macros are not defined.  */
-# if (defined _WIN32 || defined __WIN32__) && ! defined __CYGWIN__
+/* On native Windows platforms, many macros are not defined: */
+# if (defined(_WIN32) || defined(__WIN32__)) && ! defined(__CYGWIN__)
 
-/* These are the same values as defined by MSVC 10, for interoperability.  */
+/* These are the same values as defined by MSVC 10, for interoperability: */
 
 #  ifndef ENOMSG
 #   define ENOMSG    122
 #   define GNULIB_defined_ENOMSG 1
-#  endif
+#  endif /* !ENOMSG */
 
 #  ifndef EIDRM
 #   define EIDRM     111
 #   define GNULIB_defined_EIDRM 1
-#  endif
+#  endif /* !EIDRM */
 
 #  ifndef ENOLINK
 #   define ENOLINK   121
 #   define GNULIB_defined_ENOLINK 1
-#  endif
+#  endif /* !ENOLINK */
 
 #  ifndef EPROTO
 #   define EPROTO    134
 #   define GNULIB_defined_EPROTO 1
-#  endif
+#  endif /* !EPROTO */
 
 #  ifndef EBADMSG
 #   define EBADMSG   104
 #   define GNULIB_defined_EBADMSG 1
-#  endif
+#  endif /* !EBADMSG */
 
 #  ifndef EOVERFLOW
 #   define EOVERFLOW 132
 #   define GNULIB_defined_EOVERFLOW 1
-#  endif
+#  endif /* !EOVERFLOW */
 
 #  ifndef ENOTSUP
 #   define ENOTSUP   129
 #   define GNULIB_defined_ENOTSUP 1
-#  endif
+#  endif /* !ENOTSUP */
 
 #  ifndef ENETRESET
 #   define ENETRESET 117
 #   define GNULIB_defined_ENETRESET 1
-#  endif
+#  endif /* !ENETRESET */
 
 #  ifndef ECONNABORTED
 #   define ECONNABORTED 106
 #   define GNULIB_defined_ECONNABORTED 1
-#  endif
+#  endif /* !ECONNABORTED */
 
 #  ifndef ECANCELED
 #   define ECANCELED 105
 #   define GNULIB_defined_ECANCELED 1
-#  endif
+#  endif /* !ECANCELED */
 
 #  ifndef EOWNERDEAD
 #   define EOWNERDEAD 133
 #   define GNULIB_defined_EOWNERDEAD 1
-#  endif
+#  endif /* !EOWNERDEAD */
 
 #  ifndef ENOTRECOVERABLE
 #   define ENOTRECOVERABLE 127
 #   define GNULIB_defined_ENOTRECOVERABLE 1
-#  endif
+#  endif /* !ENOTRECOVERABLE */
 
 #  ifndef EINPROGRESS
 #   define EINPROGRESS     112
@@ -153,15 +153,15 @@
 # if @EMULTIHOP_HIDDEN@
 #  define EMULTIHOP @EMULTIHOP_VALUE@
 #  define GNULIB_defined_EMULTIHOP 1
-# endif
+# endif /* @EMULTIHOP_HIDDEN@ */
 # if @ENOLINK_HIDDEN@
 #  define ENOLINK   @ENOLINK_VALUE@
 #  define GNULIB_defined_ENOLINK 1
-# endif
+# endif /* @ENOLINK_HIDDEN */
 # if @EOVERFLOW_HIDDEN@
 #  define EOVERFLOW @EOVERFLOW_VALUE@
 #  define GNULIB_defined_EOVERFLOW 1
-# endif
+# endif /* EOVERFLOW_HIDDEN */
 
 
 /* On OpenBSD 4.0 and on native Windows, the macros ENOMSG, EIDRM, ENOLINK,
@@ -177,67 +177,67 @@
 # ifndef ENOMSG
 #  define ENOMSG    2000
 #  define GNULIB_defined_ENOMSG 1
-# endif
+# endif /* !ENOMSG */
 
 # ifndef EIDRM
 #  define EIDRM     2001
 #  define GNULIB_defined_EIDRM 1
-# endif
+# endif /* !EIDRM */
 
 # ifndef ENOLINK
 #  define ENOLINK   2002
 #  define GNULIB_defined_ENOLINK 1
-# endif
+# endif /* !ENOLINK */
 
 # ifndef EPROTO
 #  define EPROTO    2003
 #  define GNULIB_defined_EPROTO 1
-# endif
+# endif /* !EPROTO */
 
 # ifndef EMULTIHOP
 #  define EMULTIHOP 2004
 #  define GNULIB_defined_EMULTIHOP 1
-# endif
+# endif /* !EMULTIHOP */
 
 # ifndef EBADMSG
 #  define EBADMSG   2005
 #  define GNULIB_defined_EBADMSG 1
-# endif
+# endif /* !EBADMSG */
 
 # ifndef EOVERFLOW
 #  define EOVERFLOW 2006
 #  define GNULIB_defined_EOVERFLOW 1
-# endif
+# endif /* !EOVERFLOW */
 
 # ifndef ENOTSUP
 #  define ENOTSUP   2007
 #  define GNULIB_defined_ENOTSUP 1
-# endif
+# endif /* !ENOTSUP */
 
 # ifndef ENETRESET
 #  define ENETRESET 2011
 #  define GNULIB_defined_ENETRESET 1
-# endif
+# endif /* !ENETRESET */
 
 # ifndef ECONNABORTED
 #  define ECONNABORTED 2012
 #  define GNULIB_defined_ECONNABORTED 1
-# endif
+# endif /* !ECONNABORTED */
 
 # ifndef ESTALE
 #  define ESTALE    2009
 #  define GNULIB_defined_ESTALE 1
-# endif
+# endif /* !ESTALE */
 
 # ifndef EDQUOT
 #  define EDQUOT 2010
 #  define GNULIB_defined_EDQUOT 1
-# endif
+# endif /* !EDQUOT */
 
 # ifndef ECANCELED
 #  define ECANCELED 2008
 #  define GNULIB_defined_ECANCELED 1
-# endif
+# endif /* !ECANCELED */
 
 /* On many platforms, the macros EOWNERDEAD and ENOTRECOVERABLE are not
    defined.  */
@@ -250,7 +250,7 @@
 #   define ENOTRECOVERABLE 59
 #  elif (defined _WIN32 || defined __WIN32__) && ! defined __CYGWIN__
     /* We have a conflict here: pthreads-win32 defines these values
-       differently than MSVC 10.  It's hairy to decide which one to use.  */
+       differently than MSVC 10.  It is hairy to decide which to use: */
 #   if defined __MINGW32__ && !defined USE_WINDOWS_THREADS
      /* Use the same values as defined by pthreads-win32, for
         interoperability.  */
@@ -270,5 +270,12 @@
 #  define GNULIB_defined_ENOTRECOVERABLE 1
 # endif
 
+# ifndef EILSEQ
+#  define EILSEQ 2015
+#  define GNULIB_defined_EILSEQ 1
+# endif /* !EILSEQ */
+
 #endif /* _@GUARD_PREFIX@_ERRNO_H */
 #endif /* _@GUARD_PREFIX@_ERRNO_H */
+
+/* EOF */

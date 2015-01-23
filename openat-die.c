@@ -13,7 +13,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #include <config.h>
 
@@ -23,7 +23,7 @@
 
 #ifndef GNULIB_LIBPOSIX
 # include "error.h"
-#endif
+#endif /* !GNULIB_LIBPOSIX */
 
 #include "exitfail.h"
 
@@ -31,17 +31,17 @@
 #define _(msgid) gettext (msgid)
 
 void
-openat_save_fail (int errnum)
+openat_save_fail(int errnum)
 {
 #ifndef GNULIB_LIBPOSIX
-  error (exit_failure, errnum,
-         _("unable to record current working directory"));
-#endif
+  error(exit_failure, errnum,
+        _("unable to record current working directory"));
+#endif /* !GNULIB_LIBPOSIX */
   /* _Noreturn cannot be applied to error, since it returns
      when its first argument is 0.  To help compilers understand that this
      function does not return, call abort.  Also, the abort is a
-     safety feature if exit_failure is 0 (which shouldn't happen).  */
-  abort ();
+     safety feature if exit_failure is 0 (which should never happen).  */
+  abort();
 }
 
 
@@ -53,10 +53,12 @@ void
 openat_restore_fail (int errnum)
 {
 #ifndef GNULIB_LIBPOSIX
-  error (exit_failure, errnum,
-         _("failed to return to initial working directory"));
-#endif
+  error(exit_failure, errnum,
+        _("failed to return to initial working directory"));
+#endif /* !GNULIB_LIBPOSIX */
 
-  /* As above.  */
-  abort ();
+  /* As above: */
+  abort();
 }
+
+/* EOF */

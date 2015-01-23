@@ -65,11 +65,8 @@ seen_triple(Hash_table **ht, char const *filename, struct stat const *st)
 {
   if (*ht == NULL) {
       size_t initial_capacity = 7;
-      *ht = hash_initialize(initial_capacity,
-							NULL,
-                            triple_hash,
-                            triple_compare_ino_str,
-                            triple_free);
+      *ht = hash_initialize(initial_capacity, NULL, triple_hash,
+                            triple_compare_ino_str, triple_free);
       if (*ht == NULL) {
 		  xalloc_die();
 	  }
@@ -100,8 +97,8 @@ char *canonicalize_filename_mode(const char *name, canonicalize_mode_t can_mode)
   Hash_table *ht = NULL;
   int saved_errno;
   bool logical;
-  int can_flags = (can_mode & (canonicalize_mode_t)~CAN_MODE_MASK);
-  can_mode &= CAN_MODE_MASK;
+  int can_flags = (int)(can_mode & (canonicalize_mode_t)~CAN_MODE_MASK);
+  can_mode &= (canonicalize_mode_t)CAN_MODE_MASK;
   logical = (can_flags & CAN_NOLINKS);
   /* Perhaps in future we might support CAN_NOALLOC with CAN_NOLINKS.  */
 

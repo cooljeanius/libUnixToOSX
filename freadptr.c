@@ -1,4 +1,4 @@
-/* Retrieve information about a FILE stream.
+/* freadptr.c: Retrieve information about a FILE stream.
    Copyright (C) 2007-2012 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -12,11 +12,11 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include "freadptr.h"
 
 #include <stdlib.h>
@@ -31,11 +31,11 @@ const char *freadptr(FILE *fp, size_t *sizep)
 #if defined(_IO_ftrylockfile) || (defined(__GNU_LIBRARY__) && (__GNU_LIBRARY__ == 1)) /* GNU libc, BeOS, Haiku, Linux libc5 */
   if (fp->_IO_write_ptr > fp->_IO_write_base)
     return NULL;
-  size = fp->_IO_read_end - fp->_IO_read_ptr;
+  size = (fp->_IO_read_end - fp->_IO_read_ptr);
   if (size == 0)
     return NULL;
   *sizep = size;
-  return (const char *) fp->_IO_read_ptr;
+  return (const char *)fp->_IO_read_ptr;
 #elif defined __sferror || defined __DragonFly__ /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin */
   if (((fp_->_flags & __SWR) != 0) || (fp_->_r < 0)) {
 	  return NULL;
@@ -54,7 +54,7 @@ const char *freadptr(FILE *fp, size_t *sizep)
   if (fp->_rcount <= 0)
     return NULL;
   if (!(fp->_ungetc_count == 0))
-    abort ();
+    abort();
   *sizep = fp->_rcount;
   return fp->_ptr;
 #elif defined __minix               /* Minix */
@@ -64,24 +64,24 @@ const char *freadptr(FILE *fp, size_t *sizep)
   if (size == 0)
     return NULL;
   *sizep = size;
-  return (const char *) fp_->_ptr;
-#elif defined _IOERR                /* AIX, HP-UX, IRIX, OSF/1, Solaris, OpenServer, mingw, NonStop Kernel */
+  return (const char *)fp_->_ptr;
+#elif defined _IOERR  /* AIX, HP-UX, IRIX, OSF/1, Solaris, OpenServer, mingw, NonStop Kernel */
   if ((fp_->_flag & _IOWRT) != 0)
     return NULL;
   size = fp_->_cnt;
   if (size == 0)
     return NULL;
   *sizep = size;
-  return (const char *) fp_->_ptr;
+  return (const char *)fp_->_ptr;
 #elif defined __UCLIBC__            /* uClibc */
 # ifdef __STDIO_BUFFERS
   if (fp->__modeflags & __FLAG_WRITING)
     return NULL;
-  size = fp->__bufread - fp->__bufpos;
+  size = (fp->__bufread - fp->__bufpos);
   if (size == 0)
     return NULL;
   *sizep = size;
-  return (const char *) fp->__bufpos;
+  return (const char *)fp->__bufpos;
 # else
   return NULL;
 # endif
@@ -89,15 +89,15 @@ const char *freadptr(FILE *fp, size_t *sizep)
   if ((fp->_Mode & 0x2000 /* _MWRITE */) != 0)
     return NULL;
   /* fp->_Buf <= fp->_Next <= fp->_Rend */
-  size = fp->_Rend - fp->_Next;
+  size = (fp->_Rend - fp->_Next);
   if (size == 0)
     return NULL;
   *sizep = size;
-  return (const char *) fp->_Next;
+  return (const char *)fp->_Next;
 #elif defined __MINT__              /* Atari FreeMiNT */
   if (!fp->__mode.__read)
     return NULL;
-  size = fp->__get_limit - fp->__bufp;
+  size = (fp->__get_limit - fp->__bufp);
   if (size == 0)
     return NULL;
   *sizep = size;
@@ -107,7 +107,7 @@ const char *freadptr(FILE *fp, size_t *sizep)
     return NULL;
   if (fp->rp >= fp->wp)
     return NULL;
-  *sizep = fp->wp - fp->rp;
+  *sizep = (fp->wp - fp->rp);
   return fp->rp;
 #elif defined SLOW_BUT_NO_HACKS     /* users can define this */
   /* This implementation is correct on any ANSI C platform.  It is just
@@ -117,3 +117,5 @@ const char *freadptr(FILE *fp, size_t *sizep)
  #error "Please port gnulib freadptr.c to your platform! Look at the definition of fflush, fread, getc, getc_unlocked on your system, then report this to bug-gnulib."
 #endif
 }
+
+/* EOF */

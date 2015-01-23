@@ -1,4 +1,4 @@
-/* Specialized functions to manipulate a set of files.
+/* file-set.c: Specialized functions to manipulate a set of files.
    Copyright (C) 2007, 2009-2012 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
@@ -12,7 +12,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* written by Jim Meyering */
 
@@ -23,9 +23,10 @@
 #include "xalloc.h"
 
 /* Record file, FILE, and dev/ino from *STATS, in the hash table, HT.
-   If HT is NULL, return immediately.
-   If memory allocation fails, exit immediately.  */
-void record_file (Hash_table *ht, char const *file, struct stat const *stats)
+ * If HT is NULL, then return immediately.
+ * If memory allocation fails, exit immediately: */
+void
+record_file(Hash_table *ht, char const *file, struct stat const *stats)
 {
   struct F_triple *ent;
 
@@ -55,16 +56,19 @@ void record_file (Hash_table *ht, char const *file, struct stat const *stats)
 
 /* Return true if there is an entry in hash table, HT, for the file
  * described by FILE and STATS: */
-bool seen_file(Hash_table const *ht, char const *file, struct stat const *stats)
+bool
+seen_file(Hash_table const *ht, char const *file, struct stat const *stats)
 {
   struct F_triple new_ent;
 
   if (ht == NULL)
     return false;
 
-  new_ent.name = (char *) file;
+  new_ent.name = (char *)file;
   new_ent.st_ino = stats->st_ino;
   new_ent.st_dev = stats->st_dev;
 
-  return !!hash_lookup (ht, &new_ent);
+  return !!hash_lookup(ht, &new_ent);
 }
+
+/* EOF */

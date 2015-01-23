@@ -17,6 +17,12 @@
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
 
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
+#   pragma GCC diagnostic ignored "-Wredundant-decls"
+# endif /* GCC 4.1+ */
+#endif /* gcc */
+
 #include <config.h>
 
 #include <string.h>
@@ -28,25 +34,25 @@
 #endif /* !__STRING_H */
 
 #ifndef strnlen
-/* prototype might not actually be in "string.h", even if "strnlen.c" does get
- * built: */
+/* prototype might not actually be in "string.h", even if "strnlen.c" does
+ * get built: */
 size_t strnlen(const char *string, size_t maxlen);
 #endif /* !strnlen */
 
 char *strndup(char const *s, size_t n)
 {
   size_t len;
-  char *new;
+  char *newstr;
 
   len = strnlen(s, n);
-  new = (char *)malloc(len + 1);
+  newstr = (char *)malloc(len + 1UL);
 
-  if (new == NULL) {
+  if (newstr == NULL) {
 	  return NULL;
   }
 
-  new[len] = '\0';
-  return (char *)memcpy((char *)new, s, len);
+  newstr[len] = '\0';
+  return (char *)memcpy((char *)newstr, s, len);
 }
 
 /* EOF */

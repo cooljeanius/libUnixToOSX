@@ -1,4 +1,4 @@
-/* Concatenate two arbitrary file names.
+/* filenamecat.c: Concatenate two arbitrary file names.
 
    Copyright (C) 1996-2007, 2009-2012 Free Software Foundation, Inc.
 
@@ -13,13 +13,13 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* Written by Jim Meyering.  */
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include "filenamecat.h"
 
 #include <stdlib.h>
@@ -32,10 +32,12 @@
    "memory exhausted" condition and exit.  */
 
 char *
-file_name_concat (char const *dir, char const *abase, char **base_in_result)
+file_name_concat(char const *dir, char const *abase, char **base_in_result)
 {
-  char *p = mfile_name_concat (dir, abase, base_in_result);
+  char *p = mfile_name_concat(dir, abase, base_in_result);
   if (p == NULL)
-    xalloc_die ();
+    xalloc_die();
   return p;
 }
+
+/* EOF */

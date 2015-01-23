@@ -18,7 +18,8 @@
 
 /* Tell glibc's <stdio.h> to provide a prototype for getline().
  * This must come before <config.h> because <config.h> may include
- * <features.h>, and once <features.h> has been included, it is too late. */
+ * <features.h>, and once <features.h> has been included, it is then too
+ * late to do this: */
 #ifndef _GNU_SOURCE
 # define _GNU_SOURCE 1
 #endif /* !_GNU_SOURCE */
@@ -117,10 +118,10 @@
 #  endif /* (_WIN32 || __WIN32__) && !__CYGWIN__ */
 # endif /* !ENABLE_COSTLY_RELOCATABLE */
 
-/* Original installation prefix.  */
+/* Original installation prefix: */
 static char *orig_prefix;
 static size_t orig_prefix_len;
-/* Current installation prefix.  */
+/* Current installation prefix: */
 static char *curr_prefix;
 static size_t curr_prefix_len;
 /* These prefixes do not end in a slash. Anything that will be concatenated
@@ -367,9 +368,9 @@ DllMain(HINSTANCE module_handle, DWORD event, LPVOID reserved)
 #  else /* Unix */
 
 static void
-find_shared_library_fullname()
+find_shared_library_fullname(void)
 {
-#   if (defined __linux__ && (__GLIBC__ >= 2 || defined __UCLIBC__)) || defined __CYGWIN__
+#   if (defined(__linux__) && ((__GLIBC__ >= 2) || defined(__UCLIBC__))) || defined(__CYGWIN__)
 	/* Linux has /proc/self/maps. glibc 2 and uClibc have the getline()
 	 * function.
 	 * Cygwin >= 1.5 has /proc/self/maps and the getline() function too.
@@ -422,8 +423,8 @@ find_shared_library_fullname()
     }
 #   elif defined(HAVE_DLADDR)
 	Dl_info* info;
-	/* TODO: actually calculate this with dladdr() once we have a way to provide
-	 * a valid address for the first paramater to dladdr(): */
+	/* TODO: actually calculate this with dladdr() once we have a way
+     * to provide a valid address for the 1st paramater to dladdr(): */
 	info.dli_fname = "/dev/null";
 	if (info.dli_fname != NULL) {
 		shared_library_fullname = info.dli_fname;
@@ -543,5 +544,12 @@ relocate(const char *pathname)
 /* prevent file from being empty: */
 typedef int relocatable_c_dummy_t;
 #endif /* ENABLE_RELOCATABLE */
+
+#ifdef _GL_USE_STDLIB_ALLOC
+# undef _GL_USE_STDLIB_ALLOC
+#endif /* _GL_USE_STDLIB_ALLOC */
+#ifdef IS_PATH_WITH_DIR
+# undef IS_PATH_WITH_DIR
+#endif /* IS_PATH_WITH_DIR */
 
 /* EOF */

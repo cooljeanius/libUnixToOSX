@@ -70,7 +70,7 @@ rotr32(uint32_t x, int n)
  * to rotating the bits N steps to the left.  N must be between 1 and
  * (CHAR_BIT * sizeof (size_t) - 1) inclusive.  */
 STATIC_INLINE size_t
-rotl_sz (size_t x, int n)
+rotl_sz(size_t x, int n)
 {
   return (((x << n) | (x >> (((size_t)CHAR_BIT * sizeof(x)) - (unsigned long)n))) & SIZE_MAX);
 }
@@ -79,7 +79,7 @@ rotl_sz (size_t x, int n)
  * to rotating the bits N steps to the right.  N must be between 1 to
  * (CHAR_BIT * sizeof (size_t) - 1) inclusive.  */
 STATIC_INLINE size_t
-rotr_sz (size_t x, int n)
+rotr_sz(size_t x, int n)
 {
   return (((x >> n) | (x << (((size_t)CHAR_BIT * sizeof(x)) - (unsigned long)n))) & SIZE_MAX);
 }
@@ -92,7 +92,7 @@ rotr_sz (size_t x, int n)
 STATIC_INLINE uint16_t
 rotl16(uint16_t x, int n)
 {
-  return (((x << n) | (x >> (16 - n))) & UINT16_MAX);
+  return (uint16_t)(((x << n) | (x >> (16 - n))) & UINT16_MAX);
 }
 
 /* Given an unsigned 16-bit argument X, return the value corresponding
@@ -103,7 +103,7 @@ rotl16(uint16_t x, int n)
 STATIC_INLINE uint16_t
 rotr16(uint16_t x, int n)
 {
-  return (((x >> n) | (x << (16 - n))) & UINT16_MAX);
+  return (uint16_t)(((x >> n) | (x << (16 - n))) & UINT16_MAX);
 }
 
 /* Given an unsigned 8-bit argument X, return the value corresponding
@@ -114,7 +114,7 @@ rotr16(uint16_t x, int n)
 STATIC_INLINE uint8_t
 rotl8(uint8_t x, int n)
 {
-  return (((x << n) | (x >> (8 - n))) & UINT8_MAX);
+  return (uint8_t)(((x << n) | (x >> (8 - n))) & UINT8_MAX);
 }
 
 /* Given an unsigned 8-bit argument X, return the value corresponding
@@ -125,7 +125,7 @@ rotl8(uint8_t x, int n)
 STATIC_INLINE uint8_t
 rotr8(uint8_t x, int n)
 {
-  return (((x >> n) | (x << (8 - n))) & UINT8_MAX);
+  return (uint8_t)(((x >> n) | (x << (8 - n))) & UINT8_MAX);
 }
 
 #endif /* _GL_BITROTATE_H */

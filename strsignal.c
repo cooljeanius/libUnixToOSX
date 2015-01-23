@@ -13,13 +13,13 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #ifndef _LIBC
 # include <config.h>
 #endif /* !_LIBC */
 
-/* Specification.  */
+/* Specification: */
 #include <string.h>
 
 #include <signal.h>
@@ -37,7 +37,7 @@
 #  endif /* GCC 4.2+ */
 # endif /* gcc */
 # if !defined(N_)
-#  define N_(msgid) gettext_noop (msgid)
+#  define N_(msgid) gettext_noop(msgid)
 # endif /* !(N_) */
 #endif /* _LIBC */
 
@@ -56,7 +56,7 @@
 
 #ifdef _LIBC
 
-/* Defined in siglist.c.  */
+/* Defined in siglist.c: */
 extern const char *const _sys_siglist[];
 extern const char *const _sys_siglist_internal[] attribute_hidden;
 
@@ -65,7 +65,7 @@ extern const char *const _sys_siglist_internal[] attribute_hidden;
 /* NetBSD declares sys_siglist in unistd.h. */
 # if HAVE_UNISTD_H
 #  include <unistd.h>
-# endif
+# endif /* HAVE_UNISTD_H */
 
 # define INTUSE(x) (x)
 
@@ -78,7 +78,7 @@ extern const char *const _sys_siglist_internal[] attribute_hidden;
 #  endif /* NSIG */
 #  if !HAVE_DECL__SYS_SIGLIST
 static const char *_sys_siglist[NSIG];
-#  endif
+#  endif /* !HAVE_DECL__SYS_SIGLIST */
 # endif /* !HAVE_DECL_SYS_SIGLIST */
 
 #endif /* _LIBC */
@@ -87,39 +87,39 @@ static __libc_key_t key;
 
 /* If nonzero the key allocation failed and we should better use a
    static buffer than fail.  */
-#define BUFFERSIZ       100
+#define BUFFERSIZ      100
 static char local_buf[BUFFERSIZ];
 static char *static_buf;
 
-/* Destructor for the thread-specific data.  */
-static void init (void);
-static void free_key_mem (void *mem);
-static char *getbuffer (void);
+/* Destructor for the thread-specific data: */
+static void init(void);
+static void free_key_mem(void *mem);
+static char *getbuffer(void);
 
 
-/* Return a string describing the meaning of the signal number SIGNUM.  */
+/* Return a string describing the meaning of the signal number SIGNUM: */
 char *
-strsignal (int signum)
+strsignal(int signum)
 {
   const char *desc;
-  __libc_once_define (static, once);
+  __libc_once_define(static, once);
 
-  /* If we have not yet initialized the buffer do it now.  */
-  __libc_once (once, init);
+  /* If we have not yet initialized the buffer do it now: */
+  __libc_once(once, init);
 
   if (
 #ifdef SIGRTMIN
-      (signum >= SIGRTMIN && signum <= SIGRTMAX) ||
-#endif
-      signum < 0 || signum >= NSIG
-      || (desc = INTUSE(_sys_siglist)[signum]) == NULL)
+      ((signum >= SIGRTMIN) && (signum <= SIGRTMAX)) ||
+#endif /* SIGRTMIN */
+      (signum < 0) || (signum >= NSIG)
+      || ((desc = INTUSE(_sys_siglist)[signum]) == NULL))
     {
       char *buffer = getbuffer();
       int len;
 #ifdef SIGRTMIN
       if ((signum >= SIGRTMIN) && (signum <= SIGRTMAX))
-        len = __snprintf (buffer, (BUFFERSIZ - 1), _("Real-time signal %d"),
-                          signum - (int)SIGRTMIN);
+        len = __snprintf(buffer, (BUFFERSIZ - 1), _("Real-time signal %d"),
+                         (signum - (int)SIGRTMIN));
       else
 #endif /* SIGRTMIN */
         len = __snprintf(buffer, (size_t)(BUFFERSIZ - 1),
@@ -132,32 +132,32 @@ strsignal (int signum)
       return buffer;
     }
 
-  return (char *) _(desc);
+  return (char *)_(desc);
 }
 
 
-/* Initialize buffer.  */
+/* Initialize buffer: */
 static void
-init (void)
+init(void)
 {
 #ifdef _LIBC
-  if (__libc_key_create (&key, free_key_mem))
+  if (__libc_key_create(&key, free_key_mem))
     /* Creating the key failed.  This means something really went
        wrong.  In any case use a static buffer which is better than
        nothing.  */
     static_buf = local_buf;
 #else /* !_LIBC */
-  gl_tls_key_init (key, free_key_mem);
+  gl_tls_key_init(key, free_key_mem);
 
 # if !HAVE_DECL_SYS_SIGLIST
-  memset (_sys_siglist, 0, NSIG * sizeof *_sys_siglist);
+  memset(_sys_siglist, 0, NSIG * sizeof(*_sys_siglist));
 
   /* No need to use a do {} while (0) here since init_sig(...) must expand
      to a complete statement.  (We cannot use the ISO C99 designated array
      initializer syntax since it is not supported by ANSI C compilers and
      since some signal numbers might exceed NSIG.)  */
 #  define init_sig(sig, abbrev, desc) \
-  if (sig >= 0 && sig < NSIG) \
+  if ((sig >= 0) && (sig < NSIG)) \
     _sys_siglist[sig] = desc;
 
 #  include "siglist.h"
@@ -169,12 +169,12 @@ init (void)
 }
 
 
-/* Free the thread specific data, this is done if a thread terminates.  */
+/* Free the thread specific data, this is done if a thread terminates: */
 static void
-free_key_mem (void *mem)
+free_key_mem(void *mem)
 {
-  free (mem);
-  __libc_setspecific (key, NULL);
+  free(mem);
+  __libc_setspecific(key, NULL);
 }
 
 
@@ -186,9 +186,9 @@ static char *getbuffer(void)
   if (static_buf != NULL) {
 	  result = static_buf;
   } else {
-      /* We do NOT use the static buffer and so we have a key. Use it to get
-	   * the thread-specific buffer.  */
-      result = (char *)__libc_getspecific (key);
+      /* We do NOT use the static buffer and so we have a key.  Use it
+       * to get the thread-specific buffer: */
+      result = (char *)__libc_getspecific(key);
       if (result == NULL) {
           /* No buffer allocated so far: */
           result = (char *)malloc((size_t)BUFFERSIZ);
@@ -203,3 +203,9 @@ static char *getbuffer(void)
 
   return result;
 }
+
+#ifdef N_
+# undef N_
+#endif /* N_ */
+
+/* EOF */

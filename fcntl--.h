@@ -13,7 +13,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* Written by Paul Eggert.  */
 
@@ -29,6 +29,6 @@
 #if GNULIB_OPENAT_SAFER
 # undef openat
 # define openat openat_safer
-#endif
+#endif /* GNULIB_OPENAT_SAFER */
 
 /* EOF */

@@ -33,11 +33,11 @@
 # define _GL_ATTRIBUTE_FORMAT(spec) __attribute__ ((__format__ spec))
 #else
 # define _GL_ATTRIBUTE_FORMAT(spec) /* empty */
-#endif
+#endif /* gcc 2.7+ */
 
 #ifdef __cplusplus
 extern "C" {
-#endif
+#endif /* __cplusplus */
 
 /* Write formatted output to a string dynamically allocated with malloc().
    You can pass a preallocated buffer for the result in RESULTBUF and its
@@ -66,14 +66,16 @@ extern "C" {
 #if defined(REPLACE_VASNPRINTF) && REPLACE_VASNPRINTF
 # define asnprintf rpl_asnprintf
 # define vasnprintf rpl_vasnprintf
-#endif
-extern char * asnprintf (char *resultbuf, size_t *lengthp, const char *format, ...)
-       _GL_ATTRIBUTE_FORMAT ((__printf__, 3, 4));
-extern char * vasnprintf (char *resultbuf, size_t *lengthp, const char *format, va_list args)
-       _GL_ATTRIBUTE_FORMAT ((__printf__, 3, 0));
+#endif /* REPLACE_VASNPRINTF */
+extern char *asnprintf(char *resultbuf, size_t *lengthp, const char *format, ...)
+       _GL_ATTRIBUTE_FORMAT((__printf__, 3, 4));
+extern char *vasnprintf(char *resultbuf, size_t *lengthp, const char *format, va_list args)
+       _GL_ATTRIBUTE_FORMAT((__printf__, 3, 0));
 
 #ifdef __cplusplus
 }
-#endif
+#endif /* __cplusplus */
 
 #endif /* _VASNPRINTF_H */
+
+/* EOF */

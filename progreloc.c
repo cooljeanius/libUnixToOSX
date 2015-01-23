@@ -27,7 +27,7 @@
 # define _GL_USE_STDLIB_ALLOC 1
 # include <config.h>
 
-/* Specification. */
+/* Specification: */
 # include "progname.h"
 
 # include <stdbool.h>
@@ -69,7 +69,7 @@
 # endif /* NO_XMALLOC */
 
 # ifndef O_EXEC
-#  define O_EXEC O_RDONLY /* This is often close enough in older systems.  */
+#  define O_EXEC O_RDONLY /* This is often close enough in older systems */
 # endif /* !O_EXEC */
 
 /* Declare canonicalize_file_name.
@@ -409,5 +409,15 @@ get_full_program_name(void)
 # endif /* ENABLE_RELOCATABLE || __APPLE__ */
 
 #endif /* __PROGRELOC_C__ */
+
+#ifdef _GL_USE_STDLIB_ALLOC
+# undef _GL_USE_STDLIB_ALLOC
+#endif /* _GL_USE_STDLIB_ALLOC */
+#ifdef FILE_SYSTEM_PREFIX_LEN
+# undef FILE_SYSTEM_PREFIX_LEN
+#endif /* FILE_SYSTEM_PREFIX_LEN */
+#ifdef ISSLASH
+# undef ISSLASH
+#endif /* ISSLASH */
 
 /* EOF */

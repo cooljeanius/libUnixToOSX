@@ -1,17 +1,16 @@
-# stdio_h.m4 serial 42
-dnl Copyright (C) 2007-2012 Free Software Foundation, Inc.
-dnl This file is free software; the Free Software Foundation
-dnl gives unlimited permission to copy and/or distribute it,
-dnl with or without modifications, as long as this notice is preserved.
+# stdio_h.m4 serial 43
+dnl# Copyright (C) 2007-2012 Free Software Foundation, Inc.
+dnl# This file is free software; the Free Software Foundation
+dnl# gives unlimited permission to copy and/or distribute it,
+dnl# with or without modifications, as long as this notice is preserved.
 
-AC_DEFUN([gl_STDIO_H],
-[
-  AC_REQUIRE([gl_STDIO_H_DEFAULTS])
-  AC_REQUIRE([AC_C_INLINE])
-  gl_NEXT_HEADERS([stdio.h])
+AC_DEFUN([gl_STDIO_H],[
+  AC_REQUIRE([gl_STDIO_H_DEFAULTS])dnl
+  AC_REQUIRE([AC_C_INLINE])dnl
+  gl_NEXT_HEADERS([stdio.h])dnl
 
-  dnl No need to create extra modules for these functions. Everyone who uses
-  dnl <stdio.h> likely needs them.
+  dnl# No need to create extra modules for these functions.
+  dnl# Everyone who uses <stdio.h> likely needs them.
   GNULIB_FSCANF=1
   gl_MODULE_INDICATOR([fscanf])
   GNULIB_SCANF=1
@@ -21,21 +20,21 @@ AC_DEFUN([gl_STDIO_H],
   GNULIB_GETCHAR=1
   GNULIB_FGETS=1
   GNULIB_FREAD=1
-  dnl This ifdef is necessary to avoid an error "missing file lib/stdio-read.c"
-  dnl "expected source file, required through AC_LIBSOURCES, not found". It is
-  dnl also an optimization, to avoid performing a configure check whose result
-  dnl is not used. But it does not make the test of GNULIB_STDIO_H_NONBLOCKING
-  dnl or GNULIB_NONBLOCKING redundant.
-  m4_ifdef([gl_NONBLOCKING_IO], [
+  dnl# The ifdef is needed to avoid error "missing file lib/stdio-read.c"
+  dnl# "expected source file, required through AC_LIBSOURCES, not found".
+  dnl# It is also an optimization, to avoid performing a configure check
+  dnl# whose result is not used. But it does not make the test of
+  dnl# GNULIB_STDIO_H_NONBLOCKING or GNULIB_NONBLOCKING redundant.
+  m4_ifdef([gl_NONBLOCKING_IO],[
     gl_NONBLOCKING_IO
-    if test $gl_cv_have_nonblocking != yes; then
+    if test "x${gl_cv_have_nonblocking}" != "xyes"; then
       REPLACE_STDIO_READ_FUNCS=1
       AC_LIBOBJ([stdio-read])
     fi
-  ])
+  ])dnl
 
-  dnl No need to create extra modules for these functions. Everyone who uses
-  dnl <stdio.h> likely needs them.
+  dnl# No need to create extra modules for these functions.
+  dnl# Everyone who uses <stdio.h> likely needs them.
   GNULIB_FPRINTF=1
   GNULIB_PRINTF=1
   GNULIB_VFPRINTF=1
@@ -46,50 +45,48 @@ AC_DEFUN([gl_STDIO_H],
   GNULIB_FPUTS=1
   GNULIB_PUTS=1
   GNULIB_FWRITE=1
-  dnl This ifdef is necessary to avoid an error "missing file lib/stdio-write.c"
-  dnl "expected source file, required through AC_LIBSOURCES, not found". It is
-  dnl also an optimization, to avoid performing a configure check whose result
-  dnl is not used. But it does not make the test of GNULIB_STDIO_H_SIGPIPE or
-  dnl GNULIB_SIGPIPE redundant.
-  m4_ifdef([gl_SIGNAL_SIGPIPE], [
+  dnl# The ifdef is needed to avoid error "missing file lib/stdio-write.c"
+  dnl# "expected source file, required through AC_LIBSOURCES, not found".
+  dnl# It is also an optimization, to avoid performing a configure check
+  dnl# whose result is not used. But it does not make the test of
+  dnl# GNULIB_STDIO_H_SIGPIPE or GNULIB_SIGPIPE redundant.
+  m4_ifdef([gl_SIGNAL_SIGPIPE],[
     gl_SIGNAL_SIGPIPE
-    if test $gl_cv_header_signal_h_SIGPIPE != yes; then
+    if test "x${gl_cv_header_signal_h_SIGPIPE}" != "xyes"; then
       REPLACE_STDIO_WRITE_FUNCS=1
       AC_LIBOBJ([stdio-write])
     fi
-  ])
-  dnl This ifdef is necessary to avoid an error "missing file lib/stdio-write.c"
-  dnl "expected source file, required through AC_LIBSOURCES, not found". It is
-  dnl also an optimization, to avoid performing a configure check whose result
-  dnl is not used. But it does not make the test of GNULIB_STDIO_H_NONBLOCKING
-  dnl or GNULIB_NONBLOCKING redundant.
-  m4_ifdef([gl_NONBLOCKING_IO], [
+  ])dnl
+  dnl# The ifdef is needed to avoid error "missing file lib/stdio-write.c"
+  dnl# "expected source file, required through AC_LIBSOURCES, not found".
+  dnl# It is also an optimization, to avoid performing a configure check
+  dnl# whose result is not used. But it does not make the test of
+  dnl# GNULIB_STDIO_H_NONBLOCKING or GNULIB_NONBLOCKING redundant.
+  m4_ifdef([gl_NONBLOCKING_IO],[
     gl_NONBLOCKING_IO
-    if test $gl_cv_have_nonblocking != yes; then
+    if test "x${gl_cv_have_nonblocking}" != "xyes"; then
       REPLACE_STDIO_WRITE_FUNCS=1
       AC_LIBOBJ([stdio-write])
     fi
-  ])
+  ])dnl
 
-  dnl Check for declarations of anything we want to poison if the
-  dnl corresponding gnulib module is not in use, and which is not
-  dnl guaranteed by both C89 and C11.
+  dnl# Check for declarations of anything we want to poison if the
+  dnl# corresponding gnulib module is not in use, and which is not
+  dnl# guaranteed by both C89 and C11.
   gl_WARN_ON_USE_PREPARE([[#include <stdio.h>
-    ]], [dprintf fpurge fseeko ftello getdelim getline gets pclose popen
-    renameat snprintf tmpfile vdprintf vsnprintf])
-])
+    ]],[dprintf fpurge fseeko ftello getdelim getline gets pclose popen
+    renameat snprintf tmpfile vdprintf vsnprintf])dnl
+])dnl
 
-AC_DEFUN([gl_STDIO_MODULE_INDICATOR],
-[
-  dnl Use AC_REQUIRE here, so that the default settings are expanded once only.
-  AC_REQUIRE([gl_STDIO_H_DEFAULTS])
-  gl_MODULE_INDICATOR_SET_VARIABLE([$1])
-  dnl Define it also as a C macro, for the benefit of the unit tests.
-  gl_MODULE_INDICATOR_FOR_TESTS([$1])
-])
+AC_DEFUN([gl_STDIO_MODULE_INDICATOR],[
+  dnl# Use AC_REQUIRE here, so the default settings are expanded once only.
+  AC_REQUIRE([gl_STDIO_H_DEFAULTS])dnl
+  gl_MODULE_INDICATOR_SET_VARIABLE([$1])dnl
+  dnl# Define it also as a C macro, for the benefit of the unit tests.
+  gl_MODULE_INDICATOR_FOR_TESTS([$1])dnl
+])dnl
 
-AC_DEFUN([gl_STDIO_H_DEFAULTS],
-[
+AC_DEFUN([gl_STDIO_H_DEFAULTS],[
   GNULIB_DPRINTF=0;              AC_SUBST([GNULIB_DPRINTF])
   GNULIB_FCLOSE=0;               AC_SUBST([GNULIB_FCLOSE])
   GNULIB_FDOPEN=0;               AC_SUBST([GNULIB_FDOPEN])
@@ -143,7 +140,7 @@ AC_DEFUN([gl_STDIO_H_DEFAULTS],
   GNULIB_VPRINTF_POSIX=0;        AC_SUBST([GNULIB_VPRINTF_POSIX])
   GNULIB_VSNPRINTF=0;            AC_SUBST([GNULIB_VSNPRINTF])
   GNULIB_VSPRINTF_POSIX=0;       AC_SUBST([GNULIB_VSPRINTF_POSIX])
-  dnl Assume proper GNU behavior unless another module says otherwise.
+  dnl# Assume proper GNU behavior unless another module says otherwise:
   HAVE_DECL_FPURGE=1;            AC_SUBST([HAVE_DECL_FPURGE])
   HAVE_DECL_FSEEKO=1;            AC_SUBST([HAVE_DECL_FSEEKO])
   HAVE_DECL_FTELLO=1;            AC_SUBST([HAVE_DECL_FTELLO])
@@ -192,4 +189,4 @@ AC_DEFUN([gl_STDIO_H_DEFAULTS],
   REPLACE_VPRINTF=0;             AC_SUBST([REPLACE_VPRINTF])
   REPLACE_VSNPRINTF=0;           AC_SUBST([REPLACE_VSNPRINTF])
   REPLACE_VSPRINTF=0;            AC_SUBST([REPLACE_VSPRINTF])
-])
+])dnl

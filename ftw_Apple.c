@@ -11,8 +11,9 @@
 
 /* In order to get a description of each file located in /usr/include using
  * fts.h, the code would be as follows: */
-int ftw_simple(char *argv[]) {
-	/* assume that the path "/usr/include" has been passed through argv[3]*/
+int ftw_simple(char *argv[])
+{
+	/* assume the path "/usr/include" has been passed through argv[3] */
 
 	FTS *fileStruct;
 	FTSENT *dirList;
@@ -63,7 +64,8 @@ int ftw_simple(char *argv[]) {
 
 /* one of the arguments to fts_open() takes a function pointer to a user-defined
  * comparing function, so try to implement that here: */
-int compar_for_fts_open(const FTSENT **fsthing1, const FTSENT **fsthing2) {
+int compar_for_fts_open(const FTSENT **fsthing1, const FTSENT **fsthing2)
+{
 	/* really naive, not even sure if comparing them like this even works: */
 	if (fsthing1 < fsthing2) {
 		return -1;

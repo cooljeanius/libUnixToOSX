@@ -1,4 +1,4 @@
-# getdelim.m4 serial 11
+# getdelim.m4 serial 12
 
 dnl# Copyright (C) 2005-2007, 2009-2012 Free Software Foundation, Inc.
 dnl#
@@ -6,18 +6,17 @@ dnl# This file is free software; the Free Software Foundation
 dnl# gives unlimited permission to copy and/or distribute it,
 dnl# with or without modifications, as long as this notice is preserved.
 
-AC_PREREQ([2.59])
+AC_PREREQ([2.59])dnl
 
-AC_DEFUN([gl_FUNC_GETDELIM],
-[
-  AC_REQUIRE([gl_STDIO_H_DEFAULTS])
+AC_DEFUN([gl_FUNC_GETDELIM],[
+  AC_REQUIRE([gl_STDIO_H_DEFAULTS])dnl
 
-  dnl# Persuade glibc <stdio.h> to declare getdelim().
+  dnl# Persuade glibc <stdio.h> to declare getdelim() for us:
   AC_REQUIRE([AC_USE_SYSTEM_EXTENSIONS])
 
-  AC_CHECK_DECLS_ONCE([getdelim])
+  AC_CHECK_DECLS_ONCE([getdelim])dnl
+  AC_CHECK_FUNCS_ONCE([getdelim])dnl
 
-  AC_CHECK_FUNCS_ONCE([getdelim])
   if test "x${ac_cv_func_getdelim}" = "xyes"; then
     HAVE_GETDELIM=1
     dnl# Found it in some library. Verify that it works.
@@ -28,7 +27,7 @@ AC_DEFUN([gl_FUNC_GETDELIM],
 #    include <stdio.h>
 #    include <stdlib.h>
 #    include <string.h>
-    int main()
+    int main(void)
     {
       FILE *in = fopen("./conftest.data", "r");
       if (!in) {
@@ -39,8 +38,8 @@ AC_DEFUN([gl_FUNC_GETDELIM],
          * Based on a test program from Karl Heuer.  */
         char *line = NULL;
         size_t siz = 0;
-        int len = getdelim (&line, &siz, '\n', in);
-        if (!(len == 4 && line && strcmp(line, "foo\n") == 0)) {
+        int len = getdelim(&line, &siz, '\n', in);
+        if (!((len == 4) && line && (strcmp(line, "foo\n") == 0))) {
           return 2;
         }
       }
@@ -85,8 +84,7 @@ AC_DEFUN([gl_FUNC_GETDELIM],
 ])
 
 # Prerequisites of lib/getdelim.c.
-AC_DEFUN([gl_PREREQ_GETDELIM],
-[
-  AC_CHECK_FUNCS_ONCE([flockfile funlockfile])
-  AC_CHECK_DECLS_ONCE([getc_unlocked])
-])
+AC_DEFUN([gl_PREREQ_GETDELIM],[
+  AC_CHECK_FUNCS_ONCE([flockfile funlockfile])dnl
+  AC_CHECK_DECLS_ONCE([getc_unlocked])dnl
+])dnl

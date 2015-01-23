@@ -1,14 +1,14 @@
-/* Copyright (C) 1991, 1993, 1996-1997, 1999-2000, 2003-2004, 2006, 2008-2012
-   Free Software Foundation, Inc.
-
-   Based on strlen implementation by Torbjorn Granlund (tege@sics.se),
-   with help from Dan Sahlin (dan@sics.se) and
-   commentary by Jim Blandy (jimb@ai.mit.edu);
-   adaptation to memchr suggested by Dick Karpinski (dick@cca.ucsf.edu),
-   and implemented by Roland McGrath (roland@ai.mit.edu).
-
+/* memchr.c: Copyright (C) 1991, 1993, 1996-1997, 1999-2000, 2003-2004,
+ * 2006, 2008-2012 Free Software Foundation, Inc.
+ *
+ * Based on strlen implementation by Torbjorn Granlund <tege@sics.se>,
+ * with help from Dan Sahlin <dan@sics.se> and
+ * commentary by Jim Blandy <jimb@ai.mit.edu>;
+ * adaptation to memchr suggested by Dick Karpinski <dick@cca.ucsf.edu>,
+ * and implemented by Roland McGrath <roland@ai.mit.edu>.  */
+/*
 NOTE: The canonical source of this file is maintained with the GNU C Library.
-Bugs can be reported to bug-glibc@prep.ai.mit.edu.
+Bugs can be reported to <bug-glibc@prep.ai.mit.edu>.
 
 This program is free software: you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
@@ -25,40 +25,40 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #ifndef _LIBC
 # include <config.h>
-#endif
+#endif /* !_LIBC */
 
 #include <string.h>
 
 #include <stddef.h>
 
-#if defined _LIBC
+#if defined(_LIBC)
 # include <memcopy.h>
 #else
 # define reg_char char
-#endif
+#endif /* _LIBC */
 
 #include <limits.h>
 
-#if (defined(HAVE_BP_SYM_H) && HAVE_BP_SYM_H) || defined _LIBC
+#if (defined(HAVE_BP_SYM_H) && HAVE_BP_SYM_H) || defined(_LIBC)
 # include <bp-sym.h>
 #else
 # ifndef BP_SYM
 #  define BP_SYM(sym) sym
 # endif /* !BP_SYM */
-#endif
+#endif /* HAVE_BP_SYM_H || _LIBC */
 
 #undef __memchr
 #ifdef _LIBC
 # undef memchr
-#endif
+#endif /* _LIBC */
 
 #ifndef weak_alias
 # define __memchr memchr
-#endif
+#endif /* !weak_alias */
 
-/* Search no more than N bytes of S for C.  */
+/* Search no more than N bytes of S for C: */
 void *
-__memchr (void const *s, int c_in, size_t n)
+__memchr(void const *s, int c_in, size_t n)
 {
   /* On 32-bit hardware, choosing longword to be a 32-bit unsigned
      long instead of a 64-bit uintmax_t tends to give better

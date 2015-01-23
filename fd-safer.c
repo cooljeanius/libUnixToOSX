@@ -1,4 +1,4 @@
-/* Return a safer copy of a file descriptor.
+/* fd-safer.c: Return a safer copy of a file descriptor.
 
    Copyright (C) 2005-2006, 2009-2012 Free Software Foundation, Inc.
 
@@ -13,7 +13,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* Written by Paul Eggert.  */
 
@@ -34,16 +34,18 @@
    descriptors, e.g., fd_safer (open ("file", O_RDONLY)).  */
 
 int
-fd_safer (int fd)
+fd_safer(int fd)
 {
-  if (STDIN_FILENO <= fd && fd <= STDERR_FILENO)
+  if ((STDIN_FILENO <= fd) && (fd <= STDERR_FILENO))
     {
-      int f = dup_safer (fd);
+      int f = dup_safer(fd);
       int e = errno;
-      close (fd);
+      close(fd);
       errno = e;
       fd = f;
     }
 
   return fd;
 }
+
+/* EOF */

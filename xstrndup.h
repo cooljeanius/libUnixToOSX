@@ -13,11 +13,13 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #include <stddef.h>
 
 /* Return a newly allocated copy of at most N bytes of STRING.
    In other words, return a copy of the initial segment of length N of
    STRING.  */
-extern char *xstrndup (const char *string, size_t n);
+extern char *xstrndup(const char *string, size_t n);
+
+/* EOF */

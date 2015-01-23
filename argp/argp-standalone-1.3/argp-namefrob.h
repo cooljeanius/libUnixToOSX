@@ -1,4 +1,4 @@
-/* Name frobnication for compiling argp outside of glibc
+/* argp-namefrob.h: Name frobnication for compiling argp outside of glibc
    Copyright (C) 1997 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
    Written by Miles Bader <miles@gnu.ai.mit.edu>.
@@ -15,7 +15,7 @@
 
    You should have received a copy of the GNU Library General Public
    License along with the GNU C Library; see the file COPYING.LIB.  If not,
-   write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+   write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330,
    Boston, MA 02111-1307, USA.  */
 
 #if !defined(_LIBC) || (defined(_LIBC) && !_LIBC)
@@ -81,7 +81,7 @@
 #undef __argp_fmtstream_wmargin
 #define __argp_fmtstream_wmargin argp_fmtstream_wmargin
 
-/* normal libc functions we call */
+/* normal libc functions we call: */
 #undef __sleep
 #define __sleep sleep
 #undef __strcasecmp
@@ -92,5 +92,7 @@
 #endif /* !_LIBC */
 
 #ifndef __set_errno
-#define __set_errno(e) (errno = (e))
-#endif
+# define __set_errno(e) (errno = (e))
+#endif /* !__set_errno */
+
+/* EOF */

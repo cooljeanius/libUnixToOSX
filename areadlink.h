@@ -1,4 +1,4 @@
-/* Read symbolic links without size limitation.
+/* areadlink.h: Read symbolic links without size limitation.
 
    Copyright (C) 2001, 2003-2004, 2007, 2009-2012 Free Software Foundation,
    Inc.
@@ -14,20 +14,22 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* Written by Jim Meyering <jim@meyering.net>  */
 
 #include <stddef.h>
 
-extern char *areadlink (char const *filename);
-extern char *areadlink_with_size (char const *filename, size_t size_hint);
+extern char *areadlink(char const *filename);
+extern char *areadlink_with_size(char const *filename, size_t size_hint);
 
 #if GNULIB_AREADLINKAT
-extern char *areadlinkat (int fd, char const *filename);
-#endif
+extern char *areadlinkat(int fd, char const *filename);
+#endif /* GNULIB_AREADLINKAT */
 
 #if GNULIB_AREADLINKAT_WITH_SIZE
-extern char *areadlinkat_with_size (int fd, char const *filename,
-                                    size_t size_hint);
-#endif
+extern char *areadlinkat_with_size(int fd, char const *filename,
+                                   size_t size_hint);
+#endif /* GNULIB_AREADLINKAT_WITH_SIZE */
+
+/* EOF */

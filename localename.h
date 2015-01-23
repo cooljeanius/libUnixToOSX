@@ -2,8 +2,8 @@
  * Copyright (C) 2007, 2009-2012 Free Software Foundation, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation; either version 2.1 of the License, or
+ * it under the terms of the GNU Lesser General Public License as published
+ * by the Free Software Foundation; either version 2.1 of the License, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -51,8 +51,8 @@ extern const char * gl_locale_name(int category,
 extern const char * gl_locale_name_thread(int category,
 										  const char *categoryname);
 
-/* Determine the name of the thread-independent current locale, as specified by
- * setlocale() calls or by environment variables.
+/* Determine the name of the thread-independent current locale, as
+ * specified by setlocale() calls or by environment variables.
  * CATEGORY is a locale category abbreviation, as defined in <locale.h>,
  * but not LC_ALL. E.g. LC_MESSAGES.
  * CATEGORYNAME is the name of CATEGORY as a string, e.g. "LC_MESSAGES".
@@ -75,9 +75,9 @@ extern const char * gl_locale_name_environ(int category,
 										   const char *categoryname);
 
 /* Determine the name of the default locale. This is the name of the current
- * locale, if not specified by uselocale() calls, by setlocale() calls, or by
- * environment variables. This locale name is usually determined by systems
- * settings that the user can manipulate through a GUI.
+ * locale, if not specified by uselocale() calls, by setlocale() calls, or
+ * by environment variables. This locale name is usually determined by
+ * systems settings that the user can manipulate through a GUI.
  *
  * Quoting POSIX:2001:
  *   "All implementations shall define a locale as the default locale,

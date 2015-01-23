@@ -81,6 +81,12 @@ signal.h
 signal.h-t
 errno.h
 errno.h-t
+.libs/*test
+.libs/relocwrapper
+chdirlongtest
+getopt*test
+mktimetest
+relocwrapper
 
 # dist stuff:
 libunixtoosx-*.*.*/*

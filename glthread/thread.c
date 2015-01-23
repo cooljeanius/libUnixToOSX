@@ -21,13 +21,13 @@
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include "glthread/thread.h"
 
 #include <stdlib.h>
 #include "glthread/lock.h"
 
-/* ========================================================================= */
+/* ===================================================================== */
 
 #if USE_POSIX_THREADS
 # include <pthread.h>
@@ -36,28 +36,28 @@ const gl_thread_t gl_null_thread /* = { .p = NULL } */;
 # endif /* PTW32_VERSION */
 #endif /* USE_POSIX_THREADS */
 
-/* ========================================================================= */
+/* ===================================================================== */
 
 #if defined(USE_WINDOWS_THREADS) && USE_WINDOWS_THREADS
 # include <process.h>
-/* -------------------------- gl_thread_t datatype -------------------------- */
+/* ------------------------- gl_thread_t datatype ---------------------- */
 
 /* The Thread-Local Storage (TLS) key that allows to access each thread's
- * 'struct gl_thread_struct *' pointer.  */
+ * 'struct gl_thread_struct *' pointer: */
 static DWORD self_key = (DWORD)-1;
 
-/* Initializes self_key.  This function must only be called once.  */
+/* Initializes self_key.  This function must only be called once: */
 static void
 do_init_self_key(void)
 {
   self_key = TlsAlloc();
-  /* If this fails, then we are hosed.  */
+  /* If this fails, then we are hosed: */
   if (self_key == (DWORD)-1) {
     abort();
   }
 }
 
-/* Initializes self_key.  */
+/* Initializes self_key: */
 static void
 init_self_key(void)
 {
@@ -66,20 +66,20 @@ init_self_key(void)
 }
 
 /* This structure contains information about a thread.
- * It is stored in TLS under key self_key.  */
+ * It is stored in TLS under key self_key: */
 struct gl_thread_struct
 {
-  /* Fields for managing the handle.  */
+  /* Fields for managing the handle: */
   HANDLE volatile handle;
   CRITICAL_SECTION handle_lock;
-  /* Fields for managing the exit value.  */
+  /* Fields for managing the exit value: */
   void * volatile result;
-  /* Fields for managing the thread start.  */
+  /* Fields for managing the thread start: */
   void *(*func)(void *);
   void *arg;
 };
 
-/* Return a real HANDLE object for the current thread.  */
+/* Return a real HANDLE object for the current thread: */
 static inline HANDLE
 get_current_thread_handle(void)
 {
@@ -103,7 +103,7 @@ gl_thread_self_func(void)
   if (self_key == (DWORD)-1) {
     init_self_key();
   }
-  thread = TlsGetValue (self_key);
+  thread = TlsGetValue(self_key);
   if (thread == NULL) {
       /* This happens only in threads that have not been created through
        * glthread_create(), such as the main thread.  */
@@ -114,20 +114,20 @@ gl_thread_self_func(void)
           if (thread != NULL) {
             break;
 		  }
-          /* Memory allocation failed.  There is not much we can do.  Have to
-           * busy-loop, waiting for the availability of memory.  */
+          /* Memory allocation failed.  There is not much that we can do.
+           * Have to busy-loop, waiting for the availability of memory: */
           Sleep(1);
 	  }
 
-      thread->handle = get_current_thread_handle ();
-      InitializeCriticalSection (&thread->handle_lock);
+      thread->handle = get_current_thread_handle();
+      InitializeCriticalSection(&thread->handle_lock);
       thread->result = NULL; /* just to be deterministic */
-      TlsSetValue (self_key, thread);
+      TlsSetValue(self_key, thread);
     }
   return thread;
 }
 
-/* The main function of a freshly creating thread.  It's a wrapper around
+/* The main function of a freshly creating thread.  It is a wrapper around
    the FUNC and ARG arguments passed to glthread_create_func.  */
 static unsigned int WINAPI
 wrapper_func(void *varg)
@@ -135,8 +135,8 @@ wrapper_func(void *varg)
   struct gl_thread_struct *thread = (struct gl_thread_struct *)varg;
 
   EnterCriticalSection (&thread->handle_lock);
-  /* Create a new handle for the thread only if the parent thread did not yet
-   * fill in the handle.  */
+  /* Create a new handle for the thread only if the parent thread did not
+   * yet fill in the handle: */
   if (thread->handle == NULL) {
     thread->handle = get_current_thread_handle();
   }
@@ -184,7 +184,7 @@ glthread_create_func(gl_thread_t *threadp, void *(*func)(void *), void *arg)
 	if (thread->handle == NULL) {
       thread->handle = thread_handle;
     } else {
-      /* thread->handle was already set by the thread itself.  */
+      /* thread->handle was already set by the thread itself: */
       CloseHandle(thread_handle);
 	}
     LeaveCriticalSection(&thread->handle_lock);
@@ -230,11 +230,11 @@ gl_thread_exit_func(void *retval)
 }
 #else
 # if !USE_POSIX_THREADS || !defined(PTW32_VERSION)
-/* make sure file is not empty */
+/* make sure file is not empty: */
 typedef int thread_c_dummy_t;
 # endif /* !USE_POSIX_THREADS || !PTW32_VERSION */
 #endif /* USE_WINDOWS_THREADS */
 
-/* ========================================================================= */
+/* ===================================================================== */
 
 /* EOF */

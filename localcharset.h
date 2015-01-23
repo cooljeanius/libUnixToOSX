@@ -1,5 +1,5 @@
-/* localcharset.h: Determine a canonical name for the current locale's character
- * encoding.
+/* localcharset.h: Determine a canonical name for the current locale's
+ * character encoding.
  * Copyright (C) 2000-2003, 2009-2012 Free Software Foundation, Inc.
  * This file is part of the GNU CHARSET Library.
  *
@@ -27,8 +27,8 @@ extern "C" {
 /* Determine the current locale's character encoding, and canonicalize it
  * into one of the canonical names listed in config.charset.
  * The result must not be freed; it is statically allocated.
- * If the canonical name cannot be determined, the result is a non-canonical
- * name.  */
+ * If the canonical name cannot be determined, then the result is a
+ * non-canonical name: */
 extern const char *locale_charset(void);
 
 #ifdef __cplusplus

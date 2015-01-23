@@ -33,13 +33,13 @@
    Return a pointer to that NUL-terminated string in malloc'd storage.
    If readlinkat fails, return NULL and set errno (although failure to
    change directory will issue a diagnostic and exit).
-   If allocation fails, or if the link value is longer than SIZE_MAX :-),
+   If allocation fails, or if the link value is longer than SIZE_MAX, then
    return NULL and set errno to ENOMEM.  */
 
 char *
-areadlinkat (int fd, char const *filename)
+areadlinkat(int fd, char const *filename)
 {
-  return careadlinkat (fd, filename, NULL, 0, NULL, readlinkat);
+  return careadlinkat(fd, filename, NULL, 0, NULL, readlinkat);
 }
 
 #else /* !HAVE_READLINKAT */

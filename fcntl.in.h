@@ -161,6 +161,24 @@ _GL_WARN_ON_USE(openat, "openat is not portable - "
 # endif /* HAVE_RAW_DECL_OPENAT */
 #endif /* @GNULIB_OPENAT@ */
 
+#if @REPLACE_FALLOCATE@
+# define fallocate rpl_fallocate
+# undef FALLOC_FL_KEEP_SIZE /* Ensure that this name is available. */
+# define FALLOC_FL_KEEP_SIZE 0x01
+int fallocate(int fd, int mode, off_t offset, off_t len);
+#endif /* @REPLACE_FALLOCATE@ */
+
+#if @REPLACE_POSIX_FALLOCATE@
+int posix_fallocate(int fd, off_t offset, off_t len);
+#endif /* @REPLACE_POSIX_FALLOCATE@ */
+
+#if @REPLACE_POSIX_FALLOCATE64@ && \
+(defined(HAVE_OFF64_T) || defined(off64_t) || defined(_OFF64_T))
+# ifndef posix_fallocate64
+#  define posix_fallocate64 __posix_fallocate64_l64
+# endif /* !posix_fallocate64 */
+int posix_fallocate64(int fd, off64_t offset, off64_t len);
+#endif /* @REPLACE_POSIX_FALLOCATE64@ && (have an off64_t type) */
 
 /* Fix up the FD_* macros, only known to be missing on mingw.  */
 

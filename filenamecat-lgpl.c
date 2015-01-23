@@ -1,4 +1,4 @@
-/* Concatenate two arbitrary file names.
+/* filenamecat-lgpl.c: Concatenate two arbitrary file names.
 
    Copyright (C) 1996-2007, 2009-2012 Free Software Foundation, Inc.
 
@@ -13,13 +13,13 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* Written by Jim Meyering.  */
 
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include "filenamecat.h"
 
 #include <stdlib.h>
@@ -28,16 +28,16 @@
 #include "dirname.h"
 
 #if (!defined(HAVE_MEMPCPY) || (defined(HAVE_MEMPCPY) && !HAVE_MEMPCPY)) && !defined mempcpy
-# define mempcpy(D, S, N) ((void *) ((char *) memcpy (D, S, N) + (N)))
-#endif
+# define mempcpy(D, S, N) ((void *)((char *)memcpy(D, S, N) + (N)))
+#endif /* !HAVE_MEMPCPY && !mempcpy */
 
 /* Return the longest suffix of F that is a relative file name.
    If it has no such suffix, return the empty string.  */
 
 static char const * _GL_ATTRIBUTE_PURE
-longest_relative_suffix (char const *f)
+longest_relative_suffix(char const *f)
 {
-  for (f += FILE_SYSTEM_PREFIX_LEN (f); ISSLASH (*f); f++)
+  for (f += FILE_SYSTEM_PREFIX_LEN(f); ISSLASH(*f); f++)
     continue;
   return f;
 }
@@ -71,7 +71,7 @@ mfile_name_concat(char const *dir, char const *abase, char **base_in_result)
   char *p_concat;
   char *p;
 
-  p_concat = (char *)malloc(dirlen + needs_separator + baselen + 1);
+  p_concat = (char *)malloc(dirlen + needs_separator + baselen + 1UL);
 
   if (p_concat == NULL)
     return NULL;

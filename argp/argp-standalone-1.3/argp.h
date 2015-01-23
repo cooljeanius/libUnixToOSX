@@ -15,7 +15,7 @@
 
    You should have received a copy of the GNU Library General Public
    License along with the GNU C Library; see the file COPYING.LIB.  If not,
-   write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+   write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330,
    Boston, MA 02111-1307, USA.  */
 
 #ifndef _ARGP_H
@@ -558,32 +558,32 @@ __argp_short_program_name(const struct argp_state *state) __THROW;
 #  define __argp_state_help argp_state_help
 #  define __option_is_short _option_is_short
 #  define __option_is_end _option_is_end
-# endif
+# endif /* !_LIBC */
 
 # ifndef ARGP_EI
 #  define ARGP_EI extern __inline__
-# endif
+# endif /* !ARGP_EI */
 
 ARGP_EI void
-__argp_usage (__const struct argp_state *__state) __THROW
+__argp_usage(__const struct argp_state *__state) __THROW
 {
   __argp_state_help (__state, stderr, ARGP_HELP_STD_USAGE);
 }
 
 ARGP_EI int
-__option_is_short (__const struct argp_option *__opt) __THROW
+__option_is_short(__const struct argp_option *__opt) __THROW
 {
   if (__opt->flags & OPTION_DOC)
     return 0;
   else
     {
       int __key = __opt->key;
-      return __key > 0 && isprint (__key);
+      return ((__key > 0) && isprint(__key));
     }
 }
 
 ARGP_EI int
-__option_is_end (__const struct argp_option *__opt) __THROW
+__option_is_end(__const struct argp_option *__opt) __THROW
 {
   return !__opt->key && !__opt->name && !__opt->doc && !__opt->group;
 }

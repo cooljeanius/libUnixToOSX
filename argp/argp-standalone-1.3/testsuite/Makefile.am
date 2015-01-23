@@ -1,5 +1,7 @@
 ## automake Makefile for argp-standalone testsuite
 
+AUTOMAKE_OPTIONS = 1.8 foreign no-dependencies subdir-objects
+
 TS_SH = ex1-test permute-test
 TS_PROGS =
 
@@ -70,3 +72,10 @@ $(MY_TS_SH_HERE):
 
 ../libargp.a: ../Makefile
 	if test -e ../Makefile; then $(MAKE) -C .. libargp.a; fi
+
+###########################################################################
+## seeing as we specify the "no-dependencies" option in our automake
+## options, manually list dependencies here:
+ex1.o: ex1.c
+ex3.o: ex3.c
+ex4.o: ex4.c

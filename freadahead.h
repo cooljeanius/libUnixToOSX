@@ -12,7 +12,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #include <stddef.h>
 #include <stdio.h>
@@ -30,18 +30,20 @@
 #if defined(HAVE___FREADAHEAD) && HAVE___FREADAHEAD /* musl libc */
 
 # include <stdio_ext.h>
-# define freadahead(stream) __freadahead (stream)
+# define freadahead(stream) __freadahead(stream)
 
 #else
 
 # ifdef __cplusplus
 extern "C" {
-# endif
+# endif /* __cplusplus */
 
-extern size_t freadahead (FILE *stream) _GL_ATTRIBUTE_PURE;
+extern size_t freadahead(FILE *stream) _GL_ATTRIBUTE_PURE;
 
 # ifdef __cplusplus
 }
-# endif
+# endif /* __cplusplus */
 
 #endif
+
+/* EOF */

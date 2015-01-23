@@ -1,4 +1,4 @@
-/* strnlen1.c: Find the length of STRING + 1, but scan at most MAXLEN bytes.
+/* strnlen1.c: Find the length of STRING + 1, but scan at most MAXLEN bytes
  * Copyright (C) 2005-2006, 2009-2012 Free Software Foundation, Inc.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,16 +19,17 @@
 # include "config.h"
 #endif /* HAVE_CONFIG_H */
 
-/* Specification.  */
+/* Specification: */
 #include "strnlen1.h"
 
 #include <string.h>
 
 /* Find the length of STRING + 1, but scan at most MAXLEN bytes.
- * If no '\0' terminator is found in that many characters, return MAXLEN.  */
+ * If no '\0' terminator is found in that many characters, then return
+ * MAXLEN.  */
 /* This is the same as strnlen(string, maxlen - 1) + 1.  */
 size_t
-strnlen1 (const char *string, size_t maxlen)
+strnlen1(const char *string, size_t maxlen)
 {
   const char *end = (const char *)memchr(string, '\0', maxlen);
   if (end != NULL) {

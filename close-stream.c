@@ -1,4 +1,4 @@
-/* Close a stream, with nicer error checking than fclose's.
+/* close-stream.c: Close a stream, with nicer error checking than fclose's.
 
    Copyright (C) 1998-2002, 2004, 2006-2012 Free Software Foundation, Inc.
 
@@ -13,7 +13,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 #include <config.h>
 
@@ -26,7 +26,7 @@
 
 #if USE_UNLOCKED_IO
 # include "unlocked-io.h"
-#endif
+#endif /* USE_UNLOCKED_IO */
 
 /* Close STREAM.  Return 0 if successful, EOF (setting errno)
    otherwise.  A failure might set errno to 0 if the error number
@@ -48,16 +48,16 @@
    since some file systems (NFS and CODA) buffer written/flushed data
    until an actual close call.
 
-   Besides, it's wasteful to check the return value from every call
+   Besides, it is wasteful to check the return value from every call
    that writes to STREAM -- just let the internal stream state record
    the failure.  That's what the ferror test is checking below.  */
 
 int
-close_stream (FILE *stream)
+close_stream(FILE *stream)
 {
-  const bool some_pending = (__fpending (stream) != 0);
-  const bool prev_fail = (ferror (stream) != 0);
-  const bool fclose_fail = (fclose (stream) != 0);
+  const bool some_pending = (__fpending(stream) != 0);
+  const bool prev_fail = (ferror(stream) != 0);
+  const bool fclose_fail = (fclose(stream) != 0);
 
   /* Return an error indication if there was a previous failure or if
      fclose failed, with one exception: ignore an fclose failure if
@@ -67,7 +67,7 @@ close_stream (FILE *stream)
      closed) and doesn't generate any output (hence no previous error
      and nothing to be flushed).  */
 
-  if (prev_fail || (fclose_fail && (some_pending || errno != EBADF)))
+  if (prev_fail || (fclose_fail && (some_pending || (errno != EBADF))))
     {
       if (! fclose_fail)
         errno = 0;
@@ -76,3 +76,5 @@ close_stream (FILE *stream)
 
   return 0;
 }
+
+/* EOF */

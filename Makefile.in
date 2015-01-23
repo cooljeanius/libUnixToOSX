@@ -82,36 +82,37 @@ build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
 check_PROGRAMS = chdirlongtest$(EXEEXT) mktimetest$(EXEEXT) \
-	getopt1test$(EXEEXT) getopttest$(EXEEXT)
-EXTRA_PROGRAMS = relocwrapper$(EXEEXT)
+	getopt1test$(EXEEXT) getopttest$(EXEEXT) relocwrapper$(EXEEXT)
 subdir = .
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/configure $(am__configure_deps) \
 	$(srcdir)/config.h.in $(top_srcdir)/build-aux/mkinstalldirs \
 	mempcpy.c fchdir.c msvc-inval.c realloc.c strerror-override.c \
-	fpending.c error.h memcmp.c readlink.c printf-args.c \
-	fchown-stub.c memchr.c fcloseall.c strsignal.c fchownat.c \
+	fpending.c error.h posix_fallocate64.c memcmp.c readlink.c \
+	printf-args.c fchown-stub.c fallocate.c pread.c memchr.c \
+	fcloseall.c strsignal.c fchownat.c ftruncate.c pwrite.c \
 	isnanf.c getopt1.c progreloc.c rawmemchr.c strerror_r.c \
 	printf-parse.c getmntent.c dup.c freadahead.c obstack.h \
-	strchrnul.c fflush.c obstack.c mktime.c close.c chown.c \
-	float.c stdio-write.c lstat.c memrchr.c dysize.c fts.c \
-	getline.c fdopendir.c readlinkat.c strndup.c wctob.c setenv.c \
-	getdelim.c error.c isnand.c fdopen.c localeconv.c btowc.c \
-	fileblocks.c isnanl.c vasnprintf.c poll.c strnlen.c malloc.c \
-	strerror.c chdir-long.c stdio-read.c fstat.c itold.c getopt.c \
-	fstatat.c dup2.c asnprintf.c fclose.c relocatable.c \
-	canonicalize-lgpl.c obstack_printf.c openat.c fchmodat.c \
-	freadptr.c stat.c mountlist.c alloca.c $(dist_noinst_SCRIPTS) \
-	$(include_HEADERS) $(noinst_HEADERS) TODO build-aux/ar-lib \
-	build-aux/compile build-aux/config.guess \
-	build-aux/config.rpath build-aux/config.sub build-aux/depcomp \
-	build-aux/install-sh build-aux/missing build-aux/mkinstalldirs \
-	build-aux/ltmain.sh $(top_srcdir)/build-aux/ar-lib \
-	$(top_srcdir)/build-aux/compile \
+	strchrnul.c fflush.c obstack.c posix_fallocate.c mktime.c \
+	close.c chown.c float.c stdio-write.c lstat.c memrchr.c \
+	dysize.c fts.c getline.c readlinkat.c fdopendir.c strndup.c \
+	wctob.c setenv.c error.c getdelim.c isnand.c fdopen.c \
+	localeconv.c btowc.c fileblocks.c isnanl.c vasnprintf.c poll.c \
+	strnlen.c malloc.c strerror.c fstat.c chdir-long.c \
+	stdio-read.c itold.c cuserid.c fstatat.c getopt.c dup2.c \
+	asnprintf.c fclose.c relocatable.c canonicalize-lgpl.c \
+	obstack_printf.c openat.c fchmodat.c freadptr.c stat.c \
+	mountlist.c alloca.c $(dist_noinst_SCRIPTS) $(include_HEADERS) \
+	$(noinst_HEADERS) TODO build-aux/ar-lib build-aux/compile \
+	build-aux/config.guess build-aux/config.rpath \
+	build-aux/config.sub build-aux/depcomp build-aux/install-sh \
+	build-aux/missing build-aux/mkinstalldirs build-aux/ltmain.sh \
+	$(top_srcdir)/build-aux/ar-lib $(top_srcdir)/build-aux/compile \
 	$(top_srcdir)/build-aux/config.guess \
 	$(top_srcdir)/build-aux/config.libpath \
 	$(top_srcdir)/build-aux/config.rpath \
 	$(top_srcdir)/build-aux/config.sub \
+	$(top_srcdir)/build-aux/depcomp \
 	$(top_srcdir)/build-aux/git-version-gen \
 	$(top_srcdir)/build-aux/gitlog-to-changelog \
 	$(top_srcdir)/build-aux/install-reloc \
@@ -140,7 +141,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/alloca.m4 \
 	$(top_srcdir)/m4/error.m4 $(top_srcdir)/m4/exponentd.m4 \
 	$(top_srcdir)/m4/exponentf.m4 $(top_srcdir)/m4/exponentl.m4 \
 	$(top_srcdir)/m4/extensions.m4 \
-	$(top_srcdir)/m4/extern-inline.m4 $(top_srcdir)/m4/fchdir.m4 \
+	$(top_srcdir)/m4/extern-inline.m4 \
+	$(top_srcdir)/m4/fallocate.m4 $(top_srcdir)/m4/fchdir.m4 \
 	$(top_srcdir)/m4/fchmodat.m4 $(top_srcdir)/m4/fchownat.m4 \
 	$(top_srcdir)/m4/fclose.m4 $(top_srcdir)/m4/fcntl-o.m4 \
 	$(top_srcdir)/m4/fcntl-safer.m4 $(top_srcdir)/m4/fcntl_h.m4 \
@@ -151,7 +153,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/alloca.m4 \
 	$(top_srcdir)/m4/freadseek.m4 $(top_srcdir)/m4/frexp.m4 \
 	$(top_srcdir)/m4/frexpl.m4 $(top_srcdir)/m4/fstat.m4 \
 	$(top_srcdir)/m4/fstatat.m4 $(top_srcdir)/m4/fstypename.m4 \
-	$(top_srcdir)/m4/fts.m4 $(top_srcdir)/m4/functions_extra.m4 \
+	$(top_srcdir)/m4/ftruncate.m4 $(top_srcdir)/m4/fts.m4 \
+	$(top_srcdir)/m4/functions_extra.m4 \
 	$(top_srcdir)/m4/getdelim.m4 $(top_srcdir)/m4/getline.m4 \
 	$(top_srcdir)/m4/getndelim2.m4 $(top_srcdir)/m4/getnline.m4 \
 	$(top_srcdir)/m4/getopt.m4 $(top_srcdir)/m4/glibc21.m4 \
@@ -190,14 +193,16 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/alloca.m4 \
 	$(top_srcdir)/m4/onceonly.m4 $(top_srcdir)/m4/openat.m4 \
 	$(top_srcdir)/m4/pathmax.m4 $(top_srcdir)/m4/pipe2.m4 \
 	$(top_srcdir)/m4/pkg.m4 $(top_srcdir)/m4/poll.m4 \
-	$(top_srcdir)/m4/poll_h.m4 $(top_srcdir)/m4/printf-frexp.m4 \
+	$(top_srcdir)/m4/poll_h.m4 $(top_srcdir)/m4/posix_fallocate.m4 \
+	$(top_srcdir)/m4/posix_fallocate64.m4 \
+	$(top_srcdir)/m4/pread.m4 $(top_srcdir)/m4/printf-frexp.m4 \
 	$(top_srcdir)/m4/printf-frexpl.m4 $(top_srcdir)/m4/printf.m4 \
 	$(top_srcdir)/m4/programs_extra.m4 $(top_srcdir)/m4/ptsname.m4 \
 	$(top_srcdir)/m4/ptsname_r.m4 $(top_srcdir)/m4/pty.m4 \
-	$(top_srcdir)/m4/pty_h.m4 $(top_srcdir)/m4/quote.m4 \
-	$(top_srcdir)/m4/quotearg.m4 $(top_srcdir)/m4/rawmemchr.m4 \
-	$(top_srcdir)/m4/readlink.m4 $(top_srcdir)/m4/readlinkat.m4 \
-	$(top_srcdir)/m4/realloc.m4 \
+	$(top_srcdir)/m4/pty_h.m4 $(top_srcdir)/m4/pwrite.m4 \
+	$(top_srcdir)/m4/quote.m4 $(top_srcdir)/m4/quotearg.m4 \
+	$(top_srcdir)/m4/rawmemchr.m4 $(top_srcdir)/m4/readlink.m4 \
+	$(top_srcdir)/m4/readlinkat.m4 $(top_srcdir)/m4/realloc.m4 \
 	$(top_srcdir)/m4/relocatable-lib.m4 \
 	$(top_srcdir)/m4/relocatable.m4 \
 	$(top_srcdir)/m4/relocatable_extra.m4 $(top_srcdir)/m4/same.m4 \
@@ -315,12 +320,14 @@ mktimetest_DEPENDENCIES = libUnixToOSX.la
 mktimetest_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(mktimetest_CFLAGS) \
 	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-am_relocwrapper_OBJECTS = relocwrapper-relocwrapper.$(OBJEXT)
+am_relocwrapper_OBJECTS = relocwrapper-relocwrapper.$(OBJEXT) \
+	relocwrapper-progreloc.$(OBJEXT) \
+	relocwrapper-relocatable.$(OBJEXT)
 relocwrapper_OBJECTS = $(am_relocwrapper_OBJECTS)
 relocwrapper_DEPENDENCIES = libUnixToOSX.la
 relocwrapper_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(relocwrapper_CFLAGS) \
-	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+	$(CFLAGS) $(relocwrapper_LDFLAGS) $(LDFLAGS) -o $@
 SCRIPTS = $(dist_noinst_SCRIPTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -472,6 +479,7 @@ CCAS = @CCAS@
 CCASFLAGS = @CCASFLAGS@
 CFLAGS = @CFLAGS@
 CHANGELOG_CMD = @CHANGELOG_CMD@
+CLANGCC = @CLANGCC@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
@@ -482,17 +490,43 @@ DEFS = @DEFS@ -DUNIXTOOSX=1 -DEXEEXT=\"@EXEEXT@\"
 DLLTOOL = @DLLTOOL@
 DSYMUTIL = @DSYMUTIL@
 DUMPBIN = @DUMPBIN@
+EBADMSG_HIDDEN = @EBADMSG_HIDDEN@
+EBADMSG_VALUE = @EBADMSG_VALUE@
+ECANCELED_HIDDEN = @ECANCELED_HIDDEN@
+ECANCELED_VALUE = @ECANCELED_VALUE@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
+ECONNABORTED_HIDDEN = @ECONNABORTED_HIDDEN@
+ECONNABORTED_VALUE = @ECONNABORTED_VALUE@
+EDQUOT_HIDDEN = @EDQUOT_HIDDEN@
+EDQUOT_VALUE = @EDQUOT_VALUE@
 EGREP = @EGREP@
+EIDRM_HIDDEN = @EIDRM_HIDDEN@
+EIDRM_VALUE = @EIDRM_VALUE@
 EMULTIHOP_HIDDEN = @EMULTIHOP_HIDDEN@
 EMULTIHOP_VALUE = @EMULTIHOP_VALUE@
+ENETRESET_HIDDEN = @ENETRESET_HIDDEN@
+ENETRESET_VALUE = @ENETRESET_VALUE@
 ENOLINK_HIDDEN = @ENOLINK_HIDDEN@
 ENOLINK_VALUE = @ENOLINK_VALUE@
+ENOMSG_HIDDEN = @ENOMSG_HIDDEN@
+ENOMSG_VALUE = @ENOMSG_VALUE@
+ENOTSUP_HIDDEN = @ENOTSUP_HIDDEN@
+ENOTSUP_VALUE = @ENOTSUP_VALUE@
 EOVERFLOW_HIDDEN = @EOVERFLOW_HIDDEN@
 EOVERFLOW_VALUE = @EOVERFLOW_VALUE@
+EPROTO_HIDDEN = @EPROTO_HIDDEN@
+EPROTO_VALUE = @EPROTO_VALUE@
 ERRNO_H = @ERRNO_H@
+ESOCK_HIDDEN = @ESOCK_HIDDEN@
+ESOCK_VALUE = @ESOCK_VALUE@
+ESTALE_HIDDEN = @ESTALE_HIDDEN@
+ESTALE_VALUE = @ESTALE_VALUE@
+ESTREAMS_HIDDEN = @ESTREAMS_HIDDEN@
+ESTREAMS_VALUE = @ESTREAMS_VALUE@
+EWINSOCK_HIDDEN = @EWINSOCK_HIDDEN@
+EWINSOCK_VALUE = @EWINSOCK_VALUE@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
 FLOAT_H = @FLOAT_H@
@@ -1206,6 +1240,7 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 INT32_MAX_LT_INTMAX_MAX = @INT32_MAX_LT_INTMAX_MAX@
 INT64_MAX_EQ_LONG_MAX = @INT64_MAX_EQ_LONG_MAX@
+INTELCC = @INTELCC@
 INTL_MACOSX_LIBS = @INTL_MACOSX_LIBS@
 ISNAND_LIBM = @ISNAND_LIBM@
 ISNANF_LIBM = @ISNANF_LIBM@
@@ -1355,6 +1390,7 @@ REPLACE_EXP2L = @REPLACE_EXP2L@
 REPLACE_EXPM1 = @REPLACE_EXPM1@
 REPLACE_EXPM1F = @REPLACE_EXPM1F@
 REPLACE_FABSL = @REPLACE_FABSL@
+REPLACE_FALLOCATE = @REPLACE_FALLOCATE@
 REPLACE_FCHOWNAT = @REPLACE_FCHOWNAT@
 REPLACE_FCLOSE = @REPLACE_FCLOSE@
 REPLACE_FCNTL = @REPLACE_FCNTL@
@@ -1458,6 +1494,8 @@ REPLACE_OPENPTY = @REPLACE_OPENPTY@
 REPLACE_PERROR = @REPLACE_PERROR@
 REPLACE_POLL = @REPLACE_POLL@
 REPLACE_POPEN = @REPLACE_POPEN@
+REPLACE_POSIX_FALLOCATE = @REPLACE_POSIX_FALLOCATE@
+REPLACE_POSIX_FALLOCATE64 = @REPLACE_POSIX_FALLOCATE64@
 REPLACE_PREAD = @REPLACE_PREAD@
 REPLACE_PRINTF = @REPLACE_PRINTF@
 REPLACE_PTHREAD_SIGMASK = @REPLACE_PTHREAD_SIGMASK@
@@ -1541,6 +1579,7 @@ STDBOOL_H = @STDBOOL_H@
 STDDEF_H = @STDDEF_H@
 STDINT_H = @STDINT_H@
 STRIP = @STRIP@
+SUNCC = @SUNCC@
 SYS_IOCTL_H_HAVE_WINSOCK2_H = @SYS_IOCTL_H_HAVE_WINSOCK2_H@
 SYS_IOCTL_H_HAVE_WINSOCK2_H_AND_USE_SOCKETS = @SYS_IOCTL_H_HAVE_WINSOCK2_H_AND_USE_SOCKETS@
 SYS_TIME_H_DEFINES_STRUCT_TIMESPEC = @SYS_TIME_H_DEFINES_STRUCT_TIMESPEC@
@@ -1553,6 +1592,7 @@ UNISTD_H_HAVE_WINSOCK2_H = @UNISTD_H_HAVE_WINSOCK2_H@
 UNISTD_H_HAVE_WINSOCK2_H_AND_USE_SOCKETS = @UNISTD_H_HAVE_WINSOCK2_H_AND_USE_SOCKETS@
 VERSION = @VERSION@
 WARN_CFLAGS = @WARN_CFLAGS@
+WARN_LDFLAGS = @WARN_LDFLAGS@
 WCHAR_T_SUFFIX = @WCHAR_T_SUFFIX@
 WINDOWS_64_BIT_OFF_T = @WINDOWS_64_BIT_OFF_T@
 WINDOWS_64_BIT_ST_SIZE = @WINDOWS_64_BIT_ST_SIZE@
@@ -1570,6 +1610,7 @@ ac_ct_CXX = @ac_ct_CXX@
 ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
 ac_ct_OBJC = @ac_ct_OBJC@
 ac_ct_OBJCXX = @ac_ct_OBJCXX@
+acl_cv_wl = @acl_cv_wl@
 am__leading_dot = @am__leading_dot@
 am__tar = @am__tar@
 am__untar = @am__untar@
@@ -1624,33 +1665,36 @@ ACLOCAL_AMFLAGS = -I m4 --system-acdir=/sw/share/gnulib/m4 --install
 AM_DISTCHECK_CONFIGURE_FLAGS = --enable-silent-rules
 AM_WARNFLAGS = $(WARN_CFLAGS)
 AM_CFLAGS = $(AM_WARNFLAGS)
+AM_WARN_LDFLAGS = $(WARN_LDFLAGS)
+AM_LDFLAGS = $(AM_WARN_LDFLAGS)
 lib_LTLIBRARIES = libUnixToOSX.la
 include_HEADERS = ftw_Apple.h
 noinst_HEADERS = alloc.h dup.h dysize.h fclose.h rpl_misc_funcs.h \
-	fcntl--.h fcntl-safer.h fts_.h dev-ino.h dirent--.h \
-	dirent-private.h dirent-safer.h unistd--.h unistd-safer.h \
-	i-ring.h cloexec.h openat-priv.h openat.h pathmax.h \
-	cycle-check.h hash-triple.h hash.h intprops.h isnand-nolibm.h \
-	isnanf-nolibm.h isnanl-nolibm.h exitfail.h same.h same-inode.h \
-	bitrotate.h dirname.h dosname.h xalloc-oversized.h xalloc.h \
-	xstrndup.h xsize.h printf-frexp.h printf-frexpl.h \
-	printf-args.h printf-parse.h float+.h save-cwd.h chdir-safer.h \
-	fd-hook.h filename.h filenamecat.h binary-io.h stat-macros.h \
-	stat-size.h c-strcaseeq.h localename.h quote.h quotearg.h \
-	close-stream.h closeout.h canonicalize.h areadlink.h \
-	careadlinkat.h file-set.h malloca.h allocator.h xgetcwd.h \
-	progname.h xreadlink.h stdio-impl.h getndelim2.h getnline.h \
-	nonblocking.h freadseek.h freadahead.h freading.h freadptr.h \
-	memchr2.h mktime-internal.h getopt_int.h rawmemchr.h verify.h \
-	gettext.h fpending.h fpucw.h mntent.h mountlist.h msvc-inval.h \
-	msvc-nothrow.h relocatable.h siglist.h unlocked-io.h \
-	strnlen1.h memcmp2.h strerror-override.h vasnprintf.h
+	portable_endian.h fcntl--.h fcntl-safer.h fts_.h dev-ino.h \
+	dirent--.h dirent-private.h dirent-safer.h unistd--.h \
+	unistd-safer.h i-ring.h cloexec.h openat-priv.h openat.h \
+	pathmax.h cycle-check.h hash-triple.h hash.h intprops.h \
+	isnand-nolibm.h isnanf-nolibm.h isnanl-nolibm.h exitfail.h \
+	same.h same-inode.h bitrotate.h dirname.h dosname.h \
+	xalloc-oversized.h xalloc.h xstrndup.h xsize.h printf-frexp.h \
+	printf-frexpl.h printf-args.h printf-parse.h float+.h \
+	save-cwd.h chdir-safer.h fd-hook.h filename.h filenamecat.h \
+	binary-io.h stat-macros.h stat-size.h c-strcaseeq.h \
+	localename.h quote.h quotearg.h close-stream.h closeout.h \
+	canonicalize.h areadlink.h careadlinkat.h file-set.h malloca.h \
+	allocator.h xgetcwd.h progname.h xreadlink.h stdio-impl.h \
+	getndelim2.h getnline.h nonblocking.h freadseek.h freadahead.h \
+	freading.h freadptr.h memchr2.h mktime-internal.h getopt_int.h \
+	rawmemchr.h verify.h gettext.h fpending.h fpucw.h mntent.h \
+	mountlist.h msvc-inval.h msvc-nothrow.h relocatable.h \
+	siglist.h unlocked-io.h strnlen1.h memcmp2.h \
+	strerror-override.h vasnprintf.h
 libUnixToOSX_la_SOURCES = alloc.h ftw_Apple.c ftw_Apple.h dup.h \
-	dysize.h fclose.h rpl_misc_funcs.h mntent.h i-ring.c \
-	creat-safer.c open-safer.c opendir-safer.c dup-safer.c \
-	fd-safer.c pipe-safer.c cloexec.c openat-safer.c openat-die.c \
-	cycle-check.c hash-triple.c hash-pjw.h hash-pjw.c hash.c \
-	exitfail.c same.c bitrotate.h dirname.c basename.c \
+	dysize.h fclose.h rpl_misc_funcs.h mntent.h portable_endian.h \
+	i-ring.c creat-safer.c open-safer.c opendir-safer.c \
+	dup-safer.c fd-safer.c pipe-safer.c cloexec.c openat-safer.c \
+	openat-die.c cycle-check.c hash-triple.c hash-pjw.h hash-pjw.c \
+	hash.c exitfail.c same.c bitrotate.h dirname.c basename.c \
 	dirname-lgpl.c basename-lgpl.c stripslash.c xalloc-die.c \
 	xmalloc.c xstrndup.h xstrndup.c xsize.h printf-frexp.c \
 	printf-frexpl.c save-cwd.c chdir-safer.c fd-hook.c \
@@ -1718,6 +1762,10 @@ BUILT_SOURCES = config.h $(ALLOCA_H) c++defs.h arg-nonnull.h \
 	$(FLOAT_H) sys/stat.h string.h strings.h locale.h $(STDDEF_H) \
 	configmake.h $(STDBOOL_H) stdio.h signal.h $(ERRNO_H) \
 	sys/socket.h
+AM_V_v = $(am__v_v_@AM_V@)
+am__v_v_ = $(am__v_v_@AM_DEFAULT_V@)
+am__v_v_0 = 
+am__v_v_1 = -v
 CXXDEFS_H = c++defs.h
 ARG_NONNULL_H = arg-nonnull.h
 WARN_ON_USE_H = warn-on-use.h
@@ -1732,7 +1780,7 @@ TESTS_ENVIRONMENT = CC="$(CC)" @LOCALCHARSET_TESTS_ENVIRONMENT@
 chdirlongtest_SOURCES = chdir-long.c chdir-long.h closeout.h error.h
 chdirlongtest_LDADD = libUnixToOSX.la
 chdirlongtest_CPPFLAGS = -DTEST_CHDIR=1
-chdirlongtest_CFLAGS = $(chdirlongtest_CPPFLAGS) -O -ggdb3
+chdirlongtest_CFLAGS = $(chdirlongtest_CPPFLAGS) -O1 -ggdb3
 mktimetest_SOURCES = mktime.c mktime-internal.h
 mktimetest_LDADD = libUnixToOSX.la
 mktimetest_CPPFLAGS = -DDEBUG -I.
@@ -1750,10 +1798,30 @@ dist_noinst_SCRIPTS = build-aux/config.libpath build-aux/git-version-gen \
                  build-aux/reloc-ldflags
 
 relocwrapper_SOURCES = relocwrapper.c progname.h relocatable.h \
-	c-ctype.h verify.h configmake.h
+	c-ctype.h progreloc.c relocatable.c verify.h configmake.h
 relocwrapper_LDADD = libUnixToOSX.la
-relocwrapper_CPPFLAGS = -DINSTALLDIR=$(bindir)
-relocwrapper_CFLAGS = $(relocwrapper_CPPFLAGS) -O -ggdb3
+relocwrapper_LDFLAGS = $(acl_cv_wl)-headerpad_max_install_names
+relocwrapper_CPPFLAGS = -DENABLE_RELOCATABLE=1 \
+  -DINSTALLPREFIX=\"$(prefix)\" -DINSTALLDIR=\"$(bindir)\" \
+  -DLIBDIRS=\"$(libdir)\"\,
+
+relocwrapper_CFLAGS = $(relocwrapper_CPPFLAGS) -Wall -Wextra -O1 -ggdb3
+at_func_c = at-func.c dosname.h openat.h openat-priv.h save-cwd.h
+c_strcaseeq_h = c-strcaseeq.h c-strcase.h c-ctype.h
+cycle_check_h = cycle-check.h dev-ino.h same-inode.h
+dirent___h = dirent--.h dirent-safer.h
+dirname_h = dirname.h dosname.h
+fcntl___h = fcntl--.h fcntl-safer.h
+file_set_h = file-set.h hash.h
+fts__h = fts_.h i-ring.h
+fts_cycle_c = fts-cycle.c config.h $(cycle_check_h) hash.h $(fts__h)
+isnan_c = isnan.c config.h float+.h
+printf_frexp_c = printf-frexp.c config.h printf-frexpl.h printf-frexp.h \
+  fpucw.h
+
+printf_parse_h = printf-parse.h printf-args.h
+unistd___h = unistd--.h unistd-safer.h
+xalloc_h = xalloc.h xalloc-oversized.h
 all: $(BUILT_SOURCES) config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-recursive
 
@@ -1929,6 +1997,18 @@ relocwrapper-relocwrapper.o: relocwrapper.c
 
 relocwrapper-relocwrapper.obj: relocwrapper.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(relocwrapper_CPPFLAGS) $(CPPFLAGS) $(relocwrapper_CFLAGS) $(CFLAGS) -c -o relocwrapper-relocwrapper.obj `if test -f 'relocwrapper.c'; then $(CYGPATH_W) 'relocwrapper.c'; else $(CYGPATH_W) '$(srcdir)/relocwrapper.c'; fi`
+
+relocwrapper-progreloc.o: progreloc.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(relocwrapper_CPPFLAGS) $(CPPFLAGS) $(relocwrapper_CFLAGS) $(CFLAGS) -c -o relocwrapper-progreloc.o `test -f 'progreloc.c' || echo '$(srcdir)/'`progreloc.c
+
+relocwrapper-progreloc.obj: progreloc.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(relocwrapper_CPPFLAGS) $(CPPFLAGS) $(relocwrapper_CFLAGS) $(CFLAGS) -c -o relocwrapper-progreloc.obj `if test -f 'progreloc.c'; then $(CYGPATH_W) 'progreloc.c'; else $(CYGPATH_W) '$(srcdir)/progreloc.c'; fi`
+
+relocwrapper-relocatable.o: relocatable.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(relocwrapper_CPPFLAGS) $(CPPFLAGS) $(relocwrapper_CFLAGS) $(CFLAGS) -c -o relocwrapper-relocatable.o `test -f 'relocatable.c' || echo '$(srcdir)/'`relocatable.c
+
+relocwrapper-relocatable.obj: relocatable.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(relocwrapper_CPPFLAGS) $(CPPFLAGS) $(relocwrapper_CFLAGS) $(CFLAGS) -c -o relocwrapper-relocatable.obj `if test -f 'relocatable.c'; then $(CYGPATH_W) 'relocatable.c'; else $(CYGPATH_W) '$(srcdir)/relocatable.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -2257,6 +2337,7 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 	$(MAKE) $(AM_MAKEFLAGS) $(check_PROGRAMS)
+	$(MAKE) $(AM_MAKEFLAGS) check-local
 check: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) check-recursive
 all-am: Makefile $(LTLIBRARIES) $(SCRIPTS) $(DATA) $(HEADERS) config.h \
@@ -2380,12 +2461,13 @@ uninstall-am: uninstall-includeHEADERS uninstall-libLTLIBRARIES \
 	install-strip
 
 .PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am all-local \
-	am--refresh check check-am clean clean-checkPROGRAMS \
-	clean-cscope clean-generic clean-libLTLIBRARIES clean-libtool \
-	cscope cscopelist-am ctags ctags-am dist dist-all dist-bzip2 \
-	dist-gzip dist-lzip dist-shar dist-tarZ dist-xz dist-zip \
-	distcheck distclean distclean-compile distclean-generic \
-	distclean-hdr distclean-libtool distclean-local distclean-tags \
+	am--refresh check check-am check-local clean \
+	clean-checkPROGRAMS clean-cscope clean-generic \
+	clean-libLTLIBRARIES clean-libtool cscope cscopelist-am ctags \
+	ctags-am dist dist-all dist-bzip2 dist-gzip dist-lzip \
+	dist-shar dist-tarZ dist-xz dist-zip distcheck distclean \
+	distclean-compile distclean-generic distclean-hdr \
+	distclean-libtool distclean-local distclean-tags \
 	distcleancheck distdir distuninstallcheck dvi dvi-am html \
 	html-am info info-am install install-am install-data \
 	install-data-am install-dvi install-dvi-am install-exec \
@@ -2407,9 +2489,9 @@ uninstall-am: uninstall-includeHEADERS uninstall-libLTLIBRARIES \
 @GL_GENERATE_ALLOCA_H_TRUE@	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */'; \
 @GL_GENERATE_ALLOCA_H_TRUE@	  cat $(srcdir)/alloca.in.h; \
 @GL_GENERATE_ALLOCA_H_TRUE@	} > $@-t && \
-@GL_GENERATE_ALLOCA_H_TRUE@	mv -fv $@-t $@
+@GL_GENERATE_ALLOCA_H_TRUE@	mv -f $(AM_V_v) $@-t $@
 @GL_GENERATE_ALLOCA_H_FALSE@alloca.h: $(top_builddir)/config.status
-@GL_GENERATE_ALLOCA_H_FALSE@	rm -fv $@
+@GL_GENERATE_ALLOCA_H_FALSE@	rm -f $(AM_V_v) $@
 # The c++defs.h that gets inserted into generated .h files is the same as
 # build-aux/snippet/c++defs.h, except that it has the copyright header cut
 # off.
@@ -2418,7 +2500,7 @@ c++defs.h: $(top_srcdir)/build-aux/snippet/c++defs.h
 	$(SED) -n -e '/_GL_CXXDEFS/,$$p' \
 	  < $(top_srcdir)/build-aux/snippet/c++defs.h \
 	  > $@-t && \
-	mv -v $@-t $@
+	mv $(AM_V_v) $@-t $@
 # The arg-nonnull.h that gets inserted into generated .h files is the same
 # as build-aux/snippet/arg-nonnull.h, except that it has the copyright
 # header cut off.
@@ -2427,7 +2509,7 @@ arg-nonnull.h: $(top_srcdir)/build-aux/snippet/arg-nonnull.h
 	$(SED) -n -e '/GL_ARG_NONNULL/,$$p' \
 	  < $(top_srcdir)/build-aux/snippet/arg-nonnull.h \
 	  > $@-t && \
-	mv -v $@-t $@
+	mv $(AM_V_v) $@-t $@
 # The warn-on-use.h that gets inserted into generated .h files is the same
 # as build-aux/snippet/warn-on-use.h, except that it has the copyright
 # header cut off.
@@ -2436,7 +2518,7 @@ warn-on-use.h: $(top_srcdir)/build-aux/snippet/warn-on-use.h
 	$(SED) -n -e '/^.ifndef/,$$p' \
 	  < $(top_srcdir)/build-aux/snippet/warn-on-use.h \
 	  > $@-t && \
-	mv -v $@-t $@
+	mv $(AM_V_v) $@-t $@
 # We need the following in order to create <fcntl.h> when the system
 # does NOT have one that works with the given compiler.
 fcntl.h: fcntl.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
@@ -2456,12 +2538,15 @@ fcntl.h: fcntl.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) 
 	      -e 's|@''REPLACE_FCNTL''@|$(REPLACE_FCNTL)|g' \
 	      -e 's|@''REPLACE_OPEN''@|$(REPLACE_OPEN)|g' \
 	      -e 's|@''REPLACE_OPENAT''@|$(REPLACE_OPENAT)|g' \
+	      -e 's|@''REPLACE_FALLOCATE''@|$(REPLACE_FALLOCATE)|g' \
+	      -e 's|@''REPLACE_POSIX_FALLOCATE''@|$(REPLACE_POSIX_FALLOCATE)|g' \
+	      -e 's|@''REPLACE_POSIX_FALLOCATE64''@|$(REPLACE_POSIX_FALLOCATE64)|g' \
 	      -e '/definitions of _GL_FUNCDECL_RPL/r $(CXXDEFS_H)' \
 	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
 	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
 	      < $(srcdir)/fcntl.in.h; \
 	} > $@-t && \
-	mv -v $@-t $@
+	mv $(AM_V_v) $@-t $@
 # We need the following in order to create <getopt.h> when the system
 # does NOT have one that works with the given compiler.
 getopt.h: getopt.in.h $(top_builddir)/config.status $(ARG_NONNULL_H)
@@ -2476,7 +2561,7 @@ getopt.h: getopt.in.h $(top_builddir)/config.status $(ARG_NONNULL_H)
 	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
 	      < $(srcdir)/getopt.in.h; \
 	} > $@-t && \
-	mv -fv $@-t $@
+	mv -f $(AM_V_v) $@-t $@
 # We need the following in order to create <poll.h> when the system
 # does NOT have one.
 poll.h: poll.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(WARN_ON_USE_H)
@@ -2495,7 +2580,7 @@ poll.h: poll.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(WARN_ON_USE_H)
 	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
 	      < $(srcdir)/poll.in.h; \
 	} > $@-t && \
-	mv -fv $@-t $@
+	mv -f $(AM_V_v) $@-t $@
 # We need the following in order to create <dirent.h> when the system
 # does NOT have one that works with the given compiler.
 dirent.h: dirent.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
@@ -2533,7 +2618,7 @@ dirent.h: dirent.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H
 	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
 	      < $(srcdir)/dirent.in.h; \
 	} > $@-t && \
-	mv -v $@-t $@
+	mv $(AM_V_v) $@-t $@
 # The unused-parameter.h that gets inserted into generated .h files is the
 # same as build-aux/snippet/unused-parameter.h, except that it has the
 # copyright header cut off.
@@ -2542,7 +2627,7 @@ unused-parameter.h: $(top_srcdir)/build-aux/snippet/unused-parameter.h
 	$(SED) -n -e '/GL_UNUSED_PARAMETER/,$$p' \
 	  < $(top_srcdir)/build-aux/snippet/unused-parameter.h \
 	  > $@-t && \
-	mv -v $@-t $@
+	mv $(AM_V_v) $@-t $@
 fflush.c: $(UNUSED_PARAMETER_H)
 # We need the following in order to create an empty placeholder for
 # <unistd.h> when the system does NOT have one.
@@ -2683,7 +2768,7 @@ unistd.h: unistd.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H
 	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
 	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)'; \
 	} > $@-t && \
-	mv -v $@-t $@
+	mv $(AM_V_v) $@-t $@
 # We need the following in order to create <inttypes.h> when the system
 # does NOT have one that works with the given compiler.
 inttypes.h: inttypes.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(WARN_ON_USE_H) $(ARG_NONNULL_H)
@@ -2717,7 +2802,7 @@ inttypes.h: inttypes.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(WARN_ON_U
 	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
 	      < $(srcdir)/inttypes.in.h; \
 	} > $@-t && \
-	mv -v $@-t $@
+	mv $(AM_V_v) $@-t $@
 # We need the following in order to create <math.h> when the system
 # does NOT have one that works with the given compiler.
 math.h: math.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
@@ -2990,7 +3075,7 @@ math.h: math.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(
 	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
 	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)'; \
 	} > $@-t && \
-	mv -v $@-t $@
+	mv $(AM_V_v) $@-t $@
 # We need the following in order to create <stdint.h> when the system
 # does NOT have one that works with the given compiler.
 @GL_GENERATE_STDINT_H_TRUE@stdint.h: stdint.in.h $(top_builddir)/config.status
@@ -3025,9 +3110,9 @@ math.h: math.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(
 @GL_GENERATE_STDINT_H_TRUE@	      -e 's/@''WINT_T_SUFFIX''@/$(WINT_T_SUFFIX)/g' \
 @GL_GENERATE_STDINT_H_TRUE@	      < $(srcdir)/stdint.in.h; \
 @GL_GENERATE_STDINT_H_TRUE@	} > $@-t && \
-@GL_GENERATE_STDINT_H_TRUE@	mv -v $@-t $@
+@GL_GENERATE_STDINT_H_TRUE@	mv $(AM_V_v) $@-t $@
 @GL_GENERATE_STDINT_H_FALSE@stdint.h: $(top_builddir)/config.status
-@GL_GENERATE_STDINT_H_FALSE@	rm -fv $@
+@GL_GENERATE_STDINT_H_FALSE@	rm -f $(AM_V_v) $@
 # We need the following in order to create <float.h> when the system
 # does NOT have one that works with the given compiler.
 @GL_GENERATE_FLOAT_H_TRUE@float.h: float.in.h $(top_builddir)/config.status
@@ -3041,17 +3126,17 @@ math.h: math.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(
 @GL_GENERATE_FLOAT_H_TRUE@	      -e 's|@''REPLACE_ITOLD''@|$(REPLACE_ITOLD)|g' \
 @GL_GENERATE_FLOAT_H_TRUE@	      < $(srcdir)/float.in.h; \
 @GL_GENERATE_FLOAT_H_TRUE@	} > $@-t && \
-@GL_GENERATE_FLOAT_H_TRUE@	mv -v $@-t $@
+@GL_GENERATE_FLOAT_H_TRUE@	mv $(AM_V_v) $@-t $@
 @GL_GENERATE_FLOAT_H_FALSE@float.h: $(top_builddir)/config.status
-@GL_GENERATE_FLOAT_H_FALSE@	rm -fv $@
+@GL_GENERATE_FLOAT_H_FALSE@	rm -f $(AM_V_v) $@
 
 distclean-local:
-	rm -fv @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
-	rm -rfv autom4te.cache || rmdir autom4te.cache
-	rm -rfv .deps || rmdir .deps
+	rm -f $(AM_V_v) @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz
+	rm -rf $(AM_V_v) autom4te.cache || rmdir autom4te.cache
+	rm -rf $(AM_V_v) .deps || rmdir .deps
 	-(test -d sys && test -z "`ls sys`" && rmdir sys) || test -e sys
 	-(test -d scan_build_output && test -z "`ls scan_build_output`" && rmdir scan_build_output) || test -e scan_build_output
-	-(test -w @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && (rm -rf @PACKAGE_TARNAME@-@PACKAGE_VERSION@ || rmdir @PACKAGE_TARNAME@-@PACKAGE_VERSION@)) || stat @PACKAGE_TARNAME@-*.*.* || echo "it can be difficult to distclean the results of distcheck"
+	-(test -w @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && (rm -rf @PACKAGE_TARNAME@-@PACKAGE_VERSION@ || rmdir @PACKAGE_TARNAME@-@PACKAGE_VERSION@)) || stat @PACKAGE_TARNAME@-*.*.* 2>&1 || echo "it can be difficult to distclean the results of distcheck"
 	-(find . -name .DS_Store -delete 2>&1) || test -x "`which find`"
 .PHONY: distclean-local
 # We need the following in order to create <sys/stat.h> when the system
@@ -3104,7 +3189,7 @@ sys/stat.h: sys_stat.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNU
 	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
 	      < $(srcdir)/sys_stat.in.h; \
 	} > $@-t && \
-	mv -v $@-t $@
+	mv $(AM_V_v) $@-t $@
 # We need the following in order to create <string.h> when the system
 # does NOT have one that works with the given compiler.
 string.h: string.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
@@ -3194,7 +3279,7 @@ string.h: string.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H
 	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)'; \
 	      < $(srcdir)/string.in.h; \
 	} > $@-t && \
-	mv -v $@-t $@
+	mv $(AM_V_v) $@-t $@
 # We need the following in order to create <strings.h> when the system
 # does NOT have one that works with the given compiler.
 strings.h: strings.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(WARN_ON_USE_H) $(ARG_NONNULL_H)
@@ -3215,8 +3300,8 @@ strings.h: strings.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(WARN_ON_USE
 	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
 	      < $(srcdir)/strings.in.h; \
 	} > $@-t && \
-	mv -v $@-t $@
-configure.scan: distclean-local
+	mv $(AM_V_v) $@-t $@
+configure.scan: @MAINT@ distclean-local
 	autoscan || (touch configure.scan && mkdir autom4te.cache)
 
 headers: $(BUILT_SOURCES)
@@ -3246,7 +3331,7 @@ locale.h: locale.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H
 	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
 	      < $(srcdir)/locale.in.h; \
 	} > $@-t && \
-	mv -v $@-t $@
+	mv $(AM_V_v) $@-t $@
 
 # We need the following in order to install a simple file in $(libdir)
 # which is shared with other installed packages. We use a list of
@@ -3275,12 +3360,12 @@ install-exec-localcharset: all-local
 	if test -f $(charset_alias); then \
 	  $(SED) -f ref-add.sed $(charset_alias) > $(charset_tmp); \
 	  $(INSTALL_DATA) $(charset_tmp) $(charset_alias); \
-	  rm -fv $(charset_tmp); \
+	  rm -f $(AM_V_v) $(charset_tmp); \
 	else \
 	  if $${need_charset_alias}; then \
 	    $(SED) -f ref-add.sed charset.alias > $(charset_tmp); \
 	    $(INSTALL_DATA) $(charset_tmp) $(charset_alias); \
-	    rm -fv $(charset_tmp); \
+	    rm -f $(AM_V_v) $(charset_tmp); \
 	  fi; \
 	fi
 
@@ -3290,21 +3375,21 @@ uninstall-localcharset: all-local
 	  $(SED) -f ref-del.sed $(charset_alias) > $(charset_tmp); \
 	  if $(GREP) '^# Packages using this file: $$' $(charset_tmp) \
 	      > /dev/null; then \
-	    rm -fv $(charset_alias); \
+	    rm -f $(AM_V_v) $(charset_alias); \
 	  else \
 	    $(INSTALL_DATA) $(charset_tmp) $(charset_alias); \
 	  fi; \
-	  rm -fv $(charset_tmp); \
+	  rm -f $(AM_V_v) $(charset_tmp); \
 	fi
 
 charset.alias: config.charset
 	$(AM_V_GEN)rm -f t-$@ $@ && \
 	$(SHELL) $(srcdir)/config.charset '$(host)' > t-$@ && \
-	mv -v t-$@ $@
+	mv $(AM_V_v) t-$@ $@
 .sin.sed:
 	$(AM_V_GEN)rm -f t-$@ $@ && \
 	$(SED) -e '/^#/d' -e 's/@''PACKAGE''@/$(PACKAGE)/g' $< > t-$@ && \
-	mv -v t-$@ $@
+	mv $(AM_V_v) t-$@ $@
 # We need the following in order to create <stddef.h> when the system
 # does NOT have one that works with the given compiler.
 @GL_GENERATE_STDDEF_H_TRUE@stddef.h: stddef.in.h $(top_builddir)/config.status
@@ -3319,9 +3404,9 @@ charset.alias: config.charset
 @GL_GENERATE_STDDEF_H_TRUE@	      -e 's|@''REPLACE_NULL''@|$(REPLACE_NULL)|g' \
 @GL_GENERATE_STDDEF_H_TRUE@	      < $(srcdir)/stddef.in.h; \
 @GL_GENERATE_STDDEF_H_TRUE@	} > $@-t && \
-@GL_GENERATE_STDDEF_H_TRUE@	mv -v $@-t $@
+@GL_GENERATE_STDDEF_H_TRUE@	mv $(AM_V_v) $@-t $@
 @GL_GENERATE_STDDEF_H_FALSE@stddef.h: $(top_builddir)/config.status
-@GL_GENERATE_STDDEF_H_FALSE@	rm -fv $@
+@GL_GENERATE_STDDEF_H_FALSE@	rm -f $(AM_V_v) $@
 
 # Listed in the same order as the GNU makefile conventions, and
 # provided by autoconf 2.59c+.
@@ -3358,7 +3443,7 @@ configmake.h: Makefile
 	  echo '#define PKGLIBDIR "$(pkglibdir)"'; \
 	  echo '#define PKGLIBEXECDIR "$(pkglibexecdir)"'; \
 	} | $(SED) '/""/d' > $@-t && \
-	mv -fv $@-t $@
+	mv -f $(AM_V_v) $@-t $@
 # We need the following in order to create <stdbool.h> when the system
 # does NOT have one that works.
 @GL_GENERATE_STDBOOL_H_TRUE@stdbool.h: stdbool.in.h $(top_builddir)/config.status
@@ -3366,9 +3451,9 @@ configmake.h: Makefile
 @GL_GENERATE_STDBOOL_H_TRUE@	{ echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */'; \
 @GL_GENERATE_STDBOOL_H_TRUE@	  $(SED) -e 's/@''HAVE__BOOL''@/$(HAVE__BOOL)/g' < $(srcdir)/stdbool.in.h; \
 @GL_GENERATE_STDBOOL_H_TRUE@	} > $@-t && \
-@GL_GENERATE_STDBOOL_H_TRUE@	mv -v $@-t $@
+@GL_GENERATE_STDBOOL_H_TRUE@	mv $(AM_V_v) $@-t $@
 @GL_GENERATE_STDBOOL_H_FALSE@stdbool.h: $(top_builddir)/config.status
-@GL_GENERATE_STDBOOL_H_FALSE@	rm -fv $@
+@GL_GENERATE_STDBOOL_H_FALSE@	rm -f $(AM_V_v) $@
 # We need the following in order to create <stdio.h> when the system
 # does NOT have one that works with the given compiler.
 stdio.h: stdio.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
@@ -3486,7 +3571,7 @@ stdio.h: stdio.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) 
 	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
 	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)'; \
 	} > $@-t && \
-	mv -v $@-t $@
+	mv $(AM_V_v) $@-t $@
 # We need the following in order to create <signal.h> when the system
 # does NOT have a complete one.
 signal.h: signal.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
@@ -3518,18 +3603,23 @@ signal.h: signal.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H
 	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
 	      < $(srcdir)/signal.in.h; \
 	} > $@-t && \
-	mv -v $@-t $@
+	mv $(AM_V_v) $@-t $@
+
+check-local: all
+	if test -x "`which machocheck`" -a -d .libs; then \
+	  machocheck -progress .libs/libUnixToOSX.dylib; \
+	fi
 
 be_able_to_check: $(check_PROGRAMS)
 	ls $(check_PROGRAMS)
 .PHONY: be_able_to_check
 
 test-clean: clean-checkPROGRAMS
-	-rm -fv $(chdirlongtest_OBJECTS)
-	-rm -fv $(getopt1test_OBJECTS)
-	-rm -fv $(getopttest_OBJECTS)
-	-rm -fv $(mktimetest_OBJECTS)
-	-rm -fv $(check_PROGRAMS)
+	-rm -f $(AM_V_v) $(chdirlongtest_OBJECTS)
+	-rm -f $(AM_V_v) $(getopt1test_OBJECTS)
+	-rm -f $(AM_V_v) $(getopttest_OBJECTS)
+	-rm -f $(AM_V_v) $(mktimetest_OBJECTS)
+	-rm -f $(AM_V_v) $(check_PROGRAMS)
 .PHONY: test-clean
 # We need the following in order to create <errno.h> when the system
 # does NOT have one that is POSIX compliant.
@@ -3549,9 +3639,9 @@ test-clean: clean-checkPROGRAMS
 @GL_GENERATE_ERRNO_H_TRUE@	      -e 's|@''EOVERFLOW_VALUE''@|$(EOVERFLOW_VALUE)|g' \
 @GL_GENERATE_ERRNO_H_TRUE@	      < $(srcdir)/errno.in.h; \
 @GL_GENERATE_ERRNO_H_TRUE@	} > $@-t && \
-@GL_GENERATE_ERRNO_H_TRUE@	mv -v $@-t $@
+@GL_GENERATE_ERRNO_H_TRUE@	mv $(AM_V_v) $@-t $@
 @GL_GENERATE_ERRNO_H_FALSE@errno.h: $(top_builddir)/config.status
-@GL_GENERATE_ERRNO_H_FALSE@	rm -fv $@
+@GL_GENERATE_ERRNO_H_FALSE@	rm -f $(AM_V_v) $@
 # We need the following in order to create <sys/socket.h> when the system
 # does NOT have one that works with the given compiler.
 sys/socket.h: sys_socket.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(WARN_ON_USE_H) $(ARG_NONNULL_H)
@@ -3591,7 +3681,199 @@ sys/socket.h: sys_socket.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(WARN_
 	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
 	      < $(srcdir)/sys_socket.in.h; \
 	} > $@-t && \
-	mv -fv $@-t $@
+	mv -f $(AM_V_v) $@-t $@
+
+alloca.o: alloca.c config.h
+allocator.o: allocator.c config.h allocator.h
+areadlink-with-size.o: areadlink-with-size.c config.h areadlink.h
+areadlink.o: areadlink.c config.h areadlink.h careadlinkat.h
+areadlinkat-with-size.o: areadlinkat-with-size.c config.h areadlink.h \
+  $(at_func_c)
+areadlinkat.o: areadlinkat.c config.h areadlink.h careadlinkat.h \
+  $(at_func_c)
+asnprintf.o: asnprintf.c config.h vasnprintf.h
+at-func.o: $(at_func_c)
+at-func2.o: at-func2.c config.h openat-priv.h dosname.h filenamecat.h \
+  openat.h same-inode.h save-cwd.h
+basename-lgpl.o: basename-lgpl.c config.h $(dirname_h)
+basename.o: basename.c config.h $(dirname_h) $(xalloc_h) xstrndup.h
+btowc.o: btowc.c config.h
+c-ctype.o: c-ctype.c config.h c-ctype.h
+c-strcasecmp.o: c-strcasecmp.c config.h c-strcase.h c-ctype.h
+c-strncasecmp.o: c-strncasecmp.c config.h c-strcase.h c-ctype.h
+canonicalize-lgpl.o: canonicalize-lgpl.c config.h canonicalize.h \
+  pathmax.h malloca.h
+canonicalize.o: canonicalize.c config.h canonicalize.h areadlink.h \
+  $(file_set_h) hash-triple.h pathmax.h $(xalloc_h) xgetcwd.h
+careadlinkat.o: careadlinkat.c config.h careadlinkat.h allocator.h
+chdir-long.o: chdir-long.c config.h chdir-long.h closeout.h error.h
+chdir-safer.o: chdir-safer.c config.h chdir-safer.h same-inode.h
+chown.o: chown.c config.h
+cloexec.o: cloexec.c config.h cloexec.h
+close-stream.o: close-stream.c config.h close-stream.h fpending.h \
+  unlocked-io.h
+close.o: close.c config.h fd-hook.h msvc-inval.h rpl_misc_funcs.h
+closeout.o: closeout.c config.h closeout.h gettext.h close-stream.h \
+  error.h exitfail.h quotearg.h
+creat-safer.o: creat-safer.c config.h fcntl-safer.h unistd-safer.h
+cuserid.o: cuserid.c
+cycle-check.o: cycle-check.c config.h $(cycle_check_h)
+dirname-lgpl.o: dirname-lgpl.c config.h $(dirname_h)
+dirname.o: dirname.c config.h $(dirname_h) $(xalloc_h)
+dup-safer-flag.o: dup-safer-flag.c config.h unistd-safer.h dup.h
+dup-safer.o: dup-safer.c config.h unistd-safer.h
+dup.o: dup.c config.h dup.h msvc-inval.h
+dup2.o: dup2.c config.h dup.h msvc-inval.h msvc-nothrow.h
+dup3.o: dup3.c config.h binary-io.h
+dysize.o: dysize.c dysize.h
+error.o: error.c config.h error.h gettext.h unlocked-io.h msvc-nothrow.h
+exitfail.o: exitfail.c config.h exitfail.h
+fallocate.o: fallocate.c config.h
+fchdir.o: fchdir.c config.h dosname.h filenamecat.h rpl_misc_funcs.h
+fchmodat.o: fchmodat.c config.h $(at_func_c)
+fchown-stub.o: fchown-stub.c config.h
+fchownat.o: fchownat.c config.h openat.h $(at_func_c)
+fclose.o: fclose.c config.h fclose.h freading.h msvc-inval.h
+fcloseall.o: fcloseall.c fclose.h
+fcntl.o: fcntl.c config.h msvc-nothrow.h
+fd-hook.o: fd-hook.c config.h fd-hook.h
+fd-safer-flag.o: fd-safer-flag.c config.h unistd-safer.h rpl_misc_funcs.h \
+  dup.h
+fd-safer.o: fd-safer.c config.h unistd-safer.h
+fdopen.o: fdopen.c config.h rpl_misc_funcs.h msvc-inval.h
+fdopendir.o: fdopendir.c config.h openat.h openat-priv.h save-cwd.h \
+  $(dirent___h)
+fflush.o: fflush.c config.h freading.h stdio-impl.h unused-parameter.h \
+  rpl_misc_funcs.h
+file-set.o: file-set.c config.h $(file_set_h) hash-triple.h $(xalloc_h)
+fileblocks.o: fileblocks.c config.h
+filenamecat-lgpl.o: filenamecat-lgpl.c config.h filenamecat.h $(dirname_h)
+filenamecat.o: filenamecat.c config.h filenamecat.h $(xalloc.h)
+float.o: float.c config.h float+.h
+fpending.o: fpending.c config.h fpending.h
+freadahead.o: freadahead.c config.h freadahead.h stdio-impl.h
+freading.o: freading.c config.h freading.h stdio-impl.h
+freadptr.o: freadptr.c config.h freadptr.h stdio-impl.h
+freadseek.o: freadseek.c config.h freadseek.h freadahead.h freadptr.h \
+  stdio-impl.h
+fstat.o: fstat.c config.h rpl_misc_funcs.h sys/stat.h msvc-inval.h
+fstatat.o: fstatat.c config.h sys/stat.h $(at_func_c)
+ftruncate.o: ftruncate.c config.h msvc-nothrow.h msvc-inval.h
+fts-cycle.o: $(fts_cycle_c)
+fts.o: fts.c config.h $(fts__h) $(fcntl___h) $(dirent___h) $(unistd___h) \
+  cloexec.h openat.h same-inode.h $(fts_cycle_c)
+ftw.o: ftw.c ftw.h
+libftw0/ftw.o: libftw0/ftw.c libftw0/ftw.h
+ftw_Apple.o: ftw_Apple.c ftw_Apple.h
+getdelim.o: getdelim.c config.h unlocked-io.h
+getline.o: getline.c config.h
+getmntent.o: getmntent.c config.h mntent.h
+getndelim2.o: getndelim2.c config.h getndelim2.h unlocked-io.h freadptr.h \
+  freadseek.h memchr2.h
+getnline.o: getnline.c config.h getnline.h getndelim2.h
+getopt.o: getopt.c config.h getopt.h gettext.h getopt_int.h
+getopt1.o: getopt1.c config.h getopt.h getopt_int.h
+hash-pjw.o: hash-pjw.c config.h hash-pjw.h
+hash-triple.o: hash-triple.c config.h hash-triple.h hash-pjw.h same.h \
+  same-inode.h
+hash.o: hash.c config.h hash.h bitrotate.h xalloc-oversized.h obstack.h
+i-ring.o: i-ring.c config.h i-ring.h
+isnan.o: $(isnan_c)
+isnand.o: isnand.c $(isnan_c)
+isnanf.o: isnanf.c $(isnan_c)
+isnanl.o: isnanl.c $(isnan_c)
+itold.o: itold.c config.h rpl_misc_funcs.h
+localcharset.o: localcharset.c config.h localcharset.h relocatable.h \
+  configmake.h
+localeconv.o: localeconv.c config.h
+localename.o: localename.c config.h localename.h glthread/lock.h
+lock.o: lock.c config.h glthread/lock.h
+glthread/lock.o: glthread/lock.c config.h glthread/lock.h
+lstat.o: lstat.c config.h sys/stat.h
+malloc.o: malloc.c config.h
+malloca.o: malloca.c config.h malloca.h verify.h
+memchr.o: memchr.c config.h
+memchr2.o: memchr2.c config.h memchr2.h
+memcmp.o: memcmp.c config.h
+memcmp2.o: memcmp2.c config.h memcmp2.h
+mempcpy.o: mempcpy.c config.h
+memrchr.o: memrchr.c config.h
+mktime.o: mktime.c config.h mktime-internal.h
+mountlist.o: mountlist.c config.h mntent.h mountlist.h $(xalloc_h) \
+  unlocked-io.h
+msvc-inval.o: msvc-inval.c config.h msvc-inval.h
+msvc-nothrow.o: msvc-nothrow.c config.h msvc-nothrow.h msvc-inval.h
+nonblocking.o: nonblocking.c config.h nonblocking.h msvc-nothrow.h
+obstack_printf.o: obstack_printf.c config.h obstack.h vasnprintf.h
+obstack.o: obstack.c config.h obstack.h exitfail.h gettext.h
+open-safer.o: open-safer.c config.h fcntl-safer.h unistd-safer.h
+openat-die.o: openat-die.c config.h openat.h error.h exitfail.h gettext.h
+openat-safer.o: openat-safer.c config.h fcntl-safer.h unistd-safer.h
+openat.o: openat.c config.h fcntl.h openat.h
+opendir-safer.o: opendir-safer.c config.h dirent-safer.h unistd-safer.h
+pipe-safer.o: pipe-safer.c config.h unistd-safer.h
+pipe2-safer.o: pipe2-safer.c config.h unistd-safer.h rpl_misc_funcs.h
+pipe2.o: pipe2.c config.h binary-io.h verify.h nonblocking.h
+poll.o: poll.c config.h msvc-nothrow.h 
+pollemu.o: pollemu.c poll/poll-emulator/pollemu.h
+poll/poll-emulator/pollemu.o: poll/poll-emulator/pollemu.c \
+  poll/poll-emulator/pollemu.h
+posix_fallocate.o: posix_fallocate.c config.h
+posix_fallocate64.o: posix_fallocate64.c config.h
+pread.o: pread.c config.h
+printf-args.o: printf-args.c config.h printf-args.h
+printf-frexp.o: $(printf_frexp_c)
+printf-frexpl.o: printf-frexpl.c config.h printf-frexpl.h printf-frexp.h \
+  $(printf_frexp_c)
+printf-parse.o: printf-parse.c config.h $(printf_parse_h) xsize.h c-ctype.h
+progname.o: progname.c config.h progname.h
+progreloc.o: progreloc.c config.h progname.h relocatable.h areadlink.h \
+  xreadlink.h $(xalloc_h)
+pwrite.o: pwrite.c config.h
+quotearg.o: quotearg.c config.h quotearg.h $(xalloc_h) $(c_strcaseeq_h) \
+  localcharset.h gettext.h
+rawmemchr.o: rawmemchr.c config.h rawmemchr.h
+readlink.o: readlink.c config.h
+readlinkat.o: readlinkat.c config.h $(at_func_c)
+realloc.o: realloc.c config.h
+relocatable.o: relocatable.c config.h relocatable.h $(xalloc_h)
+relocwrapper.o: relocwrapper.c config.h progname.h relocatable.h \
+  c-ctype.h verify.h configmake.h
+same.o: same.c config.h same.h $(dirname_h) error.h same-inode.h
+save-cwd.o: save-cwd.c config.h save-cwd.h chdir-long.h $(unistd___h) \
+  cloexec.h $(fcntl___h)
+setenv.o: setenv.c config.h malloca.h rpl_misc_funcs.h
+stat.o: stat.c config.h sys/stat.h dosname.h verify.h pathmax.h
+stdio-read.o: stdio-read.c config.h msvc-nothrow.h
+stdio-write.o: stdio-write.c config.h msvc-nothrow.h
+strchrnul.o: strchrnul.c config.h rawmemchr.h
+strerror_r.o: strerror_r.c config.h strerror-override.h glthread/lock.h
+strerror-override.o: strerror-override.c config.h strerror-override.h
+strerror.o: strerror.c config.h intprops.h strerror-override.h verify.h
+stripslash.o: stripslash.c config.h $(dirname_h)
+strndup.o: strndup.c config.h string.h
+strnlen.o: strnlen.c config.h
+strnlen1.o: strnlen1.c config.h strnlen1.h
+strsignal.o: strsignal.c config.h gettext.h glthread/lock.h \
+  glthread/tls.h siglist.h
+thread.o: thread.c config.h glthread/thread.h glthread/lock.h
+glthread/thread.o: glthread/thread.c config.h glthread/thread.h \
+  glthread/lock.h
+threadlib.o: threadlib.c config.h
+glthread/threadlib.o: glthread/threadlib.c config.h
+tls.o: tls.c config.h glthread/tls.h
+glthread/tls.o: glthread/tls.c config.h glthread/tls.h
+vasnprintf.o: vasnprintf.c config.h vasnprintf.h $(printf_parse_h) \
+  xsize.h verify.h float+.h isnand-nolibm.h isnanl-nolibm.h fpucw.h \
+  printf-frexp.h printf-frexpl.h
+wctob.o: wctob.c config.h
+xalloc-die.o: xalloc-die.c config.h $(xalloc_h) error.h exitfail.h \
+  gettext.h
+xgetcwd.o: xgetcwd.c config.h xgetcwd.h $(xalloc_h)
+xmalloc.o: xmalloc.c config.h $(xalloc_h)
+xreadlink.o: xreadlink.c config.h xreadlink.h areadlink.h $(xalloc_h)
+xreadlinkat.o: xreadlinkat.c config.h xreadlink.h areadlink.h $(xalloc_h)
+xstrndup.o: xstrndup.c config.h xstrndup.h string.h $(xalloc_h)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

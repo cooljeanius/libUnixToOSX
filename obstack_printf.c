@@ -1,4 +1,4 @@
-/* Formatted output to obstacks.
+/* obstack-printf.c: Formatted output to obstacks.
    Copyright (C) 2008-2012 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
@@ -14,9 +14,15 @@
    You should have received a copy of the GNU General Public License along
    with this program; if not, see <http://www.gnu.org/licenses/>.  */
 
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
+#   pragma GCC diagnostic ignored "-Wredundant-decls"
+# endif /* GCC 4.1+ */
+#endif /* gcc */
+
 #include <config.h>
 
-/* Specification.  */
+/* Specification: */
 #include <stdio.h>
 
 #include "obstack.h"
@@ -38,9 +44,9 @@ obstack_printf(struct obstack *obs, const char *format, ...)
   va_list args;
   int result;
 
-  va_start (args, format);
+  va_start(args, format);
   result = obstack_vprintf(obs, format, args);
-  va_end (args);
+  va_end(args);
   return result;
 }
 

@@ -16,6 +16,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#if defined(__GNUC__) && defined(__GNUC_MINOR__)
+# if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 1))
+#   pragma GCC diagnostic ignored "-Wredundant-decls"
+# endif /* GCC 4.1+ */
+#endif /* gcc */
+
 /* includes common to both halves of the file: */
 #if !defined(_LIBC) || (defined(_LIBC) && !_LIBC)
 # define _GL_USE_STDLIB_ALLOC 1
@@ -28,7 +34,7 @@
 
 #include <alloca.h>
 
-/* Specification.  */
+/* Specification: */
 #include <stdlib.h>
 
 #include <errno.h>
@@ -279,7 +285,7 @@ __add_to_environ(const char *name, const char *value, const char *combined,
 
 			np = (char *)KNOWN_VALUE(new_value);
 			if (np == NULL) {
-				/* do nothing (keep '_do_conditional' set to 1) */ ;
+				/* do nothing (i.e. keep '_do_conditional' set to 1) */ ;
 			} else {
 				_do_conditional = 0;
 			}
@@ -417,7 +423,7 @@ rpl_setenv(const char *name, const char *value, int replace)
 			int saved_errno;
 			size_t len = strlen(value);
 			tmp = (char *)malloca(len + 2);
-			/* Since leading '=' is eaten, double it up.  */
+			/* Since leading '=' is eaten, double it up: */
 			*tmp = '=';
 			memcpy((tmp + 1), value, (len + 1));
 			result = setenv(name, tmp, replace);

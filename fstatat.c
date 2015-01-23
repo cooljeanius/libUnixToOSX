@@ -1,4 +1,4 @@
-/* Work around an fstatat bug on Solaris 9.
+/* fstatat.c: Work around an fstatat bug on Solaris 9.
 
    Copyright (C) 2006, 2009-2012 Free Software Foundation, Inc.
 
@@ -13,17 +13,17 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>  */
 
 /* Written by Paul Eggert and Jim Meyering.  */
 
-/* If the user's config.h happens to include <sys/stat.h>, let it include only
-   the system's <sys/stat.h> here, so that orig_fstatat doesn't recurse to
-   rpl_fstatat.  */
+/* If the user's config.h happens to include <sys/stat.h>, let it include
+ * only the system's <sys/stat.h> here, so that orig_fstatat does NOT
+ * recurse to rpl_fstatat: */
 #define __need_system_sys_stat_h
 #include <config.h>
 
-/* Get the original definition of fstatat.  It might be defined as a macro.  */
+/* Get the original definition of fstatat; it might be defined as a macro: */
 #include <sys/types.h>
 #include <sys/stat.h>
 #undef __need_system_sys_stat_h
@@ -49,7 +49,7 @@ orig_fstatat(int fd, char const *filename, struct stat *buf, int flags)
 
 # ifndef LSTAT_FOLLOWS_SLASHED_SYMLINK
 #  define LSTAT_FOLLOWS_SLASHED_SYMLINK 0
-# endif
+# endif /* !LSTAT_FOLLOWS_SLASHED_SYMLINK */
 
 /* fstatat should always follow symbolic links that end in /, but on
    Solaris 9 it doesn't if AT_SYMLINK_NOFOLLOW is specified.
@@ -61,28 +61,28 @@ orig_fstatat(int fd, char const *filename, struct stat *buf, int flags)
    Work around this bug if FSTATAT_AT_FDCWD_0_BROKEN is nonzero.  */
 
 int
-rpl_fstatat (int fd, char const *file, struct stat *st, int flag)
+rpl_fstatat(int fd, char const *file, struct stat *st, int flag)
 {
-  int result = orig_fstatat (fd, file, st, flag);
+  int result = orig_fstatat(fd, file, st, flag);
   size_t len;
 
-  if (LSTAT_FOLLOWS_SLASHED_SYMLINK || result != 0)
+  if (LSTAT_FOLLOWS_SLASHED_SYMLINK || (result != 0))
     return result;
-  len = strlen (file);
+  len = strlen(file);
   if (flag & AT_SYMLINK_NOFOLLOW)
     {
-      /* Fix lstat behavior.  */
-      if (file[len - 1] != '/' || S_ISDIR (st->st_mode))
+      /* Fix lstat behavior: */
+      if ((file[len - 1] != '/') || S_ISDIR(st->st_mode))
         return 0;
-      if (!S_ISLNK (st->st_mode))
+      if (!S_ISLNK(st->st_mode))
         {
           errno = ENOTDIR;
           return -1;
         }
-      result = orig_fstatat (fd, file, st, flag & ~AT_SYMLINK_NOFOLLOW);
+      result = orig_fstatat(fd, file, st, flag & ~AT_SYMLINK_NOFOLLOW);
     }
-  /* Fix stat behavior.  */
-  if (result == 0 && !S_ISDIR (st->st_mode) && file[len - 1] == '/')
+  /* Fix stat behavior: */
+  if ((result == 0) && !S_ISDIR(st->st_mode) && (file[len - 1] == '/'))
     {
       errno = ENOTDIR;
       return -1;
@@ -132,3 +132,5 @@ static inline int stat_func (char const *name, struct stat *st)
 # undef AT_FUNC_POST_FILE_ARGS
 
 #endif /* !HAVE_FSTATAT */
+
+/* EOF */

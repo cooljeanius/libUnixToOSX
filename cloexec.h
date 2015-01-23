@@ -1,4 +1,4 @@
-/* closexec.c - set or clear the close-on-exec descriptor flag
+/* cloexec.h - set or clear the close-on-exec descriptor flag
 
    Copyright (C) 2004, 2009-2012 Free Software Foundation, Inc.
 
@@ -36,3 +36,5 @@ int set_cloexec_flag (int desc, bool value);
    be duplicated.  */
 
 int dup_cloexec (int fd);
+
+/* EOF */
