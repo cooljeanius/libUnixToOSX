@@ -1300,15 +1300,19 @@
 /* Begin PBXProject section */
 		08FB7793FE84155DC02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1210;
+			};
 			buildConfigurationList = 1DEB914E08733D8E0010E9CD /* Build configuration list for PBXProject "libUnixToOSX" */;
 			compatibilityVersion = "Xcode 3.1";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
+				fr,
+				de,
+				ja,
+				Base,
+				en,
 			);
 			mainGroup = 08FB7794FE84155DC02AAC07 /* libUnixToOSX */;
 			projectDirPath = "";
@@ -1625,10 +1629,10 @@
 		1DEB914B08733D8E0010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COPY_PHASE_STRIP = NO;
 				EXECUTABLE_PREFIX = "";
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1639,6 +1643,7 @@
 					TESTING,
 					"_FORTIFY_SOURCE=2",
 				);
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					.,
 					"build-aux/snippet",
@@ -1651,6 +1656,7 @@
 		1DEB914C08733D8E0010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				"DEBUG_INFORMATION_FORMAT[arch=x86_64]" = dwarf;
 				DEPLOYMENT_POSTPROCESSING = YES;
@@ -1659,6 +1665,7 @@
 					"HAVE_CONFIG_H=1",
 					NDEBUG,
 				);
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					.,
 					"build-aux/snippet",
@@ -1673,20 +1680,20 @@
 		1DEB914F08733D8E0010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				"ARCHS[sdk=macosx10.5]" = (
 					ppc,
 					ppc64,
 					i386,
 					x86_64,
 				);
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_TESTABILITY = YES;
 				"GCC_ALTIVEC_EXTENSIONS[arch=ppc64]" = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_ENABLE_EXCEPTIONS = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				"GCC_ENABLE_SSE3_EXTENSIONS[arch=i386]" = YES;
 				"GCC_ENABLE_SSE3_EXTENSIONS[arch=x86_64]" = YES;
 				"GCC_ENABLE_SSE41_EXTENSIONS[sdk=macosx10.5][arch=i386]" = YES;
@@ -1752,10 +1759,9 @@
 					"-ggdb3",
 				);
 				OTHER_LDFLAGS = "-headerpad-max-installnames";
-				PREBINDING = NO;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 				STRIP_INSTALLED_PRODUCT = NO;
 				STRIP_STYLE = "non-global";
 				VALIDATE_PRODUCT = YES;
@@ -1789,13 +1795,13 @@
 		1DEB915008733D8E0010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				"ARCHS[sdk=macosx10.5]" = (
 					ppc,
 					ppc64,
 					i386,
 					x86_64,
 				);
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				DEBUG_INFORMATION_FORMAT = stabs;
 				"GCC_ALTIVEC_EXTENSIONS[arch=ppc64]" = YES;
 				GCC_AUTO_VECTORIZATION = YES;
@@ -1831,9 +1837,8 @@
 					"-fstrict-overflow",
 					"-fstack-protector",
 				);
-				PREBINDING = NO;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 				SEPARATE_STRIP = YES;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1853,14 +1858,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "polltest-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				OTHER_LDFLAGS = (
@@ -1869,7 +1875,7 @@
 					"-framework",
 					SenTestingKit,
 				);
-				PREBINDING = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourcompany.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = polltest;
 				WRAPPER_EXTENSION = octest;
 			};
@@ -1879,14 +1885,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				"DEBUG_INFORMATION_FORMAT[arch=x86_64]" = dwarf;
 				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "polltest-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				"LLVM_LTO[arch=i386]" = YES;
@@ -1897,7 +1904,7 @@
 					"-framework",
 					SenTestingKit,
 				);
-				PREBINDING = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourcompany.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = polltest;
 				WRAPPER_EXTENSION = octest;
 				ZERO_LINK = NO;
@@ -1907,14 +1914,15 @@
 		A558DCE31900570F002696E8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					.,
 					..,
@@ -1932,7 +1940,7 @@
 					"-framework",
 					SenTestingKit,
 				);
-				PREBINDING = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourcompany.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "argp-test";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -1941,15 +1949,16 @@
 		A558DCE41900570F002696E8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				"DEBUG_INFORMATION_FORMAT[arch=x86_64]" = dwarf;
 				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				HEADER_SEARCH_PATHS = (
 					.,
 					..,
@@ -1970,7 +1979,7 @@
 					"-framework",
 					SenTestingKit,
 				);
-				PREBINDING = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourcompany.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "argp-test";
 				WRAPPER_EXTENSION = octest;
 				ZERO_LINK = NO;
@@ -1980,9 +1989,11 @@
 		A558DD0319005C37002696E8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				PRODUCT_NAME = headers;
 			};
 			name = Debug;
@@ -1990,9 +2001,10 @@
 		A558DD0419005C37002696E8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				PRODUCT_NAME = BUILT_SOURCES;
 				ZERO_LINK = NO;
 			};
@@ -2001,9 +2013,11 @@
 		A558DD0919005C91002696E8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				PRODUCT_NAME = configure;
 			};
 			name = Debug;
@@ -2011,9 +2025,10 @@
 		A558DD0A19005C91002696E8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				PRODUCT_NAME = configure;
 				ZERO_LINK = NO;
 			};

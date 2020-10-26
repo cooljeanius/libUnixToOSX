@@ -6,6 +6,9 @@ build/*
 *.build
 *.pbxuser
 *.perspectivev3
+*.xcodeproj/*.xcworkspace/xcuserdata/*
+*.xcuserdatad
+*.xcuserstate
 Makefile
 *~
 config.h
