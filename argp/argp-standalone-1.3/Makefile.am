@@ -19,7 +19,7 @@
 # 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 ## inherit macros from parent project:
-ACLOCAL_AMFLAGS = -I../../m4 --system-acdir=/sw/share/gnulib/m4 --install
+ACLOCAL_AMFLAGS = -I../../m4 --system-acdir=/opt/sw/share/gnulib/m4 --install
 AUTOMAKE_OPTIONS = 1.8 foreign no-dependencies subdir-objects
 SUBDIRS = . testsuite
 

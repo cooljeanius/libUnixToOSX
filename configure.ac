@@ -185,11 +185,13 @@ gl_HEADER_UMBRELLA
 AC_MSG_CHECKING([for miscellaneous other headers...])
 AC_MSG_RESULT([... .. . ])
 AC_CHECK_HEADERS_IF_NOT_CACHED([bp-sym.h errno.h fcntl.h features.h \
-                                getopt.h langinfo.h mach-o/dyld.h math.h \
-                                poll.h search.h stdio_ext.h \
+                                getopt.h inttypes.h langinfo.h mach-o/dyld.h \
+                                math.h poll.h search.h stdio_ext.h \
                                 sys/fs_types.h sys/ioctl.h sys/param.h \
                                 sys/socket.h sys/statvfs.h sys/time.h \
-                                sys/vfs.h termios.h xlocale.h wchar.h])dnl
+                                sys/vfs.h termios.h unistd.h xlocale.h \
+                                wchar.h])dnl
+  ## now regular checks:
 AC_CHECK_HEADERS([_types/_nl_item.h \
                   OS.h alloc.h assert.h bits/libc-lock.h cdefs.h \
                   float.h fshelp.h fstab.h \
@@ -215,10 +217,10 @@ AC_CHECK_HEADERS([CoreFoundation/CFString.h CoreFoundation/CFLocale.h \
                   CoreFoundation/CoreFoundation.h])
 dnl# keep autoscan happy:
 if test "x" = "Y0"; then
-  test -x `which autoscan`
-  AC_CHECK_HEADERS([bp-sym.h fcntl.h langinfo.h stdio_ext.h sys/ioctl.h \
-                    sys/param.h sys/socket.h sys/statvfs.h sys/time.h \
-                    sys/vfs.h wchar.h])dnl
+  test -x "`which autoscan`" || echo "no autoscan!" >&2
+  AC_CHECK_HEADERS([bp-sym.h fcntl.h inttypes.h langinfo.h stdio_ext.h \
+                    sys/ioctl.h sys/param.h sys/socket.h sys/statvfs.h \
+                    sys/time.h sys/vfs.h unistd.h wchar.h])dnl
   ## should never actually get here though...
 fi
 
@@ -309,9 +311,9 @@ AC_MSG_RESULT([... .. . ])
 AC_CHECK_FUNCS([GetDriveType])dnl
 AC_CHECK_FUNCS_IF_NOT_CACHED([__fpending _NSGetExecutablePath abort btowc \
                               close dup2 fchdir fstatfs ftruncate getcwd \
-                              getdelim getmnt getmntinfo ioctl listmntent \
-                              memchr mempcpy pathconf setenv setlocale \
-                              snprintf strndup])
+                              getdelim getmnt getmntinfo getpagesize ioctl \
+                              listmntent memchr mempcpy pathconf setenv \
+                              setlocale snprintf strndup])
 AC_CHECK_FUNCS_ONCE([readlinkat])dnl
 AC_CHECK_FUNCS([accept assert atexit atoi chsize clearenv connect \
                 dladdr dupfd end execve fflush fgets freemntlist \
@@ -358,9 +360,9 @@ AC_REPLACE_FUNCS([btowc wctob dysize fclose fcloseall getmntent poll \
                   cuserid])dnl
   ## keep autoscan happy:
 if test "x" = "Y0"; then
-  test -x `which autoscan`
+  test -x "`which autoscan`" || echo "no autoscan!" >&2
   AC_CHECK_FUNCS([__fpending btowc dup2 fchdir ftruncate getcwd getdelim \
-                  memchr mempcpy pathconf setenv strndup])dnl
+                  getpagesize memchr mempcpy pathconf setenv strndup])dnl
   ## should never actually get here though...
 fi
 

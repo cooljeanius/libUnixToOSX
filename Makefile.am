@@ -4,7 +4,7 @@
 AUTOMAKE_OPTIONS = 1.6 foreign no-dependencies subdir-objects
 
 ## TODO: stop hardcoding the system acdir:
-ACLOCAL_AMFLAGS = -I m4 --system-acdir=/sw/share/gnulib/m4 --install
+ACLOCAL_AMFLAGS = -I m4 --system-acdir=/opt/sw/share/gnulib/m4 --install
 
 ## Just because there are so many warning flags in the compile command:
 AM_DISTCHECK_CONFIGURE_FLAGS = --enable-silent-rules
