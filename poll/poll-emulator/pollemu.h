@@ -91,14 +91,7 @@ typedef unsigned long nfds_t;
 extern "C" {
 #endif /* __cplusplus */
 
-#if (defined(__STDC__) && (__STDC__ > 0)) || defined(__cplusplus)
 extern int poll(struct pollfd *pArray, nfds_t n_fds, int timeout);
-#else
-/* TODO: the block comment at the top already says that an ANSI C compiler is
- * required, so that means that we should be able to get rid of pre-ANSI
- * pseudo-prototypes like this: */
-extern int poll();
-#endif /* __STDC__ || __cplusplus */
 
 #ifdef __cplusplus
 }

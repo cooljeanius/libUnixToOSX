@@ -93,24 +93,9 @@
 \*-----------------------------------------------------------------------*/
 
 /* map_poll_spec(): */
-static int map_poll_spec
-#if defined(__STDC__) && (__STDC__ > 0)
-			(struct pollfd *pArray,
-			 nfds_t         n_fds,
-			 fd_set        *pReadSet,
-			 fd_set        *pWriteSet,
-			 fd_set        *pExceptSet)
-#else
-/* TODO: the block comment at the top already says that an ANSI C compiler is
- * required, so that means that we should be able to get rid of pre-ANSI
- * function declarations like this: */
-			 (pArray, n_fds, pReadSet, pWriteSet, pExceptSet)
-			  struct pollfd *pArray;
-			  nfds_t         n_fds,
-			  fd_set        *pReadSet;
-			  fd_set        *pWriteSet;
-			  fd_set        *pExceptSet;
-#endif /* __STDC__ */
+static int
+map_poll_spec(struct pollfd *pArray, nfds_t n_fds, d_set *pReadSet,
+              fd_set *pWriteSet, fd_set *pExceptSet)
 {
     register nfds_t  i;            /* loop control */
     register struct  pollfd *pCur; /* current array element */
@@ -152,14 +137,8 @@ static int map_poll_spec
 }
 
 /* map_timeout(): */
-static struct timeval *map_timeout
-#if defined(__STDC__) && (__STDC__ > 0)
-			(int poll_timeout, struct timeval *pSelTimeout)
-#else
-			(poll_timeout, pSelTimeout)
-			 int             poll_timeout;
-			 struct timeval *pSelTimeout;
-#endif /* __STDC__ */
+static struct timeval *
+map_timeout(int poll_timeout, struct timeval *pSelTimeout)
 {
     struct timeval *pResult;
 
@@ -212,21 +191,9 @@ static struct timeval *map_timeout
 }
 
 /* map_select_results(): */
-static void map_select_results
-#if defined(__STDC__) && (__STDC__ > 0)
-			 (struct pollfd *pArray,
-			  unsigned long  n_fds,
-			  fd_set        *pReadSet,
-			  fd_set        *pWriteSet,
-			  fd_set        *pExceptSet)
-#else
-			 (pArray, n_fds, pReadSet, pWriteSet, pExceptSet)
-			  struct pollfd *pArray;
-			  unsigned long  n_fds;
-			  fd_set        *pReadSet;
-			  fd_set        *pWriteSet;
-			  fd_set        *pExceptSet;
-#endif /* __STDC__ */
+static void
+map_select_results(struct pollfd *pArray, unsigned long n_fds,
+                   fd_set *pReadSet, fd_set *pWriteSet, fd_set *pExceptSet)
 {
     register unsigned long  i;               /* loop control */
     register struct	    pollfd *pCur;        /* current array element */
@@ -259,16 +226,8 @@ static void map_select_results
 \*-----------------------------------------------------------------------*/
 
 /* poll(): */
-int poll
-#if defined(__STDC__) && (__STDC__ > 0)
-	(struct pollfd *pArray, unsigned long n_fds, int timeout)
-#else
-	(pArray, n_fds, timeout)
-	 struct	       pollfd *pArray;
-	 unsigned long n_fds;
-	 int	       timeout;
-#endif /* __STDC__ */
-
+int
+poll(struct pollfd *pArray, unsigned long n_fds, int timeout)
 {
     fd_set  read_descs;        /* input file descs */
     fd_set  write_descs;       /* output file descs */

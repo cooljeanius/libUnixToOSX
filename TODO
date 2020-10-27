@@ -69,6 +69,4 @@ mountlist.c:/* TODO: while the default for darwin may be the above, I am trying 
 mountlist.c:/* TODO: thouroughly test all possibilities/conditions/ifdefs */
 obstack.c:/* TODO: fix the rest of the clang static analyzer warnings about null pointer dereferences that cascade from fixing the previous one */
 poll.c:	/* TODO: not sure if my casting is correct here... */
-poll/poll-emulator/pollemu.c:/* TODO: the block comment at the top already says that an ANSI C compiler is required, so that means that we should be able to get rid of pre-ANSI function declarations */
-poll/poll-emulator/pollemu.h:/* TODO: the block comment at the top already says that an ANSI C compiler is required, so that means that we should be able to get rid of pre-ANSI pseudo-prototypes */
 relocatable.c:/* TODO: actually calculate this with dladdr() once we have a way to provide a valid address for the 1st paramater to dladdr() */
