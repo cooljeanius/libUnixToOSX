@@ -8,9 +8,14 @@ AC_DEFUN([AC_CHECK_HEADERS_IF_NOT_CACHED],[
     if eval test \"x\$"${cache_value_to_check}"\" = "x"; then
       test -z "${cache_value_to_check}"
       AC_CHECK_HEADERS([${ac_HEADER_to_check}])
+    else
+      ## This defeats the entire purpose of the macro, but I temporarily need
+      ## to debug something...
+      echo "${cache_value_to_check} is already set!"
     fi
     unset cache_value_to_check
   done
+  echo "done with this set of header checks"
   ## FIXME: something broke in here
 ])
 

@@ -32440,9 +32440,14 @@ _ACEOF
 fi
 
 done
+    else
+      ## This defeats the entire purpose of the macro, but I temporarily need
+      ## to debug something...
+      echo "${cache_value_to_check} is already set!"
     fi
     unset cache_value_to_check
   done
+  echo "done with this set of header checks"
   ## FIXME: something broke in here
   ## now regular checks:
 for ac_header in _types/_nl_item.h \
@@ -32475,7 +32480,7 @@ _ACEOF
 
 fi
 
-done# CoreFoundation headers:
+done  ## CoreFoundation headers:
 for ac_header in CoreFoundation/CFString.h CoreFoundation/CFLocale.h \
                   CoreFoundation/CFPreferences.h \
                   CoreFoundation/CoreFoundation.h
@@ -50543,7 +50548,7 @@ fi
                               getdelim getmnt getmntinfo getpagesize ioctl \
                               listmntent memchr mempcpy pathconf setenv \
                               setlocale snprintf strndup; do
-    cache_value_to_check=`${as_echo} "ac_cv_func_${ac_FUNC_to_check}" | ${as_tr_sh}`
+    cache_value_to_check=`printf "%s\n" "ac_cv_func_${ac_FUNC_to_check}" | ${as_tr_sh}`
     if eval test \"x\$"${cache_value_to_check}"\" = "x"; then
       test -z "${cache_value_to_check}"
       for ac_func in ${ac_FUNC_to_check}
@@ -50715,7 +50720,7 @@ fi
 done
   for ac_FUNC_to_check in CFLocaleCopyCurrent \
                               CFPreferencesCopyAppValue; do
-    cache_value_to_check=`${as_echo} "ac_cv_func_${ac_FUNC_to_check}" | ${as_tr_sh}`
+    cache_value_to_check=`printf "%s\n" "ac_cv_func_${ac_FUNC_to_check}" | ${as_tr_sh}`
     if eval test \"x\$"${cache_value_to_check}"\" = "x"; then
       test -z "${cache_value_to_check}"
       for ac_func in ${ac_FUNC_to_check}

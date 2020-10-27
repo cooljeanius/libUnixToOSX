@@ -211,7 +211,7 @@ AC_CHECK_HEADERS([_types/_nl_item.h \
                   sys/mnttab.h sys/mount.h sys/shm.h sys/statfs.h \
                   termio.h time.h utmp.h utmpx.h values.h \
                   wctype.h winbase.h windows.h])dnl
-# CoreFoundation headers:
+  ## CoreFoundation headers:
 AC_CHECK_HEADERS([CoreFoundation/CFString.h CoreFoundation/CFLocale.h \
                   CoreFoundation/CFPreferences.h \
                   CoreFoundation/CoreFoundation.h])
