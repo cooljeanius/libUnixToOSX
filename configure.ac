@@ -75,6 +75,7 @@ dnl#TODO: add a configure flag to enable the warnings conditionally:
 gl_MANYWARN_ALL_GCC([warnings_to_check])
 warnings_to_skip=""
 warnings_to_skip="${warnings_to_skip} -W"          # redundant with -Wextra
+warnings_to_skip="${warnings_to_skip} -Wabi" # need numerical arg w/new GCC
 warnings_to_skip="${warnings_to_skip} -Wsystem-headers"         # unfixable
 warnings_to_skip="${warnings_to_skip} -Wvla"        # warnings in gettext.h
 warnings_to_skip="${warnings_to_skip} -Wsuggest-attribute=const"      # ???
@@ -94,6 +95,7 @@ warnings_to_skip="${warnings_to_skip} -Wcomments"   # redundant w/-Wcomment
 warnings_to_skip="${warnings_to_skip} -Wmudflap"      # no longer supported
 warnings_to_skip="${warnings_to_skip} -Wconditionally-supported" # C++ only
 warnings_to_skip="${warnings_to_skip} -Wdelete-incomplete"       # C++ only
+warnings_to_skip="${warnings_to_skip} -Wshadow-ivar"     # ObjC/ObjC++ only
 case ${host_cpu} in
   aarch64 | powerpc64 | x86_64)
     warnings_to_skip="${warnings_to_skip} -Wlong-long"  # "long long"=64bit
@@ -191,7 +193,7 @@ AC_CHECK_HEADERS_IF_NOT_CACHED([bp-sym.h errno.h fcntl.h features.h \
                                 sys/socket.h sys/statvfs.h sys/time.h \
                                 sys/vfs.h termios.h unistd.h xlocale.h \
                                 wchar.h])dnl
-  ## now regular checks:
+  ## now regular header checks:
 AC_CHECK_HEADERS([_types/_nl_item.h \
                   OS.h alloc.h assert.h bits/libc-lock.h cdefs.h \
                   float.h fshelp.h fstab.h \
@@ -309,12 +311,14 @@ gl_ALL_FUNC_UMBRELLAS_META_UMBRELLA
 AC_MSG_CHECKING([for miscellaneous other functions...])
 AC_MSG_RESULT([... .. . ])
 AC_CHECK_FUNCS([GetDriveType])dnl
+  ## avoid printing "(cached)" a bunch of times:
 AC_CHECK_FUNCS_IF_NOT_CACHED([__fpending _NSGetExecutablePath abort btowc \
                               close dup2 fchdir fstatfs ftruncate getcwd \
                               getdelim getmnt getmntinfo getpagesize ioctl \
                               listmntent memchr mempcpy pathconf setenv \
                               setlocale snprintf strndup])
 AC_CHECK_FUNCS_ONCE([readlinkat])dnl
+  ## now regular function checks:
 AC_CHECK_FUNCS([accept assert atexit atoi chsize clearenv connect \
                 dladdr dupfd end execve fflush fgets freemntlist \
                 fstatfs64 fstat64 ftok ftruncate64 fxstat64 \
@@ -326,17 +330,17 @@ AC_CHECK_FUNCS([accept assert atexit atoi chsize clearenv connect \
                 strcasecmp strchr strdup strerror strncasecmp strrchr \
                 strsep strspn strstr strtod strtoul system sysconf \
                 vasprintf wctomb wcwidth write])dnl
-# endianness functions:
+  ## endianness functions:
 AC_CHECK_FUNCS([htonl htons ntohl ntohs])dnl
-# fstab-related functions:
+  ## fstab-related functions:
 AC_CHECK_FUNCS([getfsent getfsspec getfsfile setfsent endfsent])dnl
-# ftw-related functions:
+  ## ftw-related functions:
 AC_CHECK_FUNCS([fts_open fts_children fts_close fts_read])dnl
-# alternative ftw-related functions:
+  ## alternative ftw-related functions:
 AC_CHECK_FUNCS([opendir readdir closedir])dnl
-# IOKit/Kext function(s) (might need some special flags):
+  ## IOKit/Kext function(s) (might need some special flags):
 AC_CHECK_FUNCS([KextManagerLoadKextWithURL])dnl
-# CoreFoundation functions (might need some special flags):
+  ## CoreFoundation functions (might need some special flags):
 AC_CHECK_FUNCS([CFBundleCopyLocalizedString CFGetTypeID \
                 CFLocaleGetIdentifier CFRelease CFStringCreateCopy \
                 CFStringCreateMutable CFStringGetCString \
@@ -344,14 +348,14 @@ AC_CHECK_FUNCS([CFBundleCopyLocalizedString CFGetTypeID \
                 CFStringRef])dnl
 AC_CHECK_FUNCS_IF_NOT_CACHED([CFLocaleCopyCurrent \
                               CFPreferencesCopyAppValue])dnl
-# functions that we might want replacements for, but do not have the
-# source files to replace them yet:
+  ## functions that we might want replacements for, but do not have the
+  ## source files to replace them yet:
 dnl# (move from "_CHECK" to "_REPLACE" once we do have source files)
 unset ac_cv_func_catgets
 AC_CHECK_FUNCS([catopen catgets catclose crypt ecvt fcvt gcvt \
                 setmntent addmntent endmntent \
                 hasmntopt sbrk brk shmget swapon swapoff])
-# functions that we might want replacements for, and have source files for:
+  ## functions that we might want replacements for, and have source files for:
 unset ac_cv_func_btowc
 unset ac_cv_func_wctob
 unset ac_cv_func_getmntent

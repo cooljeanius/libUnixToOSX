@@ -22478,6 +22478,7 @@ printf "%s\n" "${gl_cv_cc_uninitialized_supported}" >&6; }
 
 warnings_to_skip=""
 warnings_to_skip="${warnings_to_skip} -W"          # redundant with -Wextra
+warnings_to_skip="${warnings_to_skip} -Wabi" # need numerical arg w/new GCC
 warnings_to_skip="${warnings_to_skip} -Wsystem-headers"         # unfixable
 warnings_to_skip="${warnings_to_skip} -Wvla"        # warnings in gettext.h
 warnings_to_skip="${warnings_to_skip} -Wsuggest-attribute=const"      # ???
@@ -22497,6 +22498,7 @@ warnings_to_skip="${warnings_to_skip} -Wcomments"   # redundant w/-Wcomment
 warnings_to_skip="${warnings_to_skip} -Wmudflap"      # no longer supported
 warnings_to_skip="${warnings_to_skip} -Wconditionally-supported" # C++ only
 warnings_to_skip="${warnings_to_skip} -Wdelete-incomplete"       # C++ only
+warnings_to_skip="${warnings_to_skip} -Wshadow-ivar"     # ObjC/ObjC++ only
 case ${host_cpu} in
   aarch64 | powerpc64 | x86_64)
     warnings_to_skip="${warnings_to_skip} -Wlong-long"  # "long long"=64bit
@@ -32440,16 +32442,10 @@ _ACEOF
 fi
 
 done
-    else
-      ## This defeats the entire purpose of the macro, but I temporarily need
-      ## to debug something...
-      echo "${cache_value_to_check} is already set!"
     fi
     unset cache_value_to_check
   done
-  echo "done with this set of header checks"
-  ## FIXME: something broke in here
-  ## now regular checks:
+  ## now regular header checks:
 for ac_header in _types/_nl_item.h \
                   OS.h alloc.h assert.h bits/libc-lock.h cdefs.h \
                   float.h fshelp.h fstab.h \
@@ -50542,6 +50538,7 @@ then :
   printf "%s\n" "#define HAVE_GETDRIVETYPE 1" >>confdefs.h
 
 fi
+  ## avoid printing "(cached)" a bunch of times:
 
   for ac_FUNC_to_check in __fpending _NSGetExecutablePath abort btowc \
                               close dup2 fchdir fstatfs ftruncate getcwd \
@@ -50571,7 +50568,8 @@ done
 
   :
 
-          for ac_func in accept assert atexit atoi chsize clearenv connect \
+            ## now regular function checks:
+for ac_func in accept assert atexit atoi chsize clearenv connect \
                 dladdr dupfd end execve fflush fgets freemntlist \
                 fstatfs64 fstat64 ftok ftruncate64 fxstat64 \
                 gencat getrlimit gettext getvfsbytype iswprint \
@@ -50593,7 +50591,7 @@ _ACEOF
 
 fi
 
-done# endianness functions:
+done  ## endianness functions:
 ac_fn_c_check_func "$LINENO" "htonl" "ac_cv_func_htonl"
 if test "x$ac_cv_func_htonl" = xyes
 then :
@@ -50618,7 +50616,7 @@ then :
   printf "%s\n" "#define HAVE_NTOHS 1" >>confdefs.h
 
 fi
-# fstab-related functions:
+  ## fstab-related functions:
 ac_fn_c_check_func "$LINENO" "getfsent" "ac_cv_func_getfsent"
 if test "x$ac_cv_func_getfsent" = xyes
 then :
@@ -50649,7 +50647,7 @@ then :
   printf "%s\n" "#define HAVE_ENDFSENT 1" >>confdefs.h
 
 fi
-# ftw-related functions:
+  ## ftw-related functions:
 ac_fn_c_check_func "$LINENO" "fts_open" "ac_cv_func_fts_open"
 if test "x$ac_cv_func_fts_open" = xyes
 then :
@@ -50674,7 +50672,7 @@ then :
   printf "%s\n" "#define HAVE_FTS_READ 1" >>confdefs.h
 
 fi
-# alternative ftw-related functions:
+  ## alternative ftw-related functions:
 ac_fn_c_check_func "$LINENO" "opendir" "ac_cv_func_opendir"
 if test "x$ac_cv_func_opendir" = xyes
 then :
@@ -50693,14 +50691,14 @@ then :
   printf "%s\n" "#define HAVE_CLOSEDIR 1" >>confdefs.h
 
 fi
-# IOKit/Kext function(s) (might need some special flags):
+  ## IOKit/Kext function(s) (might need some special flags):
 ac_fn_c_check_func "$LINENO" "KextManagerLoadKextWithURL" "ac_cv_func_KextManagerLoadKextWithURL"
 if test "x$ac_cv_func_KextManagerLoadKextWithURL" = xyes
 then :
   printf "%s\n" "#define HAVE_KEXTMANAGERLOADKEXTWITHURL 1" >>confdefs.h
 
 fi
-# CoreFoundation functions (might need some special flags):
+  ## CoreFoundation functions (might need some special flags):
 for ac_func in CFBundleCopyLocalizedString CFGetTypeID \
                 CFLocaleGetIdentifier CFRelease CFStringCreateCopy \
                 CFStringCreateMutable CFStringGetCString \
@@ -50739,8 +50737,8 @@ done
     fi
     unset cache_value_to_check
   done
-# functions that we might want replacements for, but do not have the
-# source files to replace them yet:
+  ## functions that we might want replacements for, but do not have the
+  ## source files to replace them yet:
 unset ac_cv_func_catgets
 for ac_func in catopen catgets catclose crypt ecvt fcvt gcvt \
                 setmntent addmntent endmntent \
@@ -50757,7 +50755,7 @@ _ACEOF
 fi
 
 done
-# functions that we might want replacements for, and have source files for:
+  ## functions that we might want replacements for, and have source files for:
 unset ac_cv_func_btowc
 unset ac_cv_func_wctob
 unset ac_cv_func_getmntent

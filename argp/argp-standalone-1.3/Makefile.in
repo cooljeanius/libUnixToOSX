@@ -747,14 +747,14 @@ clean-noinstLIBRARIES:
 ../../$(am__dirstamp):
 	@$(MKDIR_P) ../../
 	@: > ../../$(am__dirstamp)
-../../strndup.$(OBJEXT): ../../$(am__dirstamp)
-../../strchrnul.$(OBJEXT): ../../$(am__dirstamp)
 ../../realloc.$(OBJEXT): ../../$(am__dirstamp)
+../../strchrnul.$(OBJEXT): ../../$(am__dirstamp)
+../../mempcpy.$(OBJEXT): ../../$(am__dirstamp)
+../../strndup.$(OBJEXT): ../../$(am__dirstamp)
 ../../rawmemchr.$(OBJEXT): ../../$(am__dirstamp)
 ../../strnlen.$(OBJEXT): ../../$(am__dirstamp)
-../../malloc.$(OBJEXT): ../../$(am__dirstamp)
-../../mempcpy.$(OBJEXT): ../../$(am__dirstamp)
 ../../alloca.$(OBJEXT): ../../$(am__dirstamp)
+../../malloc.$(OBJEXT): ../../$(am__dirstamp)
 
 libargp.a: $(libargp_a_OBJECTS) $(libargp_a_DEPENDENCIES) $(EXTRA_libargp_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libargp.a
