@@ -94,7 +94,7 @@
 
 /* map_poll_spec(): */
 static int
-map_poll_spec(struct pollfd *pArray, nfds_t n_fds, d_set *pReadSet,
+map_poll_spec(struct pollfd *pArray, nfds_t n_fds, fd_set *pReadSet,
               fd_set *pWriteSet, fd_set *pExceptSet)
 {
     register nfds_t  i;            /* loop control */

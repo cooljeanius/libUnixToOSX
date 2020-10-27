@@ -1687,6 +1687,7 @@
 					x86_64,
 				);
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_TESTABILITY = YES;
@@ -1758,7 +1759,6 @@
 					"-g3",
 					"-ggdb3",
 				);
-				OTHER_LDFLAGS = "-headerpad-max-installnames";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SDKROOT = macosx;
@@ -1788,6 +1788,8 @@
 					"-Winline",
 					"-Winvalid-pch",
 					"-Wc++-compat",
+					"-Wno-gnu-statement-expression",
+					"-Wno-format-nonliteral",
 				);
 			};
 			name = Debug;
@@ -1802,6 +1804,7 @@
 					x86_64,
 				);
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER = YES;
 				DEBUG_INFORMATION_FORMAT = stabs;
 				"GCC_ALTIVEC_EXTENSIONS[arch=ppc64]" = YES;
 				GCC_AUTO_VECTORIZATION = YES;

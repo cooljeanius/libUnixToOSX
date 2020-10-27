@@ -1,9 +1,9 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.69])
+AC_PREREQ([2.69.185-b502e])
 AC_INIT([FULL-PACKAGE-NAME], [VERSION], [BUG-REPORT-ADDRESS])
-AC_CONFIG_SRCDIR([alloc.h])
+AC_CONFIG_SRCDIR([btowc.c])
 AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
@@ -20,7 +20,7 @@ AC_PROG_RANLIB
 
 # Checks for header files.
 AC_FUNC_ALLOCA
-AC_CHECK_HEADERS([OS.h fcntl.h float.h fs_info.h inttypes.h langinfo.h libintl.h limits.h locale.h malloc.h mntent.h mnttab.h netdb.h nl_types.h stddef.h stdint.h stdio_ext.h stdlib.h string.h sys/fs_types.h sys/fstyp.h sys/ioctl.h sys/mntent.h sys/mount.h sys/param.h sys/socket.h sys/statfs.h sys/statvfs.h sys/time.h sys/vfs.h unistd.h wchar.h wctype.h])
+AC_CHECK_HEADERS([OS.h fcntl.h fs_info.h inttypes.h langinfo.h libintl.h malloc.h mntent.h mnttab.h netdb.h nl_types.h stdint.h stdio_ext.h sys/fs_types.h sys/fstyp.h sys/ioctl.h sys/mntent.h sys/mount.h sys/param.h sys/socket.h sys/statfs.h sys/statvfs.h sys/time.h sys/vfs.h unistd.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_CHECK_HEADER_STDBOOL

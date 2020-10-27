@@ -285,12 +285,12 @@ strerror_override (int errnum)
       return "Operation canceled";
 #endif /* GNULIB_defined_ECANCELED */
 
-#if GNULIB_defined_EOWNERDEAD
+#if defined(GNULIB_defined_EOWNERDEAD) && GNULIB_defined_EOWNERDEAD
     case EOWNERDEAD:
       return "Owner died";
 #endif /* GNULIB_defined_EOWNERDEAD */
 
-#if GNULIB_defined_ENOTRECOVERABLE
+#if defined(GNULIB_defined_ENOTRECOVERABLE) && GNULIB_defined_ENOTRECOVERABLE
     case ENOTRECOVERABLE:
       return "State not recoverable";
 #endif /* GNULIB_defined_ENOTRECOVERABLE */

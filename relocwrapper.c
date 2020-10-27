@@ -272,5 +272,8 @@ int main(int argc, char *argv[])
 #ifdef _GL_USE_STDLIB_ALLOC
 # undef _GL_USE_STDLIB_ALLOC
 #endif /* _GL_USE_STDLIB_ALLOC */
+#ifdef _RELOCWRAPPER_C_
+# undef _RELOCWRAPPER_C_
+#endif /* _RELOCWRAPPER_C_ */
 
 /* EOF */
