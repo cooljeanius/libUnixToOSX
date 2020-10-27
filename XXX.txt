@@ -1,0 +1,9 @@
+argp/argp-standalone-1.3/argp.h:#define ARGP_ERR_UNKNOWN	E2BIG /* Hurd should never need E2BIG.  XXX */
+build-aux/config.guess:    if (strncmp(un.version, "V1", 2) == 0) { /* XXX is V1 correct? */
+configure:        # XXX I think wlarc can be eliminated in ltcf-cxx, but I need to
+getopt.c:   XXX This is no good solution.  We should rather copy the args so
+libftw0/Fink/libftw0.patch:+	/* XXX - nfds is currently unused */
+libftw0/ftw.c:	/* XXX - nfds is currently unused */
+m4/libtool.m4:        # XXX I think wlarc can be eliminated in ltcf-cxx, but I need to
+m4/xorg-macros.m4:# For XXX in {TXT, PDF, PS, HTML}, the AM_CONDITIONAL "BUILD_XXXDOC"
+stddef.in.h:#endif /* __need_XXX */

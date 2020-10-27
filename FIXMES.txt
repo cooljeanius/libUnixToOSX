@@ -1,0 +1,197 @@
+aclocal.m4:  # FIXME: It is wrong to rewrite AR.
+aclocal.m4:   # FIXME: It is wrong to rewrite CC.
+alloc.h: * FIXME: decide where in this header to put an include for <stdlib.h>
+argp/argp-standalone-1.3/acinclude.m4:/* FIXME: the autoupdate to "AC\_LANG\_PROGRAM" put this inside "main()";
+argp/argp-standalone-1.3/aclocal.m4:   # FIXME: It is wrong to rewrite CC.
+argp/argp-standalone-1.3/argp-help.c:  /* FIXME: Can we get away without an explicit cast? */
+argp/argp-standalone-1.3/argp-help.c:/* FIXME: Can we use unsigned char * for the argument? */
+argp/argp-standalone-1.3/argp-help.c:      /* FIXME: Can we use unsigned char * instead? */
+argp/argp-standalone-1.3/argp-help.c:  /* FIXME: What now? Miles suggests that it is better to use NULL,
+argp/argp-standalone-1.3/argp-parse.c:  /* FIXME: I'd prefer to use unsigned, but it's more consistent to
+argp/argp-standalone-1.3/argp-parse.c:  /* FIXME: Perhaps change to a pointer to a suitable bitmap instead? */
+argp/argp-standalone-1.3/argp-parse.c:      /* FIXME: whether or not a particular key implies a short option
+argp/argp-standalone-1.3/argp.h:/* FIXME: What is the right way to check for __restrict? Sun's cc seems
+argp/argp-standalone-1.3/configure:    # FIXME: should be removed in autoconf 3.0.
+argp/argp-standalone-1.3/configure:# FIXME: To remove some day.
+argp/argp-standalone-1.3/configure:# FIXME: To remove some day.
+argp/argp-standalone-1.3/configure:   # FIXME: It is wrong to rewrite CC.
+argp/argp-standalone-1.3/configure:/* FIXME: the autoupdate to "AC\_LANG\_PROGRAM" put this inside "main()";
+argp/argp-standalone-1.3/configure:# FIXME: This hack should be removed a few years after 2.60.
+argp/argp-standalone-1.3/configure:# FIXME: do we really want to maintain this feature?
+argp/argp-standalone-1.3/strchrnul.c:/* FIXME: What is this function supposed to do? My guess is that it is
+argp/argp-standalone-1.3/testsuite/Makefile.am:##FIXME: run-tests has some problems with the vpath used for distcheck:
+autoscan/Makefile.am:#FIXME: this fails to add our new autoscan checks from
+autoscan/Makefile.in:#FIXME: this fails to add our new autoscan checks from
+build-aux/compile:# FIXME: race condition here if user kills between mkdir and trap.
+build-aux/config.libpath:    # FIXME: first we should search . and the directory the executable is in
+build-aux/config.rpath:    # FIXME: the MSVC++ port hasn't been tested in a loooong time
+build-aux/config.sub:		# FIXME: really hppa2.0-hp
+build-aux/config.sub:		# FIXME: really hppa2.0-hp
+build-aux/depcomp:  # FIXME: That version still under development at the moment of writing.
+build-aux/gcc-warning.spec:-Wc++-compat				FIXME maybe? borderline.  some will want this
+build-aux/gcc-warning.spec:-Wcast-qual				FIXME maybe? too much noise; encourages bad changes
+build-aux/gcc-warning.spec:-Wconversion				FIXME maybe? too much noise; encourages bad changes
+build-aux/gcc-warning.spec:-Wdeclaration-after-statement		FIXME: do not want.  others may
+build-aux/gcc-warning.spec:-Wfloat-equal				FIXME maybe? borderline.  some will want this
+build-aux/gcc-warning.spec:-Wlarger-than=<number>			FIXME: choose something sane?
+build-aux/gcc-warning.spec:-Wnormalized=<id|nfc|nfkc>		FIXME: choose something sane?
+build-aux/gcc-warning.spec:-Wpadded				FIXME maybe?  warns about "stabil" member in /usr/include/bits/timex.h
+build-aux/gcc-warning.spec:-Wpedantic				FIXME: too strict?
+build-aux/gcc-warning.spec:-Wredundant-decls			FIXME maybe? many _gl_cxxalias_dummy FPs
+build-aux/gcc-warning.spec:-Wsign-compare				FIXME maybe? borderline.  some will want this
+build-aux/gcc-warning.spec:-Wsign-conversion			FIXME maybe? borderline.  some will want this
+build-aux/gcc-warning.spec:-Wstack-usage=				FIXME: choose something sane?
+build-aux/gcc-warning.spec:-Wstrict-aliasing=			FIXME: choose something sane?
+build-aux/gcc-warning.spec:-Wstrict-overflow=			FIXME: choose something sane?
+build-aux/gcc-warning.spec:-Wswitch-enum				FIXME maybe? borderline.  some will want this
+build-aux/gcc-warning.spec:-Wundef					FIXME maybe? too many false positives
+build-aux/gitlog-to-changelog:  # FIXME-someday: include $PROCESS_STATUS in the diagnostic
+build-aux/ltmain.sh:      # FIXME: Unfortunately, there are problems with the above when trying
+build-aux/ltmain.sh:	# FIXME: remove this flag sometime in the future.
+build-aux/ltmain.sh:	## FIXME: Find the place where the list is rebuilt in the wrong
+build-aux/ltmain.sh:	    # FIXME: Pedantically, this is the right thing to do, so
+build-aux/ltmain.sh:	# FIXME: should test the right _cmds variable.
+build-aux/ltmain.sh:	  # FIXME: $output_objdir/$libname.filter potentially contains lots of
+build-aux/ltmain.sh:	      # FIXME: $output_objdir/$libname.filter potentially contains lots of
+build-aux/ltmain.sh:	    # FIXME: should reinstall the best remaining shared library.
+chdir-long.c: * FIXME - if the kernel ever adds support for multi-thread safety for
+configure:    # FIXME: should be removed in autoconf 3.0.
+configure:# FIXME: To remove some day.
+configure:# FIXME: To remove some day.
+configure:   # FIXME: It is wrong to rewrite CC.
+configure:  # FIXME: It is wrong to rewrite AR.
+configure:            # FIXME: we need at least 68020 code to build shared libraries, but
+configure:    # FIXME: the MSVC++ port hasn't been tested in a loooong time
+configure:	# support --undefined.  This deserves some investigation.  FIXME
+configure:	# FIXME: Setting linknames here is a bad hack.
+configure:	# FIXME: Setting linknames here is a bad hack.
+configure:	# FIXME: Should let the user specify the lib program.
+configure:      # FIXME: we may have to deal with multi-command sequences.
+configure:      # FIXME: find the short name or the path components, as spaces are
+configure:  # FIXME: first we should search . and the directory the executable is in
+configure:# FIXME - insert some real tests, host_os isn't really good enough
+configure:        # FIXME: insert proper C++ library support
+configure:	  # support --undefined.  This deserves some investigation.  FIXME
+configure:	  # FIXME: insert proper C++ library support
+configure:	  # FIXME: Setting linknames here is a bad hack.
+configure:	    # FIXME: insert proper C++ library support
+configure:	    # FIXME: insert proper C++ library support
+configure:	    # FIXME: insert proper C++ library support
+configure:            # FIXME: insert proper C++ library support
+configure:              # FIXME: insert proper C++ library support
+configure:	    # FIXME: insert proper C++ library support
+configure:	      # FIXME: insert proper C++ library support
+configure:        # FIXME: insert proper C++ library support
+configure:        # FIXME: insert proper C++ library support
+configure:	    # FIXME: insert proper C++ library support
+configure:	    # FIXME: insert proper C++ library support
+configure:	    # FIXME: insert proper C++ library support
+configure:	      # FIXME: insert proper C++ library support
+configure:        # FIXME: insert proper C++ library support
+configure:	    # FIXME: insert proper C++ library support
+configure:	    # FIXME: insert proper C++ library support
+configure:	    # FIXME: insert proper C++ library support
+configure:	    # FIXME: insert proper C++ library support
+configure:	    # FIXME: insert proper C++ library support
+configure:        # FIXME: insert proper C++ library support
+configure:        # FIXME: insert proper C++ library support
+configure:            # FIXME: we need at least 68020 code to build shared libraries, but
+configure:      # FIXME: we may have to deal with multi-command sequences.
+configure:      # FIXME: find the short name or the path components, as spaces are
+configure:  # FIXME: first we should search . and the directory the executable is in
+configure:    #FIXME: config.log reports a path found for these, but still says "no":
+configure:  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for FIXME existence of three headers" >&5
+configure:$as_echo_n "checking for FIXME existence of three headers... " >&6; }
+configure:  # FIXME -- no need to abort building the whole package
+configure:  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for FIXME existence of three headers" >&5
+configure:$as_echo_n "checking for FIXME existence of three headers... " >&6; }
+configure:  # FIXME -- no need to abort building the whole package
+configure:# FIXME: This hack should be removed a few years after 2.60.
+configure:# FIXME: do we really want to maintain this feature?
+configure.ac:    dnl#FIXME: make sure these flags are actually used properly
+fallocate.c:/* FIXME: look at orig email for this file definition. */
+fallocate.c:  return ENOSYS; /* FIXME: glibc interface may change to set errno and ret -1 */
+fallocate.c:  /* FIXME: support fcntl(fd, F_ALLOCSP, ...) on solaris.  */
+fchdir.c: * FIXME: On mingw, this would be possible to enforce if we were to
+fchdir.c:  /* FIXME - add a DIR* member to make dirfd possible on mingw?  */
+fflush.c:    ; /* FIXME: use 'fp_' here somehow */
+fflush.c:            /* FIXME: do something unique here: */
+fflush.c:            /* FIXME: do something unique here: */
+fflush.c:            /* FIXME: do something unique here: */
+fflush.c:            /* FIXME: do something unique here: */
+fflush.c:            /* FIXME: do something unique here: */
+fflush.c:            /* FIXME: do something unique here: */
+fflush.c:            /* FIXME: do something unique here: */
+fts-cycle.c:          /* FIXME: setting fts_cycle like this is NOT proper.
+fts.c:/* FIXME - use fcntl(F_DUPFD_CLOEXEC)/openat(O_CLOEXEC) once they are
+fts.c:/* FIXME: FTS_NOCHDIR is now misnamed.
+fts.c:/* FIXME: make this an enum */
+fts.c:/* FIXME: if others need this function, move it into lib/openat.c */
+fts.c:			 * FIXME: once Linux kernel openat support is well established,
+fts.c:  /* FIXME: what about when f_type is not an integral type?
+fts.c:  /* FIXME: do we need to detect AFS mount points?  I doubt it,
+fts_.h:                /* FIXME: rename these two members to have the fts_ prefix */
+hash.c:          /* FIXME */
+hash.h:int hash_insert0(Hash_table *table, /* FIXME: remove in 2013 */
+localename.c:	/* FIXME: This is probably incomplete: it does not handle "zh-Hans" and
+localename.c:						/* FIXME: Adjust this when Azerbaijani locales appear on Unix.  */
+localename.c:				/* FIXME: Adjust this when such locales appear on Unix.  */
+localename.c:				/* FIXME: Do they mean Hawaiian ("haw_US", 1000 speakers)
+localename.c:				/* FIXME: Adjust this when such locales appear on Unix.  */
+localename.c:				/* FIXME: Adjust this when such locales appear on Unix.  */
+localename.c:				/* FIXME: Adjust this when such locales appear on Unix.  */
+localename.c:				/* FIXME: Adjust this when such locales appear on Unix.  */
+localename.c:					/* FIXME: Adjust this when Tamazight locales appear on Unix.  */
+m4/ccstdc.m4:dnl# FIXME: cannot do this because then AC_USE_SYSTEM_EXTENSIONS will NOT
+m4/include_next.m4:dnl# FIXME: gl_next_header and gl_header_exists must be used unquoted
+m4/lib-link.m4:                      dnl FIXME: Not sure whether we should use
+m4/lib-link.m4:                      dnl FIXME: Not sure whether we should use
+m4/libtool.m4:## FIXME: Eliminate VARNAME ##
+m4/libtool.m4:# FIXME - insert some real tests, host_os isn't really good enough
+m4/libtool.m4:      # FIXME: find the short name or the path components, as spaces are
+m4/libtool.m4:  # FIXME: first we should search . and the directory the executable is in
+m4/libtool.m4:            # FIXME: we need at least 68020 code to build shared libraries, but
+m4/libtool.m4:            # FIXME: we need at least 68020 code to build shared libraries, but
+m4/libtool.m4:    # FIXME: the MSVC++ port hasn't been tested in a loooong time
+m4/libtool.m4:	# support --undefined.  This deserves some investigation.  FIXME
+m4/libtool.m4:	# FIXME: Setting linknames here is a bad hack.
+m4/libtool.m4:	# FIXME: Setting linknames here is a bad hack.
+m4/libtool.m4:	# FIXME: Should let the user specify the lib program.
+m4/libtool.m4:      # FIXME: we may have to deal with multi-command sequences.
+m4/libtool.m4:dnl FIXME: Not yet implemented
+m4/libtool.m4:        # FIXME: insert proper C++ library support
+m4/libtool.m4:	  # support --undefined.  This deserves some investigation.  FIXME
+m4/libtool.m4:	  # FIXME: insert proper C++ library support
+m4/libtool.m4:	  # FIXME: Setting linknames here is a bad hack.
+m4/libtool.m4:	    # FIXME: insert proper C++ library support
+m4/libtool.m4:	    # FIXME: insert proper C++ library support
+m4/libtool.m4:	    # FIXME: insert proper C++ library support
+m4/libtool.m4:            # FIXME: insert proper C++ library support
+m4/libtool.m4:              # FIXME: insert proper C++ library support
+m4/libtool.m4:	    # FIXME: insert proper C++ library support
+m4/libtool.m4:	      # FIXME: insert proper C++ library support
+m4/libtool.m4:        # FIXME: insert proper C++ library support
+m4/libtool.m4:        # FIXME: insert proper C++ library support
+m4/libtool.m4:	    # FIXME: insert proper C++ library support
+m4/libtool.m4:	    # FIXME: insert proper C++ library support
+m4/libtool.m4:	    # FIXME: insert proper C++ library support
+m4/libtool.m4:	      # FIXME: insert proper C++ library support
+m4/libtool.m4:        # FIXME: insert proper C++ library support
+m4/libtool.m4:	    # FIXME: insert proper C++ library support
+m4/libtool.m4:	    # FIXME: insert proper C++ library support
+m4/libtool.m4:	    # FIXME: insert proper C++ library support
+m4/libtool.m4:	    # FIXME: insert proper C++ library support
+m4/libtool.m4:	    # FIXME: insert proper C++ library support
+m4/libtool.m4:        # FIXME: insert proper C++ library support
+m4/libtool.m4:        # FIXME: insert proper C++ library support
+m4/ls-mntd-fs.m4:  AC_MSG_CHECKING([for FIXME existence of three headers])
+m4/ls-mntd-fs.m4:  # FIXME -- no need to abort building the whole package
+m4/programs_extra.m4:  dnl# FIXME: are all of these correct?
+m4/programs_extra.m4:    #FIXME: config.log reports a path found for these, but still says "no":
+m4/warn-on-use.m4:dnl# FIXME: gl_Symbol must be used unquoted until we can assume
+m4/warnings.m4:# FIXME: gl_Warn must be used unquoted until we can assume Autoconf
+m4/xorg-macros.m4:#FIXME: we also check warning flags with gnulib macros; they have cache
+mktime.c:/* FIXME: This should use a signed type wide enough to hold any UTC
+openat-proc.c:   FIXME - if the kernel ever adds support for multi-thread safety for
+pipe2.c:      /* FIXME: clang says that this condition will never be reached...
+quotearg.c:      /* FIXME: technically, the type of n1 should be 'unsigned int',
