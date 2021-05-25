@@ -126,7 +126,7 @@ PRINTF_PARSE(const CHAR_T *format, DIRECTIVES *d, arguments *a)
     while (a->count <= n)                                               \
       a->arg[a->count++].type = TYPE_NONE;                              \
     if (a->arg[n].type == TYPE_NONE)                                    \
-      a->arg[n].type = (_type_);                                        \
+      a->arg[n].type = (arg_type)(_type_);                              \
     else if (a->arg[n].type != (_type_))                                \
       /* Ambiguous type for positional argument.  */                    \
       goto error;                                                       \

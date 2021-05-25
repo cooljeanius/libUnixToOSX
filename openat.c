@@ -61,13 +61,13 @@ int rpl_openat(int dfd, char const *filename, int flags, ...)
   if (flags & O_CREAT)
     {
       va_list arg;
-      va_start (arg, flags);
+      va_start(arg, flags);
 
       /* We have to use PROMOTED_MODE_T instead of mode_t, otherwise GCC 4
          creates crashing code when 'mode_t' is smaller than 'int'.  */
-      mode = va_arg (arg, PROMOTED_MODE_T);
+      mode = va_arg(arg, PROMOTED_MODE_T);
 
-      va_end (arg);
+      va_end(arg);
     }
 
 # if defined(OPEN_TRAILING_SLASH_BUG) && OPEN_TRAILING_SLASH_BUG
@@ -94,7 +94,7 @@ int rpl_openat(int dfd, char const *filename, int flags, ...)
          file does not contain a '.' directory.  */
   if (flags & (O_CREAT | O_WRONLY | O_RDWR))
     {
-      size_t len = strlen (filename);
+      size_t len = strlen(filename);
       if (len > 0 && filename[len - 1] == '/')
         {
           errno = EISDIR;
@@ -103,7 +103,7 @@ int rpl_openat(int dfd, char const *filename, int flags, ...)
     }
 # endif
 
-  fd = orig_openat (dfd, filename, flags, mode);
+  fd = orig_openat(dfd, filename, flags, mode);
 
 # if defined(OPEN_TRAILING_SLASH_BUG) && OPEN_TRAILING_SLASH_BUG
   /* If the filename ends in a slash and fd does not refer to a directory,
