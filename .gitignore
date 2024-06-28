@@ -15,6 +15,7 @@ config.h
 confdefs.h
 conftest*
 *.o
+*.o.tmp
 *.status
 libtool
 stamp-h*

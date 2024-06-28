@@ -198,15 +198,6 @@ if test "x${ac_cv_search_CFLocaleCopyCurrent}y" != "xnoy"; then
 fi
 AC_SEARCH_LIBS([dupfd],[c System magic pub gnu iberty])dnl
 
-if test "x${SOEXT}" = "x"; then
-  if test "x${acl_cv_shlibext}" != "x"; then
-    test -z "${SOEXT}" && test -n "${acl_cv_shlibext}" && export SOEXT="${acl_cv_shlibext}"
-  else
-    test -z "${SOEXT}" && export SOEXT=".dylib"
-  fi
-fi
-AC_SUBST([SOEXT])dnl
-
 # Threading.
 AC_MSG_CHECKING([for threading library characteristics...])
 AC_MSG_RESULT([... .. . ])
@@ -267,6 +258,7 @@ gl_C_MISC
 AC_MSG_CHECKING([for some declarations...])
 AC_MSG_RESULT([... .. . ])
 dnl# might have to get rid of the "_ONCE"s if they jump elsewehere...
+AC_CHECK_DECLS_ONCE([__fpending])dnl
 AC_CHECK_DECLS_ONCE([cuserid])dnl
 AC_CHECK_DECLS_ONCE([exit_failure])dnl
 AC_CHECK_DECLS_ONCE([program_invocation_name],[],[],
@@ -403,6 +395,18 @@ if test "x" = "Y0"; then
                   getpagesize memchr mempcpy pathconf setenv strndup])dnl
   ## should never actually get here though...
 fi
+
+# One last thing:
+if test "x${SOEXT}" = "x"; then
+  if test "x${acl_cv_shlibext}" != "x"; then
+    test -z "${SOEXT}" && test -n "${acl_cv_shlibext}" && export SOEXT="${acl_cv_shlibext}"
+    test -n "${SOEXT}" && echo "using acl_cv_slibext as SOEXT: ${SOEXT}"
+  else
+    test -z "${SOEXT}" && export SOEXT=".dylib"
+    test -n "${SOEXT}" && echo "defaulting SOEXT to .dylib"
+  fi
+fi
+AC_SUBST([SOEXT])dnl
 
 # Output:
 AC_CONFIG_FILES([Makefile \

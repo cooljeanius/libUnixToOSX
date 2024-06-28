@@ -23,6 +23,8 @@
 #include <string.h>
 #include <sys/stat.h>
 
+#include "rpl_misc_funcs.h"
+
 #if !HAVE_READLINK
 
 /* readlink() substitute for systems that do NOT have a readlink() func,

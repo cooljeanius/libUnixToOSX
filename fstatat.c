@@ -45,6 +45,8 @@ orig_fstatat(int fd, char const *filename, struct stat *buf, int flags)
 #include <fcntl.h>
 #include <string.h>
 
+#include "rpl_misc_funcs.h"
+
 #if (defined(HAVE_FSTATAT) && HAVE_FSTATAT) && HAVE_WORKING_FSTATAT_ZERO_FLAG
 
 # ifndef LSTAT_FOLLOWS_SLASHED_SYMLINK

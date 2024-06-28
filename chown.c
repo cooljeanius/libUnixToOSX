@@ -30,6 +30,8 @@
 #include <string.h>
 #include <sys/stat.h>
 
+#include "rpl_misc_funcs.h"
+
 #if !HAVE_CHOWN
 /* Simple stub that always fails with ENOSYS, for mingw: */
 int chown(const char *file _GL_UNUSED, uid_t uid _GL_UNUSED,

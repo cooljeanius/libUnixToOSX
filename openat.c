@@ -25,6 +25,9 @@
 /* Get the original definition of open. It might be defined as a macro. */
 #include <fcntl.h>
 #include <sys/types.h>
+
+#include "rpl_misc_funcs.h"
+
 #undef __need_system_fcntl_h
 
 #if defined(HAVE_OPENAT) && HAVE_OPENAT

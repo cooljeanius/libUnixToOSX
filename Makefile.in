@@ -3886,7 +3886,7 @@ canonicalize.o: canonicalize.c config.h canonicalize.h areadlink.h \
 careadlinkat.o: careadlinkat.c config.h careadlinkat.h allocator.h
 chdir-long.o: chdir-long.c config.h chdir-long.h closeout.h error.h
 chdir-safer.o: chdir-safer.c config.h chdir-safer.h same-inode.h
-chown.o: chown.c config.h
+chown.o: chown.c config.h rpl_misc_funcs.h
 cloexec.o: cloexec.c config.h cloexec.h
 close-stream.o: close-stream.c config.h close-stream.h fpending.h \
   unlocked-io.h
@@ -3935,7 +3935,7 @@ freadptr.o: freadptr.c config.h freadptr.h stdio-impl.h
 freadseek.o: freadseek.c config.h freadseek.h freadahead.h freadptr.h \
   stdio-impl.h
 fstat.o: fstat.c config.h rpl_misc_funcs.h sys/stat.h msvc-inval.h
-fstatat.o: fstatat.c config.h sys/stat.h $(at_func_c)
+fstatat.o: fstatat.c config.h sys/stat.h rpl_misc_funcs.h $(at_func_c)
 ftruncate.o: ftruncate.c config.h msvc-nothrow.h msvc-inval.h
 fts-cycle.o: $(fts_cycle_c)
 fts.o: fts.c config.h $(fts__h) $(fcntl___h) $(dirent___h) $(unistd___h) \
@@ -3987,7 +3987,7 @@ obstack.o: obstack.c config.h obstack.h exitfail.h gettext.h
 open-safer.o: open-safer.c config.h fcntl-safer.h unistd-safer.h
 openat-die.o: openat-die.c config.h openat.h error.h exitfail.h gettext.h
 openat-safer.o: openat-safer.c config.h fcntl-safer.h unistd-safer.h
-openat.o: openat.c config.h fcntl.h openat.h
+openat.o: openat.c config.h fcntl.h openat.h rpl_misc_funcs.h
 opendir-safer.o: opendir-safer.c config.h dirent-safer.h unistd-safer.h
 pipe-safer.o: pipe-safer.c config.h unistd-safer.h
 pipe2-safer.o: pipe2-safer.c config.h unistd-safer.h rpl_misc_funcs.h
@@ -4011,7 +4011,7 @@ pwrite.o: pwrite.c config.h
 quotearg.o: quotearg.c config.h quotearg.h $(xalloc_h) $(c_strcaseeq_h) \
   localcharset.h gettext.h
 rawmemchr.o: rawmemchr.c config.h rawmemchr.h
-readlink.o: readlink.c config.h
+readlink.o: readlink.c config.h rpl_misc_funcs.h
 readlinkat.o: readlinkat.c config.h $(at_func_c)
 realloc.o: realloc.c config.h
 relocatable.o: relocatable.c config.h relocatable.h $(xalloc_h)

@@ -662,6 +662,7 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 subdirs
+SOEXT
 HAVE_LANGINFO_YESEXPR
 HAVE_LANGINFO_ERA
 HAVE_LANGINFO_T_FMT_AMPM
@@ -1857,7 +1858,6 @@ LIBTHREAD
 LIBPTH_PREFIX
 LTLIBPTH
 LIBPTH
-SOEXT
 PTY_LIB
 LIBM
 WARN_LDFLAGS
@@ -24663,14 +24663,6 @@ then :
 
 fi
 
-if test "x${SOEXT}" = "x"; then
-  if test "x${acl_cv_shlibext}" != "x"; then
-    test -z "${SOEXT}" && test -n "${acl_cv_shlibext}" && export SOEXT="${acl_cv_shlibext}"
-  else
-    test -z "${SOEXT}" && export SOEXT=".dylib"
-  fi
-fi
-
 # Threading.
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for threading library characteristics..." >&5
 printf %s "checking for threading library characteristics...... " >&6; }
@@ -35460,6 +35452,20 @@ printf "%s\n" "#define GNULIB_SIGPIPE 1" >>confdefs.h
 printf %s "checking for some declarations...... " >&6; }
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: ... .. . " >&5
 printf "%s\n" "... .. . " >&6; }
+
+      ac_fn_check_decl "$LINENO" "__fpending" "ac_cv_have_decl___fpending" "$ac_includes_default" "$ac_c_undeclared_builtin_options" "CFLAGS"
+if test "x$ac_cv_have_decl___fpending" = xyes
+then :
+  ac_have_decl=1
+else case e in #(
+  e) ac_have_decl=0 ;;
+esac
+fi
+printf "%s\n" "#define HAVE_DECL___FPENDING $ac_have_decl" >>confdefs.h
+
+
+  :
+
 
       ac_fn_check_decl "$LINENO" "cuserid" "ac_cv_have_decl_cuserid" "$ac_includes_default" "$ac_c_undeclared_builtin_options" "CFLAGS"
 if test "x$ac_cv_have_decl_cuserid" = xyes
@@ -55446,6 +55452,17 @@ then :
 
 fi
   ## should never actually get here though...
+fi
+
+# One last thing:
+if test "x${SOEXT}" = "x"; then
+  if test "x${acl_cv_shlibext}" != "x"; then
+    test -z "${SOEXT}" && test -n "${acl_cv_shlibext}" && export SOEXT="${acl_cv_shlibext}"
+    test -n "${SOEXT}" && echo "using acl_cv_slibext as SOEXT: ${SOEXT}"
+  else
+    test -z "${SOEXT}" && export SOEXT=".dylib"
+    test -n "${SOEXT}" && echo "defaulting SOEXT to .dylib"
+  fi
 fi
 
 # Output:

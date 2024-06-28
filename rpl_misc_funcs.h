@@ -18,6 +18,11 @@
 #include <stdio.h> /* required for file pointers */
 #include <sys/stat.h> /* needed for 'struct stat' */
 
+/* from chown.c: */
+#ifndef rpl_chown
+int rpl_chown(const char *file, uid_t uid, gid_t gid);
+#endif /* !rpl_chown */
+
 /* from close.c: */
 #ifndef rpl_close
 int rpl_close(int fd);
@@ -57,10 +62,25 @@ int rpl_fflush(FILE *stream);
 int rpl_fstat(int fd, struct stat *buf);
 #endif /* !rpl_fstat */
 
+/* from fstatat.c: */
+#ifndef rpl_fstatat
+int rpl_fstatat(int fd, char const *file, struct stat *st, int flag);
+#endif /* !rpl_fstatat */
+
 /* from itold.c: */
 #ifndef _Qp_itoq
 void _Qp_itoq(long double *result, int a);
 #endif /* !_Qp_itoq */
+
+/* from openat.c: */
+#ifndef rpl_openat
+int rpl_openat(int dfd, char const *filename, int flags, ...);
+#endif /* !rpl_openat */
+
+/* from readlink.c: */
+#ifndef rpl_readlink
+ssize_t rpl_readlink(const char *name, char *buf, size_t bufsize);
+#endif /* !rpl_readlink */
 
 /* from setenv.c: */
 #ifndef rpl_setenv
