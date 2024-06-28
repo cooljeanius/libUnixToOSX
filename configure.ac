@@ -337,15 +337,15 @@ AC_MSG_CHECKING([for miscellaneous other functions...])
 AC_MSG_RESULT([... .. . ])
 AC_CHECK_FUNCS([GetDriveType])dnl
   ## avoid printing "(cached)" a bunch of times:
-AC_CHECK_FUNCS_IF_NOT_CACHED([__fpending _NSGetExecutablePath abort btowc \
-                              close dup2 fchdir fstatfs ftruncate getcwd \
-                              getdelim getmnt getmntinfo getpagesize ioctl \
-                              listmntent memchr mempcpy pipe2 pathconf \
+AC_CHECK_FUNCS_IF_NOT_CACHED([__fpending __freadptrinc _NSGetExecutablePath \
+                              abort btowc close dup2 fchdir fstatfs ftruncate \
+                              getcwd getdelim getmnt getmntinfo getpagesize \
+                              ioctl listmntent memchr mempcpy pipe2 pathconf \
                               setenv setlocale snprintf strndup])
 AC_CHECK_FUNCS_ONCE([readlinkat])dnl
   ## now regular function checks:
 AC_CHECK_FUNCS([accept assert atexit atoi chsize clearenv connect \
-                dladdr dupfd end execve fflush fgets freemntlist \
+                dladdr dupfd end execve fflush fgets fpurge freemntlist \
                 fstatfs64 fstat64 ftok ftruncate64 fxstat64 \
                 gencat getrlimit gettext getvfsbytype iswprint \
                 kevent kevent64 kqueue localeconv lseek mblen mbrlen \
@@ -402,8 +402,8 @@ if test "x${SOEXT}" = "x"; then
     test -z "${SOEXT}" && test -n "${acl_cv_shlibext}" && export SOEXT="${acl_cv_shlibext}"
     test -n "${SOEXT}" && echo "using acl_cv_slibext as SOEXT: ${SOEXT}"
   else
-    test -z "${SOEXT}" && export SOEXT=".dylib"
-    test -n "${SOEXT}" && echo "defaulting SOEXT to .dylib"
+    test -z "${SOEXT}" && export SOEXT="dylib"
+    test -n "${SOEXT}" && echo "defaulting SOEXT to dylib"
   fi
 fi
 AC_SUBST([SOEXT])dnl

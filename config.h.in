@@ -782,6 +782,9 @@
 /* Define to 1 if you have the 'fpathconf' func */
 #undef HAVE_FPATHCONF
 
+/* Define to 1 if you have the 'fpurge' function. */
+#undef HAVE_FPURGE
+
 /* Define to 1 if you have the 'freemntlist' function. */
 #undef HAVE_FREEMNTLIST
 

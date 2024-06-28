@@ -543,7 +543,7 @@ __mktime_internal(struct tm *tp,
 	for (direction = -1; direction <= 1; direction += 2)
 	  if (time_t_int_add_ok (t, delta * direction))
 	    {
-	      time_t ot = t + delta * direction;
+	      time_t ot = t + (time_t)(delta * direction);
 	      struct tm otm;
 	      ranged_convert (convert, &ot, &otm);
 	      if (! isdst_differ (isdst, otm.tm_isdst))

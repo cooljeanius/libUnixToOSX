@@ -673,7 +673,6 @@ NEXT_LANGINFO_H
 REPLACE_NL_LANGINFO
 HAVE_NL_LANGINFO
 GNULIB_NL_LANGINFO
-REPLACE_FALLOCATE
 LIB_POLL
 LIBSOCKET
 GL_MODULE_INDICATOR_PREFIX_GNULIB_MDA_TZSET
@@ -1654,6 +1653,7 @@ NEXT_AS_FIRST_DIRECTIVE_FLOAT_H
 NEXT_FLOAT_H
 REPLACE_POSIX_FALLOCATE64
 REPLACE_POSIX_FALLOCATE
+REPLACE_FALLOCATE
 GNULIB_OPENAT
 GNULIB_OPEN
 GNULIB_NONBLOCKING
@@ -34275,6 +34275,10 @@ printf "%s\n" "#define GNULIB_DIRENT_SAFER 1" >>confdefs.h
     test -z "${GNULIB_OPENAT}" && export GNULIB_OPENAT=0;
 
   fi
+  if test "x${REPLACE_FALLOCATE}" = "x"; then
+    test -z "${REPLACE_FALLOCATE}" && export REPLACE_FALLOCATE=0
+
+  fi
   if test "x${REPLACE_POSIX_FALLOCATE}" = "x"; then
     test -z "${REPLACE_POSIX_FALLOCATE}" && export REPLACE_POSIX_FALLOCATE=0
 
@@ -54526,10 +54530,10 @@ then :
 fi
   ## avoid printing "(cached)" a bunch of times:
 
-  for ac_FUNC_to_check in __fpending _NSGetExecutablePath abort btowc \
-                              close dup2 fchdir fstatfs ftruncate getcwd \
-                              getdelim getmnt getmntinfo getpagesize ioctl \
-                              listmntent memchr mempcpy pipe2 pathconf \
+  for ac_FUNC_to_check in __fpending __freadptrinc _NSGetExecutablePath \
+                              abort btowc close dup2 fchdir fstatfs ftruncate \
+                              getcwd getdelim getmnt getmntinfo getpagesize \
+                              ioctl listmntent memchr mempcpy pipe2 pathconf \
                               setenv setlocale snprintf strndup; do
     cache_value_to_check=`printf "%s\n" "ac_cv_func_${ac_FUNC_to_check}" | ${as_tr_sh}`
     if eval test \"x\$"${cache_value_to_check}"\" = "x"; then
@@ -54635,6 +54639,12 @@ ac_fn_c_check_func "$LINENO" "fgets" "ac_cv_func_fgets"
 if test "x$ac_cv_func_fgets" = xyes
 then :
   printf "%s\n" "#define HAVE_FGETS 1" >>confdefs.h
+
+fi
+ac_fn_c_check_func "$LINENO" "fpurge" "ac_cv_func_fpurge"
+if test "x$ac_cv_func_fpurge" = xyes
+then :
+  printf "%s\n" "#define HAVE_FPURGE 1" >>confdefs.h
 
 fi
 ac_fn_c_check_func "$LINENO" "freemntlist" "ac_cv_func_freemntlist"
@@ -55460,8 +55470,8 @@ if test "x${SOEXT}" = "x"; then
     test -z "${SOEXT}" && test -n "${acl_cv_shlibext}" && export SOEXT="${acl_cv_shlibext}"
     test -n "${SOEXT}" && echo "using acl_cv_slibext as SOEXT: ${SOEXT}"
   else
-    test -z "${SOEXT}" && export SOEXT=".dylib"
-    test -n "${SOEXT}" && echo "defaulting SOEXT to .dylib"
+    test -z "${SOEXT}" && export SOEXT="dylib"
+    test -n "${SOEXT}" && echo "defaulting SOEXT to dylib"
   fi
 fi
 
