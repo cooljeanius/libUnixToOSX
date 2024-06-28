@@ -36,7 +36,9 @@ extern "C" {
 # if (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 3))
 #  define _GL_ATTRIBUTE_ALLOC_SIZE(args) __attribute__ ((__alloc_size__ args))
 # else
-#  define _GL_ATTRIBUTE_ALLOC_SIZE(args)
+#  if !defined(_GL_ATTRIBUTE_ALLOC_SIZE)
+#   define _GL_ATTRIBUTE_ALLOC_SIZE(args)
+#  endif /* !_GL_ATTRIBUTE_ALLOC_SIZE */
 # endif /* gcc 4.3+ */
 
 /* This function is always triggered when memory is exhausted.

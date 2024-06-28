@@ -34,6 +34,21 @@ dnl#TODO: eventually switch to gnits strictness:
 AM_INIT_AUTOMAKE([1.6 foreign no-dependencies subdir-objects])dnl
 AM_MAINTAINER_MODE
 AM_PROG_AR
+if test "x${AR}" = "x"; then
+  test -z "${AR}" || unset AR
+  AC_CHECK_TOOLS([AR],[ar gar])dnl
+  ## might want to switch around these checks...
+  if test "x${ac_cv_prog_AR}" = "x"; then
+    test -z "${ac_cv_prog_AR}" || unset ac_cv_prog_AR
+    m4_ifdef([AC_PROG_AR],[
+      AC_PROG_AR
+    ],[
+      test -x "`which ar`" && echo "first usable ar in path is `which ar`"
+    ])
+  fi
+else
+  test -n "${AR}" && export AR
+fi
 gl_COMMON_SEMI_UMBRELLA
 gl_CONFIGMAKE_PREP
 gl_RELOCATABILITY_UMBRELLA
@@ -315,8 +330,8 @@ AC_CHECK_FUNCS([GetDriveType])dnl
 AC_CHECK_FUNCS_IF_NOT_CACHED([__fpending _NSGetExecutablePath abort btowc \
                               close dup2 fchdir fstatfs ftruncate getcwd \
                               getdelim getmnt getmntinfo getpagesize ioctl \
-                              listmntent memchr mempcpy pathconf setenv \
-                              setlocale snprintf strndup])
+                              listmntent memchr mempcpy pipe2 pathconf \
+                              setenv setlocale snprintf strndup])
 AC_CHECK_FUNCS_ONCE([readlinkat])dnl
   ## now regular function checks:
 AC_CHECK_FUNCS([accept assert atexit atoi chsize clearenv connect \
@@ -335,6 +350,7 @@ AC_CHECK_FUNCS([htonl htons ntohl ntohs])dnl
   ## fstab-related functions:
 AC_CHECK_FUNCS([getfsent getfsspec getfsfile setfsent endfsent])dnl
   ## ftw-related functions:
+unset ac_cv_func_fts_open
 AC_CHECK_FUNCS([fts_open fts_children fts_close fts_read])dnl
   ## alternative ftw-related functions:
 AC_CHECK_FUNCS([opendir readdir closedir])dnl

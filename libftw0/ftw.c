@@ -23,7 +23,12 @@
 #if 0
 # if defined(LIBC_SCCS) && !defined(lint)
 static const char rcsid[] = "$OpenBSD: ftw.c,v 1.4 2004/07/07 16:05:23 millert Exp $";
+# else
+extern int libftw0_ftw_c_var;
+int libftw0_ftw_c_var = 0;
 # endif /* LIBC_SCCS and not lint */
+#else
+typedef int libftw0_ftw_c_t;
 #endif /* 0 */
 
 #include <sys/cdefs.h>
@@ -36,18 +41,22 @@ static const char rcsid[] = "$OpenBSD: ftw.c,v 1.4 2004/07/07 16:05:23 millert E
 #include <limits.h>
 #include <unistd.h>
 
+#ifndef OPEN_MAX
+# define OPEN_MAX 10240 /* max open files per process. TODO: make a config option? */
+#endif /* !OPEN_MAX */
+
 int
 ftw(const char *path, int (*fn)(const char *, const struct stat *, int),
     int nfds)
 {
-	char * const paths[2] = { (char *)path, NULL };
+	char *const paths[2] = { (char *)path, NULL };
 	FTSENT *cur;
 	FTS *ftsp;
 	int error, fnflag, sverrno;
 
 	error = 0;
 
-	/* XXX - nfds is currently unused */
+	/* XXX: nfds is currently unused */
 	if ((nfds < 1) || (nfds > OPEN_MAX)) {
 		errno = EINVAL;
 		return (-1);

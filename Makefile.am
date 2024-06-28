@@ -916,6 +916,7 @@ noinst_HEADERS += chdir-safer.h
 
 ## cannot believe that I had not initialized this variable yet:
 DISTCLEANFILES = .DS_Store *~ autoscan.log m4/.DS_Store build-aux/.DS_Store
+DISTCLEANFILES += build-aux/*~
 
 distclean-local:
 	rm -f $(AM_V_v) @PACKAGE_TARNAME@-@PACKAGE_VERSION@.tar.gz

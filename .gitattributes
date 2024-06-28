@@ -1,0 +1,7 @@
+aclocal.m4 linguist-generated
+autoscan/Makefile.in linguist-generated
+config.h.in linguist-generated
+configure linguist-generated
+libftw0/Makefile.in linguist-generated
+Makefile.in linguist-generated
+poll/poll-emulator/Makefile.in linguist-generated

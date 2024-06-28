@@ -5,25 +5,29 @@
 #define __CONFIG_H__ 1
 
 
+/* Witness that <config.h> has been included.  */
+#define _GL_CONFIG_H_INCLUDED 1
+
+
 /* Define if building universal (internal helper macro) */
 #undef AC_APPLE_UNIVERSAL_BUILD
 
-/* The normal alignment of `char', in bytes. */
+/* The normal alignment of 'char', in bytes. */
 #undef ALIGNOF_CHAR
 
-/* The normal alignment of `int', in bytes. */
+/* The normal alignment of 'int', in bytes. */
 #undef ALIGNOF_INT
 
-/* The normal alignment of `long', in bytes. */
+/* The normal alignment of 'long', in bytes. */
 #undef ALIGNOF_LONG
 
-/* The normal alignment of `off64_t', in bytes. */
+/* The normal alignment of 'off64_t', in bytes. */
 #undef ALIGNOF_OFF64_T
 
-/* The normal alignment of `off_t', in bytes. */
+/* The normal alignment of 'off_t', in bytes. */
 #undef ALIGNOF_OFF_T
 
-/* The normal alignment of `short', in bytes. */
+/* The normal alignment of 'short', in bytes. */
 #undef ALIGNOF_SHORT
 
 /* Define to the number of bits in type 'ptrdiff_t'. */
@@ -52,24 +56,19 @@
 /* Define if chown is not POSIX compliant regarding IDs of -1. */
 #undef CHOWN_FAILS_TO_HONOR_ID_OF_NEGATIVE_ONE
 
-/* Define to 1 if chown modifies symlinks. */
+/* Define if chown modifies symlinks. */
 #undef CHOWN_MODIFIES_SYMLINK
 
 /* Define to 1 if chown mishandles trailing slash. */
 #undef CHOWN_TRAILING_SLASH_BUG
 
-/* Define to 1 if the `closedir' function returns void instead of `int'. */
+/* Define to 1 if the 'closedir' function returns void instead of int. */
 #undef CLOSEDIR_VOID
-
-/* Define to one of `_getb67', `GETB67', `getb67' for Cray-2 and Cray-YMP
-   systems. This function is required for `alloca.c' support on those systems.
-   */
-#undef CRAY_STACKSEG_END
 
 /* Define to 1 if your C++ compiler doesn't accept -c and -o together. */
 #undef CXX_NO_MINUS_C_MINUS_O
 
-/* Define to 1 if using `alloca.c'. */
+/* Define to 1 if using 'alloca.c'. */
 #undef C_ALLOCA
 
 /* Define as the bit index in the word where to find bit 0 of the exponent of
@@ -107,132 +106,106 @@
    and handles trailing slash correctly. */
 #undef FUNC_REALPATH_WORKS
 
-/* Define to a C preprocessor expression (for areadlinkat) that evaluates to 1
-   or 0, depending on whether the gnulib module areadlinkat shall be
-   considered to be present (i.e. if we can use areadlinkat). */
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module areadlinkat shall be considered present. */
 #undef GNULIB_AREADLINKAT
 
-/* Define to a C preprocessor expression (for areadlinkat-with-size) that
-   evaluates to 1 or 0, depending on whether the gnulib module
-   areadlinkat-with-size shall be considered to be present (i.e. if we can use
-   areadlinkat-with-size). */
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module areadlinkat-with-size shall be considered
+   present. */
 #undef GNULIB_AREADLINKAT_WITH_SIZE
 
-/* Define to a C preprocessor expression (for canonicalize) that evaluates to
-   1 or 0, depending on whether the gnulib module canonicalize shall be
-   considered to be present (i.e. if we can use canonicalize). */
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module canonicalize shall be considered present. */
 #undef GNULIB_CANONICALIZE
 
-/* Define to a C preprocessor expression (for canonicalize_file_name) that
-   evaluates to 1 or 0, depending on whether the gnulib module
-   canonicalize_file_name shall be considered to be present (i.e. if we can
-   use canonicalize_file_name). */
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module canonicalize_file_name shall be considered
+   present. */
 #undef GNULIB_CANONICALIZE_FILE_NAME
 
-/* Define to a C preprocessor expression (for canonicalize-lgpl) that
-   evaluates to 1 or 0, depending on whether the gnulib module
-   canonicalize-lgpl shall be considered to be present (i.e. if we can use
-   canonicalize-lgpl). */
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module canonicalize-lgpl shall be considered present. */
 #undef GNULIB_CANONICALIZE_LGPL
 
-/* Define to a C preprocessor expression (for close-stream) that evaluates to
-   1 or 0, depending on whether the gnulib module close-stream shall be
-   considered to be present (i.e. if we can use close-stream). */
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module close-stream shall be considered present. */
 #undef GNULIB_CLOSE_STREAM
 
-/* Define to a C preprocessor expression (for dirent-safer) that evaluates to
-   1 or 0, depending on whether the gnulib module dirent-safer shall be
-   considered to be present (i.e. if we can use dirent-safer). */
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module dirent-safer shall be considered present. */
 #undef GNULIB_DIRENT_SAFER
 
-/* Define to a C preprocessor expression (for dirname) that evaluates to 1 or
-   0, depending on whether the gnulib module dirname shall be considered to be
-   present (i.e. if we can use dirname). */
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module dirname shall be considered present. */
 #undef GNULIB_DIRNAME
 
-/* Define to a C preprocessor expression (for fchmodat) that evaluates to 1 or
-   0, depending on whether the gnulib module fchmodat shall be considered to
-   be present (i.e. if we can use fchmodat). */
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module fchmodat shall be considered present. */
 #undef GNULIB_FCHMODAT
 
-/* Define to a C preprocessor expression (for fchownat) that evaluates to 1 or
-   0, depending on whether the gnulib module fchownat shall be considered to
-   be present (i.e. if we can use fchownat). */
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module fchownat shall be considered present. */
 #undef GNULIB_FCHOWNAT
 
-/* Define to a C preprocessor expression (for fcntl-safer) that evaluates to 1
-   or 0, depending on whether the gnulib module fcntl-safer shall be
-   considered to be present (i.e. if we can use fcntl-safer). */
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module fcntl-safer shall be considered present. */
 #undef GNULIB_FCNTL_SAFER
 
-/* Define to a C preprocessor expression (for fdopendir) that evaluates to 1
-   or 0, depending on whether the gnulib module fdopendir shall be considered
-   to be present (i.e. if we can use fdopendir). */
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module fdopendir shall be considered present. */
 #undef GNULIB_FDOPENDIR
 
-/* Define to a C preprocessor expression (for fflush) that evaluates to 1 or
-   0, depending on whether the gnulib module fflush shall be considered to be
-   present (i.e. if we can use fflush). */
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module fflush shall be considered present. */
 #undef GNULIB_FFLUSH
 
-/* Define to a C preprocessor expression (for filenamecat) that evaluates to 1
-   or 0, depending on whether the gnulib module filenamecat shall be
-   considered to be present (i.e. if we can use filenamecat). */
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module filenamecat shall be considered present. */
 #undef GNULIB_FILENAMECAT
 
-/* Define to a C preprocessor expression (for fscanf) that evaluates to 1 or
-   0, depending on whether the gnulib module fscanf shall be considered to be
-   present (i.e. if we can use fscanf). */
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module fscanf shall be considered present. */
 #undef GNULIB_FSCANF
 
-/* Define to a C preprocessor expression (for fstatat) that evaluates to 1 or
-   0, depending on whether the gnulib module fstatat shall be considered to be
-   present (i.e. if we can use fstatat). */
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module fstatat shall be considered present. */
 #undef GNULIB_FSTATAT
 
-/* Define to a C preprocessor expression (for nonblocking) that evaluates to 1
-   or 0, depending on whether the gnulib module nonblocking shall be
-   considered to be present (i.e. if we can use nonblocking). */
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module nonblocking shall be considered present. */
 #undef GNULIB_NONBLOCKING
 
-/* Define to a C preprocessor expression (for openat) that evaluates to 1 or
-   0, depending on whether the gnulib module openat shall be considered to be
-   present (i.e. if we can use openat). */
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module openat shall be considered present. */
 #undef GNULIB_OPENAT
 
-/* Define to a C preprocessor expression (for openat-safer) that evaluates to
-   1 or 0, depending on whether the gnulib module openat-safer shall be
-   considered to be present (i.e. if we can use openat-safer). */
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module openat-safer shall be considered present. */
 #undef GNULIB_OPENAT_SAFER
 
-/* Define to a C preprocessor expression (for pipe2-safer) that evaluates to 1
-   or 0, depending on whether the gnulib module pipe2-safer shall be
-   considered to be present (i.e. if we can use pipe2-safer). */
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module pipe2-safer shall be considered present. */
 #undef GNULIB_PIPE2_SAFER
 
-/* Define to a C preprocessor expression (for readlinkat) that evaluates to 1
-   or 0, depending on whether the gnulib module readlinkat shall be considered
-   to be present (i.e. if we can use readlinkat). */
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module readlinkat shall be considered present. */
 #undef GNULIB_READLINKAT
 
-/* Define to a C preprocessor expression (for realloc-gnu) that evaluates to 1
-   or 0, depending on whether the gnulib module realloc-gnu shall be
-   considered to be present (i.e. if we can use realloc-gnu). */
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module realloc-gnu shall be considered present. */
 #undef GNULIB_REALLOC_GNU
 
-/* Define to a C preprocessor expression (for scanf) that evaluates to 1 or 0,
-   depending on whether the gnulib module scanf shall be considered to be
-   present (i.e. if we can use scanf). */
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module scanf shall be considered present. */
 #undef GNULIB_SCANF
 
-/* Define to a C preprocessor expression (for sigpipe) that evaluates to 1 or
-   0, depending on whether the gnulib module sigpipe shall be considered to be
-   present (i.e. if we can use sigpipe). */
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module sigpipe shall be considered present. */
 #undef GNULIB_SIGPIPE
 
-/* Define to a C preprocessor expression (for strerror) that evaluates to 1 or
-   0, depending on whether the gnulib module strerror shall be considered to
-   be present (i.e. if we can use strerror). */
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module strerror shall be considered present. */
 #undef GNULIB_STRERROR
 
 /* Define to 1 when the gnulib module btowc should be tested. */
@@ -399,21 +372,17 @@
 /* Define to 1 when the gnulib module strsignal should be tested. */
 #undef GNULIB_TEST_STRSIGNAL
 
-/* Define to a C preprocessor expression (for xreadlinkat) that evaluates to 1
-   or 0, depending on whether the gnulib module xreadlinkat shall be
-   considered to be present (i.e. if we can use xreadlinkat). */
+/* Define to a C preprocessor expression that evaluates to 1 or 0, depending
+   whether the gnulib module xreadlinkat shall be considered present. */
 #undef GNULIB_XREADLINKAT
 
-/* Define to 1 if `TIOCGWINSZ' requires <sys/ioctl.h>. */
+/* Define to 1 if 'TIOCGWINSZ' requires <sys/ioctl.h>. */
 #undef GWINSZ_IN_SYS_IOCTL
 
-/* Define to 1 if you have the 'abort' func */
-#undef HAVE_ABORT
-
-/* Define to 1 if you have the `accept' function. */
+/* Define to 1 if you have the 'accept' function. */
 #undef HAVE_ACCEPT
 
-/* Define to 1 if you have the `addmntent' function. */
+/* Define to 1 if you have the 'addmntent' function. */
 #undef HAVE_ADDMNTENT
 
 /* Define to 1 if you have the 'alarm' func */
@@ -432,16 +401,16 @@
 /* Define to 1 if you have the 'areadlinkat' func */
 #undef HAVE_AREADLINKAT
 
-/* Define to 1 if you have the `assert' function. */
+/* Define to 1 if you have the 'assert' function. */
 #undef HAVE_ASSERT
 
 /* Define to 1 if you have the <assert.h> header file. */
 #undef HAVE_ASSERT_H
 
-/* Define to 1 if you have the `atexit' function. */
+/* Define to 1 if you have the 'atexit' function. */
 #undef HAVE_ATEXIT
 
-/* Define to 1 if you have the `atoi' function. */
+/* Define to 1 if you have the 'atoi' function. */
 #undef HAVE_ATOI
 
 /* Define to 1 if you have the <bits/libc-lock.h> header file. */
@@ -450,87 +419,84 @@
 /* Define to 1 if you have the <bp-sym.h> header file. */
 #undef HAVE_BP_SYM_H
 
-/* Define to 1 if you have the `brk' function. */
+/* Define to 1 if you have the 'brk' function. */
 #undef HAVE_BRK
 
-/* Define to 1 if you have the `btowc' function. */
+/* Define to 1 if you have the 'btowc' function. */
 #undef HAVE_BTOWC
 
 /* Define to 1 if you have the 'canonicalize_file_name' func */
 #undef HAVE_CANONICALIZE_FILE_NAME
 
-/* Define to 1 if you have the `catclose' function. */
+/* Define to 1 if you have the 'catclose' function. */
 #undef HAVE_CATCLOSE
 
-/* Define to 1 if you have the `catgets' function. */
+/* Define to 1 if you have the 'catgets' function. */
 #undef HAVE_CATGETS
 
-/* Define to 1 if you have the `catopen' function. */
+/* Define to 1 if you have the 'catopen' function. */
 #undef HAVE_CATOPEN
 
 /* Define to 1 if you have the <cdefs.h> header file. */
 #undef HAVE_CDEFS_H
 
-/* Define to 1 if you have the `CFBundleCopyLocalizedString' function. */
+/* Define to 1 if you have the 'CFBundleCopyLocalizedString' function. */
 #undef HAVE_CFBUNDLECOPYLOCALIZEDSTRING
 
-/* Define to 1 if you have the `CFGetTypeID' function. */
+/* Define to 1 if you have the 'CFGetTypeID' function. */
 #undef HAVE_CFGETTYPEID
 
 /* Define to 1 if you have the Mac OS X function CFLocaleCopyCurrent in the
    CoreFoundation framework. */
 #undef HAVE_CFLOCALECOPYCURRENT
 
-/* Define to 1 if you have the `CFLocaleGetIdentifier' function. */
+/* Define to 1 if you have the 'CFLocaleGetIdentifier' function. */
 #undef HAVE_CFLOCALEGETIDENTIFIER
 
-/* Define to 1 if the system has the type `CFLocaleRef'. */
+/* Define to 1 if the system has the type 'CFLocaleRef'. */
 #undef HAVE_CFLOCALEREF
 
 /* Define to 1 if you have the Mac OS X function CFPreferencesCopyAppValue in
    the CoreFoundation framework. */
 #undef HAVE_CFPREFERENCESCOPYAPPVALUE
 
-/* Define to 1 if you have the `CFRelease' function. */
+/* Define to 1 if you have the 'CFRelease' function. */
 #undef HAVE_CFRELEASE
 
-/* Define to 1 if you have the `CFStringCreateCopy' function. */
+/* Define to 1 if you have the 'CFStringCreateCopy' function. */
 #undef HAVE_CFSTRINGCREATECOPY
 
-/* Define to 1 if you have the `CFStringCreateMutable' function. */
+/* Define to 1 if you have the 'CFStringCreateMutable' function. */
 #undef HAVE_CFSTRINGCREATEMUTABLE
 
-/* Define to 1 if you have the `CFStringGetCString' function. */
+/* Define to 1 if you have the 'CFStringGetCString' function. */
 #undef HAVE_CFSTRINGGETCSTRING
 
-/* Define to 1 if you have the `CFStringGetSystemEncoding' function. */
+/* Define to 1 if you have the 'CFStringGetSystemEncoding' function. */
 #undef HAVE_CFSTRINGGETSYSTEMENCODING
 
-/* Define to 1 if you have the `CFStringGetTypeID' function. */
+/* Define to 1 if you have the 'CFStringGetTypeID' function. */
 #undef HAVE_CFSTRINGGETTYPEID
 
-/* Define to 1 if you have the `CFStringRef' function. */
+/* Define to 1 if you have the 'CFStringRef' function. */
 #undef HAVE_CFSTRINGREF
 
-/* Define to 1 if the system has the type `CFTypeRef'. */
+/* Define to 1 if the system has the type 'CFTypeRef'. */
 #undef HAVE_CFTYPEREF
 
 /* Define to 1 if you have the 'chown' func */
 #undef HAVE_CHOWN
 
-/* Define to 1 if you have the `chsize' function. */
+/* Define to 1 if you have the 'chsize' function. */
 #undef HAVE_CHSIZE
 
-/* Define to 1 if you have the `clearenv' function. */
+/* Define to 1 if you have the 'clearenv' function. */
 #undef HAVE_CLEARENV
 
-/* Define to 1 if you have the 'close' func */
-#undef HAVE_CLOSE
-
-/* Define to 1 if you have the `closedir' function. */
+/* Define to 1 if you have the 'closedir' function. */
 #undef HAVE_CLOSEDIR
 
-/* Define to 1 if you have the `connect' function. */
+/* Define to 1 if you have the 'connect' function. */
 #undef HAVE_CONNECT
 
 /* Define to 1 if you have the <CoreFoundation/CFLocale.h> header file. */
@@ -547,230 +513,228 @@
    */
 #undef HAVE_COREFOUNDATION_COREFOUNDATION_H
 
-/* Define to 1 if you have the 'creat' func */
-#undef HAVE_CREAT
-
-/* Define to 1 if you have the `crypt' function. */
+/* Define to 1 if you have the 'crypt' function. */
 #undef HAVE_CRYPT
 
-/* Define to 1 if you have the `cuserid' function. */
+/* Define to 1 if you have the 'cuserid' function. */
 #undef HAVE_CUSERID
 
-/* Define to 1 if you have the declaration of `clearerr_unlocked', and to 0 if
+/* Define to 1 if you have the declaration of 'alarm', and to 0 if you don't.
+   */
+#undef HAVE_DECL_ALARM
+
+/* Define to 1 if you have the declaration of 'clearerr_unlocked', and to 0 if
    you don't. */
 #undef HAVE_DECL_CLEARERR_UNLOCKED
 
-/* Define to 1 if you have the declaration of `cuserid', and to 0 if you
+/* Define to 1 if you have the declaration of 'cuserid', and to 0 if you
    don't. */
 #undef HAVE_DECL_CUSERID
 
-/* Define to 1 if you have the declaration of `exit_failure', and to 0 if you
+/* Define to 1 if you have the declaration of 'exit_failure', and to 0 if you
    don't. */
 #undef HAVE_DECL_EXIT_FAILURE
 
-/* Define to 1 if you have the declaration of `fchdir', and to 0 if you don't.
+/* Define to 1 if you have the declaration of 'fchdir', and to 0 if you don't.
    */
 #undef HAVE_DECL_FCHDIR
 
-/* Define to 1 if you have the declaration of `fdopendir', and to 0 if you
+/* Define to 1 if you have the declaration of 'fdopendir', and to 0 if you
    don't. */
 #undef HAVE_DECL_FDOPENDIR
 
-/* Define to 1 if you have the declaration of `feof_unlocked', and to 0 if you
+/* Define to 1 if you have the declaration of 'feof_unlocked', and to 0 if you
    don't. */
 #undef HAVE_DECL_FEOF_UNLOCKED
 
-/* Define to 1 if you have the declaration of `ferror_unlocked', and to 0 if
+/* Define to 1 if you have the declaration of 'ferror_unlocked', and to 0 if
    you don't. */
 #undef HAVE_DECL_FERROR_UNLOCKED
 
-/* Define to 1 if you have the declaration of `fflush_unlocked', and to 0 if
+/* Define to 1 if you have the declaration of 'fflush_unlocked', and to 0 if
    you don't. */
 #undef HAVE_DECL_FFLUSH_UNLOCKED
 
-/* Define to 1 if you have the declaration of `fgets_unlocked', and to 0 if
+/* Define to 1 if you have the declaration of 'fgets_unlocked', and to 0 if
    you don't. */
 #undef HAVE_DECL_FGETS_UNLOCKED
 
-/* Define to 1 if you have the declaration of `forkpty', and to 0 if you
+/* Define to 1 if you have the declaration of 'forkpty', and to 0 if you
    don't. */
 #undef HAVE_DECL_FORKPTY
 
-/* Define to 1 if you have the declaration of `fputc_unlocked', and to 0 if
+/* Define to 1 if you have the declaration of 'fputc_unlocked', and to 0 if
    you don't. */
 #undef HAVE_DECL_FPUTC_UNLOCKED
 
-/* Define to 1 if you have the declaration of `fputs_unlocked', and to 0 if
+/* Define to 1 if you have the declaration of 'fputs_unlocked', and to 0 if
    you don't. */
 #undef HAVE_DECL_FPUTS_UNLOCKED
 
-/* Define to 1 if you have the declaration of `fread_unlocked', and to 0 if
+/* Define to 1 if you have the declaration of 'fread_unlocked', and to 0 if
    you don't. */
 #undef HAVE_DECL_FREAD_UNLOCKED
 
-/* Define to 1 if you have the declaration of `fwrite_unlocked', and to 0 if
+/* Define to 1 if you have the declaration of 'fwrite_unlocked', and to 0 if
    you don't. */
 #undef HAVE_DECL_FWRITE_UNLOCKED
 
-/* Define to 1 if you have the declaration of `getchar_unlocked', and to 0 if
+/* Define to 1 if you have the declaration of 'getchar_unlocked', and to 0 if
    you don't. */
 #undef HAVE_DECL_GETCHAR_UNLOCKED
 
-/* Define to 1 if you have the declaration of `getc_unlocked', and to 0 if you
+/* Define to 1 if you have the declaration of 'getc_unlocked', and to 0 if you
    don't. */
 #undef HAVE_DECL_GETC_UNLOCKED
 
-/* Define to 1 if you have the declaration of `getdelim', and to 0 if you
+/* Define to 1 if you have the declaration of 'getdelim', and to 0 if you
    don't. */
 #undef HAVE_DECL_GETDELIM
 
-/* Define to 1 if you have the declaration of `getenv', and to 0 if you don't.
+/* Define to 1 if you have the declaration of 'getenv', and to 0 if you don't.
    */
 #undef HAVE_DECL_GETENV
 
-/* Define to 1 if you have the declaration of `getline', and to 0 if you
+/* Define to 1 if you have the declaration of 'getline', and to 0 if you
    don't. */
 #undef HAVE_DECL_GETLINE
 
 /* Define to 1 if you have the declaration of
-   `kCFPreferencesCurrentApplication', and to 0 if you don't. */
+   'kCFPreferencesCurrentApplication', and to 0 if you don't. */
 #undef HAVE_DECL_KCFPREFERENCESCURRENTAPPLICATION
 
-/* Define to 1 if you have the declaration of `kCFStringEncodingASCII', and to
+/* Define to 1 if you have the declaration of 'kCFStringEncodingASCII', and to
    0 if you don't. */
 #undef HAVE_DECL_KCFSTRINGENCODINGASCII
 
-/* Define to 1 if you have the declaration of `memrchr', and to 0 if you
+/* Define to 1 if you have the declaration of 'memrchr', and to 0 if you
    don't. */
 #undef HAVE_DECL_MEMRCHR
 
-/* Define to 1 if you have the declaration of `obstack_printf', and to 0 if
+/* Define to 1 if you have the declaration of 'obstack_printf', and to 0 if
    you don't. */
 #undef HAVE_DECL_OBSTACK_PRINTF
 
-/* Define to 1 if you have the declaration of `openpty', and to 0 if you
+/* Define to 1 if you have the declaration of 'openpty', and to 0 if you
    don't. */
 #undef HAVE_DECL_OPENPTY
 
-/* Define to 1 if you have the declaration of `program_invocation_name', and
+/* Define to 1 if you have the declaration of 'program_invocation_name', and
    to 0 if you don't. */
 #undef HAVE_DECL_PROGRAM_INVOCATION_NAME
 
-/* Define to 1 if you have the declaration of `program_invocation_short_name',
+/* Define to 1 if you have the declaration of 'program_invocation_short_name',
    and to 0 if you don't. */
 #undef HAVE_DECL_PROGRAM_INVOCATION_SHORT_NAME
 
-/* Define to 1 if you have the declaration of `putchar_unlocked', and to 0 if
+/* Define to 1 if you have the declaration of 'putchar_unlocked', and to 0 if
    you don't. */
 #undef HAVE_DECL_PUTCHAR_UNLOCKED
 
-/* Define to 1 if you have the declaration of `putc_unlocked', and to 0 if you
+/* Define to 1 if you have the declaration of 'putc_unlocked', and to 0 if you
    don't. */
 #undef HAVE_DECL_PUTC_UNLOCKED
 
-/* Define to 1 if you have the declaration of `setenv', and to 0 if you don't.
+/* Define to 1 if you have the declaration of 'setenv', and to 0 if you don't.
    */
 #undef HAVE_DECL_SETENV
 
-/* Define to 1 if you have the declaration of `strerror_r', and to 0 if you
+/* Define to 1 if you have the declaration of 'strerror_r', and to 0 if you
    don't. */
 #undef HAVE_DECL_STRERROR_R
 
-/* Define to 1 if you have the declaration of `strndup', and to 0 if you
+/* Define to 1 if you have the declaration of 'strndup', and to 0 if you
    don't. */
 #undef HAVE_DECL_STRNDUP
 
-/* Define to 1 if you have the declaration of `strnlen', and to 0 if you
+/* Define to 1 if you have the declaration of 'strnlen', and to 0 if you
    don't. */
 #undef HAVE_DECL_STRNLEN
 
-/* Define to 1 if you have the declaration of `strsignal', and to 0 if you
+/* Define to 1 if you have the declaration of 'strsignal', and to 0 if you
    don't. */
 #undef HAVE_DECL_STRSIGNAL
 
-/* Define to 1 if you have the declaration of `sys_siglist', and to 0 if you
+/* Define to 1 if you have the declaration of 'sys_siglist', and to 0 if you
    don't. */
 #undef HAVE_DECL_SYS_SIGLIST
 
-/* Define to 1 if you have the declaration of `tzname', and to 0 if you don't.
+/* Define to 1 if you have the declaration of 'tzname', and to 0 if you don't.
    */
 #undef HAVE_DECL_TZNAME
 
-/* Define to 1 if you have the declaration of `wctob', and to 0 if you don't.
+/* Define to 1 if you have the declaration of 'wctob', and to 0 if you don't.
    */
 #undef HAVE_DECL_WCTOB
 
-/* Define to 1 if you have the declaration of `_snprintf', and to 0 if you
+/* Define to 1 if you have the declaration of '_snprintf', and to 0 if you
    don't. */
 #undef HAVE_DECL__SNPRINTF
 
-/* Define to 1 if you have the declaration of `_STAT_VER', and to 0 if you
+/* Define to 1 if you have the declaration of '_STAT_VER', and to 0 if you
    don't. */
 #undef HAVE_DECL__STAT_VER
 
-/* Define to 1 if you have the declaration of `_sys_siglist', and to 0 if you
+/* Define to 1 if you have the declaration of '_sys_siglist', and to 0 if you
    don't. */
 #undef HAVE_DECL__SYS_SIGLIST
 
-/* Define to 1 if you have the declaration of `__fpending', and to 0 if you
+/* Define to 1 if you have the declaration of '__fpending', and to 0 if you
    don't. */
 #undef HAVE_DECL___FPENDING
 
-/* Define to 1 if the system has the type `dev_t'. */
+/* Define to 1 if the system has the type 'dev_t'. */
 #undef HAVE_DEV_T
 
 /* Define if you have the <dirent.h> header. */
 #undef HAVE_DIRENT_H
 
-/* Define to 1 if you have the `dladdr' function. */
+/* Define to 1 if you have the 'dladdr' function. */
 #undef HAVE_DLADDR
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 
-/* Define to 1 if the system has the type `Dl_info'. */
+/* Define to 1 if the system has the type 'Dl_info'. */
 #undef HAVE_DL_INFO
 
-/* Define to 1 if you don't have `vprintf' but do have `_doprnt.' */
+/* Define to 1 if you don't have 'vprintf' but do have '_doprnt.' */
 #undef HAVE_DOPRNT
 
-/* Define to 1 if you have the `dup2' function. */
+/* Define to 1 if you have the 'dup2' function. */
 #undef HAVE_DUP2
 
 /* Define to 1 if you have the 'dup3' func */
 #undef HAVE_DUP3
 
-/* Define to 1 if you have the `dupfd' function. */
+/* Define to 1 if you have the 'dupfd' function. */
 #undef HAVE_DUPFD
 
-/* Define to 1 if you have the `dysize' function. */
+/* Define to 1 if you have the 'dysize' function. */
 #undef HAVE_DYSIZE
 
-/* Define to 1 if you have the `ecvt' function. */
+/* Define to 1 if you have the 'ecvt' function. */
 #undef HAVE_ECVT
 
-/* Define to 1 if you have the `end' function. */
+/* Define to 1 if you have the 'end' function. */
 #undef HAVE_END
 
-/* Define to 1 if you have the `endfsent' function. */
+/* Define to 1 if you have the 'endfsent' function. */
 #undef HAVE_ENDFSENT
 
-/* Define to 1 if you have the `endmntent' function. */
+/* Define to 1 if you have the 'endmntent' function. */
 #undef HAVE_ENDMNTENT
 
 /* Define if you have the declaration of environ. */
 #undef HAVE_ENVIRON_DECL
 
-/* Define if you have the <errno.h> header. */
-#undef HAVE_ERRNO_H
-
-/* Define to 1 if you have the `execve' function. */
+/* Define to 1 if you have the 'execve' function. */
 #undef HAVE_EXECVE
 
 /* Defined if fallocate() exists */
 #undef HAVE_FALLOCATE
 
-/* Define to 1 if you have the `fchdir' function. */
+/* Define to 1 if you have the 'fchdir' function. */
 #undef HAVE_FCHDIR
 
 /* Define to 1 if you have the 'fchmodat' func */
@@ -779,16 +743,16 @@
 /* Define to 1 if you have the 'fchown' func */
 #undef HAVE_FCHOWN
 
-/* Define to 1 if you have the `fclose' function. */
+/* Define to 1 if you have the 'fclose' function. */
 #undef HAVE_FCLOSE
 
-/* Define to 1 if you have the `fcloseall' function. */
+/* Define to 1 if you have the 'fcloseall' function. */
 #undef HAVE_FCLOSEALL
 
-/* Define if you have the <fcntl.h> header. */
+/* Define to 1 if you have the <fcntl.h> header file. */
 #undef HAVE_FCNTL_H
 
-/* Define to 1 if you have the `fcvt' function. */
+/* Define to 1 if you have the 'fcvt' function. */
 #undef HAVE_FCVT
 
 /* Define to 1 if you have the 'fdopendir' func */
@@ -797,10 +761,10 @@
 /* Define if you have the <features.h> header. */
 #undef HAVE_FEATURES_H
 
-/* Define to 1 if you have the `fflush' function. */
+/* Define to 1 if you have the 'fflush' function. */
 #undef HAVE_FFLUSH
 
-/* Define to 1 if you have the `fgets' function. */
+/* Define to 1 if you have the 'fgets' function. */
 #undef HAVE_FGETS
 
 /* Define to 1 if you have the <float.h> header file. */
@@ -812,7 +776,10 @@
 /* Define to 1 if you have the 'fork' func */
 #undef HAVE_FORK
 
-/* Define to 1 if you have the `freemntlist' function. */
+/* Define to 1 if you have the 'fpathconf' func */
+#undef HAVE_FPATHCONF
+
+/* Define to 1 if you have the 'freemntlist' function. */
 #undef HAVE_FREEMNTLIST
 
 /* Define if the frexpl function is available in libc. */
@@ -821,7 +788,7 @@
 /* Define if the frexp function is available in libc. */
 #undef HAVE_FREXP_IN_LIBC
 
-/* Define to 1 if fseeko (and presumably ftello) exists and is declared. */
+/* Define to 1 if fseeko (and ftello) are declared in stdio.h. */
 #undef HAVE_FSEEKO
 
 /* Define to 1 if you have the <fshelp.h> header file. */
@@ -830,7 +797,7 @@
 /* Define to 1 if you have the <fstab.h> header file. */
 #undef HAVE_FSTAB_H
 
-/* Define to 1 if you have the `fstat64' function. */
+/* Define to 1 if you have the 'fstat64' function. */
 #undef HAVE_FSTAT64
 
 /* Define to 1 if you have the 'fstatat' func */
@@ -839,37 +806,37 @@
 /* Define to 1 if you have the 'fstatfs' func */
 #undef HAVE_FSTATFS
 
-/* Define to 1 if you have the `fstatfs64' function. */
+/* Define to 1 if you have the 'fstatfs64' function. */
 #undef HAVE_FSTATFS64
 
 /* Define to 1 if you have the <fs_info.h> header file. */
 #undef HAVE_FS_INFO_H
 
-/* Define to 1 if you have the `fs_stat_dev' function. */
+/* Define to 1 if you have the 'fs_stat_dev' function. */
 #undef HAVE_FS_STAT_DEV
 
-/* Define to 1 if you have the `ftok' function. */
+/* Define to 1 if you have the 'ftok' function. */
 #undef HAVE_FTOK
 
-/* Define to 1 if you have the `ftruncate' function. */
+/* Define to 1 if you have the 'ftruncate' function. */
 #undef HAVE_FTRUNCATE
 
-/* Define to 1 if you have the `ftruncate64' function. */
+/* Define to 1 if you have the 'ftruncate64' function. */
 #undef HAVE_FTRUNCATE64
 
-/* Define to 1 if you have the `fts_children' function. */
+/* Define to 1 if you have the 'fts_children' function. */
 #undef HAVE_FTS_CHILDREN
 
-/* Define to 1 if you have the `fts_close' function. */
+/* Define to 1 if you have the 'fts_close' function. */
 #undef HAVE_FTS_CLOSE
 
 /* Define to 1 if you have the <fts.h> header file. */
 #undef HAVE_FTS_H
 
-/* Define to 1 if you have the `fts_open' function. */
+/* Define to 1 if you have the 'fts_open' function. */
 #undef HAVE_FTS_OPEN
 
-/* Define to 1 if you have the `fts_read' function. */
+/* Define to 1 if you have the 'fts_read' function. */
 #undef HAVE_FTS_READ
 
 /* Define to 1 if you have the <ftw.h> header file. */
@@ -878,73 +845,67 @@
 /* Define to 1 if you have the 'funlockfile' func */
 #undef HAVE_FUNLOCKFILE
 
-/* Define to 1 if you have the `fxstat64' function. */
+/* Define to 1 if you have the 'fxstat64' function. */
 #undef HAVE_FXSTAT64
 
-/* Define to 1 if you have the `gcvt' function. */
+/* Define to 1 if you have the 'gcvt' function. */
 #undef HAVE_GCVT
 
-/* Define to 1 if you have the `gencat' function. */
+/* Define to 1 if you have the 'gencat' function. */
 #undef HAVE_GENCAT
 
-/* Define to 1 if you have the `getcwd' function. */
+/* Define to 1 if you have the 'getcwd' function. */
 #undef HAVE_GETCWD
 
-/* Define to 1 if you have the `getdelim' function. */
+/* Define to 1 if you have the 'getdelim' function. */
 #undef HAVE_GETDELIM
 
-/* Define to 1 if you have the `GetDriveType' function. */
+/* Define to 1 if you have the 'GetDriveType' function. */
 #undef HAVE_GETDRIVETYPE
 
-/* Define to 1 if you have the `getfsent' function. */
+/* Define to 1 if you have the 'getfsent' function. */
 #undef HAVE_GETFSENT
 
-/* Define to 1 if you have the `getfsfile' function. */
+/* Define to 1 if you have the 'getfsfile' function. */
 #undef HAVE_GETFSFILE
 
-/* Define to 1 if you have the `getfsspec' function. */
+/* Define to 1 if you have the 'getfsspec' function. */
 #undef HAVE_GETFSSPEC
 
-/* Define to 1 if you have the 'getgid' func */
-#undef HAVE_GETGID
-
-/* Define to 1 if you have the `getmntent' function. */
+/* Define to 1 if you have the 'getmntent' function. */
 #undef HAVE_GETMNTENT
 
-/* Define to 1 if you have the `getmntinfo' function. */
+/* Define to 1 if you have the 'getmntinfo' function. */
 #undef HAVE_GETMNTINFO
 
 /* Define to 1 if you have the <getopt.h> header file. */
 #undef HAVE_GETOPT_H
 
-/* Define to 1 if you have the `getopt_long_only' function. */
+/* Define to 1 if you have the 'getopt_long_only' function. */
 #undef HAVE_GETOPT_LONG_ONLY
 
-/* Define to 1 if you have the `getpagesize' function. */
+/* Define to 1 if you have the 'getpagesize' function. */
 #undef HAVE_GETPAGESIZE
 
-/* Define to 1 if you have the `getrlimit' function. */
+/* Define to 1 if you have the 'getrlimit' function. */
 #undef HAVE_GETRLIMIT
 
-/* Define to 1 if you have the `gettext' function. */
+/* Define to 1 if you have the 'gettext' function. */
 #undef HAVE_GETTEXT
 
-/* Define to 1 if you have the 'getuid' func */
-#undef HAVE_GETUID
-
-/* Define to 1 if you have the `getvfsbytype' function. */
+/* Define to 1 if you have the 'getvfsbytype' function. */
 #undef HAVE_GETVFSBYTYPE
 
 /* Define to 1 if you have the <gnu-versions.h> header file. */
 #undef HAVE_GNU_VERSIONS_H
 
-/* Define to 1 if you have the `hasmntopt' function. */
+/* Define to 1 if you have the 'hasmntopt' function. */
 #undef HAVE_HASMNTOPT
 
-/* Define to 1 if you have the `htonl' function. */
+/* Define to 1 if you have the 'htonl' function. */
 #undef HAVE_HTONL
 
-/* Define to 1 if you have the `htons' function. */
+/* Define to 1 if you have the 'htons' function. */
 #undef HAVE_HTONS
 
 /* Define to 1 if you have the <iconv.h> header file. */
@@ -955,7 +916,7 @@
    */
 #undef HAVE_INLINE
 
-/* Define to 1 if the system has the type `ino_t'. */
+/* Define to 1 if the system has the type 'ino_t'. */
 #undef HAVE_INO_T
 
 /* Define if you have the 'intmax_t' type in <stdint.h> or <inttypes.h>. */
@@ -968,7 +929,7 @@
    declares uintmax_t. */
 #undef HAVE_INTTYPES_H_WITH_UINTMAX
 
-/* Define to 1 if you have the `ioctl' function. */
+/* Define to 1 if you have the 'ioctl' function. */
 #undef HAVE_IOCTL
 
 /* Define to 1 if you have the <iostream.h> header file. */
@@ -986,22 +947,22 @@
 /* Define if the isnan(long double) function is available in libc. */
 #undef HAVE_ISNANL_IN_LIBC
 
-/* Define to 1 if you have the `iswprint' function. */
+/* Define to 1 if you have the 'iswprint' function. */
 #undef HAVE_ISWPRINT
 
-/* Define to 1 if you have the `kevent' function. */
+/* Define to 1 if you have the 'kevent' function. */
 #undef HAVE_KEVENT
 
-/* Define to 1 if you have the `kevent64' function. */
+/* Define to 1 if you have the 'kevent64' function. */
 #undef HAVE_KEVENT64
 
-/* Define to 1 if you have the `KextManagerLoadKextWithURL' function. */
+/* Define to 1 if you have the 'KextManagerLoadKextWithURL' function. */
 #undef HAVE_KEXTMANAGERLOADKEXTWITHURL
 
-/* Define to 1 if the system has the type `key_t'. */
+/* Define to 1 if the system has the type 'key_t'. */
 #undef HAVE_KEY_T
 
-/* Define to 1 if you have the `kqueue' function. */
+/* Define to 1 if you have the 'kqueue' function. */
 #undef HAVE_KQUEUE
 
 /* Define if you have <langinfo.h> and nl_langinfo(CODESET). */
@@ -1028,7 +989,7 @@
 /* Define to 1 if you have the <libcharset.h> header file. */
 #undef HAVE_LIBCHARSET_H
 
-/* Define to 1 if you have the `crypt' library (-lcrypt). */
+/* Define to 1 if you have the 'crypt' library (-lcrypt). */
 #undef HAVE_LIBCRYPT
 
 /* Define to 1 if you have the <libintl.h> header file. */
@@ -1049,19 +1010,19 @@
 /* Define if you have the <linux/falloc.h> header. */
 #undef HAVE_LINUX_FALLOC_H
 
-/* Define to 1 if you have the `listmntent' function. */
+/* Define to 1 if you have the 'listmntent' function. */
 #undef HAVE_LISTMNTENT
 
-/* Define to 1 if you have the `localeconv' function. */
+/* Define to 1 if you have the 'localeconv' function. */
 #undef HAVE_LOCALECONV
 
 /* Define to 1 if you have the <locale.h> header file. */
 #undef HAVE_LOCALE_H
 
-/* Define to 1 if the system has the type `locale_t'. */
+/* Define to 1 if the system has the type 'locale_t'. */
 #undef HAVE_LOCALE_T
 
-/* Define to 1 if you have the `login_tty' function. */
+/* Define to 1 if you have the 'login_tty' function. */
 #undef HAVE_LOGIN_TTY
 
 /* Define to 1 if you support file names longer than 14 characters. */
@@ -1070,17 +1031,17 @@
 /* Define to 1 if the system has the type 'long long int'. */
 #undef HAVE_LONG_LONG_INT
 
-/* Define to 1 if you have the `lseek' function. */
+/* Define to 1 if you have the 'lseek' function. */
 #undef HAVE_LSEEK
 
-/* Define to 1 if `lstat' has the bug that it succeeds when given the
+/* Define to 1 if 'lstat' has the bug that it succeeds when given the
    zero-length file name argument. */
 #undef HAVE_LSTAT_EMPTY_STRING_BUG
 
 /* Define to 1 if you have the <mach-o/dyld.h> header file. */
 #undef HAVE_MACH_O_DYLD_H
 
-/* Define to 1 if your system has a GNU libc compatible `malloc' function, and
+/* Define to 1 if your system has a GNU libc compatible 'malloc' function, and
    to 0 otherwise. */
 #undef HAVE_MALLOC
 
@@ -1104,46 +1065,43 @@
 /* Define if you have the <math.h> header. */
 #undef HAVE_MATH_H
 
-/* Define to 1 if you have the `mblen' function. */
+/* Define to 1 if you have the 'mblen' function. */
 #undef HAVE_MBLEN
 
-/* Define to 1 if you have the `mbrlen' function. */
+/* Define to 1 if you have the 'mbrlen' function. */
 #undef HAVE_MBRLEN
 
 /* Define to 1 if mbrtowc and mbstate_t are properly declared. */
 #undef HAVE_MBRTOWC
 
-/* Define to 1 if the system has the type `mbstate_t'. */
-#undef HAVE_MBSTATE_T
-
-/* Define to 1 if you have the `mbtowc' function. */
+/* Define to 1 if you have the 'mbtowc' function. */
 #undef HAVE_MBTOWC
 
-/* Define to 1 if you have the `memchr' function. */
+/* Define to 1 if you have the 'memchr' function. */
 #undef HAVE_MEMCHR
 
-/* Define to 1 if you have the `memmove' function. */
+/* Define to 1 if you have the 'memmove' function. */
 #undef HAVE_MEMMOVE
 
-/* Define to 1 if you have the `mempcpy' function. */
+/* Define to 1 if you have the 'mempcpy' function. */
 #undef HAVE_MEMPCPY
 
-/* Define to 1 if you have the `memrchr' function. */
+/* Define to 1 if you have the 'memrchr' function. */
 #undef HAVE_MEMRCHR
 
-/* Define to 1 if you have the `memset' function. */
+/* Define to 1 if you have the 'memset' function. */
 #undef HAVE_MEMSET
 
 /* Define to 1 if you have the <minix/config.h> header file. */
 #undef HAVE_MINIX_CONFIG_H
 
-/* Define to 1 if you have a working `mmap' system call. */
+/* Define to 1 if you have a working 'mmap' system call. */
 #undef HAVE_MMAP
 
 /* Define to 1 if you have the <mm.h> header file. */
 #undef HAVE_MM_H
 
-/* Define to 1 if you have the `mntctl' function. */
+/* Define to 1 if you have the 'mntctl' function. */
 #undef HAVE_MNTCTL
 
 /* Define to 1 if you have the <mntent.h> header file. */
@@ -1162,25 +1120,25 @@
    concept. */
 #undef HAVE_MSVC_INVALID_PARAMETER_HANDLER
 
-/* Define to 1 if you have the <ndir.h> header file, and it defines `DIR'. */
+/* Define to 1 if you have the <ndir.h> header file, and it defines 'DIR'. */
 #undef HAVE_NDIR_H
 
 /* Define to 1 if you have the <netdb.h> header file. */
 #undef HAVE_NETDB_H
 
-/* Define to 1 if you have the `next_dev' function. */
+/* Define to 1 if you have the 'next_dev' function. */
 #undef HAVE_NEXT_DEV
 
-/* Define to 1 if the system has the type `nfds_t'. */
+/* Define to 1 if the system has the type 'nfds_t'. */
 #undef HAVE_NFDS_T
 
-/* Define to 1 if the system has the type `nlink_t'. */
+/* Define to 1 if the system has the type 'nlink_t'. */
 #undef HAVE_NLINK_T
 
-/* Define to 1 if the system has the type `nl_catd'. */
+/* Define to 1 if the system has the type 'nl_catd'. */
 #undef HAVE_NL_CATD
 
-/* Define to 1 if the system has the type `nl_item'. */
+/* Define to 1 if the system has the type 'nl_item'. */
 #undef HAVE_NL_ITEM
 
 /* Define to 1 if you have the 'nl_langinfo' func */
@@ -1189,10 +1147,10 @@
 /* Define to 1 if you have the <nl_types.h> header file. */
 #undef HAVE_NL_TYPES_H
 
-/* Define to 1 if you have the `ntohl' function. */
+/* Define to 1 if you have the 'ntohl' function. */
 #undef HAVE_NTOHL
 
-/* Define to 1 if you have the `ntohs' function. */
+/* Define to 1 if you have the 'ntohs' function. */
 #undef HAVE_NTOHS
 
 /* Define to 1 if the system has obstacks that work with any size object. */
@@ -1201,13 +1159,13 @@
 /* Define to 1 if you have the 'obstack_printf' func */
 #undef HAVE_OBSTACK_PRINTF
 
-/* Define to 1 if the system has the type `off64_t'. */
+/* Define to 1 if the system has the type 'off64_t'. */
 #undef HAVE_OFF64_T
 
 /* Define to 1 if you have the 'openat' func */
 #undef HAVE_OPENAT
 
-/* Define to 1 if you have the `opendir' function. */
+/* Define to 1 if you have the 'opendir' function. */
 #undef HAVE_OPENDIR
 
 /* Define to 1 if the system has the 'openpty' function. */
@@ -1219,7 +1177,7 @@
 /* Define to 1 if you have the <OS.h> header file. */
 #undef HAVE_OS_H
 
-/* Define to 1 if you have the `pathconf' function. */
+/* Define to 1 if you have the 'pathconf' function. */
 #undef HAVE_PATHCONF
 
 /* Define to 1 if you have the 'pipe' func */
@@ -1228,34 +1186,34 @@
 /* Define to 1 if you have the 'pipe2' func */
 #undef HAVE_PIPE2
 
-/* Define to 1 if you have the `poll' function. */
+/* Define to 1 if you have the 'poll' function. */
 #undef HAVE_POLL
 
 /* Define if you have the <poll.h> header. */
 #undef HAVE_POLL_H
 
-/* Define to 1 if you have the `posix_fallocate' function. */
+/* Define to 1 if you have the 'posix_fallocate' function. */
 #undef HAVE_POSIX_FALLOCATE
 
 /* Define to 1 if posix_fallocate64() exists */
 #undef HAVE_POSIX_FALLOCATE64
 
-/* Define to 1 if you have the `posix_openpt' function. */
+/* Define to 1 if you have the 'posix_openpt' function. */
 #undef HAVE_POSIX_OPENPT
 
 /* Define to 1 if you have the 'pread' func */
 #undef HAVE_PREAD
 
-/* Define to 1 if you have the `pread64' function. */
+/* Define to 1 if you have the 'pread64' function. */
 #undef HAVE_PREAD64
 
-/* Define to 1 if you have the `printf' function. */
+/* Define to 1 if you have the 'printf' function. */
 #undef HAVE_PRINTF
 
 /* Define to 1 if you have the <process.h> header file. */
 #undef HAVE_PROCESS_H
 
-/* Define to 1 if you have the `pthread_atfork' function. */
+/* Define to 1 if you have the 'pthread_atfork' function. */
 #undef HAVE_PTHREAD_ATFORK
 
 /* Define if the <pthread.h> defines PTHREAD_MUTEX_RECURSIVE. */
@@ -1267,10 +1225,10 @@
 /* Define to 1 if you have the <ptms.h> header file. */
 #undef HAVE_PTMS_H
 
-/* Define to 1 if the system has the type `ptrdiff_t'. */
+/* Define to 1 if the system has the type 'ptrdiff_t'. */
 #undef HAVE_PTRDIFF_T
 
-/* Define to 1 if you have the `ptsname' function. */
+/* Define to 1 if you have the 'ptsname' function. */
 #undef HAVE_PTSNAME
 
 /* Define to 1 if you have the 'ptsname_r' func */
@@ -1288,10 +1246,10 @@
 /* Define to 1 if you have the 'pwrite' func */
 #undef HAVE_PWRITE
 
-/* Define to 1 if you have the `pwrite64' function. */
+/* Define to 1 if you have the 'pwrite64' function. */
 #undef HAVE_PWRITE64
 
-/* Define to 1 if you have the `rawmemchr' function. */
+/* Define to 1 if you have the 'rawmemchr' function. */
 #undef HAVE_RAWMEMCHR
 
 /* Define to 1 if accept is declared even after undefining macros. */
@@ -1308,6 +1266,12 @@
 
 /* Define to 1 if alphasort is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_ALPHASORT
+
+/* Define to 1 if asctime is declared even after undefining macros. */
+#undef HAVE_RAW_DECL_ASCTIME
+
+/* Define to 1 if asctime_r is declared even after undefining macros. */
+#undef HAVE_RAW_DECL_ASCTIME_R
 
 /* Define to 1 if asinf is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_ASINF
@@ -1387,6 +1351,12 @@
 /* Define to 1 if cosl is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_COSL
 
+/* Define to 1 if ctime is declared even after undefining macros. */
+#undef HAVE_RAW_DECL_CTIME
+
+/* Define to 1 if ctime_r is declared even after undefining macros. */
+#undef HAVE_RAW_DECL_CTIME_R
+
 /* Define to 1 if dirfd is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_DIRFD
 
@@ -1431,6 +1401,9 @@
 
 /* Define to 1 if expl is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_EXPL
+
+/* Define to 1 if explicit_bzero is declared even after undefining macros. */
+#undef HAVE_RAW_DECL_EXPLICIT_BZERO
 
 /* Define to 1 if expm1 is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_EXPM1
@@ -1585,6 +1558,9 @@
 /* Define to 1 if getusershell is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_GETUSERSHELL
 
+/* Define to 1 if gmtime_r is declared even after undefining macros. */
+#undef HAVE_RAW_DECL_GMTIME_R
+
 /* Define to 1 if group_member is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_GROUP_MEMBER
 
@@ -1632,6 +1608,12 @@
 
 /* Define to 1 if listen is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_LISTEN
+
+/* Define to 1 if localtime is declared even after undefining macros. */
+#undef HAVE_RAW_DECL_LOCALTIME
+
+/* Define to 1 if localtime_r is declared even after undefining macros. */
+#undef HAVE_RAW_DECL_LOCALTIME_R
 
 /* Define to 1 if log is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_LOG
@@ -1708,6 +1690,9 @@
 /* Define to 1 if memrchr is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_MEMRCHR
 
+/* Define to 1 if memset_explicit is declared even after undefining macros. */
+#undef HAVE_RAW_DECL_MEMSET_EXPLICIT
+
 /* Define to 1 if mkdirat is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_MKDIRAT
 
@@ -1723,6 +1708,9 @@
 /* Define to 1 if mknodat is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_MKNODAT
 
+/* Define to 1 if mktime is declared even after undefining macros. */
+#undef HAVE_RAW_DECL_MKTIME
+
 /* Define to 1 if modf is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_MODF
 
@@ -1731,6 +1719,9 @@
 
 /* Define to 1 if modfl is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_MODFL
+
+/* Define to 1 if nanosleep is declared even after undefining macros. */
+#undef HAVE_RAW_DECL_NANOSLEEP
 
 /* Define to 1 if nl_langinfo is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_NL_LANGINFO
@@ -1855,6 +1846,9 @@
 /* Define to 1 if shutdown is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_SHUTDOWN
 
+/* Define to 1 if sigabbrev_np is declared even after undefining macros. */
+#undef HAVE_RAW_DECL_SIGABBREV_NP
+
 /* Define to 1 if sigaction is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_SIGACTION
 
@@ -1863,6 +1857,9 @@
 
 /* Define to 1 if sigdelset is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_SIGDELSET
+
+/* Define to 1 if sigdescr_np is declared even after undefining macros. */
+#undef HAVE_RAW_DECL_SIGDESCR_NP
 
 /* Define to 1 if sigemptyset is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_SIGEMPTYSET
@@ -1924,8 +1921,14 @@
 /* Define to 1 if strdup is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_STRDUP
 
+/* Define to 1 if strerrorname_np is declared even after undefining macros. */
+#undef HAVE_RAW_DECL_STRERRORNAME_NP
+
 /* Define to 1 if strerror_r is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_STRERROR_R
+
+/* Define to 1 if strftime is declared even after undefining macros. */
+#undef HAVE_RAW_DECL_STRFTIME
 
 /* Define to 1 if strncasecmp is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_STRNCASECMP
@@ -1941,6 +1944,9 @@
 
 /* Define to 1 if strpbrk is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_STRPBRK
+
+/* Define to 1 if strptime is declared even after undefining macros. */
+#undef HAVE_RAW_DECL_STRPTIME
 
 /* Define to 1 if strsep is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_STRSEP
@@ -1978,6 +1984,18 @@
 /* Define to 1 if tcgetsid is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_TCGETSID
 
+/* Define to 1 if time is declared even after undefining macros. */
+#undef HAVE_RAW_DECL_TIME
+
+/* Define to 1 if timegm is declared even after undefining macros. */
+#undef HAVE_RAW_DECL_TIMEGM
+
+/* Define to 1 if timespec_get is declared even after undefining macros. */
+#undef HAVE_RAW_DECL_TIMESPEC_GET
+
+/* Define to 1 if timespec_getres is declared even after undefining macros. */
+#undef HAVE_RAW_DECL_TIMESPEC_GETRES
+
 /* Define to 1 if tmpfile is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_TMPFILE
 
@@ -1992,6 +2010,9 @@
 
 /* Define to 1 if ttyname_r is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_TTYNAME_R
+
+/* Define to 1 if tzset is declared even after undefining macros. */
+#undef HAVE_RAW_DECL_TZSET
 
 /* Define to 1 if unlink is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_UNLINK
@@ -2113,10 +2134,10 @@
 /* Define to 1 if wmemset is declared even after undefining macros. */
 #undef HAVE_RAW_DECL_WMEMSET
 
-/* Define to 1 if you have the `read' function. */
+/* Define to 1 if you have the 'read' function. */
 #undef HAVE_READ
 
-/* Define to 1 if you have the `readdir' function. */
+/* Define to 1 if you have the 'readdir' function. */
 #undef HAVE_READDIR
 
 /* Define to 1 if you have the 'readlink' func */
@@ -2125,7 +2146,7 @@
 /* Define to 1 if you have the 'readlinkat' func */
 #undef HAVE_READLINKAT
 
-/* Define to 1 if your system has a GNU libc compatible `realloc' function,
+/* Define to 1 if your system has a GNU libc compatible 'realloc' function,
    and to 0 otherwise. */
 #undef HAVE_REALLOC
 
@@ -2139,61 +2160,61 @@
 /* Define to 1 if you have the 'realpath' func */
 #undef HAVE_REALPATH
 
-/* Define to 1 if you have the `recv' function. */
+/* Define to 1 if you have the 'recv' function. */
 #undef HAVE_RECV
 
 /* Define to 1 if 'long double' and 'double' have the same representation. */
 #undef HAVE_SAME_LONG_DOUBLE_AS_DOUBLE
 
-/* Define to 1 if the system has the type `sa_family_t'. */
+/* Define to 1 if the system has the type 'sa_family_t'. */
 #undef HAVE_SA_FAMILY_T
 
-/* Define to 1 if you have the `sbrk' function. */
+/* Define to 1 if you have the 'sbrk' function. */
 #undef HAVE_SBRK
 
 /* Define to 1 if you have the <search.h> header file. */
 #undef HAVE_SEARCH_H
 
-/* Define to 1 if you have the `select' function. */
+/* Define to 1 if you have the 'select' function. */
 #undef HAVE_SELECT
 
-/* Define to 1 if you have the `send' function. */
+/* Define to 1 if you have the 'send' function. */
 #undef HAVE_SEND
 
-/* Define to 1 if you have the `setdtablesize' function. */
+/* Define to 1 if you have the 'setdtablesize' function. */
 #undef HAVE_SETDTABLESIZE
 
-/* Define to 1 if you have the `setenv' function. */
+/* Define to 1 if you have the 'setenv' function. */
 #undef HAVE_SETENV
 
-/* Define to 1 if you have the `setfsent' function. */
+/* Define to 1 if you have the 'setfsent' function. */
 #undef HAVE_SETFSENT
 
-/* Define to 1 if you have the `setlocale' function. */
+/* Define to 1 if you have the 'setlocale' function. */
 #undef HAVE_SETLOCALE
 
-/* Define to 1 if you have the `setmntent' function. */
+/* Define to 1 if you have the 'setmntent' function. */
 #undef HAVE_SETMNTENT
 
 /* Define to 1 if you have the <shlib-compat.h> header file. */
 #undef HAVE_SHLIB_COMPAT_H
 
-/* Define to 1 if you have the `shmat' function. */
+/* Define to 1 if you have the 'shmat' function. */
 #undef HAVE_SHMAT
 
-/* Define to 1 if you have the `shmctl' function. */
+/* Define to 1 if you have the 'shmctl' function. */
 #undef HAVE_SHMCTL
 
-/* Define to 1 if you have the `shmdt' function. */
+/* Define to 1 if you have the 'shmdt' function. */
 #undef HAVE_SHMDT
 
-/* Define to 1 if you have the `shmget' function. */
+/* Define to 1 if you have the 'shmget' function. */
 #undef HAVE_SHMGET
 
-/* Define to 1 if you have the `shm_open' function. */
+/* Define to 1 if you have the 'shm_open' function. */
 #undef HAVE_SHM_OPEN
 
-/* Define to 1 if you have the `shutdown' function. */
+/* Define to 1 if you have the 'shutdown' function. */
 #undef HAVE_SHUTDOWN
 
 /* Define if you have the <signal.h> header. */
@@ -2208,11 +2229,8 @@
 /* Define to 1 if 'wint_t' is a signed integer type. */
 #undef HAVE_SIGNED_WINT_T
 
-/* Define to 1 if the system has the type `sigset_t'. */
+/* Define to 1 if the system has the type 'sigset_t'. */
 #undef HAVE_SIGSET_T
-
-/* Define to 1 if you have the 'sleep' func */
-#undef HAVE_SLEEP
 
 /* Define to 1 if you have the 'snprintf' func */
 #undef HAVE_SNPRINTF
@@ -2222,19 +2240,19 @@
    buffer had been large enough. */
 #undef HAVE_SNPRINTF_RETVAL_C99
 
-/* Define to 1 if you have the `sprintf' function. */
+/* Define to 1 if you have the 'sprintf' function. */
 #undef HAVE_SPRINTF
 
-/* Define to 1 if you have the `statfs' function. */
+/* Define to 1 if you have the 'statfs' function. */
 #undef HAVE_STATFS
 
-/* Define to 1 if you have the `statfs64' function. */
+/* Define to 1 if you have the 'statfs64' function. */
 #undef HAVE_STATFS64
 
-/* Define to 1 if you have the `statvfs' function. */
+/* Define to 1 if you have the 'statvfs' function. */
 #undef HAVE_STATVFS
 
-/* Define to 1 if `stat' has the bug that it succeeds when given the
+/* Define to 1 if 'stat' has the bug that it succeeds when given the
    zero-length file name argument. */
 #undef HAVE_STAT_EMPTY_STRING_BUG
 
@@ -2263,22 +2281,22 @@
 /* Define to 1 if you have the <stdlib.h> header file. */
 #undef HAVE_STDLIB_H
 
-/* Define to 1 if you have the `strcasecmp' function. */
+/* Define to 1 if you have the 'strcasecmp' function. */
 #undef HAVE_STRCASECMP
 
-/* Define to 1 if you have the `strchr' function. */
+/* Define to 1 if you have the 'strchr' function. */
 #undef HAVE_STRCHR
 
-/* Define to 1 if you have the `strchrnul' function. */
+/* Define to 1 if you have the 'strchrnul' function. */
 #undef HAVE_STRCHRNUL
 
-/* Define to 1 if you have the `strdup' function. */
+/* Define to 1 if you have the 'strdup' function. */
 #undef HAVE_STRDUP
 
 /* Define to 1 if you have the <stream.h> header file. */
 #undef HAVE_STREAM_H
 
-/* Define to 1 if you have the `strerror' function. */
+/* Define to 1 if you have the 'strerror' function. */
 #undef HAVE_STRERROR
 
 /* Define to 1 if you have the 'strerror_r' func */
@@ -2287,108 +2305,98 @@
 /* Define if you have the <strings.h> header. */
 #undef HAVE_STRINGS_H
 
-/* Always define to 1, for backward compatibility. You can assume <string.h>
-   exists. */
+/* Define to 1 if you have the <string.h> header file. */
 #undef HAVE_STRING_H
 
-/* Define to 1 if you have the `strncasecmp' function. */
+/* Define to 1 if you have the 'strncasecmp' function. */
 #undef HAVE_STRNCASECMP
 
-/* Define to 1 if you have the `strndup' function. */
+/* Define to 1 if you have the 'strndup' function. */
 #undef HAVE_STRNDUP
 
-/* Define to 1 if you have the `strnlen' function. */
+/* Define to 1 if you have the 'strnlen' function. */
 #undef HAVE_STRNLEN
 
 /* Define to 1 if you have the <stropts.h> header file. */
 #undef HAVE_STROPTS_H
 
-/* Define to 1 if you have the `strrchr' function. */
+/* Define to 1 if you have the 'strrchr' function. */
 #undef HAVE_STRRCHR
 
-/* Define to 1 if you have the `strsep' function. */
+/* Define to 1 if you have the 'strsep' function. */
 #undef HAVE_STRSEP
 
-/* Define to 1 if you have the `strsignal' function. */
+/* Define to 1 if you have the 'strsignal' function. */
 #undef HAVE_STRSIGNAL
 
-/* Define to 1 if you have the `strspn' function. */
+/* Define to 1 if you have the 'strspn' function. */
 #undef HAVE_STRSPN
 
-/* Define to 1 if you have the `strstr' function. */
+/* Define to 1 if you have the 'strstr' function. */
 #undef HAVE_STRSTR
 
-/* Define to 1 if you have the `strtod' function. */
+/* Define to 1 if you have the 'strtod' function. */
 #undef HAVE_STRTOD
 
-/* Define to 1 if you have the `strtoul' function. */
+/* Define to 1 if you have the 'strtoul' function. */
 #undef HAVE_STRTOUL
 
-/* Define to 1 if `d_ino' is a member of `struct dirent'. */
+/* Define to 1 if 'd_ino' is a member of 'struct dirent'. */
 #undef HAVE_STRUCT_DIRENT_D_INO
 
-/* Define to 1 if `d_type' is a member of `struct dirent'. */
+/* Define to 1 if 'd_type' is a member of 'struct dirent'. */
 #undef HAVE_STRUCT_DIRENT_D_TYPE
 
-/* Define to 1 if `f_fstypename' is a member of `struct fsstat'. */
+/* Define to 1 if 'f_fstypename' is a member of 'struct fsstat'. */
 #undef HAVE_STRUCT_FSSTAT_F_FSTYPENAME
 
-/* Define to 1 if `decimal_point' is a member of `struct lconv'. */
+/* Define to 1 if 'decimal_point' is a member of 'struct lconv'. */
 #undef HAVE_STRUCT_LCONV_DECIMAL_POINT
 
-/* Define to 1 if the system has the type `struct sockaddr_storage'. */
+/* Define to 1 if the system has the type 'struct sockaddr_storage'. */
 #undef HAVE_STRUCT_SOCKADDR_STORAGE
 
-/* Define to 1 if `ss_family' is a member of `struct sockaddr_storage'. */
+/* Define to 1 if 'ss_family' is a member of 'struct sockaddr_storage'. */
 #undef HAVE_STRUCT_SOCKADDR_STORAGE_SS_FAMILY
 
-/* Define to 1 if `f_fstypename' is a member of `struct statfs'. */
+/* Define to 1 if 'f_fstypename' is a member of 'struct statfs'. */
 #undef HAVE_STRUCT_STATFS_F_FSTYPENAME
 
-/* Define to 1 if `f_type' is a member of `struct statfs'. */
+/* Define to 1 if 'f_type' is a member of 'struct statfs'. */
 #undef HAVE_STRUCT_STATFS_F_TYPE
 
-/* Define to 1 if `f_fstypename' is a member of `struct statvfs'. */
+/* Define to 1 if 'f_fstypename' is a member of 'struct statvfs'. */
 #undef HAVE_STRUCT_STATVFS_F_FSTYPENAME
 
-/* Define to 1 if `f_mntfromname' is a member of `struct statvfs'. */
+/* Define to 1 if 'f_mntfromname' is a member of 'struct statvfs'. */
 #undef HAVE_STRUCT_STATVFS_F_MNTFROMNAME
 
-/* Define to 1 if `f_mntonname' is a member of `struct statvfs'. */
+/* Define to 1 if 'f_mntonname' is a member of 'struct statvfs'. */
 #undef HAVE_STRUCT_STATVFS_F_MNTONNAME
 
-/* Define to 1 if `st_blksize' is a member of `struct stat'. */
+/* Define to 1 if 'st_blksize' is a member of 'struct stat'. */
 #undef HAVE_STRUCT_STAT_ST_BLKSIZE
 
-/* Define to 1 if `st_blocks' is a member of `struct stat'. */
+/* Define to 1 if 'st_blocks' is a member of 'struct stat'. */
 #undef HAVE_STRUCT_STAT_ST_BLOCKS
 
-/* Define to 1 if `st_ctime' is a member of `struct stat'. */
-#undef HAVE_STRUCT_STAT_ST_CTIME
-
-/* Define to 1 if `st_gid' is a member of `struct stat'. */
-#undef HAVE_STRUCT_STAT_ST_GID
-
-/* Define to 1 if `st_uid' is a member of `struct stat'. */
-#undef HAVE_STRUCT_STAT_ST_UID
-
-/* Define to 1 if `tm_zone' is a member of `struct tm'. */
+/* Define to 1 if 'tm_zone' is a member of 'struct tm'. */
 #undef HAVE_STRUCT_TM_TM_ZONE
 
 /* Define to 1 if you have the <strutil.h> header file. */
 #undef HAVE_STRUTIL_H
 
-/* Define to 1 if your `struct stat' has `st_blocks'. Deprecated, use
-   `HAVE_STRUCT_STAT_ST_BLOCKS' instead. */
+/* Define to 1 if your 'struct stat' has 'st_blocks'. Deprecated, use
+   'HAVE_STRUCT_STAT_ST_BLOCKS' instead. */
 #undef HAVE_ST_BLOCKS
 
 /* Define to 1 if you have the <swapctl.h> header file. */
 #undef HAVE_SWAPCTL_H
 
-/* Define to 1 if you have the `swapoff' function. */
+/* Define to 1 if you have the 'swapoff' function. */
 #undef HAVE_SWAPOFF
 
-/* Define to 1 if you have the `swapon' function. */
+/* Define to 1 if you have the 'swapon' function. */
 #undef HAVE_SWAPON
 
 /* Define to 1 if you have the <swap.h> header file. */
@@ -2397,10 +2405,10 @@
 /* Define to 1 if you have the 'symlink' func */
 #undef HAVE_SYMLINK
 
-/* Define to 1 if you have the `sysconf' function. */
+/* Define to 1 if you have the 'sysconf' function. */
 #undef HAVE_SYSCONF
 
-/* Define to 1 if you have the `system' function. */
+/* Define to 1 if you have the 'system' function. */
 #undef HAVE_SYSTEM
 
 /* Define to 1 if you have the <sys/bitypes.h> header file. */
@@ -2409,7 +2417,7 @@
 /* Define to 1 if you have the <sys/cdefs.h> header file. */
 #undef HAVE_SYS_CDEFS_H
 
-/* Define to 1 if you have the <sys/dir.h> header file, and it defines `DIR'.
+/* Define to 1 if you have the <sys/dir.h> header file, and it defines 'DIR'.
    */
 #undef HAVE_SYS_DIR_H
 
@@ -2452,7 +2460,7 @@
 /* Define to 1 if you have the <sys/mount.h> header file. */
 #undef HAVE_SYS_MOUNT_H
 
-/* Define to 1 if you have the <sys/ndir.h> header file, and it defines `DIR'.
+/* Define to 1 if you have the <sys/ndir.h> header file, and it defines 'DIR'.
    */
 #undef HAVE_SYS_NDIR_H
 
@@ -2480,7 +2488,7 @@
 /* Define to 1 if you have the <sys/time.h> header file. */
 #undef HAVE_SYS_TIME_H
 
-/* Define to 1 if you have the <sys/types.h> header file. */
+/* Define if you have the <sys/types.h> header. */
 #undef HAVE_SYS_TYPES_H
 
 /* Define to 1 if you have the <sys/ucred.h> header file. */
@@ -2519,30 +2527,27 @@
 /* Define to 1 if you have the <time.h> header file. */
 #undef HAVE_TIME_H
 
-/* Define to 1 if your `struct tm' has `tm_zone'. Deprecated, use
-   `HAVE_STRUCT_TM_TM_ZONE' instead. */
+/* Define to 1 if your 'struct tm' has 'tm_zone'. Deprecated, use
+   'HAVE_STRUCT_TM_TM_ZONE' instead. */
 #undef HAVE_TM_ZONE
 
-/* Define to 1 if you have the `tsearch' function. */
+/* Define to 1 if you have the 'tsearch' function. */
 #undef HAVE_TSEARCH
 
-/* Define to 1 if you don't have `tm_zone' but do have the external array
-   `tzname'. */
+/* Define to 1 if you don't have 'tm_zone' but do have the external array
+   'tzname'. */
 #undef HAVE_TZNAME
 
-/* Define to 1 if the system has the type `uintmax_t'. */
+/* Define to 1 if the system has the type 'uintmax_t'. */
 #undef HAVE_UINTMAX_T
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #undef HAVE_UNISTD_H
 
-/* Define to 1 if you have the 'unlink' func */
-#undef HAVE_UNLINK
-
 /* Define to 1 if the system has the type 'unsigned long long int'. */
 #undef HAVE_UNSIGNED_LONG_LONG_INT
 
-/* Define to 1 if you have the `uselocale' function. */
+/* Define to 1 if you have the 'uselocale' function. */
 #undef HAVE_USELOCALE
 
 /* Define to 1 if you have the <util.h> header file. */
@@ -2560,7 +2565,7 @@
 /* Define to 1 if you have the 'vasnprintf' func */
 #undef HAVE_VASNPRINTF
 
-/* Define to 1 if you have the `vasprintf' function. */
+/* Define to 1 if you have the 'vasprintf' function. */
 #undef HAVE_VASPRINTF
 
 /* Define to 1 if you have the 'vfork' func */
@@ -2578,25 +2583,25 @@
 /* Define if you have the 'wchar_t' type. */
 #undef HAVE_WCHAR_T
 
-/* Define to 1 if you have the `wcrtomb' function. */
+/* Define to 1 if you have the 'wcrtomb' function. */
 #undef HAVE_WCRTOMB
 
-/* Define to 1 if you have the `wcslen' function. */
+/* Define to 1 if you have the 'wcslen' function. */
 #undef HAVE_WCSLEN
 
-/* Define to 1 if you have the `wcsnlen' function. */
+/* Define to 1 if you have the 'wcsnlen' function. */
 #undef HAVE_WCSNLEN
 
-/* Define to 1 if you have the `wctob' function. */
+/* Define to 1 if you have the 'wctob' function. */
 #undef HAVE_WCTOB
 
-/* Define to 1 if you have the `wctomb' function. */
+/* Define to 1 if you have the 'wctomb' function. */
 #undef HAVE_WCTOMB
 
 /* Define to 1 if you have the <wctype.h> header file. */
 #undef HAVE_WCTYPE_H
 
-/* Define to 1 if you have the `wcwidth' function. */
+/* Define to 1 if you have the 'wcwidth' function. */
 #undef HAVE_WCWIDTH
 
 /* Define to 1 if you have the <winbase.h> header file. */
@@ -2611,7 +2616,7 @@
 /* Define if you have the 'wint_t' type. */
 #undef HAVE_WINT_T
 
-/* Define to 1 if `fork' works. */
+/* Define to 1 if 'fork' works. */
 #undef HAVE_WORKING_FORK
 
 /* Define to 1 if fstatat (..., 0) works. For example, it does not work in AIX
@@ -2624,10 +2629,10 @@
 /* Define to 1 if O_NOFOLLOW works. */
 #undef HAVE_WORKING_O_NOFOLLOW
 
-/* Define to 1 if `vfork' works. */
+/* Define to 1 if 'vfork' works. */
 #undef HAVE_WORKING_VFORK
 
-/* Define to 1 if you have the `write' function. */
+/* Define to 1 if you have the 'write' function. */
 #undef HAVE_WRITE
 
 /* Define to 1 if you have the <ws2tcpip.h> header file. */
@@ -2636,13 +2641,16 @@
 /* Define if you have the <xlocale.h> header. */
 #undef HAVE_XLOCALE_H
 
-/* Define to 1 if the system has the type `_Bool'. */
+/* Define to 1 if the system has the type '_Bool'. */
 #undef HAVE__BOOL
 
-/* Define to 1 if you have the `_getpty' function. */
+/* Define to 1 if you have the '_chsize' function. */
+#undef HAVE__CHSIZE
+
+/* Define to 1 if you have the '_getpty' function. */
 #undef HAVE__GETPTY
 
-/* Define to 1 if you have the `_NSGetExecutablePath' function. */
+/* Define to 1 if you have the '_NSGetExecutablePath' function. */
 #undef HAVE__NSGETEXECUTABLEPATH
 
 /* Define to 1 if you have the '_set_invalid_parameter_handler' func */
@@ -2651,10 +2659,10 @@
 /* Define to 1 if you have the <_types/_nl_item.h> header file. */
 #undef HAVE__TYPES__NL_ITEM_H
 
-/* Define to 1 if the system has the type `__darwin_mbstate_t'. */
+/* Define to 1 if the system has the type '__darwin_mbstate_t'. */
 #undef HAVE___DARWIN_MBSTATE_T
 
-/* Define to 1 if you have the `__fpending' function. */
+/* Define to 1 if you have the '__fpending' function. */
 #undef HAVE___FPENDING
 
 /* Define to 1 if you have the '__freadahead' func */
@@ -2665,6 +2673,9 @@
 
 /* Define to 1 if you have the '__freadptrinc' func */
 #undef HAVE___FREADPTRINC
+
+/* Define to 1 if the system has the type '__fsword_t'. */
+#undef HAVE___FSWORD_T
 
 /* Define to 1 if you have the '__xpg_strerror_r' func */
 #undef HAVE___XPG_STRERROR_R
@@ -2686,6 +2697,14 @@
 /* Define to the sub-directory where libtool stores uninstalled libraries. */
 #undef LT_OBJDIR
 
+/* Define to 1 if 'major', 'minor', and 'makedev' are declared in <mkdev.h>.
+   */
+#undef MAJOR_IN_MKDEV
+
+/* Define to 1 if 'major', 'minor', and 'makedev' are declared in
+   <sysmacros.h>. */
+#undef MAJOR_IN_SYSMACROS
+
 /* If malloc(0) is != NULL, define this to 1. Otherwise define this to 0. */
 #undef MALLOC_0_IS_NONNULL
 
@@ -2705,6 +2724,10 @@
    the list of mounted file systems. (BeOS) */
 #undef MOUNTED_FS_STAT_DEV
 
+/* Define if there is a function named getextmntent for reading the list of
+   mounted file systems. (Solaris) */
+#undef MOUNTED_GETEXTMNTENT
+
 /* Define if there is a function named getfsstat for reading the list of
    mounted file systems. (DEC Alpha running OSF/1) */
 #undef MOUNTED_GETFSSTAT
@@ -2715,7 +2738,7 @@
 
 /* Define if there is a function named getmntent for reading the list of
    mounted file systems, and that function takes a single argument. (4.3BSD,
-   SunOS, HP-UX, Dynix, Irix) */
+   SunOS, HP-UX, Irix) */
 #undef MOUNTED_GETMNTENT1
 
 /* Define if there is a function named getmntent for reading the list of
@@ -2750,6 +2773,17 @@
 
 /* Define to 1 if assertions should be disabled. */
 #undef NDEBUG
+
+/* Define if the compilation of mktime.c should define 'mktime_internal'. */
+#undef NEED_MKTIME_INTERNAL
+
+/* Define if the compilation of mktime.c should define 'mktime' with the
+   native Windows TZ workaround. */
+#undef NEED_MKTIME_WINDOWS
+
+/* Define if the compilation of mktime.c should define 'mktime' with the
+   algorithmic workarounds. */
+#undef NEED_MKTIME_WORKING
 
 /* Define if the vasnprintf implementation needs special code for the 'a' and
    'A' directives. */
@@ -2823,9 +2857,6 @@
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
-/* the number of pending output bytes on stream 'fp' */
-#undef PENDING_OUTPUT_N_BYTES
-
 /* Define to the type that is the result of default argument promotions of
    type mode_t. */
 #undef PROMOTED_MODE_T
@@ -2859,35 +2890,35 @@
 /* Define if vasnprintf exists but is overridden by gnulib. */
 #undef REPLACE_VASNPRINTF
 
-/* Define to the type of arg 1 for `select'. */
+/* Define to the type of arg 1 for 'select'. */
 #undef SELECT_TYPE_ARG1
 
-/* Define to the type of args 2, 3 and 4 for `select'. */
+/* Define to the type of args 2, 3 and 4 for 'select'. */
 #undef SELECT_TYPE_ARG234
 
-/* Define to the type of arg 5 for `select'. */
+/* Define to the type of arg 5 for 'select'. */
 #undef SELECT_TYPE_ARG5
 
 /* Define to l, ll, u, ul, ull, etc., as suitable for constants of type
    'sig_atomic_t'. */
 #undef SIG_ATOMIC_T_SUFFIX
 
-/* The size of `char', as computed by sizeof. */
+/* The size of 'char', as computed by sizeof. */
 #undef SIZEOF_CHAR
 
-/* The size of `int', as computed by sizeof. */
+/* The size of 'int', as computed by sizeof. */
 #undef SIZEOF_INT
 
-/* The size of `long', as computed by sizeof. */
+/* The size of 'long', as computed by sizeof. */
 #undef SIZEOF_LONG
 
-/* The size of `off64_t', as computed by sizeof. */
+/* The size of 'off64_t', as computed by sizeof. */
 #undef SIZEOF_OFF64_T
 
-/* The size of `off_t', as computed by sizeof. */
+/* The size of 'off_t', as computed by sizeof. */
 #undef SIZEOF_OFF_T
 
-/* The size of `short', as computed by sizeof. */
+/* The size of 'short', as computed by sizeof. */
 #undef SIZEOF_SHORT
 
 /* Define as the maximum value of type 'size_t', if the system doesn't define
@@ -2908,15 +2939,19 @@
 	STACK_DIRECTION = 0 => direction of growth unknown */
 #undef STACK_DIRECTION
 
-/* Define to 1 if the `S_IS*' macros in <sys/stat.h> do not work properly. */
+/* Define to 1 if the 'S_IS*' macros in <sys/stat.h> do not work properly. */
 #undef STAT_MACROS_BROKEN
 
-/* Always define to 1, for backward compatibility. You can assume the C90
-   standard headers exist. */
+/* Define to 1 if all of the C89 standard headers exist (not just the ones
+   required in a freestanding environment). This macro is provided for
+   backward compatibility; new code need not use it. */
 #undef STDC_HEADERS
 
 /* Define to 1 if strerror_r returns char *. */
 #undef STRERROR_R_CHAR_P
+
+/* Define to 1 if time_t is signed. */
+#undef TIME_T_IS_SIGNED
 
 /* Define to 1 if you can safely include both <sys/time.h> and <time.h>. This
    macro is obsolete. */
@@ -2926,7 +2961,7 @@
    tls_model is supported */
 #undef TLS
 
-/* Define to 1 if your <sys/time.h> declares `struct tm'. */
+/* Define to 1 if your <sys/time.h> declares 'struct tm'. */
 #undef TM_IN_SYS_TIME
 
 /* Define to the prefix of C symbols at the assembler and linker level, either
@@ -2954,38 +2989,97 @@
    made weak. */
 #undef USE_SOLARIS_THREADS_WEAK
 
-
-/* Enable extensions on AIX 3, Interix: */
+/* Enable extensions on AIX, Interix, z/OS.  */
 #ifndef _ALL_SOURCE
 # undef _ALL_SOURCE
-#endif /* !_ALL_SOURCE */
-/* Enable general extensions on OS X: */
+#endif
+/* Enable general extensions on macOS.  */
 #ifndef _DARWIN_C_SOURCE
 # undef _DARWIN_C_SOURCE
-#endif /* !_DARWIN_C_SOURCE */
-/* Enable GNU extensions on systems that have them: */
-#ifndef _GNU_SOURCE
-# undef _GNU_SOURCE
-#endif /* !_GNU_SOURCE */
-/* Enable threading extensions on Solaris: */
-#ifndef _POSIX_PTHREAD_SEMANTICS
-# undef _POSIX_PTHREAD_SEMANTICS
-#endif /* !_POSIX_PTHREAD_SEMANTICS */
-/* Enable extensions on HP NonStop: */
-#ifndef _TANDEM_SOURCE
-# undef _TANDEM_SOURCE
-#endif /* !_TANDEM_SOURCE */
-/* Enable X/Open extensions if necessary.  HP-UX 11.11 defines
- * mbstate_t only if _XOPEN_SOURCE is defined to 500, regardless of
- * whether compiling with -Ae or -D_HPUX_SOURCE=1.  */
-#ifndef _XOPEN_SOURCE
-# undef _XOPEN_SOURCE
-#endif /* !_XOPEN_SOURCE */
-/* Enable general extensions on Solaris: */
+#endif
+/* Enable general extensions on Solaris.  */
 #ifndef __EXTENSIONS__
 # undef __EXTENSIONS__
-#endif /* !__EXTENSIONS__ */
-  
+#endif
+/* Enable GNU extensions on systems that have them.  */
+#ifndef _GNU_SOURCE
+# undef _GNU_SOURCE
+#endif
+/* Enable X/Open compliant socket functions that do not require linking
+   with -lxnet on HP-UX 11.11.  */
+#ifndef _HPUX_ALT_XOPEN_SOCKET_API
+# undef _HPUX_ALT_XOPEN_SOCKET_API
+#endif
+/* Identify the host operating system as Minix.
+   This macro does not affect the system headers' behavior.
+   A future release of Autoconf may stop defining this macro.  */
+#ifndef _MINIX
+# undef _MINIX
+#endif
+/* Enable general extensions on NetBSD.
+   Enable NetBSD compatibility extensions on Minix.  */
+#ifndef _NETBSD_SOURCE
+# undef _NETBSD_SOURCE
+#endif
+/* Enable OpenBSD compatibility extensions on NetBSD.
+   Oddly enough, this does nothing on OpenBSD.  */
+#ifndef _OPENBSD_SOURCE
+# undef _OPENBSD_SOURCE
+#endif
+/* Define to 1 if needed for POSIX-compatible behavior.  */
+#ifndef _POSIX_SOURCE
+# undef _POSIX_SOURCE
+#endif
+/* Define to 2 if needed for POSIX-compatible behavior.  */
+#ifndef _POSIX_1_SOURCE
+# undef _POSIX_1_SOURCE
+#endif
+/* Enable POSIX-compatible threading on Solaris.  */
+#ifndef _POSIX_PTHREAD_SEMANTICS
+# undef _POSIX_PTHREAD_SEMANTICS
+#endif
+/* Enable extensions specified by ISO/IEC TS 18661-5:2014.  */
+#ifndef __STDC_WANT_IEC_60559_ATTRIBS_EXT__
+# undef __STDC_WANT_IEC_60559_ATTRIBS_EXT__
+#endif
+/* Enable extensions specified by ISO/IEC TS 18661-1:2014.  */
+#ifndef __STDC_WANT_IEC_60559_BFP_EXT__
+# undef __STDC_WANT_IEC_60559_BFP_EXT__
+#endif
+/* Enable extensions specified by ISO/IEC TS 18661-2:2015.  */
+#ifndef __STDC_WANT_IEC_60559_DFP_EXT__
+# undef __STDC_WANT_IEC_60559_DFP_EXT__
+#endif
+/* Enable extensions specified by C23 Annex F.  */
+#ifndef __STDC_WANT_IEC_60559_EXT__
+# undef __STDC_WANT_IEC_60559_EXT__
+#endif
+/* Enable extensions specified by ISO/IEC TS 18661-4:2015.  */
+#ifndef __STDC_WANT_IEC_60559_FUNCS_EXT__
+# undef __STDC_WANT_IEC_60559_FUNCS_EXT__
+#endif
+/* Enable extensions specified by C23 Annex H and ISO/IEC TS 18661-3:2015.  */
+#ifndef __STDC_WANT_IEC_60559_TYPES_EXT__
+# undef __STDC_WANT_IEC_60559_TYPES_EXT__
+#endif
+/* Enable extensions specified by ISO/IEC TR 24731-2:2010.  */
+#ifndef __STDC_WANT_LIB_EXT2__
+# undef __STDC_WANT_LIB_EXT2__
+#endif
+/* Enable extensions specified by ISO/IEC 24747:2009.  */
+#ifndef __STDC_WANT_MATH_SPEC_FUNCS__
+# undef __STDC_WANT_MATH_SPEC_FUNCS__
+#endif
+/* Enable extensions on HP NonStop.  */
+#ifndef _TANDEM_SOURCE
+# undef _TANDEM_SOURCE
+#endif
+/* Enable X/Open extensions.  Define to 500 only if necessary
+   to make mbstate_t available.  */
+#ifndef _XOPEN_SOURCE
+# undef _XOPEN_SOURCE
+#endif
+
 
 /* Define to 1 if you want getc etc. to use unlocked I/O if available.
    Unlocked I/O can improve performance in unithreaded apps, but it is not
@@ -3021,63 +3115,76 @@
 # endif
 #endif
 
-/* Enable large inode numbers on Mac OS X 10.5. */
-#undef _DARWIN_USE_64_BIT_INODE
-
 /* Number of bits in a file offset, on hosts where this is settable. */
 #undef _FILE_OFFSET_BITS
+
+/* True if the compiler says it groks GNU C version MAJOR.MINOR.  */
+#if defined __GNUC__ && defined __GNUC_MINOR__
+# define _GL_GNUC_PREREQ(major, minor) \
+    ((major) < __GNUC__ + ((minor) <= __GNUC_MINOR__))
+#else
+# define _GL_GNUC_PREREQ(major, minor) 0
+#endif
+
 
 /* Define to 1 if Gnulib overrides 'struct stat' on Windows so that struct
    stat.st_size becomes 64-bit. */
 #undef _GL_WINDOWS_64_BIT_ST_SIZE
 
+/* Define to enable the declarations of ISO C 11 types and functions. */
+#undef _ISOC11_SOURCE
 
-/* Enable GNU extensions on systems that have them.  */
-#ifndef _GNU_SOURCE
-# undef _GNU_SOURCE
-#endif /* !_GNU_SOURCE */
-
-
-/* Define to 1 to make fseeko visible on some hosts (e.g. glibc 2.2). */
+/* Define to 1 if necessary to make fseeko visible. */
 #undef _LARGEFILE_SOURCE
 
-/* Define for large files, on AIX-style hosts. */
+/* Define to 1 on platforms where this makes off_t a 64-bit type. */
 #undef _LARGE_FILES
 
 /* Define to 1 on Solaris. */
 #undef _LCONV_C99
 
-/* Define to 1 if on MINIX. */
-#undef _MINIX
-
-/* Define to 1 to make NetBSD features available. MINIX 3 needs this. */
-#undef _NETBSD_SOURCE
-
-
-/* The _Noreturn keyword of C11: */
-#if ! (defined _Noreturn \
-       || (defined __STDC_VERSION__ && (201112 <= __STDC_VERSION__)))
-# if ((3 <= __GNUC__) || ((__GNUC__ == 2) && (8 <= __GNUC_MINOR__)) \
-      || (0x5110 <= __SUNPRO_C))
+/* The _Noreturn keyword of C11.  */
+#ifndef _Noreturn
+# if (defined __cplusplus \
+      && ((201103 <= __cplusplus && !(__GNUC__ == 4 && __GNUC_MINOR__ == 7)) \
+          || (defined _MSC_VER && 1900 <= _MSC_VER)) \
+      && 0)
+    /* [[noreturn]] is not practically usable, because with it the syntax
+         extern _Noreturn void func (...);
+       would not be valid; such a declaration would only be valid with 'extern'
+       and '_Noreturn' swapped, or without the 'extern' keyword.  However, some
+       AIX system header files and several gnulib header files use precisely
+       this syntax with 'extern'.  */
+#  define _Noreturn [[noreturn]]
+# elif (defined __clang__ && __clang_major__ < 16 \
+        && defined _GL_WORK_AROUND_LLVM_BUG_59792)
+   /* Compile with -D_GL_WORK_AROUND_LLVM_BUG_59792 to work around
+      that rare LLVM bug, though you may get many false-alarm warnings.  */
+#  define _Noreturn
+# elif ((!defined __cplusplus || defined __clang__) \
+        && (201112 <= (defined __STDC_VERSION__ ? __STDC_VERSION__ : 0) \
+            || (!defined __STRICT_ANSI__ \
+                && (_GL_GNUC_PREREQ (4, 7) \
+                    || (defined __apple_build_version__ \
+                        ? 6000000 <= __apple_build_version__ \
+                        : 3 < __clang_major__ + (5 <= __clang_minor__))))))
+   /* _Noreturn works as-is.  */
+# elif _GL_GNUC_PREREQ (2, 8) || defined __clang__ || 0x5110 <= __SUNPRO_C
 #  define _Noreturn __attribute__ ((__noreturn__))
-# elif defined _MSC_VER && (1200 <= _MSC_VER)
+# elif 1200 <= (defined _MSC_VER ? _MSC_VER : 0)
 #  define _Noreturn __declspec (noreturn)
 # else
 #  define _Noreturn
-# endif /* old GCC or old Sun CC or old MSVC */
-#endif /* !_Noreturn or pre-C11 version of C */
-  
+# endif
+#endif
 
-/* Define to 2 if the system does not provide POSIX.1 features except with
-   this defined. */
-#undef _POSIX_1_SOURCE
 
 /* Define to 1 in order to get the POSIX compatible declarations of socket
    functions. */
 #undef _POSIX_PII_SOCKET
 
-/* Define to 1 if you need to in order for 'stat' and other things to work. */
-#undef _POSIX_SOURCE
+/* Number of bits in time_t, on hosts where this is settable. */
+#undef _TIME_BITS
 
 /* Define for Solaris 2.5.1 so the uint32_t typedef from <sys/synch.h>,
    <pthread.h>, or <semaphore.h> is not used. If the typedef were allowed, the
@@ -3094,7 +3201,8 @@
    #define below would cause a syntax error. */
 #undef _UINT8_T
 
-/* Define to 1 if type `char' is unsigned and you are not using gcc.  */
+/* Define to 1 if type 'char' is unsigned and your compiler does not
+   predefine this macro.  */
 #ifndef __CHAR_UNSIGNED__
 # undef __CHAR_UNSIGNED__
 #endif
@@ -3103,10 +3211,546 @@
    used. */
 #undef __GETOPT_PREFIX
 
+/* Define to 1 on platforms where this makes time_t a 64-bit type. */
+#undef __MINGW_USE_VC2005_COMPAT
+
 /* Define like PROTOTYPES; this can be used by system headers. */
 #undef __PROTOTYPES
 
-/* Define to empty if `const' does not conform to ANSI C. */
+/* The _GL_ASYNC_SAFE marker should be attached to functions that are
+   signal handlers (for signals other than SIGABRT, SIGPIPE) or can be
+   invoked from such signal handlers.  Such functions have some restrictions:
+     * All functions that it calls should be marked _GL_ASYNC_SAFE as well,
+       or should be listed as async-signal-safe in POSIX
+       <https://pubs.opengroup.org/onlinepubs/9699919799/functions/V2_chap02.html#tag_15_04>
+       section 2.4.3.  Note that malloc(), sprintf(), and fwrite(), in
+       particular, are NOT async-signal-safe.
+     * All memory locations (variables and struct fields) that these functions
+       access must be marked 'volatile'.  This holds for both read and write
+       accesses.  Otherwise the compiler might optimize away stores to and
+       reads from such locations that occur in the program, depending on its
+       data flow analysis.  For example, when the program contains a loop
+       that is intended to inspect a variable set from within a signal handler
+           while (!signal_occurred)
+             ;
+       the compiler is allowed to transform this into an endless loop if the
+       variable 'signal_occurred' is not declared 'volatile'.
+   Additionally, recall that:
+     * A signal handler should not modify errno (except if it is a handler
+       for a fatal signal and ends by raising the same signal again, thus
+       provoking the termination of the process).  If it invokes a function
+       that may clobber errno, it needs to save and restore the value of
+       errno.  */
+#define _GL_ASYNC_SAFE
+
+
+/* Attributes.  */
+#if (defined __has_attribute \
+     && (!defined __clang_minor__ \
+         || (defined __apple_build_version__ \
+             ? 6000000 <= __apple_build_version__ \
+             : 5 <= __clang_major__)))
+# define _GL_HAS_ATTRIBUTE(attr) __has_attribute (__##attr##__)
+#else
+# define _GL_HAS_ATTRIBUTE(attr) _GL_ATTR_##attr
+# define _GL_ATTR_alloc_size _GL_GNUC_PREREQ (4, 3)
+# define _GL_ATTR_always_inline _GL_GNUC_PREREQ (3, 2)
+# define _GL_ATTR_artificial _GL_GNUC_PREREQ (4, 3)
+# define _GL_ATTR_cold _GL_GNUC_PREREQ (4, 3)
+# define _GL_ATTR_const _GL_GNUC_PREREQ (2, 95)
+# define _GL_ATTR_deprecated _GL_GNUC_PREREQ (3, 1)
+# define _GL_ATTR_diagnose_if 0
+# define _GL_ATTR_error _GL_GNUC_PREREQ (4, 3)
+# define _GL_ATTR_externally_visible _GL_GNUC_PREREQ (4, 1)
+# define _GL_ATTR_fallthrough _GL_GNUC_PREREQ (7, 0)
+# define _GL_ATTR_format _GL_GNUC_PREREQ (2, 7)
+# define _GL_ATTR_leaf _GL_GNUC_PREREQ (4, 6)
+# define _GL_ATTR_malloc _GL_GNUC_PREREQ (3, 0)
+# ifdef _ICC
+#  define _GL_ATTR_may_alias 0
+# else
+#  define _GL_ATTR_may_alias _GL_GNUC_PREREQ (3, 3)
+# endif
+# define _GL_ATTR_noinline _GL_GNUC_PREREQ (3, 1)
+# define _GL_ATTR_nonnull _GL_GNUC_PREREQ (3, 3)
+# define _GL_ATTR_nonstring _GL_GNUC_PREREQ (8, 0)
+# define _GL_ATTR_nothrow _GL_GNUC_PREREQ (3, 3)
+# define _GL_ATTR_packed _GL_GNUC_PREREQ (2, 7)
+# define _GL_ATTR_pure _GL_GNUC_PREREQ (2, 96)
+# define _GL_ATTR_returns_nonnull _GL_GNUC_PREREQ (4, 9)
+# define _GL_ATTR_sentinel _GL_GNUC_PREREQ (4, 0)
+# define _GL_ATTR_unused _GL_GNUC_PREREQ (2, 7)
+# define _GL_ATTR_warn_unused_result _GL_GNUC_PREREQ (3, 4)
+#endif
+
+/* Use __has_c_attribute if available.  However, do not use with
+   pre-C23 GCC, which can issue false positives if -Wpedantic.  */
+#if (defined __has_c_attribute \
+     && ! (_GL_GNUC_PREREQ (4, 6) \
+           && (defined __STDC_VERSION__ ? __STDC_VERSION__ : 0) <= 201710))
+# define _GL_HAVE___HAS_C_ATTRIBUTE 1
+#else
+# define _GL_HAVE___HAS_C_ATTRIBUTE 0
+#endif
+
+/* Define if, in a function declaration, the attributes in bracket syntax
+   [[...]] must come before the attributes in __attribute__((...)) syntax.
+   If this is defined, it is best to avoid the bracket syntax, so that the
+   various _GL_ATTRIBUTE_* can be cumulated on the same declaration in any
+   order.  */
+#ifdef __cplusplus
+# if defined __clang__
+#  define _GL_BRACKET_BEFORE_ATTRIBUTE 1
+# endif
+#else
+# if defined __GNUC__ && !defined __clang__
+#  define _GL_BRACKET_BEFORE_ATTRIBUTE 1
+# endif
+#endif
+
+/* _GL_ATTRIBUTE_ALLOC_SIZE ((N)) declares that the Nth argument of the function
+   is the size of the returned memory block.
+   _GL_ATTRIBUTE_ALLOC_SIZE ((M, N)) declares that the Mth argument multiplied
+   by the Nth argument of the function is the size of the returned memory block.
+ */
+/* Applies to: function, pointer to function, function types.  */
+#ifndef _GL_ATTRIBUTE_ALLOC_SIZE
+# if _GL_HAS_ATTRIBUTE (alloc_size)
+#  define _GL_ATTRIBUTE_ALLOC_SIZE(args) __attribute__ ((__alloc_size__ args))
+# else
+#  define _GL_ATTRIBUTE_ALLOC_SIZE(args)
+# endif
+#endif
+
+/* _GL_ATTRIBUTE_ALWAYS_INLINE tells that the compiler should always inline the
+   function and report an error if it cannot do so.  */
+/* Applies to: function.  */
+#ifndef _GL_ATTRIBUTE_ALWAYS_INLINE
+# if _GL_HAS_ATTRIBUTE (always_inline)
+#  define _GL_ATTRIBUTE_ALWAYS_INLINE __attribute__ ((__always_inline__))
+# else
+#  define _GL_ATTRIBUTE_ALWAYS_INLINE
+# endif
+#endif
+
+/* _GL_ATTRIBUTE_ARTIFICIAL declares that the function is not important to show
+    in stack traces when debugging.  The compiler should omit the function from
+    stack traces.  */
+/* Applies to: function.  */
+#ifndef _GL_ATTRIBUTE_ARTIFICIAL
+# if _GL_HAS_ATTRIBUTE (artificial)
+#  define _GL_ATTRIBUTE_ARTIFICIAL __attribute__ ((__artificial__))
+# else
+#  define _GL_ATTRIBUTE_ARTIFICIAL
+# endif
+#endif
+
+/* _GL_ATTRIBUTE_COLD declares that the function is rarely executed.  */
+/* Applies to: functions.  */
+/* Avoid __attribute__ ((cold)) on MinGW; see thread starting at
+   <https://lists.gnu.org/r/emacs-devel/2019-04/msg01152.html>.
+   Also, Oracle Studio 12.6 requires 'cold' not '__cold__'.  */
+#ifndef _GL_ATTRIBUTE_COLD
+# if _GL_HAS_ATTRIBUTE (cold) && !defined __MINGW32__
+#  ifndef __SUNPRO_C
+#   define _GL_ATTRIBUTE_COLD __attribute__ ((__cold__))
+#  else
+#   define _GL_ATTRIBUTE_COLD __attribute__ ((cold))
+#  endif
+# else
+#  define _GL_ATTRIBUTE_COLD
+# endif
+#endif
+
+/* _GL_ATTRIBUTE_CONST declares that it is OK for a compiler to omit duplicate
+   calls to the function with the same arguments.
+   This attribute is safe for a function that neither depends on nor affects
+   observable state, and always returns exactly once - e.g., does not loop
+   forever, and does not call longjmp.
+   (This attribute is stricter than _GL_ATTRIBUTE_PURE.)  */
+/* Applies to: functions.  */
+#ifndef _GL_ATTRIBUTE_CONST
+# if _GL_HAS_ATTRIBUTE (const)
+#  define _GL_ATTRIBUTE_CONST __attribute__ ((__const__))
+# else
+#  define _GL_ATTRIBUTE_CONST
+# endif
+#endif
+
+/* _GL_ATTRIBUTE_DEALLOC (F, I) declares that the function returns pointers
+   that can be freed by passing them as the Ith argument to the
+   function F.
+   _GL_ATTRIBUTE_DEALLOC_FREE declares that the function returns pointers that
+   can be freed via 'free'; it can be used only after declaring 'free'.  */
+/* Applies to: functions.  Cannot be used on inline functions.  */
+#ifndef _GL_ATTRIBUTE_DEALLOC
+# if _GL_GNUC_PREREQ (11, 0)
+#  define _GL_ATTRIBUTE_DEALLOC(f, i) __attribute__ ((__malloc__ (f, i)))
+# else
+#  define _GL_ATTRIBUTE_DEALLOC(f, i)
+# endif
+#endif
+/* If gnulib's <string.h> or <wchar.h> has already defined this macro, continue
+   to use this earlier definition, since <stdlib.h> may not have been included
+   yet.  */
+#ifndef _GL_ATTRIBUTE_DEALLOC_FREE
+# if defined __cplusplus && defined __GNUC__ && !defined __clang__
+/* Work around GCC bug <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=108231> */
+#  define _GL_ATTRIBUTE_DEALLOC_FREE \
+     _GL_ATTRIBUTE_DEALLOC ((void (*) (void *)) free, 1)
+# else
+#  define _GL_ATTRIBUTE_DEALLOC_FREE \
+     _GL_ATTRIBUTE_DEALLOC (free, 1)
+# endif
+#endif
+
+/* _GL_ATTRIBUTE_DEPRECATED: Declares that an entity is deprecated.
+   The compiler may warn if the entity is used.  */
+/* Applies to:
+     - function, variable,
+     - struct, union, struct/union member,
+     - enumeration, enumeration item,
+     - typedef,
+   in C++ also: namespace, class, template specialization.  */
+#ifndef _GL_ATTRIBUTE_DEPRECATED
+# ifndef _GL_BRACKET_BEFORE_ATTRIBUTE
+#  if _GL_HAVE___HAS_C_ATTRIBUTE
+#   if __has_c_attribute (__deprecated__)
+#    define _GL_ATTRIBUTE_DEPRECATED [[__deprecated__]]
+#   endif
+#  endif
+# endif
+# if !defined _GL_ATTRIBUTE_DEPRECATED && _GL_HAS_ATTRIBUTE (deprecated)
+#  define _GL_ATTRIBUTE_DEPRECATED __attribute__ ((__deprecated__))
+# endif
+# ifndef _GL_ATTRIBUTE_DEPRECATED
+#  define _GL_ATTRIBUTE_DEPRECATED
+# endif
+#endif
+
+/* _GL_ATTRIBUTE_ERROR(msg) requests an error if a function is called and
+   the function call is not optimized away.
+   _GL_ATTRIBUTE_WARNING(msg) requests a warning if a function is called and
+   the function call is not optimized away.  */
+/* Applies to: functions.  */
+#if !(defined _GL_ATTRIBUTE_ERROR && defined _GL_ATTRIBUTE_WARNING)
+# if _GL_HAS_ATTRIBUTE (error)
+#  define _GL_ATTRIBUTE_ERROR(msg) __attribute__ ((__error__ (msg)))
+#  define _GL_ATTRIBUTE_WARNING(msg) __attribute__ ((__warning__ (msg)))
+# elif _GL_HAS_ATTRIBUTE (diagnose_if)
+#  define _GL_ATTRIBUTE_ERROR(msg) __attribute__ ((__diagnose_if__ (1, msg, "error")))
+#  define _GL_ATTRIBUTE_WARNING(msg) __attribute__ ((__diagnose_if__ (1, msg, "warning")))
+# else
+#  define _GL_ATTRIBUTE_ERROR(msg)
+#  define _GL_ATTRIBUTE_WARNING(msg)
+# endif
+#endif
+
+/* _GL_ATTRIBUTE_EXTERNALLY_VISIBLE declares that the entity should remain
+   visible to debuggers etc., even with '-fwhole-program'.  */
+/* Applies to: functions, variables.  */
+#ifndef _GL_ATTRIBUTE_EXTERNALLY_VISIBLE
+# if _GL_HAS_ATTRIBUTE (externally_visible)
+#  define _GL_ATTRIBUTE_EXTERNALLY_VISIBLE __attribute__ ((externally_visible))
+# else
+#  define _GL_ATTRIBUTE_EXTERNALLY_VISIBLE
+# endif
+#endif
+
+/* _GL_ATTRIBUTE_FALLTHROUGH declares that it is not a programming mistake if
+   the control flow falls through to the immediately following 'case' or
+   'default' label.  The compiler should not warn in this case.  */
+/* Applies to: Empty statement (;), inside a 'switch' statement.  */
+/* Always expands to something.  */
+#ifndef _GL_ATTRIBUTE_FALLTHROUGH
+# if _GL_HAVE___HAS_C_ATTRIBUTE
+#  if __has_c_attribute (__fallthrough__)
+#   define _GL_ATTRIBUTE_FALLTHROUGH [[__fallthrough__]]
+#  endif
+# endif
+# if !defined _GL_ATTRIBUTE_FALLTHROUGH && _GL_HAS_ATTRIBUTE (fallthrough)
+#  define _GL_ATTRIBUTE_FALLTHROUGH __attribute__ ((__fallthrough__))
+# endif
+# ifndef _GL_ATTRIBUTE_FALLTHROUGH
+#  define _GL_ATTRIBUTE_FALLTHROUGH ((void) 0)
+# endif
+#endif
+
+/* _GL_ATTRIBUTE_FORMAT ((ARCHETYPE, STRING-INDEX, FIRST-TO-CHECK))
+   declares that the STRING-INDEXth function argument is a format string of
+   style ARCHETYPE, which is one of:
+     printf, gnu_printf
+     scanf, gnu_scanf,
+     strftime, gnu_strftime,
+     strfmon,
+   or the same thing prefixed and suffixed with '__'.
+   If FIRST-TO-CHECK is not 0, arguments starting at FIRST-TO_CHECK
+   are suitable for the format string.  */
+/* Applies to: functions.  */
+#ifndef _GL_ATTRIBUTE_FORMAT
+# if _GL_HAS_ATTRIBUTE (format)
+#  define _GL_ATTRIBUTE_FORMAT(spec) __attribute__ ((__format__ spec))
+# else
+#  define _GL_ATTRIBUTE_FORMAT(spec)
+# endif
+#endif
+
+/* _GL_ATTRIBUTE_LEAF declares that if the function is called from some other
+   compilation unit, it executes code from that unit only by return or by
+   exception handling.  This declaration lets the compiler optimize that unit
+   more aggressively.  */
+/* Applies to: functions.  */
+#ifndef _GL_ATTRIBUTE_LEAF
+# if _GL_HAS_ATTRIBUTE (leaf)
+#  define _GL_ATTRIBUTE_LEAF __attribute__ ((__leaf__))
+# else
+#  define _GL_ATTRIBUTE_LEAF
+# endif
+#endif
+
+/* _GL_ATTRIBUTE_MALLOC declares that the function returns a pointer to freshly
+   allocated memory.  */
+/* Applies to: functions.  */
+#ifndef _GL_ATTRIBUTE_MALLOC
+# if _GL_HAS_ATTRIBUTE (malloc)
+#  define _GL_ATTRIBUTE_MALLOC __attribute__ ((__malloc__))
+# else
+#  define _GL_ATTRIBUTE_MALLOC
+# endif
+#endif
+
+/* _GL_ATTRIBUTE_MAY_ALIAS declares that pointers to the type may point to the
+   same storage as pointers to other types.  Thus this declaration disables
+   strict aliasing optimization.  */
+/* Applies to: types.  */
+/* Oracle Studio 12.6 mishandles may_alias despite __has_attribute OK.  */
+#ifndef _GL_ATTRIBUTE_MAY_ALIAS
+# if _GL_HAS_ATTRIBUTE (may_alias) && !defined __SUNPRO_C
+#  define _GL_ATTRIBUTE_MAY_ALIAS __attribute__ ((__may_alias__))
+# else
+#  define _GL_ATTRIBUTE_MAY_ALIAS
+# endif
+#endif
+
+/* _GL_ATTRIBUTE_MAYBE_UNUSED declares that it is not a programming mistake if
+   the entity is not used.  The compiler should not warn if the entity is not
+   used.  */
+/* Applies to:
+     - function, variable,
+     - struct, union, struct/union member,
+     - enumeration, enumeration item,
+     - typedef,
+   in C++ also: class.  */
+/* In C++ and C23, this is spelled [[__maybe_unused__]].
+   GCC's syntax is __attribute__ ((__unused__)).
+   clang supports both syntaxes.  Except that with clang ≥ 6, < 10, in C++ mode,
+   __has_c_attribute (__maybe_unused__) yields true but the use of
+   [[__maybe_unused__]] nevertheless produces a warning.  */
+#ifndef _GL_ATTRIBUTE_MAYBE_UNUSED
+# ifndef _GL_BRACKET_BEFORE_ATTRIBUTE
+#  if defined __clang__ && defined __cplusplus
+#   if !defined __apple_build_version__ && __clang_major__ >= 10
+#    define _GL_ATTRIBUTE_MAYBE_UNUSED [[__maybe_unused__]]
+#   endif
+#  elif _GL_HAVE___HAS_C_ATTRIBUTE
+#   if __has_c_attribute (__maybe_unused__)
+#    define _GL_ATTRIBUTE_MAYBE_UNUSED [[__maybe_unused__]]
+#   endif
+#  endif
+# endif
+# ifndef _GL_ATTRIBUTE_MAYBE_UNUSED
+#  define _GL_ATTRIBUTE_MAYBE_UNUSED _GL_ATTRIBUTE_UNUSED
+# endif
+#endif
+/* Alternative spelling of this macro, for convenience and for
+   compatibility with glibc/include/libc-symbols.h.  */
+#define _GL_UNUSED _GL_ATTRIBUTE_MAYBE_UNUSED
+/* Earlier spellings of this macro.  */
+#define _UNUSED_PARAMETER_ _GL_ATTRIBUTE_MAYBE_UNUSED
+
+/* _GL_ATTRIBUTE_NODISCARD declares that the caller of the function should not
+   discard the return value.  The compiler may warn if the caller does not use
+   the return value, unless the caller uses something like ignore_value.  */
+/* Applies to: function, enumeration, class.  */
+#ifndef _GL_ATTRIBUTE_NODISCARD
+# ifndef _GL_BRACKET_BEFORE_ATTRIBUTE
+#  if defined __clang__ && defined __cplusplus
+  /* With clang up to 15.0.6 (at least), in C++ mode, [[__nodiscard__]] produces
+     a warning.
+     The 1000 below means a yet unknown threshold.  When clang++ version X
+     starts supporting [[__nodiscard__]] without warning about it, you can
+     replace the 1000 with X.  */
+#   if __clang_major__ >= 1000
+#    define _GL_ATTRIBUTE_NODISCARD [[__nodiscard__]]
+#   endif
+#  elif _GL_HAVE___HAS_C_ATTRIBUTE
+#   if __has_c_attribute (__nodiscard__)
+#    define _GL_ATTRIBUTE_NODISCARD [[__nodiscard__]]
+#   endif
+#  endif
+# endif
+# if !defined _GL_ATTRIBUTE_NODISCARD && _GL_HAS_ATTRIBUTE (warn_unused_result)
+#  define _GL_ATTRIBUTE_NODISCARD __attribute__ ((__warn_unused_result__))
+# endif
+# ifndef _GL_ATTRIBUTE_NODISCARD
+#  define _GL_ATTRIBUTE_NODISCARD
+# endif
+#endif
+
+/* _GL_ATTRIBUTE_NOINLINE tells that the compiler should not inline the
+   function.  */
+/* Applies to: functions.  */
+#ifndef _GL_ATTRIBUTE_NOINLINE
+# if _GL_HAS_ATTRIBUTE (noinline)
+#  define _GL_ATTRIBUTE_NOINLINE __attribute__ ((__noinline__))
+# else
+#  define _GL_ATTRIBUTE_NOINLINE
+# endif
+#endif
+
+/* _GL_ATTRIBUTE_NONNULL ((N1, N2,...)) declares that the arguments N1, N2,...
+   must not be NULL.
+   _GL_ATTRIBUTE_NONNULL () declares that all pointer arguments must not be
+   null.  */
+/* Applies to: functions.  */
+#ifndef _GL_ATTRIBUTE_NONNULL
+# if _GL_HAS_ATTRIBUTE (nonnull)
+#  define _GL_ATTRIBUTE_NONNULL(args) __attribute__ ((__nonnull__ args))
+# else
+#  define _GL_ATTRIBUTE_NONNULL(args)
+# endif
+#endif
+
+/* _GL_ATTRIBUTE_NONSTRING declares that the contents of a character array is
+   not meant to be NUL-terminated.  */
+/* Applies to: struct/union members and variables that are arrays of element
+   type '[[un]signed] char'.  */
+#ifndef _GL_ATTRIBUTE_NONSTRING
+# if _GL_HAS_ATTRIBUTE (nonstring)
+#  define _GL_ATTRIBUTE_NONSTRING __attribute__ ((__nonstring__))
+# else
+#  define _GL_ATTRIBUTE_NONSTRING
+# endif
+#endif
+
+/* There is no _GL_ATTRIBUTE_NORETURN; use _Noreturn instead.  */
+
+/* _GL_ATTRIBUTE_NOTHROW declares that the function does not throw exceptions.
+ */
+/* Applies to: functions.  */
+/* After a function's parameter list, this attribute must come first, before
+   other attributes.  */
+#ifndef _GL_ATTRIBUTE_NOTHROW
+# if defined __cplusplus
+#  if _GL_GNUC_PREREQ (2, 8) || __clang_major >= 4
+#   if __cplusplus >= 201103L
+#    define _GL_ATTRIBUTE_NOTHROW noexcept (true)
+#   else
+#    define _GL_ATTRIBUTE_NOTHROW throw ()
+#   endif
+#  else
+#   define _GL_ATTRIBUTE_NOTHROW
+#  endif
+# else
+#  if _GL_HAS_ATTRIBUTE (nothrow)
+#   define _GL_ATTRIBUTE_NOTHROW __attribute__ ((__nothrow__))
+#  else
+#   define _GL_ATTRIBUTE_NOTHROW
+#  endif
+# endif
+#endif
+
+/* _GL_ATTRIBUTE_PACKED declares:
+   For struct members: The member has the smallest possible alignment.
+   For struct, union, class: All members have the smallest possible alignment,
+   minimizing the memory required.  */
+/* Applies to: struct members, struct, union,
+   in C++ also: class.  */
+#ifndef _GL_ATTRIBUTE_PACKED
+# if _GL_HAS_ATTRIBUTE (packed)
+#  define _GL_ATTRIBUTE_PACKED __attribute__ ((__packed__))
+# else
+#  define _GL_ATTRIBUTE_PACKED
+# endif
+#endif
+
+/* _GL_ATTRIBUTE_PURE declares that It is OK for a compiler to omit duplicate
+   calls to the function with the same arguments if observable state is not
+   changed between calls.
+   This attribute is safe for a function that does not affect
+   observable state, and always returns exactly once.
+   (This attribute is looser than _GL_ATTRIBUTE_CONST.)  */
+/* Applies to: functions.  */
+#ifndef _GL_ATTRIBUTE_PURE
+# if _GL_HAS_ATTRIBUTE (pure)
+#  define _GL_ATTRIBUTE_PURE __attribute__ ((__pure__))
+# else
+#  define _GL_ATTRIBUTE_PURE
+# endif
+#endif
+
+/* _GL_ATTRIBUTE_RETURNS_NONNULL declares that the function's return value is
+   a non-NULL pointer.  */
+/* Applies to: functions.  */
+#ifndef _GL_ATTRIBUTE_RETURNS_NONNULL
+# if _GL_HAS_ATTRIBUTE (returns_nonnull)
+#  define _GL_ATTRIBUTE_RETURNS_NONNULL __attribute__ ((__returns_nonnull__))
+# else
+#  define _GL_ATTRIBUTE_RETURNS_NONNULL
+# endif
+#endif
+
+/* _GL_ATTRIBUTE_SENTINEL(pos) declares that the variadic function expects a
+   trailing NULL argument.
+   _GL_ATTRIBUTE_SENTINEL () - The last argument is NULL (requires C99).
+   _GL_ATTRIBUTE_SENTINEL ((N)) - The (N+1)st argument from the end is NULL.  */
+/* Applies to: functions.  */
+#ifndef _GL_ATTRIBUTE_SENTINEL
+# if _GL_HAS_ATTRIBUTE (sentinel)
+#  define _GL_ATTRIBUTE_SENTINEL(pos) __attribute__ ((__sentinel__ pos))
+# else
+#  define _GL_ATTRIBUTE_SENTINEL(pos)
+# endif
+#endif
+
+/* A helper macro.  Don't use it directly.  */
+#ifndef _GL_ATTRIBUTE_UNUSED
+# if _GL_HAS_ATTRIBUTE (unused)
+#  define _GL_ATTRIBUTE_UNUSED __attribute__ ((__unused__))
+# else
+#  define _GL_ATTRIBUTE_UNUSED
+# endif
+#endif
+
+
+/* _GL_UNUSED_LABEL; declares that it is not a programming mistake if the
+   immediately preceding label is not used.  The compiler should not warn
+   if the label is not used.  */
+/* Applies to: label (both in C and C++).  */
+/* Note that g++ < 4.5 does not support the '__attribute__ ((__unused__)) ;'
+   syntax.  But clang does.  */
+#ifndef _GL_UNUSED_LABEL
+# if !(defined __cplusplus && !_GL_GNUC_PREREQ (4, 5)) || defined __clang__
+#  define _GL_UNUSED_LABEL _GL_ATTRIBUTE_UNUSED
+# else
+#  define _GL_UNUSED_LABEL
+# endif
+#endif
+
+
+/* In C++, there is the concept of "language linkage", that encompasses
+    name mangling and function calling conventions.
+    The following macros start and end a block of "C" linkage.  */
+#ifdef __cplusplus
+# define _GL_BEGIN_C_LINKAGE extern "C" {
+# define _GL_END_C_LINKAGE }
+#else
+# define _GL_BEGIN_C_LINKAGE
+# define _GL_END_C_LINKAGE
+#endif
+
+
+/* Define to empty if 'const' does not conform to ANSI C. */
 #undef const
 
 /* Please see the Gnulib manual for how to use these macros.
@@ -3187,10 +3831,28 @@
 # define _GL_INLINE_HEADER_END
 #endif
 
-/* Define to `int' if <sys/types.h> doesn't define. */
+/* Define to the overridden function name */
+#undef fts_children
+
+/* Define to the overridden function name */
+#undef fts_close
+
+/* Define to the overridden function name */
+#undef fts_cross_check
+
+/* Define to the overridden function name */
+#undef fts_open
+
+/* Define to the overridden function name */
+#undef fts_read
+
+/* Define to the overridden function name */
+#undef fts_set
+
+/* Define as 'int' if <sys/types.h> doesn't define. */
 #undef gid_t
 
-/* Define to `__inline__' or `__inline' if that's what the C compiler
+/* Define to '__inline__' or '__inline' if that's what the C compiler
    calls it, or to nothing if 'inline' is not supported under any name.  */
 #ifndef __cplusplus
 #undef inline
@@ -3215,38 +3877,51 @@
 /* Define to long or long long if <stdint.h> and <inttypes.h> don't define. */
 #undef intmax_t
 
-
-/* Work around a bug in Apple GCC 4.0.1 build 5465: In C99 mode,
- * it supports the ISO C 99 semantics of 'extern inline'
- * (unlike the GNU C semantics of earlier versions), but does not display
- * it by setting __GNUC_STDC_INLINE__.
- * __APPLE__ && __MACH__ test for Mac OS X.
- * __APPLE_CC__ tests for the Apple compiler and its version.
- * __STDC_VERSION__ tests for the C99 mode.  */
-#if defined __APPLE__ && defined __MACH__ && (__APPLE_CC__ >= 5465) && !defined __cplusplus && (__STDC_VERSION__ >= 199901L) && !defined __GNUC_STDC_INLINE__
+/* Work around a bug in Apple GCC 4.0.1 build 5465: In C99 mode, it supports
+   the ISO C 99 semantics of 'extern inline' (unlike the GNU C semantics of
+   earlier versions), but does not display it by setting __GNUC_STDC_INLINE__.
+   __APPLE__ && __MACH__ test for Mac OS X.
+   __APPLE_CC__ tests for the Apple compiler and its version.
+   __STDC_VERSION__ tests for the C99 mode.  */
+#if defined __APPLE__ && defined __MACH__ && __APPLE_CC__ >= 5465 && !defined __cplusplus && __STDC_VERSION__ >= 199901L && !defined __GNUC_STDC_INLINE__
 # define __GNUC_STDC_INLINE__ 1
-#endif /* Apple GCC */
-  
+#endif
 
 /* Define to rpl_malloc if the replacement function should be used. */
 #undef malloc
 
+/* _GL_CMP (n1, n2) performs a three-valued comparison on n1 vs. n2, where
+   n1 and n2 are expressions without side effects, that evaluate to real
+   numbers (excluding NaN).
+   It returns
+     1  if n1 > n2
+     0  if n1 == n2
+     -1 if n1 < n2
+   The naïve code   (n1 > n2 ? 1 : n1 < n2 ? -1 : 0)  produces a conditional
+   jump with nearly all GCC versions up to GCC 10.
+   This variant     (n1 < n2 ? -1 : n1 > n2)  produces a conditional with many
+   GCC versions up to GCC 9.
+   The better code  (n1 > n2) - (n1 < n2)  from Hacker's Delight § 2-9
+   avoids conditional jumps in all GCC versions >= 3.4.  */
+#define _GL_CMP(n1, n2) (((n1) > (n2)) - ((n1) < (n2)))
+
+
 /* Define to the real name of the mktime_internal function. */
 #undef mktime_internal
 
-/* Define to `int' if <sys/types.h> does not define. */
+/* Define to 'int' if <sys/types.h> does not define. */
 #undef mode_t
 
 /* Define to the type of st_nlink in struct stat, or a supertype. */
 #undef nlink_t
 
-/* Define to `long int' if <sys/types.h> does not define. */
+/* Define to 'long int' if <sys/types.h> does not define. */
 #undef off64_t
 
-/* Define to `long int' if <sys/types.h> does not define. */
+/* Define to 'long int' if <sys/types.h> does not define. */
 #undef off_t
 
-/* Define to `int' if <sys/types.h> does not define. */
+/* Define as a signed integer type capable of holding a process identifier. */
 #undef pid_t
 
 /* Define as the type of the result of subtracting two pointers, if the system
@@ -3260,23 +3935,24 @@
    nothing if this is not supported.  Do not define if restrict is
    supported only directly.  */
 #undef restrict
-/* Work around a bug in Sun C++ 5.13: it does not support _Restrict or
-   __restrict__, even though the corresponding Sun C compiler ends up with
-   "#define restrict _Restrict" or "#define restrict __restrict__".
-   Perhaps some future version of Sun C++ will work with restrict;
-   if so, hopefully it defines __RESTRICT like Sun C does.  */
-#if defined __SUNPRO_CC && !defined __RESTRICT
+/* Work around a bug in older versions of Sun C++, which did not
+   #define __restrict__ or support _Restrict or __restrict__
+   even though the corresponding Sun C compiler ended up with
+   "#define restrict _Restrict" or "#define restrict __restrict__"
+   in the previous line.  This workaround can be removed once
+   we assume Oracle Developer Studio 12.5 (2016) or later.  */
+#if defined __SUNPRO_CC && !defined __RESTRICT && !defined __restrict__
 # define _Restrict
 # define __restrict__
 #endif
 
-/* Define to `unsigned int' if <sys/types.h> does not define. */
+/* Define as 'unsigned int' if <stddef.h> doesn't define. */
 #undef size_t
 
 /* Define as a signed type of the same size as size_t. */
 #undef ssize_t
 
-/* Define to `int' if <sys/types.h> doesn't define. */
+/* Define as 'int' if <sys/types.h> doesn't define. */
 #undef uid_t
 
 /* Define to the type of an unsigned integer type of width exactly 16 bits if
@@ -3299,39 +3975,11 @@
    do not define. */
 #undef uintmax_t
 
-
-/* Define as a marker that can be attached to declarations that might not
- * be used. This helps to reduce warnings, such as from
- * GCC -Wunused-parameter.  */
-#if (__GNUC__ >= 3) || ((__GNUC__ == 2) && (__GNUC_MINOR__ >= 7))
-# define _GL_UNUSED __attribute__ ((__unused__))
-#else
-# define _GL_UNUSED
-#endif /* GCC 2.7+ */
-/* The name _UNUSED_PARAMETER_ is an earlier spelling, although the name
- * is a misnomer outside of parameter lists: */
-#define _UNUSED_PARAMETER_ _GL_UNUSED
-
-/* The __pure__ attribute was added in gcc 2.96: */
-#if (__GNUC__ > 2) || ((__GNUC__ == 2) && (__GNUC_MINOR__ >= 96))
-# define _GL_ATTRIBUTE_PURE __attribute__ ((__pure__))
-#else
-# define _GL_ATTRIBUTE_PURE /* empty */
-#endif /* GCC 2.96+ */
-
-/* The __const__ attribute was added in gcc 2.95: */
-#if (__GNUC__ > 2) || ((__GNUC__ == 2) && (__GNUC_MINOR__ >= 95))
-# define _GL_ATTRIBUTE_CONST __attribute__ ((__const__))
-#else
-# define _GL_ATTRIBUTE_CONST /* empty */
-#endif /* GCC 2.95+ */
-  
-
-/* Define as `fork' if `vfork' does not work. */
+/* Define as 'fork' if 'vfork' does not work. */
 #undef vfork
 
-/* Define to empty if the keyword `volatile' does not work. Warning: valid
-   code using `volatile' can become incorrect without. Disable with care. */
+/* Define to empty if the keyword 'volatile' does not work. Warning: valid
+   code using 'volatile' can become incorrect without. Disable with care. */
 #undef volatile
 
 

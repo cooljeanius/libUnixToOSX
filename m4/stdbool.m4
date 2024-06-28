@@ -1,29 +1,41 @@
 # Check for stdbool.h that conforms to C99.
 
-dnl# Copyright (C) 2002-2006, 2009-2012 Free Software Foundation, Inc.
-dnl# This file is free software; the Free Software Foundation
-dnl# gives unlimited permission to copy and/or distribute it,
-dnl# with or without modifications, as long as this notice is preserved.
+dnl Copyright (C) 2002-2006, 2009-2023 Free Software Foundation, Inc.
+dnl This file is free software; the Free Software Foundation
+dnl gives unlimited permission to copy and/or distribute it,
+dnl with or without modifications, as long as this notice is preserved.
 
-#serial 6
+#serial 10
 
 # Prepare for substituting <stdbool.h> if it is not supported.
 
-AC_DEFUN([AM_STDBOOL_H],
+AC_DEFUN([gl_STDBOOL_H],
 [
   AC_REQUIRE([AC_CHECK_HEADER_STDBOOL])
+  AC_REQUIRE([AC_CANONICAL_HOST])
 
-  # Define two additional variables used in the Makefile substitution.
-
-  if test "x${ac_cv_header_stdbool_h}" = "xyes"; then
-    STDBOOL_H=''
+  dnl On some platforms, <stdbool.h> does not exist or does not conform to C99.
+  dnl On Solaris 10 with CC=cc CXX=CC, <stdbool.h> exists but is not usable
+  dnl in C++ mode (and no <cstdbool> exists). In this case, we use our
+  dnl replacement, also in C mode (for binary compatibility between C and C++).
+  if test "$ac_cv_header_stdbool_h" = yes; then
+    case "$host_os" in
+      solaris*)
+        if test -z "$GCC"; then
+          GL_GENERATE_STDBOOL_H=true
+        else
+          GL_GENERATE_STDBOOL_H=false
+        fi
+        ;;
+      *)
+        GL_GENERATE_STDBOOL_H=false
+        ;;
+    esac
   else
-    STDBOOL_H='stdbool.h'
+    GL_GENERATE_STDBOOL_H=true
   fi
-  AC_SUBST([STDBOOL_H])
-  AM_CONDITIONAL([GL_GENERATE_STDBOOL_H],[test -n "${STDBOOL_H}"])
 
-  if test "x${ac_cv_type__Bool}" = "xyes"; then
+  if test "$ac_cv_type__Bool" = yes; then
     HAVE__BOOL=1
   else
     HAVE__BOOL=0
@@ -31,83 +43,76 @@ AC_DEFUN([AM_STDBOOL_H],
   AC_SUBST([HAVE__BOOL])
 ])
 
-# AM_STDBOOL_H will be renamed to gl_STDBOOL_H in the future.
-AC_DEFUN([gl_STDBOOL_H],[
-  AC_REQUIRE([AM_STDBOOL_H])
-])
-
-# This version of the macro is needed in autoconf <= 2.68.
+m4_version_prereq([2.72], [], [
 
 AC_DEFUN([AC_CHECK_HEADER_STDBOOL],
-  [AC_CACHE_CHECK([for stdbool.h that conforms to C99],
+  [AC_CHECK_TYPES([_Bool])
+   AC_CACHE_CHECK([for stdbool.h that conforms to C99 or later],
      [ac_cv_header_stdbool_h],
      [AC_COMPILE_IFELSE(
         [AC_LANG_PROGRAM(
-           [[
-             #include <stdbool.h>
-             #ifndef bool
-              "error: bool is not defined"
-             #endif /* !bool */
-             #ifndef false
-              "error: false is not defined"
-             #endif /* !false */
-             #if false
-              "error: false is not 0"
-             #endif /* false */
-             #ifndef true
-              "error: true is not defined"
-             #endif /* !true */
+           [[#include <stdbool.h>
+
+             /* "true" and "false" should be usable in #if expressions and
+                integer constant expressions, and "bool" should be a valid
+                type name.
+
+                Although C99 requires bool, true, and false to be macros,
+                C23 and C++11 overrule that, so do not test for that.
+                Although C99 requires __bool_true_false_are_defined and
+                _Bool, C23 says they are obsolescent, so do not require
+                them.  */
+
+             #if !true
+               #error "'true' is not true"
+             #endif
              #if true != 1
-              "error: true is not 1"
-             #endif /* true != 1 */
-             #ifndef __bool_true_false_are_defined
-              "error: __bool_true_false_are_defined is not defined"
-             #endif /* !__bool_true_false_are_defined */
+               #error "'true' is not equal to 1"
+             #endif
+             char b[true == 1 ? 1 : -1];
+             char c[true];
 
-             struct s { _Bool s: 1; _Bool t; } s;
+             #if false
+               #error "'false' is not false"
+             #endif
+             #if false != 0
+               #error "'false' is not equal to 0"
+             #endif
+             char d[false == 0 ? 1 : -1];
 
-             char a[(true == 1) ? 1 : -1];
-             char b[(false == 0) ? 1 : -1];
-             char c[(__bool_true_false_are_defined == 1) ? 1 : -1];
-             char d[((bool)0.5 == true) ? 1 : -1];
-             /* See body of main program for 'e'.  */
-             char f[((_Bool)0.0 == false) ? 1 : -1];
-             char g[true];
-             char h[sizeof(_Bool)];
-             char i[sizeof(s.t)];
-             enum { j = false, k = true, l = false * true, m = true * 256 };
+             enum { e = false, f = true, g = false * true, h = true * 256 };
+
+             char i[(bool) 0.5 == true ? 1 : -1];
+             char j[(bool) 0.0 == false ? 1 : -1];
+             char k[sizeof (bool) > 0 ? 1 : -1];
+
+             struct sb { bool s: 1; bool t; } s;
+             char l[sizeof s.t > 0 ? 1 : -1];
+
              /* The following fails for
-              * HP aC++/ANSI C B3910B A.05.55 [Dec 04 2003]. */
-             _Bool n[m];
-             char o[(sizeof(n) == (m * sizeof(n[0]))) ? 1 : -1];
-             char p[((-1 - (_Bool)0 < 0) && (-1 - (bool)0 < 0)) ? 1 : -1];
-             /* Catch a bug in an HP-UX C compiler. See
-              * http://gcc.gnu.org/ml/gcc-patches/2003-12/msg02303.html
-              * http://lists.gnu.org/archive/html/bug-coreutils/2005-11/msg00161.html
+                HP aC++/ANSI C B3910B A.05.55 [Dec 04 2003]. */
+             bool m[h];
+             char n[sizeof m == h * sizeof m[0] ? 1 : -1];
+             char o[-1 - (bool) 0 < 0 ? 1 : -1];
+             /* Catch a bug in an HP-UX C compiler.  See
+                https://gcc.gnu.org/ml/gcc-patches/2003-12/msg02303.html
+                https://lists.gnu.org/r/bug-coreutils/2005-11/msg00161.html
               */
-             _Bool q = true;
-             _Bool *pq = &q;
+             bool p = true;
+             bool *pp = &p;
            ]],
            [[
-             bool e = &s;
-             *pq |= q;
-             *pq |= ! q;
-             /* Refer to each declared value to avoid optimizations */
-             return (!a + !b + !c + !d + !e + !f + !g + !h + !i + !!j + !k + !!l
-                     + !m + !n + !o + !p + !q + !pq);
+             bool ps = &s;
+             *pp |= p;
+             *pp |= ! p;
+
+             /* Refer to every declared value, so they cannot be
+                discarded as unused.  */
+             return (!b + !c + !d + !e + !f + !g + !h + !i + !j + !k
+                     + !l + !m + !n + !o + !p + !pp + !ps);
            ]])],
         [ac_cv_header_stdbool_h=yes],
         [ac_cv_header_stdbool_h=no])])
-   AC_CHECK_TYPES([_Bool])
-])
+])# AC_CHECK_HEADER_STDBOOL
 
-# AC_HEADER_STDBOOL
-# -----------------
-# Define HAVE_STDBOOL_H if tdbool.h that conforms to C99.
-AC_DEFUN([AC_HEADER_STDBOOL],
-[AC_REQUIRE([AC_CHECK_HEADER_STDBOOL])
-if test "x${ac_cv_header_stdbool_h}" = "xyes"; then
-  AC_DEFINE([HAVE_STDBOOL_H],[1],
-            [Define to 1 if stdbool.h conforms to C99.])
-fi
-])# AC_HEADER_STDBOOL
+]) # m4_version_prereq 2.72

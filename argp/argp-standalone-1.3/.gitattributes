@@ -1,0 +1,5 @@
+aclocal.m4 linguist-generated
+config.h.in linguist-generated
+configure linguist-generated
+Makefile.in linguist-generated
+testsuite/Makefile.in linguist-generated

@@ -24,8 +24,8 @@ dnl# CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 dnl# TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 dnl# SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# serial 119
-# (serial is the first two fields of the version, with the period removed)
+# serial 120
+# (serial is the first two fields of the version, with the period removed, incremented accordingly)
 
 # XORG_MACROS_VERSION([required-version])
 # -------------------------------------
@@ -1518,7 +1518,7 @@ AM_CONDITIONAL([MAKE_LINT_LIB],[test "x${make_lint_lib}" != "xno"])dnl
 # Minimum version: 1.14.0
 #
 # Checks for various brands of compilers and sets flags as appropriate:
-#   GNU gcc - relies on AC_PROG_CC (via AC_PROG_CC_C99) to set GCC to "yes"
+#   GNU gcc - relies on AC_PROG_CC to set GCC to "yes"
 #   GNU g++ - relies on AC_PROG_CXX to set GXX to "yes"
 #   clang compiler - sets CLANGCC to "yes"
 #   Intel compiler - sets INTELCC to "yes"
@@ -1526,15 +1526,18 @@ AM_CONDITIONAL([MAKE_LINT_LIB],[test "x${make_lint_lib}" != "xno"])dnl
 #
 AC_DEFUN([XORG_COMPILER_BRAND],[
 AC_LANG_CASE([C],[
-  AC_REQUIRE([AC_PROG_CC_C99])
+  AC_REQUIRE([AC_PROG_CC])
 ],[C++],[
   AC_REQUIRE([AC_PROG_CXX])
 ])dnl
+  ## clang:
 AC_CHECK_DECL([__clang__],[export CLANGCC="yes"],[export CLANGCC="no"])dnl
 AC_SUBST([CLANGCC])dnl
+  ## icc:
 AC_CHECK_DECL([__INTEL_COMPILER],
               [export INTELCC="yes"],[export INTELCC="no"])dnl
 AC_SUBST([INTELCC])dnl
+  ## suncc:
 AC_CHECK_DECL([__SUNPRO_C],[export SUNCC="yes"],[export SUNCC="no"])dnl
 AC_SUBST([SUNCC])dnl
 ])dnl# XORG_COMPILER_BRAND

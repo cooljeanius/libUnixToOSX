@@ -54,6 +54,14 @@ AC_CHECK_HEADERS([assert.h errno.h libintl.h libio/libioP.h \
                   limits.h linewrap.h malloc.h malloc/malloc.h \
                   stddef.h time.h varargs.h])dnl
   ## (<ctype.h> and <stdarg.h> are checked elsewhere)
+if test "x${ac_cv_header_strings_h}" = "x"; then
+  test -z "${ac_cv_header_strings_h}" || unset ac_cv_header_strings_h
+  AC_CHECK_HEADERS([strings.h])
+fi
+if test "x${ac_cv_header_unistd_h}" = "x"; then
+  test -z "${ac_cv_header_unistd_h}" || unset ac_cv_header_unistd_h
+  AC_CHECK_HEADERS([unistd.h])
+fi
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
@@ -99,7 +107,7 @@ m4_ifdef([gl_FUNC_STRSIGNAL],[
 AC_REPLACE_FUNCS([mempcpy rawmemchr strndup strchrnul])dnl
 # keep autoscan happy:
 if test "x" = "Y0"; then
-  test -x `which autoscan`
+  test -x "`which autoscan`" && echo "first usable autoscan in path is `which autoscan`"
   AC_CHECK_FUNCS([mempcpy strndup])
 fi
 
