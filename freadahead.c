@@ -29,10 +29,14 @@ freadahead(FILE *fp)
   /* GNU libc, BeOS, Haiku, Linux libc5 */
   if (fp->_IO_write_ptr > fp->_IO_write_base)
     return 0;
+# if defined(_IO_IN_BACKUP)
   return ((fp->_IO_read_end - fp->_IO_read_ptr)
           + ((fp->_flags & _IO_IN_BACKUP)
              ? (fp->_IO_save_end - fp->_IO_save_base)
              : 0));
+# else
+  return (fp->_IO_read_end - fp->_IO_read_ptr);
+# endif /* _IO_IN_BACKUP */
 #elif defined(__sferror) || defined(__DragonFly__) || defined(__ANDROID__)
   /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin, Minix 3, Android */
   if (((fp_->_flags & __SWR) != 0) || (fp_->_r < 0))

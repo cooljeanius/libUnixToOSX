@@ -568,7 +568,11 @@ read_file_system_list(bool need_fs_type)
 	char const *table;
     FILE *fp;
 
+# ifdef MOUNTED
 	table = (char const *)MOUNTED;
+# else
+	table = NULL;
+# endif /* MOUNTED */
     fp = (FILE *)setmntent(table, "r");
 	if (fp == NULL) {
 		return NULL;
