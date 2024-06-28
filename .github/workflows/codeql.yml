@@ -70,10 +70,10 @@ jobs:
       run: |
         case ${{ matrix.os }} in
           ubuntu*)
-            sudo apt-get -y install libc6-dev-amd64-cross libgcc-s1-amd64-cross libtbb-dev gobjc gobjc-multilib xutils-dev publib-dev libiberty-dev libc6-dev-i386
+            sudo apt-get -y install libc6-dev-amd64-cross libgcc-s1-amd64-cross libtbb-dev gobjc gobjc-multilib xutils-dev publib-dev libiberty-dev libc6-dev-i386 libmm-dev
             ;;
           macos*)
-            echo "TODO: put brew dependencies here"
+            brew install autoconf gawk util-macros
             ;;
           *)
             echo "Warning: unhandled OS: ${{ matrix.os }}"

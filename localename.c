@@ -52,6 +52,15 @@
 # elif HAVE_CFPREFERENCESCOPYAPPVALUE
 #  include <CoreFoundation/CFPreferences.h>
 # endif /* HAVE_CFLOCALECOPYCURRENT || HAVE_CFPREFERENCESCOPYAPPVALUE */
+# if defined(__has_include)
+#  if __has_include(<CoreFoundation/CoreFoundation.h>)
+#   include <CoreFoundation/CoreFoundation.h>
+#  elif __has_include(<CoreFoundation/CFLocale.h>)
+#   include <CoreFoundation/CFLocale.h>
+#  elif __has_include(<CoreFoundation/CFPreferences.h>)
+#   include <CoreFoundation/CFPreferences.h>
+#  endif /* include checks */
+# endif /* __has_include */
 #endif /* HAVE_CFLOCALECOPYCURRENT || HAVE_CFPREFERENCESCOPYAPPVALUE */
 
 #if defined _WIN32 || defined __WIN32__
@@ -2747,7 +2756,9 @@ gl_locale_name_default(void)
 
 		if (cached_localename == NULL) {
 			char namebuf[256];
-#  if HAVE_CFLOCALECOPYCURRENT /* Mac OS X 10.3 or newer */
+#  if defined(HAVE_CFLOCALECOPYCURRENT) && HAVE_CFLOCALECOPYCURRENT && \
+      defined(CFLOCALECOPYCURRENT_OK_TO_LINK) && CFLOCALECOPYCURRENT_OK_TO_LINK
+			/* Mac OS X 10.3 or newer */
 			CFLocaleRef locale = CFLocaleCopyCurrent();
 			CFStringRef name = CFLocaleGetIdentifier(locale);
 
@@ -2757,7 +2768,8 @@ gl_locale_name_default(void)
 				cached_localename = strdup(namebuf);
 			}
 			CFRelease(locale);
-#  elif HAVE_CFPREFERENCESCOPYAPPVALUE /* Mac OS X 10.2 or newer */
+#  elif defined(HAVE_CFPREFERENCESCOPYAPPVALUE) && HAVE_CFPREFERENCESCOPYAPPVALUE
+			/* Mac OS X 10.2 or newer */
 			CFTypeRef value =
 			CFPreferencesCopyAppValue(CFSTR("AppleLocale"),
 									  kCFPreferencesCurrentApplication);

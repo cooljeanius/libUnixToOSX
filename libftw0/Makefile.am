@@ -24,7 +24,7 @@ am__v_v_ = $(am__v_v_@AM_DEFAULT_V@)
 am__v_v_0 =
 am__v_v_1 = -v
 
-all: libftw.0.dylib libftw.dylib libftw.a
+all: libftw.0$(SOEXT) libftw$(SOEXT) libftw.a
 
 libftw.0.1.0.dylib: ftw.o
 	$(AM_V_CCLD)$(CC) $(AM_LDFLAGS) -install_name ${libdir}/libftw.0.dylib -compatibility_version 1 -current_version 1 -o $@ $<

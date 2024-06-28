@@ -45,6 +45,9 @@
 /* Define to the number of bits in type 'wint_t'. */
 #undef BITSIZEOF_WINT_T
 
+/* Define to 1 if we are ok to link with a library for CFLocaleCopyCurrent */
+#undef CFLOCALECOPYCURRENT_OK_TO_LINK
+
 /* Define if you wish *printf() functions that have a safe handling of
    non-IEEE-754 'long double' values. */
 #undef CHECK_PRINTF_SAFE

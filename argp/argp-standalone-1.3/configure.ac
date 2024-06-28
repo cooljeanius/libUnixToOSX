@@ -54,6 +54,10 @@ AC_CHECK_HEADERS([assert.h errno.h libintl.h libio/libioP.h \
                   limits.h linewrap.h malloc.h malloc/malloc.h \
                   stddef.h time.h varargs.h])dnl
   ## (<ctype.h> and <stdarg.h> are checked elsewhere)
+if test "x${ac_cv_header_stdint_h}" = "x"; then
+  test -z "${ac_cv_header_stdint_h}" || unset ac_cv_header_stdint_h
+  AC_CHECK_HEADERS([stdint.h])
+fi
 if test "x${ac_cv_header_strings_h}" = "x"; then
   test -z "${ac_cv_header_strings_h}" || unset ac_cv_header_strings_h
   AC_CHECK_HEADERS([strings.h])

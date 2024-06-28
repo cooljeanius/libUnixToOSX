@@ -111,9 +111,12 @@ warnings_to_skip="${warnings_to_skip} -Wmudflap"      # no longer supported
 warnings_to_skip="${warnings_to_skip} -Wconditionally-supported" # C++ only
 warnings_to_skip="${warnings_to_skip} -Wdelete-incomplete"       # C++ only
 warnings_to_skip="${warnings_to_skip} -Wshadow-ivar"     # ObjC/ObjC++ only
+warnings_to_skip="${warnings_to_skip} -Wimplicit"  # default lately anyways
+warnings_to_skip="${warnings_to_skip} -Wimplicit-function-declaration" # ""
 case ${host_cpu} in
   aarch64 | powerpc64 | x86_64)
     warnings_to_skip="${warnings_to_skip} -Wlong-long"  # "long long"=64bit
+    warnings_to_skip="${warnings_to_skip} -Wdouble-promotion" # only for 32
     ;;
 esac
 # skip when optimization has not been explicitly requested:
@@ -187,7 +190,22 @@ AC_MSG_RESULT([... .. . ])
 LT_LIB_M
 gl_PTY_LIB
 AC_LIB_CRYPT
+AC_SEARCH_LIBS([CFLocaleCopyCurrent],
+               [c System CoreFoundation CFLite OpenCFLite opencflite-code])
+if test "x${ac_cv_search_CFLocaleCopyCurrent}y" != "xnoy"; then
+  AC_DEFINE([CFLOCALECOPYCURRENT_OK_TO_LINK],[1],
+        [Define to 1 if we are ok to link with a library for CFLocaleCopyCurrent])
+fi
 AC_SEARCH_LIBS([dupfd],[c System magic pub gnu iberty])dnl
+
+if test "x${SOEXT}" = "x"; then
+  if test "x${acl_cv_shlibext}" != "x"; then
+    test -z "${SOEXT}" && test -n "${acl_cv_shlibext}" && export SOEXT="${acl_cv_shlibext}"
+  else
+    test -z "${SOEXT}" && export SOEXT=".dylib"
+  fi
+fi
+AC_SUBST([SOEXT])dnl
 
 # Threading.
 AC_MSG_CHECKING([for threading library characteristics...])
@@ -203,7 +221,7 @@ AC_MSG_CHECKING([for miscellaneous other headers...])
 AC_MSG_RESULT([... .. . ])
 AC_CHECK_HEADERS_IF_NOT_CACHED([bp-sym.h errno.h fcntl.h features.h \
                                 getopt.h inttypes.h langinfo.h mach-o/dyld.h \
-                                math.h poll.h search.h stdio_ext.h \
+                                math.h poll.h search.h stdio.h stdio_ext.h \
                                 sys/fs_types.h sys/ioctl.h sys/param.h \
                                 sys/socket.h sys/statvfs.h sys/time.h \
                                 sys/vfs.h termios.h unistd.h xlocale.h \
@@ -218,7 +236,7 @@ AC_CHECK_HEADERS([_types/_nl_item.h \
                   limits.h locale.h malloc.h malloc/malloc.h mm.h \
                   mntent.h mnttab.h module.h netdb.h nl_types.h os2.h \
                   process.h ptms.h publib.h publib/strutil.h \
-                  shlib-compat.h stdarg.h stddef.h stdio.h stream.h \
+                  shlib-compat.h stdarg.h stddef.h stream.h \
                   stropts.h strutil.h swapctl.h swap.h \
                   sys/_types/_ct_rune_t.h sys/_types/_mbstate_t.h \
                   sys/_types/_null.h sys/_types/_rune_t.h \

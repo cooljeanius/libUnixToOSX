@@ -6777,6 +6777,16 @@ then :
 
 fi
   ## (<ctype.h> and <stdarg.h> are checked elsewhere)
+if test "x${ac_cv_header_stdint_h}" = "x"; then
+  test -z "${ac_cv_header_stdint_h}" || unset ac_cv_header_stdint_h
+  ac_fn_c_check_header_compile "$LINENO" "stdint.h" "ac_cv_header_stdint_h" "$ac_includes_default"
+if test "x$ac_cv_header_stdint_h" = xyes
+then :
+  printf "%s\n" "#define HAVE_STDINT_H 1" >>confdefs.h
+
+fi
+
+fi
 if test "x${ac_cv_header_strings_h}" = "x"; then
   test -z "${ac_cv_header_strings_h}" || unset ac_cv_header_strings_h
   ac_fn_c_check_header_compile "$LINENO" "strings.h" "ac_cv_header_strings_h" "$ac_includes_default"
