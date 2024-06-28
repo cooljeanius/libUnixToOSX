@@ -25,14 +25,16 @@
 size_t
 freadahead(FILE *fp)
 {
-#if defined _IO_ftrylockfile || (defined(__GNU_LIBRARY__) && (__GNU_LIBRARY__ == 1)) /* GNU libc, BeOS, Haiku, Linux libc5 */
+#if defined(_IO_EOF_SEEN) || defined(_IO_ftrylockfile) || (defined(__GNU_LIBRARY__) && (__GNU_LIBRARY__ == 1))
+  /* GNU libc, BeOS, Haiku, Linux libc5 */
   if (fp->_IO_write_ptr > fp->_IO_write_base)
     return 0;
   return ((fp->_IO_read_end - fp->_IO_read_ptr)
           + ((fp->_flags & _IO_IN_BACKUP)
              ? (fp->_IO_save_end - fp->_IO_save_base)
              : 0));
-#elif defined(__sferror) || defined(__DragonFly__) /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin */
+#elif defined(__sferror) || defined(__DragonFly__) || defined(__ANDROID__)
+  /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin, Minix 3, Android */
   if (((fp_->_flags & __SWR) != 0) || (fp_->_r < 0))
     return 0;
 # if defined __DragonFly__

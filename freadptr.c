@@ -28,7 +28,8 @@ const char *freadptr(FILE *fp, size_t *sizep)
   size_t size;
 
   /* Keep this code in sync with freadahead! */
-#if defined(_IO_ftrylockfile) || (defined(__GNU_LIBRARY__) && (__GNU_LIBRARY__ == 1)) /* GNU libc, BeOS, Haiku, Linux libc5 */
+#if defined(_IO_EOF_SEEN) || defined(_IO_ftrylockfile) || (defined(__GNU_LIBRARY__) && (__GNU_LIBRARY__ == 1))
+  /* GNU libc, BeOS, Haiku, Linux libc5 */
   if (fp->_IO_write_ptr > fp->_IO_write_base)
     return NULL;
   size = (fp->_IO_read_end - fp->_IO_read_ptr);
@@ -36,7 +37,8 @@ const char *freadptr(FILE *fp, size_t *sizep)
     return NULL;
   *sizep = size;
   return (const char *)fp->_IO_read_ptr;
-#elif defined __sferror || defined __DragonFly__ /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin */
+#elif defined __sferror || defined __DragonFly__ || defined __ANDROID__
+  /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin, Minix 3, Android */
   if (((fp_->_flags & __SWR) != 0) || (fp_->_r < 0)) {
 	  return NULL;
   }
