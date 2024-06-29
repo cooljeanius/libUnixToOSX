@@ -15,6 +15,11 @@ int rpl_dup(int fd);
 int rpl_dup2(int fd, int desired_fd);
 #endif /* !rpl_dup2 */
 
+/* from dup3.c: */
+#ifndef dup3
+int dup3(int oldfd, int newfd, int flags);
+#endif /* !dup3 */
+
 /* from dup-safer-flag.c: */
 #ifndef dup_safer_flag
 int dup_safer_flag(int fd, int flag);

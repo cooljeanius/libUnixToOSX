@@ -190,11 +190,18 @@ AC_MSG_RESULT([... .. . ])
 LT_LIB_M
 gl_PTY_LIB
 AC_LIB_CRYPT
+# FIXME: these may require some additional flags:
 AC_SEARCH_LIBS([CFLocaleCopyCurrent],
                [c System CoreFoundation CFLite OpenCFLite opencflite-code])
 if test "x${ac_cv_search_CFLocaleCopyCurrent}y" != "xnoy"; then
   AC_DEFINE([CFLOCALECOPYCURRENT_OK_TO_LINK],[1],
         [Define to 1 if we are ok to link with a library for CFLocaleCopyCurrent])
+fi
+AC_SEARCH_LIBS([CFPreferencesCopyAppValue],
+               [c System CoreFoundation CFLite OpenCFLite opencflite-code])
+if test "x${ac_cv_search_CFPreferencesCopyAppValue}y" != "xnoy"; then
+  AC_DEFINE([CFPREFERENCESCOPYAPPVALUE_OK_TO_LINK],[1],
+    [Define to 1 if we are ok to link w/a library for CFPreferencesCopyAppValue])
 fi
 AC_SEARCH_LIBS([dupfd],[c System magic pub gnu iberty])dnl
 
@@ -223,8 +230,8 @@ AC_CHECK_HEADERS([_types/_nl_item.h \
                   float.h fshelp.h fstab.h \
                   fts.h ftw.h gnu-versions.h iconv.h io.h iostream.h \
                   lcrypt.h libcharset.h libintl.h \
-                  libio/iolibio.h libio/libioP.h \
-                  limits.h locale.h malloc.h malloc/malloc.h mm.h \
+                  libio/iolibio.h libio/libioP.h limits.h locale.h \
+                  malloc.h malloc/malloc.h memcopy.h mm.h \
                   mntent.h mnttab.h module.h netdb.h nl_types.h os2.h \
                   process.h ptms.h publib.h publib/strutil.h \
                   shlib-compat.h stdarg.h stddef.h stream.h \

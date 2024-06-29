@@ -1849,9 +1849,9 @@ noinst_HEADERS = alloc.h dup.h dysize.h fclose.h rpl_misc_funcs.h \
 	canonicalize.h areadlink.h careadlinkat.h file-set.h malloca.h \
 	allocator.h xgetcwd.h progname.h xreadlink.h stdio-impl.h \
 	getndelim2.h getnline.h nonblocking.h freadseek.h freadahead.h \
-	freading.h freadptr.h memchr2.h mktime-internal.h getopt_int.h \
-	rawmemchr.h verify.h gettext.h fpending.h fpucw.h mntent.h \
-	mountlist.h msvc-inval.h msvc-nothrow.h relocatable.h \
+	freading.h freadptr.h memchr2.h pipe2.h mktime-internal.h \
+	getopt_int.h rawmemchr.h verify.h gettext.h fpending.h fpucw.h \
+	mntent.h mountlist.h msvc-inval.h msvc-nothrow.h relocatable.h \
 	siglist.h unlocked-io.h strnlen1.h memcmp2.h \
 	strerror-override.h vasnprintf.h
 libUnixToOSX_la_SOURCES = alloc.h ftw_Apple.c ftw_Apple.h dup.h \
@@ -1873,7 +1873,7 @@ libUnixToOSX_la_SOURCES = alloc.h ftw_Apple.c ftw_Apple.h dup.h \
 	careadlinkat.c file-set.c malloca.c allocator.c xgetcwd.c \
 	progname.h progname.c xreadlink.c xreadlinkat.c getndelim2.c \
 	getnline.h getnline.c nonblocking.c freadseek.c memchr2.h \
-	memchr2.c pipe2.c pipe2-safer.c
+	memchr2.c pipe2.c pipe2.h pipe2-safer.c
 libUnixToOSX_la_LIBADD = $(LTLIBOBJS) $(ALLOCA)
 EXTRA_DIST = Readme.md PortingUnix.pdf argp/TODO argp-test-Info.plist \
 	polltest-Info.plist libUnixToOSX.xcodeproj/project.pbxproj \
@@ -3902,7 +3902,7 @@ dup-safer-flag.o: dup-safer-flag.c config.h unistd-safer.h dup.h
 dup-safer.o: dup-safer.c config.h unistd-safer.h
 dup.o: dup.c config.h dup.h msvc-inval.h
 dup2.o: dup2.c config.h dup.h msvc-inval.h msvc-nothrow.h
-dup3.o: dup3.c config.h binary-io.h
+dup3.o: dup3.c config.h binary-io.h dup.h
 dysize.o: dysize.c dysize.h
 error.o: error.c config.h error.h gettext.h unlocked-io.h msvc-nothrow.h
 exitfail.o: exitfail.c config.h exitfail.h
@@ -3990,8 +3990,8 @@ openat-safer.o: openat-safer.c config.h fcntl-safer.h unistd-safer.h
 openat.o: openat.c config.h fcntl.h openat.h rpl_misc_funcs.h
 opendir-safer.o: opendir-safer.c config.h dirent-safer.h unistd-safer.h
 pipe-safer.o: pipe-safer.c config.h unistd-safer.h
-pipe2-safer.o: pipe2-safer.c config.h unistd-safer.h rpl_misc_funcs.h
-pipe2.o: pipe2.c config.h binary-io.h verify.h nonblocking.h
+pipe2-safer.o: pipe2-safer.c config.h unistd-safer.h rpl_misc_funcs.h pipe2.h
+pipe2.o: pipe2.c config.h binary-io.h verify.h nonblocking.h pipe2.h
 poll.o: poll.c config.h msvc-nothrow.h 
 pollemu.o: pollemu.c poll/poll-emulator/pollemu.h
 poll/poll-emulator/pollemu.o: poll/poll-emulator/pollemu.c \

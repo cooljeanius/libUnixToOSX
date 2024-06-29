@@ -34,6 +34,8 @@
 #include <unistd.h>
 #include <errno.h>
 
+#include "pipe2.h"
+
 /* Like pipe2, but ensure that neither of the file descriptors is
  * STDIN_FILENO, STDOUT_FILENO, or STDERR_FILENO: */
 int pipe2_safer(int fd[2], int flags)

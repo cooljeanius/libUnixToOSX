@@ -24,6 +24,7 @@
 #include <limits.h>
 
 #include "binary-io.h"
+#include "dup.h"
 
 int dup3(int oldfd, int newfd, int flags)
 {

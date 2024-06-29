@@ -28,6 +28,10 @@
 /* Specification: */
 #include <stdio.h>
 
+#ifdef HAVE_STDIO_EXT_H
+# include <stdio_ext.h>
+#endif /* HAVE_STDIO_EXT_H */
+
 #include <errno.h>
 #include <unistd.h>
 

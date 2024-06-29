@@ -25,9 +25,11 @@
 #include "binary-io.h"
 #include "verify.h"
 
-#if GNULIB_defined_O_NONBLOCK
+#if defined(GNULIB_defined_O_NONBLOCK) && GNULIB_defined_O_NONBLOCK
 # include "nonblocking.h"
 #endif /* GNULIB_defined_O_NONBLOCK */
+
+#include "pipe2.h"
 
 #if (defined(_WIN32) || defined(__WIN32__)) && ! defined(__CYGWIN__)
 /* Native Windows API: */
@@ -92,7 +94,7 @@ pipe2(int fd[2], int flags)
   /* O_NONBLOCK handling.
      On native Windows platforms, O_NONBLOCK is defined by gnulib.  Use the
      functions defined by the gnulib module 'nonblocking'.  */
-# if GNULIB_defined_O_NONBLOCK
+# if defined(GNULIB_defined_O_NONBLOCK) && GNULIB_defined_O_NONBLOCK
   if (flags & O_NONBLOCK)
     {
       if ((set_nonblocking_flag(fd[0], true) != 0)
@@ -161,7 +163,7 @@ pipe2(int fd[2], int flags)
 
 #endif
 
-#if GNULIB_defined_O_NONBLOCK || \
+#if (defined(GNULIB_defined_O_NONBLOCK) && GNULIB_defined_O_NONBLOCK) || \
   !((defined _WIN32 || defined __WIN32__) && ! defined __CYGWIN__)
  fail:
   {

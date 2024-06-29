@@ -48,6 +48,10 @@
 /* Define to 1 if we are ok to link with a library for CFLocaleCopyCurrent */
 #undef CFLOCALECOPYCURRENT_OK_TO_LINK
 
+/* Define to 1 if we are ok to link w/a library for CFPreferencesCopyAppValue
+   */
+#undef CFPREFERENCESCOPYAPPVALUE_OK_TO_LINK
+
 /* Define if you wish *printf() functions that have a safe handling of
    non-IEEE-754 'long double' values. */
 #undef CHECK_PRINTF_SAFE
@@ -1085,6 +1089,9 @@
 
 /* Define to 1 if you have the 'memchr' function. */
 #undef HAVE_MEMCHR
+
+/* Define to 1 if you have the <memcopy.h> header file. */
+#undef HAVE_MEMCOPY_H
 
 /* Define to 1 if you have the 'memmove' function. */
 #undef HAVE_MEMMOVE

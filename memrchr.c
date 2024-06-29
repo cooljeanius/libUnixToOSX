@@ -26,6 +26,9 @@
 # include <memcopy.h>
 #else
 # include <config.h>
+# if defined(HAVE_MEMCOPY_H)
+#  include <memcopy.h>
+# endif /* HAVE_MEMCOPY_H */
 # define reg_char char
 #endif /* _LIBC */
 

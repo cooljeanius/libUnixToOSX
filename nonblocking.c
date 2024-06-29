@@ -117,7 +117,7 @@ set_nonblocking_flag(int desc, bool value)
 
 # include <fcntl.h>
 
-# if GNULIB_defined_O_NONBLOCK
+# if defined(GNULIB_defined_O_NONBLOCK) && GNULIB_defined_O_NONBLOCK
 #  error "Please port nonblocking to your platform"
 # endif /* GNULIB_defined_O_NONBLOCK */
 

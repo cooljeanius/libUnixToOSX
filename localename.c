@@ -2768,7 +2768,8 @@ gl_locale_name_default(void)
 				cached_localename = strdup(namebuf);
 			}
 			CFRelease(locale);
-#  elif defined(HAVE_CFPREFERENCESCOPYAPPVALUE) && HAVE_CFPREFERENCESCOPYAPPVALUE
+#  elif defined(HAVE_CFPREFERENCESCOPYAPPVALUE) && HAVE_CFPREFERENCESCOPYAPPVALUE && \
+    defined(CFPREFERENCESCOPYAPPVALUE_OK_TO_LINK) && CFPREFERENCESCOPYAPPVALUE_OK_TO_LINK
 			/* Mac OS X 10.2 or newer */
 			CFTypeRef value =
 			CFPreferencesCopyAppValue(CFSTR("AppleLocale"),
@@ -2781,6 +2782,9 @@ gl_locale_name_default(void)
 					gl_locale_name_canonicalize(namebuf);
 					cached_localename = strdup(namebuf);
 				}
+#  else
+			memset(namebuf, 0, sizeof(namebuf));
+   			gl_locale_name_canonicalize(namebuf);
 #  endif /* OSX 10.3+ || OSX 10.2+ */
 			if (cached_localename == NULL) {
 				cached_localename = "C";

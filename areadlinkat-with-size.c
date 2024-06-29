@@ -78,7 +78,7 @@ areadlinkat_with_size(int fd, char const *file, size_t size)
       if (buffer == NULL)
         return NULL;
       r = readlinkat(fd, file, buffer, buf_size);
-      link_length = r;
+      link_length = (size_t)r;
 
       /* On AIX 5L v5.3 and HP-UX 11i v2 04/09, readlink returns -1
          with errno == ERANGE if the buffer is too small.  */

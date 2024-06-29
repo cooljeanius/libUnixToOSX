@@ -29,7 +29,10 @@ all: libftw.0.$(SOEXT) libftw.$(SOEXT) libftw.a
 libftw.0.1.0.dylib: ftw.o
 	$(AM_V_CCLD)$(CC) $(AM_LDFLAGS) -install_name ${libdir}/libftw.0.dylib -compatibility_version 1 -current_version 1 -o $@ $<
 
-libftw.0.dylib libftw.dylib: libftw.0.1.0.dylib
+libftw.0.1.0.so: ftw.o
+	$(AM_V_CCLD)$(CC) -shared -o $@ $<
+
+libftw.0.$(SOEXT) libftw.$(SOEXT): libftw.0.1.0.$(SOEXT)
 	$(LN_S) -f $(AM_V_v) $< $@
 
 libftw.a: ftw.o $(libftw_la_SOURCES)

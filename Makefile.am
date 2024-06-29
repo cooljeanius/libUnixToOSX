@@ -1613,7 +1613,8 @@ noinst_HEADERS += memchr2.h
 EXTRA_DIST += memchr.valgrind memchr2.valgrind
 
 ## pipe2 sources:
-libUnixToOSX_la_SOURCES += pipe2.c
+libUnixToOSX_la_SOURCES += pipe2.c pipe2.h
+noinst_HEADERS += pipe2.h
 libUnixToOSX_la_SOURCES += pipe2-safer.c
 
 ## the program to test mktime:
@@ -1830,7 +1831,7 @@ dup-safer-flag.o: dup-safer-flag.c config.h unistd-safer.h dup.h
 dup-safer.o: dup-safer.c config.h unistd-safer.h
 dup.o: dup.c config.h dup.h msvc-inval.h
 dup2.o: dup2.c config.h dup.h msvc-inval.h msvc-nothrow.h
-dup3.o: dup3.c config.h binary-io.h
+dup3.o: dup3.c config.h binary-io.h dup.h
 dysize.o: dysize.c dysize.h
 error.o: error.c config.h error.h gettext.h unlocked-io.h msvc-nothrow.h
 exitfail.o: exitfail.c config.h exitfail.h
@@ -1918,8 +1919,8 @@ openat-safer.o: openat-safer.c config.h fcntl-safer.h unistd-safer.h
 openat.o: openat.c config.h fcntl.h openat.h rpl_misc_funcs.h
 opendir-safer.o: opendir-safer.c config.h dirent-safer.h unistd-safer.h
 pipe-safer.o: pipe-safer.c config.h unistd-safer.h
-pipe2-safer.o: pipe2-safer.c config.h unistd-safer.h rpl_misc_funcs.h
-pipe2.o: pipe2.c config.h binary-io.h verify.h nonblocking.h
+pipe2-safer.o: pipe2-safer.c config.h unistd-safer.h rpl_misc_funcs.h pipe2.h
+pipe2.o: pipe2.c config.h binary-io.h verify.h nonblocking.h pipe2.h
 poll.o: poll.c config.h msvc-nothrow.h 
 pollemu.o: pollemu.c poll/poll-emulator/pollemu.h
 poll/poll-emulator/pollemu.o: poll/poll-emulator/pollemu.c \

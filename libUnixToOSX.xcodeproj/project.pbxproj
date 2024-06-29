@@ -211,6 +211,7 @@
 		A52EF8D01905574600F6B8CD /* quote.h in Headers */ = {isa = PBXBuildFile; fileRef = A52EF8CD1905574600F6B8CD /* quote.h */; };
 		A52EF8D11905574600F6B8CD /* quotearg.c in Sources */ = {isa = PBXBuildFile; fileRef = A52EF8CE1905574600F6B8CD /* quotearg.c */; };
 		A52EF8D21905574600F6B8CD /* quotearg.h in Headers */ = {isa = PBXBuildFile; fileRef = A52EF8CF1905574600F6B8CD /* quotearg.h */; };
+		A530AE982C2FF60500F48BE3 /* pipe2.h in Headers */ = {isa = PBXBuildFile; fileRef = A530AE972C2FF60500F48BE3 /* pipe2.h */; };
 		A531666018EEF26F0049B90F /* dup2.c in Sources */ = {isa = PBXBuildFile; fileRef = A531665E18EEF26F0049B90F /* dup2.c */; };
 		A531666118EEF26F0049B90F /* dup3.c in Sources */ = {isa = PBXBuildFile; fileRef = A531665F18EEF26F0049B90F /* dup3.c */; };
 		A531667318EEF3D00049B90F /* dup.c in Sources */ = {isa = PBXBuildFile; fileRef = A531667218EEF3D00049B90F /* dup.c */; };
@@ -551,6 +552,7 @@
 		A52EF8CD1905574600F6B8CD /* quote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = quote.h; sourceTree = "<group>"; };
 		A52EF8CE1905574600F6B8CD /* quotearg.c */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.c; path = quotearg.c; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; };
 		A52EF8CF1905574600F6B8CD /* quotearg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = quotearg.h; sourceTree = "<group>"; };
+		A530AE972C2FF60500F48BE3 /* pipe2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pipe2.h; sourceTree = "<group>"; };
 		A531665E18EEF26F0049B90F /* dup2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dup2.c; sourceTree = "<group>"; };
 		A531665F18EEF26F0049B90F /* dup3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dup3.c; sourceTree = "<group>"; };
 		A531667218EEF3D00049B90F /* dup.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dup.c; sourceTree = "<group>"; };
@@ -890,6 +892,7 @@
 				A50A913F18EE1E290096B616 /* pipe-safer.c */,
 				A589BA02194774F300FA11DB /* pipe2-safer.c */,
 				A589BA0A1947798500FA11DB /* pipe2.c */,
+				A530AE972C2FF60500F48BE3 /* pipe2.h */,
 				A50A8F4018EC9A3C0096B616 /* poll.c */,
 				A558DC9D19005671002696E8 /* poll-emulator */,
 				A5E742851A6B643C009DE252 /* portable_endian.h */,
@@ -1205,6 +1208,7 @@
 				A50A919518EE1E7D0096B616 /* vasnprintf.h in Headers */,
 				A50A919618EE1E7D0096B616 /* verify.h in Headers */,
 				A50A919918EE1E7D0096B616 /* xalloc-oversized.h in Headers */,
+				A530AE982C2FF60500F48BE3 /* pipe2.h in Headers */,
 				A50A919A18EE1E7D0096B616 /* xalloc.h in Headers */,
 				A52031801905C2F100C5B524 /* xgetcwd.h in Headers */,
 				A52031CE1905C6C000C5B524 /* xreadlink.h in Headers */,
