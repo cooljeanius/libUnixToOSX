@@ -212,6 +212,7 @@
 		A52EF8D11905574600F6B8CD /* quotearg.c in Sources */ = {isa = PBXBuildFile; fileRef = A52EF8CE1905574600F6B8CD /* quotearg.c */; };
 		A52EF8D21905574600F6B8CD /* quotearg.h in Headers */ = {isa = PBXBuildFile; fileRef = A52EF8CF1905574600F6B8CD /* quotearg.h */; };
 		A530AE982C2FF60500F48BE3 /* pipe2.h in Headers */ = {isa = PBXBuildFile; fileRef = A530AE972C2FF60500F48BE3 /* pipe2.h */; };
+		A530AE9A2C2FFC9500F48BE3 /* brk.c in Sources */ = {isa = PBXBuildFile; fileRef = A530AE992C2FFC9500F48BE3 /* brk.c */; };
 		A531666018EEF26F0049B90F /* dup2.c in Sources */ = {isa = PBXBuildFile; fileRef = A531665E18EEF26F0049B90F /* dup2.c */; };
 		A531666118EEF26F0049B90F /* dup3.c in Sources */ = {isa = PBXBuildFile; fileRef = A531665F18EEF26F0049B90F /* dup3.c */; };
 		A531667318EEF3D00049B90F /* dup.c in Sources */ = {isa = PBXBuildFile; fileRef = A531667218EEF3D00049B90F /* dup.c */; };
@@ -553,6 +554,7 @@
 		A52EF8CE1905574600F6B8CD /* quotearg.c */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.c.c; path = quotearg.c; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; };
 		A52EF8CF1905574600F6B8CD /* quotearg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = quotearg.h; sourceTree = "<group>"; };
 		A530AE972C2FF60500F48BE3 /* pipe2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pipe2.h; sourceTree = "<group>"; };
+		A530AE992C2FFC9500F48BE3 /* brk.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = brk.c; sourceTree = "<group>"; };
 		A531665E18EEF26F0049B90F /* dup2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dup2.c; sourceTree = "<group>"; };
 		A531665F18EEF26F0049B90F /* dup3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dup3.c; sourceTree = "<group>"; };
 		A531667218EEF3D00049B90F /* dup.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dup.c; sourceTree = "<group>"; };
@@ -724,6 +726,7 @@
 				A50A90A818EE1D570096B616 /* basename.c */,
 				A531669518EEF8610049B90F /* binary-io.h */,
 				A50A90A918EE1D570096B616 /* bitrotate.h */,
+				A530AE992C2FFC9500F48BE3 /* brk.c */,
 				A50A8F4218EC9A3C0096B616 /* btowc.c */,
 				A5DB801E1905592B00F38DDF /* c-ctype.c */,
 				A5DB801F1905592B00F38DDF /* c-ctype.h */,
@@ -1438,6 +1441,7 @@
 				A52030C4190599DC00C5B524 /* areadlinkat.c in Sources */,
 				A50A90A618EE1D4C0096B616 /* asnprintf.c in Sources */,
 				A531669D18EEF8B00049B90F /* at-func.c in Sources */,
+				A530AE9A2C2FFC9500F48BE3 /* brk.c in Sources */,
 				A531669E18EEF8B00049B90F /* at-func2.c in Sources */,
 				A50A90AA18EE1D570096B616 /* basename-lgpl.c in Sources */,
 				A50A90AB18EE1D570096B616 /* basename.c in Sources */,

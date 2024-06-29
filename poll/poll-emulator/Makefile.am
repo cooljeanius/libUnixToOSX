@@ -25,10 +25,15 @@ INCDIR = $(MYPREFIX)/include/sys
 ############
 # Benjamin Reed <ranger@befunk.com>:
 # On Mac OS X, comment out the above lines, and uncomment these instead.
+# ...or actually, let's use an automake conditional instead:
+if BUILDING_ON_MAC
 LINK_SHARED = $(CC) $(LDFLAGS) -install_name $(MYPREFIX)/lib/$(SHLIB) \
 	      -compatibility_version $(COMPAT_VERSION) \
 	      -current_version $(VERSION) -dynamiclib
-SHLIB_EXT = dylib
+else
+LINK_SHARED = $(CC) -shared
+endif
+SHLIB_EXT = $(SOEXT)
 SHLIB_NOVER = $(LIB_NAME).$(SHLIB_EXT)
 SHLIB = $(LIB_NAME).$(VERSION).$(SHLIB_EXT)
 SHLIB_INSTALLED	= $(LIBDIR)/$(LIB_NAME).$(MAJOR).$(SHLIB_EXT)

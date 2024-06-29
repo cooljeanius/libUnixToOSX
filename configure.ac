@@ -27,6 +27,13 @@ gl_SYSTEM_SPECIFIC_MACROS
 AN_OSX_WARNINGS_DUMMY_MACRO
 AC_CHECK_FILE([/etc/fstab])dnl
 
+building_on_mac=""
+AS_CASE([${build}],
+        [*apple-darwin*],[building_on_mac="yes"],
+        [*],[building_on_mac="no"])dnl
+
+AM_CONDITIONAL([BUILDING_ON_MAC],[test "x${building_on_mac}" = "xyes"])dnl
+
 # automake:
 AC_MSG_CHECKING([for some automake things...])
 AC_MSG_RESULT([... .. . ])
@@ -110,6 +117,7 @@ warnings_to_skip="${warnings_to_skip} -Wcomments"   # redundant w/-Wcomment
 warnings_to_skip="${warnings_to_skip} -Wmudflap"      # no longer supported
 warnings_to_skip="${warnings_to_skip} -Wconditionally-supported" # C++ only
 warnings_to_skip="${warnings_to_skip} -Wdelete-incomplete"       # C++ only
+warnings_to_skip="${warnings_to_skip} -Wnarrowing"               # C++ only
 warnings_to_skip="${warnings_to_skip} -Wshadow-ivar"     # ObjC/ObjC++ only
 warnings_to_skip="${warnings_to_skip} -Wimplicit"  # default lately anyways
 warnings_to_skip="${warnings_to_skip} -Wimplicit-function-declaration" # ""
@@ -124,12 +132,18 @@ if test x${CFLAGS+set} = xset; then
   case "${CFLAGS}" in
     *"-O0"* ) 
       warnings_to_skip="${warnings_to_skip} -Wunsafe-loop-optimizations"
+      warnings_to_skip="${warnings_to_skip} -Waggressive-loop-optimizations"
+      warnings_to_skip="${warnings_to_skip} -Wdisabled-optimization"
+      warnings_to_skip="${warnings_to_skip} -Wvector-operation-performance"
       ;;
     *"-O"* )
       ;;
   esac
 else
   warnings_to_skip="${warnings_to_skip} -Wunsafe-loop-optimizations"
+  warnings_to_skip="${warnings_to_skip} -Waggressive-loop-optimizations"
+  warnings_to_skip="${warnings_to_skip} -Wdisabled-optimization"
+  warnings_to_skip="${warnings_to_skip} -Wvector-operation-performance"
 fi
 gl_MANYWARN_COMPLEMENT([actual_warnings_to_check],
                        [${warnings_to_check}],
@@ -203,6 +217,7 @@ if test "x${ac_cv_search_CFPreferencesCopyAppValue}y" != "xnoy"; then
   AC_DEFINE([CFPREFERENCESCOPYAPPVALUE_OK_TO_LINK],[1],
     [Define to 1 if we are ok to link w/a library for CFPreferencesCopyAppValue])
 fi
+AC_SEARCH_LIBS([__fpending],[c System magic pub gnu iberty])
 AC_SEARCH_LIBS([dupfd],[c System magic pub gnu iberty])dnl
 
 # Threading.
@@ -231,7 +246,7 @@ AC_CHECK_HEADERS([_types/_nl_item.h \
                   fts.h ftw.h gnu-versions.h iconv.h io.h iostream.h \
                   lcrypt.h libcharset.h libintl.h \
                   libio/iolibio.h libio/libioP.h limits.h locale.h \
-                  malloc.h malloc/malloc.h memcopy.h mm.h \
+                  mach/mach.h malloc.h malloc/malloc.h memcopy.h mm.h \
                   mntent.h mnttab.h module.h netdb.h nl_types.h os2.h \
                   process.h ptms.h publib.h publib/strutil.h \
                   shlib-compat.h stdarg.h stddef.h stream.h \
@@ -387,14 +402,14 @@ dnl# (move from "_CHECK" to "_REPLACE" once we do have source files)
 unset ac_cv_func_catgets
 AC_CHECK_FUNCS([catopen catgets catclose crypt ecvt fcvt gcvt \
                 setmntent addmntent endmntent \
-                hasmntopt sbrk brk shmget swapon swapoff])
+                hasmntopt sbrk shmget swapon swapoff])
   ## functions that we might want replacements for, and have source files for:
 unset ac_cv_func_btowc
 unset ac_cv_func_wctob
 unset ac_cv_func_getmntent
 unset ac_cv_func_poll
 AC_REPLACE_FUNCS([btowc wctob dysize fclose fcloseall getmntent poll \
-                  cuserid])dnl
+                  cuserid brk])dnl
   ## keep autoscan happy:
 if test "x" = "Y0"; then
   test -x "`which autoscan`" || echo "no autoscan!" >&2

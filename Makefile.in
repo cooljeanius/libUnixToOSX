@@ -404,7 +404,7 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/config.h.in \
 	$(top_srcdir)/build-aux/mkinstalldirs \
 	$(top_srcdir)/build-aux/reloc-ldflags \
 	$(top_srcdir)/build-aux/relocatable.sh.in TODO alloca.c \
-	asnprintf.c btowc.c build-aux/ar-lib build-aux/compile \
+	asnprintf.c brk.c btowc.c build-aux/ar-lib build-aux/compile \
 	build-aux/config.guess build-aux/config.rpath \
 	build-aux/config.sub build-aux/depcomp build-aux/install-sh \
 	build-aux/ltmain.sh build-aux/missing build-aux/mkinstalldirs \

@@ -1709,6 +1709,7 @@ top_srcdir = @top_srcdir@
 MYPREFIX = @prefix@
 LIBDIR = $(MYPREFIX)/lib
 INCDIR = $(MYPREFIX)/include/sys
+@BUILDING_ON_MAC_FALSE@LINK_SHARED = $(CC) -shared
 
 #--------------------------------------------------------------------------
 # Platform-specific bits:
@@ -1724,11 +1725,12 @@ INCDIR = $(MYPREFIX)/include/sys
 ############
 # Benjamin Reed <ranger@befunk.com>:
 # On Mac OS X, comment out the above lines, and uncomment these instead.
-LINK_SHARED = $(CC) $(LDFLAGS) -install_name $(MYPREFIX)/lib/$(SHLIB) \
-	      -compatibility_version $(COMPAT_VERSION) \
-	      -current_version $(VERSION) -dynamiclib
+# ...or actually, let's use an automake conditional instead:
+@BUILDING_ON_MAC_TRUE@LINK_SHARED = $(CC) $(LDFLAGS) -install_name $(MYPREFIX)/lib/$(SHLIB) \
+@BUILDING_ON_MAC_TRUE@	      -compatibility_version $(COMPAT_VERSION) \
+@BUILDING_ON_MAC_TRUE@	      -current_version $(VERSION) -dynamiclib
 
-SHLIB_EXT = dylib
+SHLIB_EXT = $(SOEXT)
 SHLIB_NOVER = $(LIB_NAME).$(SHLIB_EXT)
 SHLIB = $(LIB_NAME).$(VERSION).$(SHLIB_EXT)
 SHLIB_INSTALLED = $(LIBDIR)/$(LIB_NAME).$(MAJOR).$(SHLIB_EXT)
