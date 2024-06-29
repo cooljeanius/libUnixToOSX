@@ -923,7 +923,11 @@ distclean-local:
 	rm -rf $(AM_V_v) autom4te.cache || rmdir autom4te.cache
 	rm -rf $(AM_V_v) .deps || rmdir .deps
 	-(test -d sys && test -z "`ls sys`" && rmdir sys) || test -e sys
-	-(test -d scan_build_output && test -z "`ls scan_build_output`" && rmdir scan_build_output) || test -e scan_build_output
+	-if test -x "`which scan-build`"; then \
+	  (test -d scan_build_output && test -z "`ls scan_build_output`" && rmdir scan_build_output) || (test -e scan_build_output && stat scan_build_output) || (ls | grep "scan_build") || echo "nothing found from scan-build to clean"; \
+	else \
+	  echo "scan-build missing; skipping any attempts to clean its output"; \
+	fi
 	-(test -w @PACKAGE_TARNAME@-@PACKAGE_VERSION@ && (rm -rf @PACKAGE_TARNAME@-@PACKAGE_VERSION@ || rmdir @PACKAGE_TARNAME@-@PACKAGE_VERSION@)) || stat @PACKAGE_TARNAME@-*.*.* 2>&1 || echo "it can be difficult to distclean the results of distcheck"
 	-(find . -name .DS_Store -delete 2>&1) || test -x "`which find`"
 .PHONY: distclean-local

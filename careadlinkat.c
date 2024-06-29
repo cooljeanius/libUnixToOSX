@@ -41,6 +41,10 @@
 
 #include "allocator.h"
 
+#if defined(_GL_GNUC_PREREQ) && _GL_GNUC_PREREQ(12, 1)
+# pragma GCC diagnostic ignored "-Wreturn-local-addr"
+#endif /* GCC 12.1+ */
+
 /* Get the symbolic link value of FILENAME and put it into BUFFER, with
  * size BUFFER_SIZE.  This function acts like readlink  but has
  * readlinkat's signature.  */

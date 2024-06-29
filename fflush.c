@@ -46,7 +46,8 @@
 #undef fflush
 
 
-#if defined _IO_ftrylockfile || (defined(__GNU_LIBRARY__) && (__GNU_LIBRARY__ == 1)) /* GNU libc, BeOS, Haiku, Linux libc5 */
+#if defined(_IO_EOF_SEEN) || defined(_IO_ftrylockfile) || (defined(__GNU_LIBRARY__) && (__GNU_LIBRARY__ == 1))
+/* GNU libc, BeOS, Haiku, Linux libc5 */
 
 /* Clear the stream's ungetc buffer, preserving the value of ftello (fp): */
 static inline void clear_ungetc_buffer_preserving_position(FILE *fp)
@@ -63,7 +64,8 @@ static inline void clear_ungetc_buffer_preserving_position(FILE *fp)
 static inline void
 clear_ungetc_buffer(FILE *fp)
 {
-# if defined __sferror || defined __DragonFly__ /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin */
+# if defined __sferror || defined __DragonFly__ || defined __ANDROID__
+  /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin, Minix 3, Android */
   if (HASUB(fp)) {
       fp_->_p += fp_->_r;
       fp_->_r = 0;
@@ -82,7 +84,8 @@ clear_ungetc_buffer(FILE *fp)
 
 #endif /* different C libraries */
 
-#if (defined __sferror || defined __DragonFly__) && defined __SNPT /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin */
+#if (defined __sferror || defined __DragonFly__ || defined __ANDROID__) && defined __SNPT
+/* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin, Minix 3, Android */
 
 static inline int
 disable_seek_optimization(FILE *fp)
@@ -103,9 +106,9 @@ restore_seek_optimization(FILE *fp, int saved_flags)
 static inline void
 update_fpos_cache(FILE *fp, off_t pos)
 {
-  /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin: */
-#if defined(__sferror) || defined(__DragonFly__)
-# if defined(__CYGWIN__)
+  /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin, Minix 3, Android: */
+#if defined(__sferror) || defined(__DragonFly__) || defined(__ANDROID__)
+# if defined(__CYGWIN__) || defined(__ANDROID__)
   /* fp_->_offset is typed as an integer: */
   fp_->_offset = pos;
 # else
@@ -156,7 +159,8 @@ rpl_fflush(FILE *stream)
     return fflush(stream);
   }
 
-#if defined _IO_ftrylockfile || (defined(__GNU_LIBRARY__) && (__GNU_LIBRARY__ == 1)) /* GNU libc, BeOS, Haiku, Linux libc5 */
+#if defined(_IO_EOF_SEEN) || defined(_IO_ftrylockfile) || (defined(__GNU_LIBRARY__) && (__GNU_LIBRARY__ == 1))
+  /* GNU libc, BeOS, Haiku, Linux libc5 */
   clear_ungetc_buffer_preserving_position(stream);
 
   return fflush(stream);

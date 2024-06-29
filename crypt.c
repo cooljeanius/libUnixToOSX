@@ -558,6 +558,10 @@ static C_block	*CF6464;
 static C_block	constdatablock;			/* encryption constant */
 static char	cryptresult[1+4+4+11+1];	/* encrypted result */
 
+#ifndef _PASSWORD_EFMT1
+# define _PASSWORD_EFMT1 '_'
+#endif /* !_PASSWORD_EFMT1 */
+
 /*
  * Return a pointer to static data consisting of the "setting"
  * followed by an encryption produced by the "key" and "setting".

@@ -41,6 +41,10 @@ extern "C" {
 #  endif /* !_GL_ATTRIBUTE_ALLOC_SIZE */
 # endif /* gcc 4.3+ */
 
+# if defined(__has_include) && __has_include("build-aux/snippet/_Noreturn.h")
+#  include "build-aux/snippet/_Noreturn.h"
+# endif /* relevant snippet available */
+
 /* This function is always triggered when memory is exhausted.
    It must be defined by the application, either explicitly
    or by using gnulib's xalloc-die module.  This is the

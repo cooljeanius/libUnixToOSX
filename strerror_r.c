@@ -141,7 +141,7 @@ safe_copy (char *buf, size_t buflen, const char *msg)
   return ret;
 }
 
-
+/* FIXME: ought to return char * instead? */
 int
 strerror_r (int errnum, char *buf, size_t buflen)
 #undef strerror_r

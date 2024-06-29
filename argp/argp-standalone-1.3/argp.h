@@ -561,6 +561,11 @@ __argp_short_program_name(const struct argp_state *state) __THROW;
 # endif /* !_LIBC */
 
 # ifndef ARGP_EI
+/* in case __inline__ is defined as a macro to be an attribute, force it to be
+ * a keyword instead: */
+#  if defined(__inline__) && defined(__GNUC__) && defined(HAVE_INLINE)
+#   undef __inline__
+#  endif /* __inline__ && __GNUC__ && HAVE_INLINE */
 #  define ARGP_EI extern __inline__
 # endif /* !ARGP_EI */
 

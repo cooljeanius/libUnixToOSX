@@ -3,15 +3,13 @@ TODO list:
  * catopen
  * catgets
  * catclose
- * crypt
  * ecvt
  * fcvt
  * setmntent
  * addmntent
  * endmntent
  * hasmntopt
- * sbrk
- * brk
+ * sbrk (currently in brk.c; split out to a separate file)
  * shmget
  * swapon
  * swapoff
