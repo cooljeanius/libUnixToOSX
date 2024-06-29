@@ -23825,6 +23825,9 @@ if test x${CFLAGS+set} = xset; then
       warnings_to_skip="${warnings_to_skip} -Winline"
       ;;
     *"-O"* )
+      if test -r careadlinkat.c; then
+        warnings_to_skip="${warnings_to_skip} -Wreturn-local-addr"
+      fi
       ;;
   esac
   case "${CFLAGS}" in
@@ -23849,6 +23852,9 @@ else
   warnings_to_skip="${warnings_to_skip} -Winline"
   warnings_to_skip="${warnings_to_skip} -Wcoverage-mismatch"
   warnings_to_skip="${warnings_to_skip} -Wstack-protector"
+  if test -r careadlinkat.c; then
+    warnings_to_skip="${warnings_to_skip} -Wreturn-local-addr"
+  fi
 fi
 
   gl_warn_set=""
@@ -24784,8 +24790,8 @@ then :
 
 fi
  ## (ok)
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for library containing chdir-long" >&5
-printf %s "checking for library containing chdir-long... " >&6; }
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for library containing chdir_long" >&5
+printf %s "checking for library containing chdir_long... " >&6; }
 if test ${ac_cv_search_chdir_long+y}
 then :
   printf %s "(cached) " >&6
@@ -24803,11 +24809,11 @@ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 #ifdef __cplusplus
 extern "C"
 #endif
-char chdir-long (void);
+char chdir_long (void);
 int
 main (void)
 {
-return chdir-long ();
+return chdir_long ();
   ;
   return 0;
 }
@@ -54861,6 +54867,18 @@ ac_fn_c_check_func "$LINENO" "atoi" "ac_cv_func_atoi"
 if test "x$ac_cv_func_atoi" = xyes
 then :
   printf "%s\n" "#define HAVE_ATOI 1" >>confdefs.h
+
+fi
+ac_fn_c_check_func "$LINENO" "chdir" "ac_cv_func_chdir"
+if test "x$ac_cv_func_chdir" = xyes
+then :
+  printf "%s\n" "#define HAVE_CHDIR 1" >>confdefs.h
+
+fi
+ac_fn_c_check_func "$LINENO" "chdir_long" "ac_cv_func_chdir_long"
+if test "x$ac_cv_func_chdir_long" = xyes
+then :
+  printf "%s\n" "#define HAVE_CHDIR_LONG 1" >>confdefs.h
 
 fi
 ac_fn_c_check_func "$LINENO" "chsize" "ac_cv_func_chsize"

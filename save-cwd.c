@@ -87,7 +87,11 @@ restore_cwd(const struct saved_cwd *cwd)
   if (0L <= cwd->desc) {
 	  return fchdir((int)cwd->desc);
   } else {
+#ifdef HAVE_CHDIR_LONG
 	  return chdir_long(cwd->name);
+#else
+	  return chdir(cwd->name);
+#endif /* HAVE_CHDIR_LONG */
   }
 }
 

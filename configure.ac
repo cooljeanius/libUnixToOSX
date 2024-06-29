@@ -142,6 +142,9 @@ if test x${CFLAGS+set} = xset; then
       warnings_to_skip="${warnings_to_skip} -Winline"
       ;;
     *"-O"* )
+      if test -r careadlinkat.c; then
+        warnings_to_skip="${warnings_to_skip} -Wreturn-local-addr"
+      fi
       ;;
   esac
   case "${CFLAGS}" in
@@ -166,6 +169,9 @@ else
   warnings_to_skip="${warnings_to_skip} -Winline"
   warnings_to_skip="${warnings_to_skip} -Wcoverage-mismatch"
   warnings_to_skip="${warnings_to_skip} -Wstack-protector"
+  if test -r careadlinkat.c; then
+    warnings_to_skip="${warnings_to_skip} -Wreturn-local-addr"
+  fi
 fi
 gl_MANYWARN_COMPLEMENT([actual_warnings_to_check],
                        [${warnings_to_check}],
@@ -240,7 +246,7 @@ if test "x${ac_cv_search_CFPreferencesCopyAppValue}y" != "xnoy"; then
     [Define to 1 if we are ok to link w/a library for CFPreferencesCopyAppValue])
 fi
 AC_SEARCH_LIBS([__fpending],[c System magic pub gnu iberty fpending]) ## (ok)
-AC_SEARCH_LIBS([chdir-long],[c System magic pub gnu iberty chdir]) ## (newline)
+AC_SEARCH_LIBS([chdir_long],[c System magic pub gnu iberty chdir]) ## (newline)
 AC_SEARCH_LIBS([dupfd],[c System magic pub gnu iberty dup dupfd])dnl
 
 # Threading.
@@ -391,10 +397,10 @@ AC_CHECK_FUNCS_IF_NOT_CACHED([__fpending __freadptrinc _NSGetExecutablePath \
                               setenv setlocale snprintf strndup])
 AC_CHECK_FUNCS_ONCE([readlinkat])dnl
   ## now regular function checks:
-AC_CHECK_FUNCS([accept assert atexit atoi chsize clearenv connect \
-                dladdr dupfd end execve fflush fgets fpurge freemntlist \
-                fstatfs64 fstat64 ftok ftruncate64 fxstat64 \
-                gencat getrlimit gettext getvfsbytype iswprint \
+AC_CHECK_FUNCS([accept assert atexit atoi chdir chdir_long chsize \
+                clearenv connect dladdr dupfd end execve fflush fgets \
+                fpurge freemntlist fstatfs64 fstat64 ftok ftruncate64 \
+                fxstat64 gencat getrlimit gettext getvfsbytype iswprint \
                 kevent kevent64 kqueue localeconv lseek mblen mbrlen \
                 mbtowc memmove memset mntctl posix_fallocate \
                 pread64 pwrite64 printf read recv select send \

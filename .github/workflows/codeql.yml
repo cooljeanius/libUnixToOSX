@@ -70,10 +70,21 @@ jobs:
       run: |
         case ${{ matrix.os }} in
           ubuntu*)
-            sudo apt-get -y install libc6-dev-amd64-cross libgcc-s1-amd64-cross libtbb-dev gobjc gobjc-multilib xutils-dev publib-dev libiberty-dev libc6-dev-i386 libmm-dev kmod libc-bin
+            sudo apt-get -y install libc6-dev-amd64-cross libgcc-s1-amd64-cross libtbb-dev gobjc gobjc-multilib xutils-dev publib-dev libiberty-dev libc6-dev-i386 libmm-dev kmod libc-bin dcfldd libtree buildd mini-buildd
+            if test -x /home/linuxbrew/.linuxbrew/bin/brew; then \
+              eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"; \
+            else \
+              echo "linuxbrew not found in its usual location"; \
+            fi
+            if test -x "$(which brew)"; then \
+              echo "attempting to use $(which brew) to install kmod"; \
+              brew install kmod || echo "failed to install kmod with $(which brew)"; \
+            else \
+              echo "skipping attempting to use Homebrew to install kmod"; \
+            fi
             ;;
           macos*)
-            brew install autoconf gawk util-macros libmagic binutils coreutils
+            brew install autoconf gawk util-macros libmagic binutils coreutils argp-standalone
             if test -x "$(which mdutil)"; then \
               sudo mdutil -a -i off; \
             fi

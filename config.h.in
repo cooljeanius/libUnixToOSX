@@ -491,6 +491,12 @@
 /* Define to 1 if the system has the type 'CFTypeRef'. */
 #undef HAVE_CFTYPEREF
 
+/* Define to 1 if you have the 'chdir' function. */
+#undef HAVE_CHDIR
+
+/* Define to 1 if you have the 'chdir_long' function. */
+#undef HAVE_CHDIR_LONG
+
 /* Define to 1 if you have the 'chown' func */
 #undef HAVE_CHOWN
 
