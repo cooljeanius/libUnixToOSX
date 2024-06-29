@@ -233,8 +233,9 @@ if test "x${ac_cv_search_CFPreferencesCopyAppValue}y" != "xnoy"; then
   AC_DEFINE([CFPREFERENCESCOPYAPPVALUE_OK_TO_LINK],[1],
     [Define to 1 if we are ok to link w/a library for CFPreferencesCopyAppValue])
 fi
-AC_SEARCH_LIBS([__fpending],[c System magic pub gnu iberty])
-AC_SEARCH_LIBS([dupfd],[c System magic pub gnu iberty])dnl
+AC_SEARCH_LIBS([__fpending],[c System magic pub gnu iberty fpending]) ## (ok)
+AC_SEARCH_LIBS([chdir-long],[c System magic pub gnu iberty chdir]) ## (newline)
+AC_SEARCH_LIBS([dupfd],[c System magic pub gnu iberty dup dupfd])dnl
 
 # Threading.
 AC_MSG_CHECKING([for threading library characteristics...])

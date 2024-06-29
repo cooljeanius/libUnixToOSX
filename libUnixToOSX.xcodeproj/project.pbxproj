@@ -559,6 +559,8 @@
 		A530AE992C2FFC9500F48BE3 /* brk.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = brk.c; sourceTree = "<group>"; };
 		A530AE9B2C3052DD00F48BE3 /* crypt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = crypt.c; sourceTree = "<group>"; };
 		A530AE9D2C305ED600F48BE3 /* memrchr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = memrchr.h; sourceTree = "<group>"; };
+		A530AEA02C30752900F48BE3 /* FUNDING.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = FUNDING.yml; sourceTree = "<group>"; };
+		A530AEA22C30752900F48BE3 /* codeql.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = codeql.yml; sourceTree = "<group>"; };
 		A531665E18EEF26F0049B90F /* dup2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dup2.c; sourceTree = "<group>"; };
 		A531665F18EEF26F0049B90F /* dup3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dup3.c; sourceTree = "<group>"; };
 		A531667218EEF3D00049B90F /* dup.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dup.c; sourceTree = "<group>"; };
@@ -699,6 +701,7 @@
 		08FB7794FE84155DC02AAC07 /* libUnixToOSX */ = {
 			isa = PBXGroup;
 			children = (
+				A530AE9F2C30752900F48BE3 /* .github */,
 				A50A8FED18ED999E0096B616 /* snippet */,
 				08FB7795FE84155DC02AAC07 /* Source */,
 				A5A266871916B84C00EEBBC2 /* Resources */,
@@ -1011,6 +1014,23 @@
 				A52031881905C35100C5B524 /* CoreFoundation.framework */,
 			);
 			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		A530AE9F2C30752900F48BE3 /* .github */ = {
+			isa = PBXGroup;
+			children = (
+				A530AEA02C30752900F48BE3 /* FUNDING.yml */,
+				A530AEA12C30752900F48BE3 /* workflows */,
+			);
+			path = .github;
+			sourceTree = "<group>";
+		};
+		A530AEA12C30752900F48BE3 /* workflows */ = {
+			isa = PBXGroup;
+			children = (
+				A530AEA22C30752900F48BE3 /* codeql.yml */,
+			);
+			path = workflows;
 			sourceTree = "<group>";
 		};
 		A558DC9019005655002696E8 /* libftw0 */ = {

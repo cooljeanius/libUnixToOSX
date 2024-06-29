@@ -73,7 +73,7 @@ jobs:
             sudo apt-get -y install libc6-dev-amd64-cross libgcc-s1-amd64-cross libtbb-dev gobjc gobjc-multilib xutils-dev publib-dev libiberty-dev libc6-dev-i386 libmm-dev
             ;;
           macos*)
-            brew install autoconf gawk util-macros parallel
+            brew install autoconf gawk util-macros libmagic binutils coreutils
             if test -x "$(which mdutil)"; then \
               sudo mdutil -a -i off; \
             fi

@@ -46,7 +46,9 @@
 #undef fflush
 
 
-#if defined(_IO_EOF_SEEN) || defined(_IO_ftrylockfile) || (defined(__GNU_LIBRARY__) && (__GNU_LIBRARY__ == 1))
+#if (defined(_IO_EOF_SEEN) && defined(_IO_IN_BACKUP)) || \
+    (defined(_IO_ftrylockfile) && defined(_IO_IN_BACKUP)) || \
+    (defined(__GNU_LIBRARY__) && (__GNU_LIBRARY__ == 1))
 /* GNU libc, BeOS, Haiku, Linux libc5 */
 
 /* Clear the stream's ungetc buffer, preserving the value of ftello (fp): */
