@@ -70,7 +70,7 @@ jobs:
       run: |
         case ${{ matrix.os }} in
           ubuntu*)
-            sudo apt-get -qq install libc6-dev-amd64-cross libgcc-s1-amd64-cross libtbb-dev gobjc gobjc-multilib xutils-dev publib-dev libiberty-dev libc6-dev-i386 libmm-dev kmod libc-bin dcfldd libtree buildd mini-buildd
+            sudo apt-get -qq install libc6-dev-amd64-cross libgcc-s1-amd64-cross libtbb-dev gobjc gobjc-multilib xutils-dev publib-dev libiberty-dev libc6-dev-i386 libmm-dev kmod libc-bin dcfldd libtree buildd mini-buildd mini-buildd-utils
             if test -x /home/linuxbrew/.linuxbrew/bin/brew; then \
               eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"; \
             else \

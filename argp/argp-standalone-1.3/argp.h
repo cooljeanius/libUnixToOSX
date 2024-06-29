@@ -554,10 +554,18 @@ __argp_short_program_name(const struct argp_state *state) __THROW;
 #if defined(__USE_EXTERN_INLINES) && !defined(_GL_EXTERN_INLINE_APPLE_BUG)
 
 # if !_LIBC
-#  define __argp_usage argp_usage
-#  define __argp_state_help argp_state_help
-#  define __option_is_short _option_is_short
-#  define __option_is_end _option_is_end
+#  if !defined(__argp_usage)
+#   define __argp_usage argp_usage
+#  endif /* !__argp_usage */
+#  if !defined(__argp_state_help)
+#   define __argp_state_help argp_state_help
+#  endif /* !__argp_state_help */
+#  if !defined(__option_is_short)
+#   define __option_is_short _option_is_short
+#  endif /* !__option_is_short */
+#  if !defined(__option_is_end)
+#   define __option_is_end _option_is_end
+#  endif /* !__option_is_end */
 # endif /* !_LIBC */
 
 # ifndef ARGP_EI
@@ -595,10 +603,18 @@ __option_is_end(__const struct argp_option *__opt)
 }
 
 # if !_LIBC
-#  undef __argp_usage
-#  undef __argp_state_help
-#  undef __option_is_short
-#  undef __option_is_end
+#  ifdef __argp_usage
+#   undef __argp_usage
+#  endif /* __argp_usage */
+#  ifdef __argp_state_help
+#   undef __argp_state_help
+#  endif /* __argp_state_help */
+#  ifdef __option_is_short
+#   undef __option_is_short
+#  endif /* __option_is_short */
+#  ifdef __option_is_end
+#   undef __option_is_end
+#  endif /* __option_is_end */
 # endif /* !_LIBC */
 #endif /* Use extern inlines.  */
 

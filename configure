@@ -34848,6 +34848,12 @@ then :
   printf "%s\n" "#define HAVE_MACH_MACH_H 1" >>confdefs.h
 
 fi
+ac_fn_c_check_header_compile "$LINENO" "machine/endian.h" "ac_cv_header_machine_endian_h" "$ac_includes_default"
+if test "x$ac_cv_header_machine_endian_h" = xyes
+then :
+  printf "%s\n" "#define HAVE_MACHINE_ENDIAN_H 1" >>confdefs.h
+
+fi
 ac_fn_c_check_header_compile "$LINENO" "malloc.h" "ac_cv_header_malloc_h" "$ac_includes_default"
 if test "x$ac_cv_header_malloc_h" = xyes
 then :

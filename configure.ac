@@ -276,9 +276,9 @@ AC_CHECK_HEADERS([_types/_nl_item.h \
                   fts.h ftw.h gnu-versions.h iconv.h io.h iostream.h \
                   lcrypt.h libcharset.h libintl.h \
                   libio/iolibio.h libio/libioP.h limits.h locale.h \
-                  mach/mach.h malloc.h malloc/malloc.h memcopy.h \
-                  memrchr.h mm.h mntent.h mnttab.h module.h netdb.h \
-                  nl_types.h os2.h process.h ptms.h publib.h \
+                  mach/mach.h machine/endian.h malloc.h malloc/malloc.h \
+                  memcopy.h memrchr.h mm.h mntent.h mnttab.h module.h \
+                  netdb.h nl_types.h os2.h process.h ptms.h publib.h \
                   publib/strutil.h shlib-compat.h stdarg.h stddef.h \
                   stream.h stropts.h strutil.h swapctl.h swap.h \
                   sys/_types/_ct_rune_t.h sys/_types/_mbstate_t.h \

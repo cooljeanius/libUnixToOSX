@@ -33,7 +33,7 @@ up-to-date.  Many thanks.
 #include <sys/cdefs.h>
 
 #ifndef __FBSDID
-# define __FBSDID(str) static const char *fbsdid_msgcat_c str
+# define __FBSDID(str) static const char *fbsdid_msgcat_c = str
 #endif /* !__FBSDID */
 
 __FBSDID("$FreeBSD: src/lib/libc/nls/msgcat.c,v 1.49 2005/02/01 16:04:55 phantom Exp $");
@@ -66,7 +66,13 @@ __FBSDID("$FreeBSD: src/lib/libc/nls/msgcat.c,v 1.49 2005/02/01 16:04:55 phantom
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <machine/endian.h>
+#if defined(HAVE_MACHINE_ENDIAN_H) || __has_include(<machine/endian.h>)
+# include <machine/endian.h>
+#else
+# if defined(__GNUC__) && !defined(__STRICT_ANSI__)
+#  warning "msgcat.c expects <machine/endian.h> to be included."
+# endif /* __GNUC__ && !__STRICT_ANSI__ */
+#endif /* HAVE_XLOCALE_H */
 #include <libkern/OSByteOrder.h>
 #include "un-namespace.h"
 
