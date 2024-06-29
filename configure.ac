@@ -139,11 +139,19 @@ if test x${CFLAGS+set} = xset; then
     *"-O"* )
       ;;
   esac
+  case "${CFLAGS}" in
+    *"-p"*|*"profile"*|*"coverage"*)
+      ;;
+    *)
+      warnings_to_skip="${warnings_to_skip} -Wcoverage-mismatch"
+      ;;
+  esac
 else
   warnings_to_skip="${warnings_to_skip} -Wunsafe-loop-optimizations"
   warnings_to_skip="${warnings_to_skip} -Waggressive-loop-optimizations"
   warnings_to_skip="${warnings_to_skip} -Wdisabled-optimization"
   warnings_to_skip="${warnings_to_skip} -Wvector-operation-performance"
+  warnings_to_skip="${warnings_to_skip} -Wcoverage-mismatch"
 fi
 gl_MANYWARN_COMPLEMENT([actual_warnings_to_check],
                        [${warnings_to_check}],
@@ -400,7 +408,7 @@ AC_CHECK_FUNCS_IF_NOT_CACHED([CFLocaleCopyCurrent \
   ## source files to replace them yet:
 dnl# (move from "_CHECK" to "_REPLACE" once we do have source files)
 unset ac_cv_func_catgets
-AC_CHECK_FUNCS([catopen catgets catclose crypt ecvt fcvt gcvt \
+AC_CHECK_FUNCS([catopen catgets catclose ecvt fcvt gcvt \
                 setmntent addmntent endmntent \
                 hasmntopt sbrk shmget swapon swapoff])
   ## functions that we might want replacements for, and have source files for:
@@ -409,7 +417,7 @@ unset ac_cv_func_wctob
 unset ac_cv_func_getmntent
 unset ac_cv_func_poll
 AC_REPLACE_FUNCS([btowc wctob dysize fclose fcloseall getmntent poll \
-                  cuserid brk])dnl
+                  cuserid brk crypt])dnl
   ## keep autoscan happy:
 if test "x" = "Y0"; then
   test -x "`which autoscan`" || echo "no autoscan!" >&2

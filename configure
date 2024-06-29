@@ -23822,11 +23822,19 @@ if test x${CFLAGS+set} = xset; then
     *"-O"* )
       ;;
   esac
+  case "${CFLAGS}" in
+    *"-p"*|*"profile"*|*"coverage"*)
+      ;;
+    *)
+      warnings_to_skip="${warnings_to_skip} -Wcoverage-mismatch"
+      ;;
+  esac
 else
   warnings_to_skip="${warnings_to_skip} -Wunsafe-loop-optimizations"
   warnings_to_skip="${warnings_to_skip} -Waggressive-loop-optimizations"
   warnings_to_skip="${warnings_to_skip} -Wdisabled-optimization"
   warnings_to_skip="${warnings_to_skip} -Wvector-operation-performance"
+  warnings_to_skip="${warnings_to_skip} -Wcoverage-mismatch"
 fi
 
   gl_warn_set=""
@@ -55362,12 +55370,6 @@ then :
   printf "%s\n" "#define HAVE_CATCLOSE 1" >>confdefs.h
 
 fi
-ac_fn_c_check_func "$LINENO" "crypt" "ac_cv_func_crypt"
-if test "x$ac_cv_func_crypt" = xyes
-then :
-  printf "%s\n" "#define HAVE_CRYPT 1" >>confdefs.h
-
-fi
 ac_fn_c_check_func "$LINENO" "ecvt" "ac_cv_func_ecvt"
 if test "x$ac_cv_func_ecvt" = xyes
 then :
@@ -55561,6 +55563,20 @@ else case e in #(
   e) case " $LIBOBJS " in
   *" brk.$ac_objext "* ) ;;
   *) LIBOBJS="$LIBOBJS brk.$ac_objext"
+ ;;
+esac
+ ;;
+esac
+fi
+ac_fn_c_check_func "$LINENO" "crypt" "ac_cv_func_crypt"
+if test "x$ac_cv_func_crypt" = xyes
+then :
+  printf "%s\n" "#define HAVE_CRYPT 1" >>confdefs.h
+
+else case e in #(
+  e) case " $LIBOBJS " in
+  *" crypt.$ac_objext "* ) ;;
+  *) LIBOBJS="$LIBOBJS crypt.$ac_objext"
  ;;
 esac
  ;;
