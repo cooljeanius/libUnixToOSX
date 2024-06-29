@@ -55545,22 +55545,10 @@ then :
   printf "%s\n" "#define HAVE_CATCLOSE 1" >>confdefs.h
 
 fi
-ac_fn_c_check_func "$LINENO" "ecvt" "ac_cv_func_ecvt"
-if test "x$ac_cv_func_ecvt" = xyes
-then :
-  printf "%s\n" "#define HAVE_ECVT 1" >>confdefs.h
-
-fi
 ac_fn_c_check_func "$LINENO" "fcvt" "ac_cv_func_fcvt"
 if test "x$ac_cv_func_fcvt" = xyes
 then :
   printf "%s\n" "#define HAVE_FCVT 1" >>confdefs.h
-
-fi
-ac_fn_c_check_func "$LINENO" "gcvt" "ac_cv_func_gcvt"
-if test "x$ac_cv_func_gcvt" = xyes
-then :
-  printf "%s\n" "#define HAVE_GCVT 1" >>confdefs.h
 
 fi
 ac_fn_c_check_func "$LINENO" "setmntent" "ac_cv_func_setmntent"
@@ -55771,6 +55759,48 @@ esac
  ;;
 esac
 fi
+ac_fn_c_check_func "$LINENO" "msgcat" "ac_cv_func_msgcat"
+if test "x$ac_cv_func_msgcat" = xyes
+then :
+  printf "%s\n" "#define HAVE_MSGCAT 1" >>confdefs.h
+
+else case e in #(
+  e) case " $LIBOBJS " in
+  *" msgcat.$ac_objext "* ) ;;
+  *) LIBOBJS="$LIBOBJS msgcat.$ac_objext"
+ ;;
+esac
+ ;;
+esac
+fi
+ac_fn_c_check_func "$LINENO" "ecvt" "ac_cv_func_ecvt"
+if test "x$ac_cv_func_ecvt" = xyes
+then :
+  printf "%s\n" "#define HAVE_ECVT 1" >>confdefs.h
+
+else case e in #(
+  e) case " $LIBOBJS " in
+  *" ecvt.$ac_objext "* ) ;;
+  *) LIBOBJS="$LIBOBJS ecvt.$ac_objext"
+ ;;
+esac
+ ;;
+esac
+fi
+ac_fn_c_check_func "$LINENO" "gcvt" "ac_cv_func_gcvt"
+if test "x$ac_cv_func_gcvt" = xyes
+then :
+  printf "%s\n" "#define HAVE_GCVT 1" >>confdefs.h
+
+else case e in #(
+  e) case " $LIBOBJS " in
+  *" gcvt.$ac_objext "* ) ;;
+  *) LIBOBJS="$LIBOBJS gcvt.$ac_objext"
+ ;;
+esac
+ ;;
+esac
+fi
   ## keep autoscan happy:
 if test "x" = "Y0"; then
   test -x "`which autoscan`" || echo "no autoscan!" >&2
@@ -55844,6 +55874,12 @@ ac_fn_c_check_func "$LINENO" "setenv" "ac_cv_func_setenv"
 if test "x$ac_cv_func_setenv" = xyes
 then :
   printf "%s\n" "#define HAVE_SETENV 1" >>confdefs.h
+
+fi
+ac_fn_c_check_func "$LINENO" "stpcpy" "ac_cv_func_stpcpy"
+if test "x$ac_cv_func_stpcpy" = xyes
+then :
+  printf "%s\n" "#define HAVE_STPCPY 1" >>confdefs.h
 
 fi
 ac_fn_c_check_func "$LINENO" "strndup" "ac_cv_func_strndup"

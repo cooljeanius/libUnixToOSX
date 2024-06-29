@@ -215,6 +215,13 @@
 		A530AE9A2C2FFC9500F48BE3 /* brk.c in Sources */ = {isa = PBXBuildFile; fileRef = A530AE992C2FFC9500F48BE3 /* brk.c */; };
 		A530AE9C2C3052DE00F48BE3 /* crypt.c in Sources */ = {isa = PBXBuildFile; fileRef = A530AE9B2C3052DD00F48BE3 /* crypt.c */; };
 		A530AE9E2C305ED600F48BE3 /* memrchr.h in Headers */ = {isa = PBXBuildFile; fileRef = A530AE9D2C305ED600F48BE3 /* memrchr.h */; };
+		A530AEA42C30936C00F48BE3 /* ecvt.c in Sources */ = {isa = PBXBuildFile; fileRef = A530AEA32C30936B00F48BE3 /* ecvt.c */; };
+		A530AEA62C30937C00F48BE3 /* gcvt.c in Sources */ = {isa = PBXBuildFile; fileRef = A530AEA52C30937C00F48BE3 /* gcvt.c */; };
+		A530AEA82C30939400F48BE3 /* msgcat.c in Sources */ = {isa = PBXBuildFile; fileRef = A530AEA72C30939300F48BE3 /* msgcat.c */; };
+		A530AEAA2C30948500F48BE3 /* msgcat.h in Headers */ = {isa = PBXBuildFile; fileRef = A530AEA92C30948500F48BE3 /* msgcat.h */; };
+		A530AEAC2C3094D900F48BE3 /* namespace.h in Headers */ = {isa = PBXBuildFile; fileRef = A530AEAB2C3094D900F48BE3 /* namespace.h */; };
+		A530AEAE2C3094F200F48BE3 /* un-namespace.h in Headers */ = {isa = PBXBuildFile; fileRef = A530AEAD2C3094F200F48BE3 /* un-namespace.h */; };
+		A530AEB02C30952D00F48BE3 /* setlocale.h in Headers */ = {isa = PBXBuildFile; fileRef = A530AEAF2C30952D00F48BE3 /* setlocale.h */; };
 		A531666018EEF26F0049B90F /* dup2.c in Sources */ = {isa = PBXBuildFile; fileRef = A531665E18EEF26F0049B90F /* dup2.c */; };
 		A531666118EEF26F0049B90F /* dup3.c in Sources */ = {isa = PBXBuildFile; fileRef = A531665F18EEF26F0049B90F /* dup3.c */; };
 		A531667318EEF3D00049B90F /* dup.c in Sources */ = {isa = PBXBuildFile; fileRef = A531667218EEF3D00049B90F /* dup.c */; };
@@ -561,6 +568,13 @@
 		A530AE9D2C305ED600F48BE3 /* memrchr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = memrchr.h; sourceTree = "<group>"; };
 		A530AEA02C30752900F48BE3 /* FUNDING.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = FUNDING.yml; sourceTree = "<group>"; };
 		A530AEA22C30752900F48BE3 /* codeql.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = codeql.yml; sourceTree = "<group>"; };
+		A530AEA32C30936B00F48BE3 /* ecvt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ecvt.c; sourceTree = "<group>"; };
+		A530AEA52C30937C00F48BE3 /* gcvt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gcvt.c; sourceTree = "<group>"; };
+		A530AEA72C30939300F48BE3 /* msgcat.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = msgcat.c; sourceTree = "<group>"; };
+		A530AEA92C30948500F48BE3 /* msgcat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = msgcat.h; sourceTree = "<group>"; };
+		A530AEAB2C3094D900F48BE3 /* namespace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = namespace.h; sourceTree = "<group>"; };
+		A530AEAD2C3094F200F48BE3 /* un-namespace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "un-namespace.h"; sourceTree = "<group>"; };
+		A530AEAF2C30952D00F48BE3 /* setlocale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = setlocale.h; sourceTree = "<group>"; };
 		A531665E18EEF26F0049B90F /* dup2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dup2.c; sourceTree = "<group>"; };
 		A531665F18EEF26F0049B90F /* dup3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dup3.c; sourceTree = "<group>"; };
 		A531667218EEF3D00049B90F /* dup.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dup.c; sourceTree = "<group>"; };
@@ -780,6 +794,7 @@
 				A531665F18EEF26F0049B90F /* dup3.c */,
 				A50A8F7418ECD9C60096B616 /* dysize.c */,
 				A50A8F7318ECD9C60096B616 /* dysize.h */,
+				A530AEA32C30936B00F48BE3 /* ecvt.c */,
 				A50A90D718EE1D960096B616 /* error.c */,
 				A50A90D818EE1D960096B616 /* error.h */,
 				A50A90D918EE1D960096B616 /* exitfail.c */,
@@ -831,6 +846,7 @@
 				A558DC9019005655002696E8 /* libftw0 */,
 				A50A8EE518EC86F40096B616 /* ftw_Apple.h */,
 				A50A8EE618EC86F40096B616 /* ftw_Apple.c */,
+				A530AEA52C30937C00F48BE3 /* gcvt.c */,
 				A5C41DB11915249700279181 /* getdelim.c */,
 				A5C41DB21915249700279181 /* getline.c */,
 				A5C41AEE190F443500279181 /* getmntent.c */,
@@ -883,10 +899,13 @@
 				A5C41BD819100D3900279181 /* mntent.h */,
 				A5C41AF8190FCFC400279181 /* mountlist.c */,
 				A5C41B00190FD60F00279181 /* mountlist.h */,
+				A530AEA72C30939300F48BE3 /* msgcat.c */,
+				A530AEA92C30948500F48BE3 /* msgcat.h */,
 				A50A912F18EE1E290096B616 /* msvc-inval.c */,
 				A50A913018EE1E290096B616 /* msvc-inval.h */,
 				A50A913118EE1E290096B616 /* msvc-nothrow.c */,
 				A50A913218EE1E290096B616 /* msvc-nothrow.h */,
+				A530AEAB2C3094D900F48BE3 /* namespace.h */,
 				A5C4A5F81A71C5A600DBC833 /* nonblocking.c */,
 				A5C4A5F91A71C5A600DBC833 /* nonblocking.h */,
 				A50A913318EE1E290096B616 /* obstack_printf.c */,
@@ -943,6 +962,7 @@
 				A50A916918EE1E5D0096B616 /* save-cwd.c */,
 				A50A916A18EE1E5D0096B616 /* save-cwd.h */,
 				A52030B71905970600C5B524 /* setenv.c */,
+				A530AEAF2C30952D00F48BE3 /* setlocale.h */,
 				A558DC77190032DD002696E8 /* siglist.h */,
 				A50A916B18EE1E5D0096B616 /* stat-macros.h */,
 				A50A916C18EE1E5D0096B616 /* stat-size.h */,
@@ -961,6 +981,7 @@
 				A50A917B18EE1E6D0096B616 /* strnlen1.c */,
 				A50A917C18EE1E6D0096B616 /* strnlen1.h */,
 				A563264319002BF30024EB6A /* strsignal.c */,
+				A530AEAD2C3094F200F48BE3 /* un-namespace.h */,
 				A50A917D18EE1E6D0096B616 /* unistd--.h */,
 				A50A917E18EE1E6D0096B616 /* unistd-safer.h */,
 				A50A918718EE1E7D0096B616 /* unlocked-io.h */,
@@ -1151,6 +1172,7 @@
 				A530AE9E2C305ED600F48BE3 /* memrchr.h in Headers */,
 				A50A90B718EE1D6E0096B616 /* chdir-safer.h in Headers */,
 				A50A90B918EE1D6E0096B616 /* cloexec.h in Headers */,
+				A530AEAC2C3094D900F48BE3 /* namespace.h in Headers */,
 				A5D4523C190555E300ED9BDA /* close-stream.h in Headers */,
 				A5D451F61905553D00ED9BDA /* closeout.h in Headers */,
 				A50A90CB18EE1D7B0096B616 /* cycle-check.h in Headers */,
@@ -1172,9 +1194,11 @@
 				A50A921818EE30E60096B616 /* filename.h in Headers */,
 				A50A921B18EE30E60096B616 /* filenamecat.h in Headers */,
 				A50A90F518EE1DB60096B616 /* float+.h in Headers */,
+				A530AEAE2C3094F200F48BE3 /* un-namespace.h in Headers */,
 				A52EF8CC1905573900F6B8CD /* fpending.h in Headers */,
 				A50A90F618EE1DB60096B616 /* fpucw.h in Headers */,
 				A5A266261916B7B100EEBBC2 /* freadahead.h in Headers */,
+				A530AEAA2C30948500F48BE3 /* msgcat.h in Headers */,
 				A50A8F6A18ECD8AC0096B616 /* freading.h in Headers */,
 				A5A2662C1916B7BA00EEBBC2 /* freadptr.h in Headers */,
 				A5A2662E1916B7BA00EEBBC2 /* freadseek.h in Headers */,
@@ -1233,6 +1257,7 @@
 				A56326891900327C0024EB6A /* thread.h in Headers */,
 				A563268C1900327C0024EB6A /* tls.h in Headers */,
 				A50A918518EE1E6D0096B616 /* unistd--.h in Headers */,
+				A530AEB02C30952D00F48BE3 /* setlocale.h in Headers */,
 				A50A918618EE1E6D0096B616 /* unistd-safer.h in Headers */,
 				A50A919318EE1E7D0096B616 /* unlocked-io.h in Headers */,
 				A50A919518EE1E7D0096B616 /* vasnprintf.h in Headers */,
@@ -1486,6 +1511,7 @@
 				A50A90B818EE1D6E0096B616 /* cloexec.c in Sources */,
 				A5D4523B190555E300ED9BDA /* close-stream.c in Sources */,
 				A50A90BA18EE1D6E0096B616 /* close.c in Sources */,
+				A530AEA42C30936C00F48BE3 /* ecvt.c in Sources */,
 				A5D451F51905553D00ED9BDA /* closeout.c in Sources */,
 				A50A90C918EE1D7B0096B616 /* creat-safer.c in Sources */,
 				A5E7422A1A6B4072009DE252 /* cuserid.c in Sources */,
@@ -1598,6 +1624,7 @@
 				A50A917018EE1E5D0096B616 /* same.c in Sources */,
 				A50A917218EE1E5D0096B616 /* save-cwd.c in Sources */,
 				A52030B81905970600C5B524 /* setenv.c in Sources */,
+				A530AEA82C30939400F48BE3 /* msgcat.c in Sources */,
 				A50A917618EE1E5D0096B616 /* stat.c in Sources */,
 				A5A266911916B93100EEBBC2 /* stdio-read.c in Sources */,
 				A5A266921916B93100EEBBC2 /* stdio-write.c in Sources */,
@@ -1614,6 +1641,7 @@
 				A563268A1900327C0024EB6A /* threadlib.c in Sources */,
 				A563268B1900327C0024EB6A /* tls.c in Sources */,
 				A50A919418EE1E7D0096B616 /* vasnprintf.c in Sources */,
+				A530AEA62C30937C00F48BE3 /* gcvt.c in Sources */,
 				A50A8F4618EC9A3C0096B616 /* wctob.c in Sources */,
 				A50A919818EE1E7D0096B616 /* xalloc-die.c in Sources */,
 				A520317F1905C2F100C5B524 /* xgetcwd.c in Sources */,

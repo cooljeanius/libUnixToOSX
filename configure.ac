@@ -432,21 +432,20 @@ AC_CHECK_FUNCS_IF_NOT_CACHED([CFLocaleCopyCurrent \
   ## source files to replace them yet:
 dnl# (move from "_CHECK" to "_REPLACE" once we do have source files)
 unset ac_cv_func_catgets
-AC_CHECK_FUNCS([catopen catgets catclose ecvt fcvt gcvt \
-                setmntent addmntent endmntent \
-                hasmntopt sbrk shmget swapon swapoff])
+AC_CHECK_FUNCS([catopen catgets catclose fcvt setmntent addmntent \
+                endmntent hasmntopt sbrk shmget swapon swapoff])
   ## functions that we might want replacements for, and have source files for:
 unset ac_cv_func_btowc
 unset ac_cv_func_wctob
 unset ac_cv_func_getmntent
 unset ac_cv_func_poll
 AC_REPLACE_FUNCS([btowc wctob dysize fclose fcloseall getmntent poll \
-                  cuserid brk crypt fpending])dnl
+                  cuserid brk crypt fpending msgcat ecvt gcvt])dnl
   ## keep autoscan happy:
 if test "x" = "Y0"; then
   test -x "`which autoscan`" || echo "no autoscan!" >&2
   AC_CHECK_FUNCS([__fpending btowc dup2 fchdir ftruncate getcwd getdelim \
-                  getpagesize memchr mempcpy pathconf setenv strndup])dnl
+                  getpagesize memchr mempcpy pathconf setenv stpcpy strndup])dnl
   ## should never actually get here though...
 fi
 

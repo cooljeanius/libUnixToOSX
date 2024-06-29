@@ -409,21 +409,21 @@ am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/config.h.in \
 	build-aux/config.sub build-aux/depcomp build-aux/install-sh \
 	build-aux/ltmain.sh build-aux/missing build-aux/mkinstalldirs \
 	canonicalize-lgpl.c chdir-long.c chown.c close.c crypt.c \
-	cuserid.c dup.c dup2.c dysize.c error.c error.h fallocate.c \
-	fchdir.c fchmodat.c fchown-stub.c fchownat.c fclose.c \
-	fcloseall.c fdopen.c fdopendir.c fflush.c fileblocks.c float.c \
-	fpending.c freadahead.c freadptr.c fstat.c fstatat.c \
-	ftruncate.c fts.c getdelim.c getline.c getmntent.c getopt.c \
-	getopt1.c isnand.c isnanf.c isnanl.c itold.c localeconv.c \
-	lstat.c malloc.c memchr.c memcmp.c mempcpy.c memrchr.c \
-	mktime.c mountlist.c msvc-inval.c obstack.c obstack.h \
-	obstack_printf.c openat.c poll.c posix_fallocate.c \
-	posix_fallocate64.c pread.c printf-args.c printf-parse.c \
-	progreloc.c pwrite.c rawmemchr.c readlink.c readlinkat.c \
-	realloc.c relocatable.c setenv.c stat.c stdio-read.c \
-	stdio-write.c strchrnul.c strerror-override.c strerror.c \
-	strerror_r.c strndup.c strnlen.c strsignal.c vasnprintf.c \
-	wctob.c
+	cuserid.c dup.c dup2.c dysize.c ecvt.c error.c error.h \
+	fallocate.c fchdir.c fchmodat.c fchown-stub.c fchownat.c \
+	fclose.c fcloseall.c fdopen.c fdopendir.c fflush.c \
+	fileblocks.c float.c fpending.c freadahead.c freadptr.c \
+	fstat.c fstatat.c ftruncate.c fts.c gcvt.c getdelim.c \
+	getline.c getmntent.c getopt.c getopt1.c isnand.c isnanf.c \
+	isnanl.c itold.c localeconv.c lstat.c malloc.c memchr.c \
+	memcmp.c mempcpy.c memrchr.c mktime.c mountlist.c msgcat.c \
+	msvc-inval.c obstack.c obstack.h obstack_printf.c openat.c \
+	poll.c posix_fallocate.c posix_fallocate64.c pread.c \
+	printf-args.c printf-parse.c progreloc.c pwrite.c rawmemchr.c \
+	readlink.c readlinkat.c realloc.c relocatable.c setenv.c \
+	stat.c stdio-read.c stdio-write.c strchrnul.c \
+	strerror-override.c strerror.c strerror_r.c strndup.c \
+	strnlen.c strsignal.c vasnprintf.c wctob.c
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)

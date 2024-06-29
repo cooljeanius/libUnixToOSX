@@ -1,10 +1,9 @@
 TODO list:
-- add implementations for the following functions:
- * catopen
- * catgets
- * catclose
- * ecvt
- * fcvt
+- add files implementing the following functions:
+ * catopen (currently in msgcat.c; split out to a separate file)
+ * catgets (currently in msgcat.c; split out to a separate file)
+ * catclose (currently in msgcat.c; split out to a separate file)
+ * fcvt (currently in ecvt.c; split out to a separate file)
  * setmntent
  * addmntent
  * endmntent

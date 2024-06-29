@@ -57,7 +57,7 @@ AC_FUNC_MKTIME
 AC_FUNC_REALLOC
 AC_FUNC_STRERROR_R
 AC_FUNC_STRNLEN
-AC_CHECK_FUNCS([__fpending atexit btowc dup2 fchdir fs_stat_dev ftruncate getcwd getdelim getmntent getmntinfo getpagesize iswprint listmntent localeconv mblen mbrlen memchr memmove mempcpy memset next_dev nl_langinfo pathconf select setenv setlocale strcasecmp strchr strdup strerror strncasecmp strndup strrchr strspn strstr strtoul wcwidth])
+AC_CHECK_FUNCS([__fpending atexit btowc dup2 fchdir fs_stat_dev ftruncate getcwd getdelim getmntent getmntinfo getpagesize iswprint listmntent localeconv mblen mbrlen memchr memmove mempcpy memset next_dev nl_langinfo pathconf select setenv setlocale stpcpy strcasecmp strchr strdup strerror strncasecmp strndup strrchr strspn strstr strtoul wcwidth])
 
 AC_CONFIG_FILES([Makefile
                  autoscan/Makefile

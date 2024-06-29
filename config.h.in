@@ -1144,6 +1144,9 @@
 /* Define to 1 if you have the 'mprotect' func */
 #undef HAVE_MPROTECT
 
+/* Define to 1 if you have the 'msgcat' function. */
+#undef HAVE_MSGCAT
+
 /* Define to 1 on MSVC platforms that have the "invalid parameter handler"
    concept. */
 #undef HAVE_MSVC_INVALID_PARAMETER_HANDLER
@@ -2308,6 +2311,9 @@
 
 /* Define to 1 if you have the <stdlib.h> header file. */
 #undef HAVE_STDLIB_H
+
+/* Define to 1 if you have the 'stpcpy' function. */
+#undef HAVE_STPCPY
 
 /* Define to 1 if you have the 'strcasecmp' function. */
 #undef HAVE_STRCASECMP
