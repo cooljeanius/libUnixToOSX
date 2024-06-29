@@ -72,8 +72,14 @@ __FBSDID("$FreeBSD: src/lib/libc/nls/msgcat.c,v 1.49 2005/02/01 16:04:55 phantom
 # if defined(__GNUC__) && !defined(__STRICT_ANSI__)
 #  warning "msgcat.c expects <machine/endian.h> to be included."
 # endif /* __GNUC__ && !__STRICT_ANSI__ */
-#endif /* HAVE_XLOCALE_H */
-#include <libkern/OSByteOrder.h>
+#endif /* HAVE_MACHINE_ENDIAN_H */
+#if defined(HAVE_LIBKERN_OSBYTEORDER_H) || __has_include(<libkern/OSByteOrder.h>)
+# include <libkern/OSByteOrder.h>
+#else
+# if defined(__GNUC__) && !defined(__STRICT_ANSI__)
+#  warning "msgcat.c expects <libkern/OSByteOrder.h> to be included."
+# endif /* __GNUC__ && !__STRICT_ANSI__ */
+#endif /* HAVE_LIBKERN_OSBYTEORDER_H */
 #include "un-namespace.h"
 
 #include "msgcat.h"
@@ -98,7 +104,8 @@ static void     __nls_free_resources(MCCatT *, int);
 nl_catd
 catopen(__const char *name, int type)
 {
-	int             spcleft, saverr;
+	size_t          spcleft;
+	int             saverr;
 	char            path[PATH_MAX];
 	char            *base, *cptr, *pathP;
 	char            *cptr1, *plang;

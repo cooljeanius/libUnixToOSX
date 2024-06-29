@@ -77,10 +77,11 @@ jobs:
               echo "linuxbrew not found in its usual location"; \
             fi
             if test -x "$(which brew)"; then \
-              echo "attempting to use $(which brew) to install kmod"; \
+              echo "attempting to use $(which brew) to install stuff"; \
               brew install kmod || echo "failed to install kmod with $(which brew)"; \
+              brew install util-linux || echo "brew failed to install util-linux"; \
             else \
-              echo "skipping attempting to use Homebrew to install kmod"; \
+              echo "skipping attempting to use Homebrew to install stuff"; \
             fi
             ;;
           macos*)
