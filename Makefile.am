@@ -1646,7 +1646,7 @@ getopttest_CFLAGS = $(getopttest_CPPFLAGS) -Wall -Wextra -ggdb3
 
 ## extra test dependencies:
 check-local: all
-	if test -x "`which machocheck`" -a -d .libs -a -r .libs/libUnixToOSX.dylib; then \
+	if test -x "`which machocheck`" -a -d .libs -a -r .libs/libUnixToOSX.dylib -a -x .libs/libUnixToOSX.dylib; then \
 	  machocheck -progress .libs/libUnixToOSX.dylib; \
 	else \
 	  echo "skipping checks of mach-o format validity"; \

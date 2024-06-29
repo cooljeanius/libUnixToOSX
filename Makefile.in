@@ -3789,7 +3789,7 @@ signal.h: signal.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H
 	mv $(AM_V_v) $@-t $@
 
 check-local: all
-	if test -x "`which machocheck`" -a -d .libs -a -r .libs/libUnixToOSX.dylib; then \
+	if test -x "`which machocheck`" -a -d .libs -a -r .libs/libUnixToOSX.dylib -a -x .libs/libUnixToOSX.dylib; then \
 	  machocheck -progress .libs/libUnixToOSX.dylib; \
 	else \
 	  echo "skipping checks of mach-o format validity"; \

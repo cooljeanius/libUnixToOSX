@@ -60,8 +60,10 @@ configure:# FIXME: To remove some day.
 configure:# FIXME: To remove some day.
 configure:   # FIXME: It is wrong to rewrite CC.
 configure:  # FIXME: It is wrong to rewrite AR.
+configure:  # FIXME: It is wrong to rewrite AR.
+configure:# ARFLAGS for automake and AR_FLAGS for libtool).  FIXME: Make the AR_FLAGS
 configure:            # FIXME: we need at least 68020 code to build shared libraries, but
-configure:    # FIXME: the MSVC++ port hasn't been tested in a loooong time
+configure:    # FIXME: the MSVC++ and ICC port hasn't been tested in a loooong time
 configure:	# support --undefined.  This deserves some investigation.  FIXME
 configure:	# FIXME: Setting linknames here is a bad hack.
 configure:	# FIXME: Setting linknames here is a bad hack.
@@ -69,7 +71,7 @@ configure:	# FIXME: Should let the user specify the lib program.
 configure:      # FIXME: we may have to deal with multi-command sequences.
 configure:      # FIXME: find the short name or the path components, as spaces are
 configure:  # FIXME: first we should search . and the directory the executable is in
-configure:# FIXME - insert some real tests, host_os isn't really good enough
+configure:      # FIXME - insert some real tests, host_os isn't really good enough
 configure:        # FIXME: insert proper C++ library support
 configure:	  # support --undefined.  This deserves some investigation.  FIXME
 configure:	  # FIXME: insert proper C++ library support
@@ -100,15 +102,17 @@ configure:      # FIXME: we may have to deal with multi-command sequences.
 configure:      # FIXME: find the short name or the path components, as spaces are
 configure:  # FIXME: first we should search . and the directory the executable is in
 configure:    #FIXME: config.log reports a path found for these, but still says "no":
-configure:  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for FIXME existence of three headers" >&5
-configure:$as_echo_n "checking for FIXME existence of three headers... " >&6; }
+configure:# FIXME: these may require some additional flags:
+configure:  { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for FIXME existence of three headers" >&5
+configure:printf %s "checking for FIXME existence of three headers... " >&6; }
 configure:  # FIXME -- no need to abort building the whole package
-configure:  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for FIXME existence of three headers" >&5
-configure:$as_echo_n "checking for FIXME existence of three headers... " >&6; }
-configure:  # FIXME -- no need to abort building the whole package
+configure:    { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for FIXME existence of three headers" >&5
+configure:printf %s "checking for FIXME existence of three headers... " >&6; }
+configure:    # FIXME -- no need to abort building the whole package
 configure:# FIXME: This hack should be removed a few years after 2.60.
 configure:# FIXME: do we really want to maintain this feature?
 configure.ac:    dnl#FIXME: make sure these flags are actually used properly
+configure.ac:# FIXME: these may require some additional flags:
 fallocate.c:/* FIXME: look at orig email for this file definition. */
 fallocate.c:  return ENOSYS; /* FIXME: glibc interface may change to set errno and ret -1 */
 fallocate.c:  /* FIXME: support fcntl(fd, F_ALLOCSP, ...) on solaris.  */
@@ -143,16 +147,18 @@ localename.c:				/* FIXME: Adjust this when such locales appear on Unix.  */
 localename.c:				/* FIXME: Adjust this when such locales appear on Unix.  */
 localename.c:					/* FIXME: Adjust this when Tamazight locales appear on Unix.  */
 m4/ccstdc.m4:dnl# FIXME: cannot do this because then AC_USE_SYSTEM_EXTENSIONS will NOT
+m4/extensions.m4:dnl (FIXME: Which ones?)
 m4/include_next.m4:dnl# FIXME: gl_next_header and gl_header_exists must be used unquoted
 m4/lib-link.m4:                      dnl FIXME: Not sure whether we should use
 m4/lib-link.m4:                      dnl FIXME: Not sure whether we should use
 m4/libtool.m4:## FIXME: Eliminate VARNAME ##
-m4/libtool.m4:# FIXME - insert some real tests, host_os isn't really good enough
+m4/libtool.m4:# ARFLAGS for automake and AR_FLAGS for libtool).  FIXME: Make the AR_FLAGS
+m4/libtool.m4:      # FIXME - insert some real tests, host_os isn't really good enough
 m4/libtool.m4:      # FIXME: find the short name or the path components, as spaces are
 m4/libtool.m4:  # FIXME: first we should search . and the directory the executable is in
 m4/libtool.m4:            # FIXME: we need at least 68020 code to build shared libraries, but
 m4/libtool.m4:            # FIXME: we need at least 68020 code to build shared libraries, but
-m4/libtool.m4:    # FIXME: the MSVC++ port hasn't been tested in a loooong time
+m4/libtool.m4:    # FIXME: the MSVC++ and ICC port hasn't been tested in a loooong time
 m4/libtool.m4:	# support --undefined.  This deserves some investigation.  FIXME
 m4/libtool.m4:	# FIXME: Setting linknames here is a bad hack.
 m4/libtool.m4:	# FIXME: Setting linknames here is a bad hack.
@@ -186,6 +192,8 @@ m4/libtool.m4:        # FIXME: insert proper C++ library support
 m4/libtool.m4:        # FIXME: insert proper C++ library support
 m4/ls-mntd-fs.m4:  AC_MSG_CHECKING([for FIXME existence of three headers])
 m4/ls-mntd-fs.m4:  # FIXME -- no need to abort building the whole package
+m4/mountlist.m4:    AC_CACHE_CHECK([for FIXME existence of three headers],
+m4/mountlist.m4:    # FIXME -- no need to abort building the whole package
 m4/programs_extra.m4:  dnl# FIXME: are all of these correct?
 m4/programs_extra.m4:    #FIXME: config.log reports a path found for these, but still says "no":
 m4/warn-on-use.m4:dnl# FIXME: gl_Symbol must be used unquoted until we can assume
@@ -195,3 +203,4 @@ mktime.c:/* FIXME: This should use a signed type wide enough to hold any UTC
 openat-proc.c:   FIXME - if the kernel ever adds support for multi-thread safety for
 pipe2.c:      /* FIXME: clang says that this condition will never be reached...
 quotearg.c:      /* FIXME: technically, the type of n1 should be 'unsigned int',
+strerror_r.c:/* FIXME: ought to return char * instead? */

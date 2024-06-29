@@ -220,8 +220,11 @@ print_errno_message(int errnum)
 #endif /* _LIBC */
 }
 
-static void error_tail(int status, int errnum, const char *message,
-					   va_list args)
+static void
+#if defined(_GL_ATTRIBUTE_FORMAT_PRINTF_STANDARD) && defined(_GL_ARG_NONNULL)
+_GL_ATTRIBUTE_FORMAT_PRINTF_STANDARD(3, 0) _GL_ARG_NONNULL((3))
+#endif /* _GL_ATTRIBUTE_FORMAT_PRINTF_STANDARD && _GL_ARG_NONNULL */
+error_tail(int status, int errnum, const char *message, va_list args)
 {
   int should_do_vprintf = 1;
 #if defined(_LIBC) && _LIBC

@@ -83,4 +83,4 @@
 
 #  endif /* _@GUARD_PREFIX@_STDDEF_H */
 # endif /* _@GUARD_PREFIX@_STDDEF_H */
-#endif /* __need_XXX */
+#endif /* __need_[wchar_t|size_t|ptrdiff_t|NULL|wint_t] */
