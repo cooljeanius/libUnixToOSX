@@ -786,6 +786,9 @@
 /* Define to 1 if you have the 'fpathconf' func */
 #undef HAVE_FPATHCONF
 
+/* Define to 1 if you have the 'fpending' function. */
+#undef HAVE_FPENDING
+
 /* Define to 1 if you have the 'fpurge' function. */
 #undef HAVE_FPURGE
 
@@ -1104,6 +1107,9 @@
 
 /* Define to 1 if you have the 'memrchr' function. */
 #undef HAVE_MEMRCHR
+
+/* Define to 1 if you have the <memrchr.h> header file. */
+#undef HAVE_MEMRCHR_H
 
 /* Define to 1 if you have the 'memset' function. */
 #undef HAVE_MEMSET

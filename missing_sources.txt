@@ -1,19 +1,19 @@
 # Regenerate this file by switching a certain "AC_CHECK_FUNCS" in the
 # configure.ac file to "AC_REPLACE_FUNCS", and then running:
-# automake 2>&1 | sort | uniq | pbcopy
-configure.ac:440: error: required file './addmntent.c' not found
-configure.ac:440: error: required file './catclose.c' not found
-configure.ac:440: error: required file './catgets.c' not found
-configure.ac:440: error: required file './catopen.c' not found
-configure.ac:440: error: required file './crypt.c' not found
-configure.ac:440: error: required file './ecvt.c' not found
-configure.ac:440: error: required file './endmntent.c' not found
-configure.ac:440: error: required file './fcvt.c' not found
-configure.ac:440: error: required file './gcvt.c' not found
-configure.ac:440: error: required file './hasmntopt.c' not found
-configure.ac:440: error: required file './sbrk.c' not found
-configure.ac:440: error: required file './setmntent.c' not found
-configure.ac:440: error: required file './shmget.c' not found
-configure.ac:440: error: required file './swapoff.c' not found
-configure.ac:440: error: required file './swapon.c' not found
+# automake 2>&1 | sort | uniq | tee /dev/tty | pbcopy
+configure.ac:456: error: required file './addmntent.c' not found
+configure.ac:456: error: required file './catclose.c' not found
+configure.ac:456: error: required file './catgets.c' not found
+configure.ac:456: error: required file './catopen.c' not found
+configure.ac:456: error: required file './ecvt.c' not found
+configure.ac:456: error: required file './endmntent.c' not found
+configure.ac:456: error: required file './fcvt.c' not found
+configure.ac:456: error: required file './gcvt.c' not found
+configure.ac:456: error: required file './hasmntopt.c' not found
+configure.ac:456: error: required file './sbrk.c' not found
+configure.ac:456: error: required file './setmntent.c' not found
+configure.ac:456: error: required file './shmget.c' not found
+configure.ac:456: error: required file './swapoff.c' not found
+configure.ac:456: error: required file './swapon.c' not found
+
 

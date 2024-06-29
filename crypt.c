@@ -1,4 +1,4 @@
-/*
+/* crypt.c
  * Copyright (c) 1999 Apple Computer, Inc. All rights reserved.
  *
  * @APPLE_LICENSE_HEADER_START@
@@ -56,8 +56,13 @@
  * SUCH DAMAGE.
  */
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wstrict-prototypes"
+#ifdef __clang__
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wstrict-prototypes"
+# ifndef PRAGMA_CLANG_DIAGNOSTIC_DID_PUSH
+#  define PRAGMA_CLANG_DIAGNOSTIC_DID_PUSH 1
+# endif /* !PRAGMA_CLANG_DIAGNOSTIC_DID_PUSH */
+#endif /* __clang__ */
 
 #include <sys/cdefs.h>
 #include <unistd.h>
@@ -68,7 +73,7 @@
 
 /*
  * UNIX password, and DES, encryption.
- * By Tom Truscott, trt@rti.rti.org,
+ * By Tom Truscott, <trt@rti.rti.org>,
  * from algorithms by Robert W. Baldwin and James Gillogly.
  *
  * References:
@@ -109,7 +114,7 @@
 
 /*
  * define "B64" to be the declaration for a 64 bit integer.
- * XXX this feature is currently unused, see "endian" comment below.
+ * XXX: this feature is currently unused, see "endian" comment below.
  */
 #if defined(cray)
 #define	B64	long
@@ -127,6 +132,15 @@
 #define	LARGEDATA
 #endif
 
+/* for compatibility: */
+#ifndef __private_extern__
+# if defined(__has_attribute) && __has_attribute(visibility)
+#  define __private_extern__ __attribute__((visibility("hidden"))) extern
+# else
+#  define __private_extern__ extern
+# endif /* has attribute visibility */
+#endif /* !__private_extern__ */
+
 /* compile with "-DSTATIC=int" when profiling */
 #ifndef STATIC
 #define	STATIC	static
@@ -138,7 +152,8 @@ STATIC void init_des(), init_perm(), permute();
 STATIC void prtab();
 #endif
 #endif /* BUILDING_VARIANT */
-__private_extern__ int __crypt_des_cipher(), __crypt_des_setkey();
+__private_extern__ int __crypt_des_cipher(const char *, char *, long, int);
+__private_extern__ int __crypt_des_setkey(register const char *);
 
 /* ==================================== */
 
@@ -346,7 +361,8 @@ STATIC void permute(cp, out, p, chars_in)
 #endif /* LARGEDATA */
 
 #ifndef BUILDING_VARIANT
-__private_extern__ int __crypt_des_setkey_called = 0;
+__private_extern__ int __crypt_des_setkey_called;
+int __crypt_des_setkey_called = 0;
 #else /* BUILDING_VARIANT */
 extern int __crypt_des_setkey_called;
 #endif /* BUILDING_VARIANT */
@@ -501,24 +517,39 @@ static const unsigned char a64toi[128] = {
 };
 
 /* Initial key schedule permutation */
-// static C_block	PC1ROT[64/CHUNKBITS][1<<CHUNKBITS];
+#ifdef USE_MULTIDIMENSIONAL_ARRAYS
+static C_block	PC1ROT[64/CHUNKBITS][1<<CHUNKBITS];
+#else
 static C_block	*PC1ROT;
+#endif /* USE_MULTIDIMENSIONAL_ARRAYS */
 
 /* Subsequent key schedule rotation permutations */
-// static C_block	PC2ROT[2][64/CHUNKBITS][1<<CHUNKBITS];
+#ifdef USE_MULTIDIMENSIONAL_ARRAYS
+static C_block	PC2ROT[2][64/CHUNKBITS][1<<CHUNKBITS];
+#else
 static C_block	*PC2ROT[2];
+#endif /* USE_MULTIDIMENSIONAL_ARRAYS */
 
 /* Initial permutation/expansion table */
-// static C_block	IE3264[32/CHUNKBITS][1<<CHUNKBITS];
+#ifdef USE_MULTIDIMENSIONAL_ARRAYS
+static C_block	IE3264[32/CHUNKBITS][1<<CHUNKBITS];
+#else
 static C_block	*IE3264;
+#endif /* USE_MULTIDIMENSIONAL_ARRAYS */
 
 /* Table that combines the S, P, and E operations.  */
-// static long SPE[2][8][64];
+#ifdef USE_MULTIDIMENSIONAL_ARRAYS
+static long SPE[2][8][64];
+#else
 static long *SPE;
+#endif /* USE_MULTIDIMENSIONAL_ARRAYS */
 
 /* compressed/interleaved => final permutation table */
-// static C_block	CF6464[64/CHUNKBITS][1<<CHUNKBITS];
+#ifdef USE_MULTIDIMENSIONAL_ARRAYS
+static C_block	CF6464[64/CHUNKBITS][1<<CHUNKBITS];
+#else
 static C_block	*CF6464;
+#endif /* USE_MULTIDIMENSIONAL_ARRAYS */
 
 
 /* ==================================== */
@@ -634,8 +665,8 @@ static C_block	KS[KS_SIZE];
 /*
  * Set up the key schedule from the key.
  */
-__private_extern__ int __crypt_des_setkey(key)
-	register const char *key;
+__private_extern__ int
+__crypt_des_setkey(register const char *key)
 {
 	register DCL_BLOCK(K, K0, K1);
 	register C_block *ptabp;
@@ -669,11 +700,8 @@ __private_extern__ int __crypt_des_setkey(key)
  * NOTE: the performance of this routine is critically dependent on your
  * compiler and machine architecture.
  */
-__private_extern__ int __crypt_des_cipher(in, out, salt, num_iter)
-	const char *in;
-	char *out;
-	long salt;
-	int num_iter;
+__private_extern__ int
+__crypt_des_cipher(const char *in, char *out, long salt, int num_iter)
 {
 	/* variables that we want in registers, most important first */
 #if defined(pdp11)
@@ -930,10 +958,8 @@ STATIC void init_des()
  *
  * "perm" must be all-zeroes on entry to this routine.
  */
-STATIC void init_perm(perm, p, chars_in, chars_out)
-	C_block *perm;
-	unsigned char p[64];
-	int chars_in, chars_out;
+STATIC void
+init_perm(C_block *perm, unsigned char p[64], int chars_in, int chars_out)
 {
 	register int i, j, k, l;
 
@@ -948,6 +974,7 @@ STATIC void init_perm(perm, p, chars_in, chars_out)
 				perm[(i * (1<<CHUNKBITS)) + j].b[k>>3] |= 1<<(k&07);
 		}
 	}
+	(void)chars_in;
 }
 #endif /* BUILDING_VARIANT */
 
@@ -1047,4 +1074,7 @@ prtab(s, t, num_rows)
 #endif
 #endif /* BUILDING_VARIANT */
 
-#pragma clang diagnostic pop
+/* Make sure we pushed first: */
+#if defined(__clang__) && defined(PRAGMA_CLANG_DIAGNOSTIC_DID_PUSH)
+# pragma clang diagnostic pop
+#endif /* __clang__ && PRAGMA_CLANG_DIAGNOSTIC_DID_PUSH */

@@ -66,7 +66,7 @@ void *sbrk(int size)
 	
 	if (size <= 0)
 		return((void *)sbrk_curbrk);
-	else if (size > sbrk_region_size) {
+	else if ((vm_size_t)size > sbrk_region_size) {
 		errno = ENOMEM;
 		return((void *)-1);
 	}
@@ -78,5 +78,6 @@ void *sbrk(int size)
 void *brk(const void *x)
 {
 	errno = ENOMEM;
+	(void)x;
 	return((void *)-1);
 }

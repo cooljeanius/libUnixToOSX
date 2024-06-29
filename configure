@@ -23829,12 +23829,20 @@ if test x${CFLAGS+set} = xset; then
       warnings_to_skip="${warnings_to_skip} -Wcoverage-mismatch"
       ;;
   esac
+  case "${CFLAGS}" in
+    *"-fstack-protector"*)
+      ;;
+    *)
+      warnings_to_skip="${warnings_to_skip} -Wstack-protector"
+      ;;
+  esac
 else
   warnings_to_skip="${warnings_to_skip} -Wunsafe-loop-optimizations"
   warnings_to_skip="${warnings_to_skip} -Waggressive-loop-optimizations"
   warnings_to_skip="${warnings_to_skip} -Wdisabled-optimization"
   warnings_to_skip="${warnings_to_skip} -Wvector-operation-performance"
   warnings_to_skip="${warnings_to_skip} -Wcoverage-mismatch"
+  warnings_to_skip="${warnings_to_skip} -Wstack-protector"
 fi
 
   gl_warn_set=""
@@ -34712,6 +34720,12 @@ then :
   printf "%s\n" "#define HAVE_MEMCOPY_H 1" >>confdefs.h
 
 fi
+ac_fn_c_check_header_compile "$LINENO" "memrchr.h" "ac_cv_header_memrchr_h" "$ac_includes_default"
+if test "x$ac_cv_header_memrchr_h" = xyes
+then :
+  printf "%s\n" "#define HAVE_MEMRCHR_H 1" >>confdefs.h
+
+fi
 ac_fn_c_check_header_compile "$LINENO" "mm.h" "ac_cv_header_mm_h" "$ac_includes_default"
 if test "x$ac_cv_header_mm_h" = xyes
 then :
@@ -35680,6 +35694,20 @@ else case e in #(
 esac
 fi
 printf "%s\n" "#define HAVE_DECL_EXIT_FAILURE $ac_have_decl" >>confdefs.h
+
+
+  :
+
+
+      ac_fn_check_decl "$LINENO" "memrchr" "ac_cv_have_decl_memrchr" "$ac_includes_default" "$ac_c_undeclared_builtin_options" "CFLAGS"
+if test "x$ac_cv_have_decl_memrchr" = xyes
+then :
+  ac_have_decl=1
+else case e in #(
+  e) ac_have_decl=0 ;;
+esac
+fi
+printf "%s\n" "#define HAVE_DECL_MEMRCHR $ac_have_decl" >>confdefs.h
 
 
   :
@@ -44596,17 +44624,6 @@ printf "%s\n" "$gl_cv_func_memchr_works" >&6; }
 
 
     :
-
-
-      ac_fn_check_decl "$LINENO" "memrchr" "ac_cv_have_decl_memrchr" "$ac_includes_default" "$ac_c_undeclared_builtin_options" "CFLAGS"
-if test "x$ac_cv_have_decl_memrchr" = xyes
-then :
-  ac_have_decl=1
-else case e in #(
-  e) ac_have_decl=0 ;;
-esac
-fi
-printf "%s\n" "#define HAVE_DECL_MEMRCHR $ac_have_decl" >>confdefs.h
 
 
 
@@ -55577,6 +55594,20 @@ else case e in #(
   e) case " $LIBOBJS " in
   *" crypt.$ac_objext "* ) ;;
   *) LIBOBJS="$LIBOBJS crypt.$ac_objext"
+ ;;
+esac
+ ;;
+esac
+fi
+ac_fn_c_check_func "$LINENO" "fpending" "ac_cv_func_fpending"
+if test "x$ac_cv_func_fpending" = xyes
+then :
+  printf "%s\n" "#define HAVE_FPENDING 1" >>confdefs.h
+
+else case e in #(
+  e) case " $LIBOBJS " in
+  *" fpending.$ac_objext "* ) ;;
+  *) LIBOBJS="$LIBOBJS fpending.$ac_objext"
  ;;
 esac
  ;;

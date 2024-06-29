@@ -146,12 +146,20 @@ if test x${CFLAGS+set} = xset; then
       warnings_to_skip="${warnings_to_skip} -Wcoverage-mismatch"
       ;;
   esac
+  case "${CFLAGS}" in
+    *"-fstack-protector"*)
+      ;;
+    *)
+      warnings_to_skip="${warnings_to_skip} -Wstack-protector"
+      ;;
+  esac
 else
   warnings_to_skip="${warnings_to_skip} -Wunsafe-loop-optimizations"
   warnings_to_skip="${warnings_to_skip} -Waggressive-loop-optimizations"
   warnings_to_skip="${warnings_to_skip} -Wdisabled-optimization"
   warnings_to_skip="${warnings_to_skip} -Wvector-operation-performance"
   warnings_to_skip="${warnings_to_skip} -Wcoverage-mismatch"
+  warnings_to_skip="${warnings_to_skip} -Wstack-protector"
 fi
 gl_MANYWARN_COMPLEMENT([actual_warnings_to_check],
                        [${warnings_to_check}],
@@ -254,11 +262,11 @@ AC_CHECK_HEADERS([_types/_nl_item.h \
                   fts.h ftw.h gnu-versions.h iconv.h io.h iostream.h \
                   lcrypt.h libcharset.h libintl.h \
                   libio/iolibio.h libio/libioP.h limits.h locale.h \
-                  mach/mach.h malloc.h malloc/malloc.h memcopy.h mm.h \
-                  mntent.h mnttab.h module.h netdb.h nl_types.h os2.h \
-                  process.h ptms.h publib.h publib/strutil.h \
-                  shlib-compat.h stdarg.h stddef.h stream.h \
-                  stropts.h strutil.h swapctl.h swap.h \
+                  mach/mach.h malloc.h malloc/malloc.h memcopy.h \
+                  memrchr.h mm.h mntent.h mnttab.h module.h netdb.h \
+                  nl_types.h os2.h process.h ptms.h publib.h \
+                  publib/strutil.h shlib-compat.h stdarg.h stddef.h \
+                  stream.h stropts.h strutil.h swapctl.h swap.h \
                   sys/_types/_ct_rune_t.h sys/_types/_mbstate_t.h \
                   sys/_types/_null.h sys/_types/_rune_t.h \
                   sys/_types/_size_t.h sys/_types/_time_t.h \
@@ -291,6 +299,8 @@ dnl# might have to get rid of the "_ONCE"s if they jump elsewehere...
 AC_CHECK_DECLS_ONCE([__fpending])dnl
 AC_CHECK_DECLS_ONCE([cuserid])dnl
 AC_CHECK_DECLS_ONCE([exit_failure])dnl
+AC_CHECK_DECLS_ONCE([memrchr],[],[],
+                    [#include <string.h>])dnl
 AC_CHECK_DECLS_ONCE([program_invocation_name],[],[],
                     [#include <errno.h>])dnl
 AC_CHECK_DECLS_ONCE([program_invocation_short_name],[],[],
@@ -417,7 +427,7 @@ unset ac_cv_func_wctob
 unset ac_cv_func_getmntent
 unset ac_cv_func_poll
 AC_REPLACE_FUNCS([btowc wctob dysize fclose fcloseall getmntent poll \
-                  cuserid brk crypt])dnl
+                  cuserid brk crypt fpending])dnl
   ## keep autoscan happy:
 if test "x" = "Y0"; then
   test -x "`which autoscan`" || echo "no autoscan!" >&2

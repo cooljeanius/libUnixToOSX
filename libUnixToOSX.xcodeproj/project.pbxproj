@@ -213,6 +213,8 @@
 		A52EF8D21905574600F6B8CD /* quotearg.h in Headers */ = {isa = PBXBuildFile; fileRef = A52EF8CF1905574600F6B8CD /* quotearg.h */; };
 		A530AE982C2FF60500F48BE3 /* pipe2.h in Headers */ = {isa = PBXBuildFile; fileRef = A530AE972C2FF60500F48BE3 /* pipe2.h */; };
 		A530AE9A2C2FFC9500F48BE3 /* brk.c in Sources */ = {isa = PBXBuildFile; fileRef = A530AE992C2FFC9500F48BE3 /* brk.c */; };
+		A530AE9C2C3052DE00F48BE3 /* crypt.c in Sources */ = {isa = PBXBuildFile; fileRef = A530AE9B2C3052DD00F48BE3 /* crypt.c */; };
+		A530AE9E2C305ED600F48BE3 /* memrchr.h in Headers */ = {isa = PBXBuildFile; fileRef = A530AE9D2C305ED600F48BE3 /* memrchr.h */; };
 		A531666018EEF26F0049B90F /* dup2.c in Sources */ = {isa = PBXBuildFile; fileRef = A531665E18EEF26F0049B90F /* dup2.c */; };
 		A531666118EEF26F0049B90F /* dup3.c in Sources */ = {isa = PBXBuildFile; fileRef = A531665F18EEF26F0049B90F /* dup3.c */; };
 		A531667318EEF3D00049B90F /* dup.c in Sources */ = {isa = PBXBuildFile; fileRef = A531667218EEF3D00049B90F /* dup.c */; };
@@ -555,6 +557,8 @@
 		A52EF8CF1905574600F6B8CD /* quotearg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = quotearg.h; sourceTree = "<group>"; };
 		A530AE972C2FF60500F48BE3 /* pipe2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pipe2.h; sourceTree = "<group>"; };
 		A530AE992C2FFC9500F48BE3 /* brk.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = brk.c; sourceTree = "<group>"; };
+		A530AE9B2C3052DD00F48BE3 /* crypt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = crypt.c; sourceTree = "<group>"; };
+		A530AE9D2C305ED600F48BE3 /* memrchr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = memrchr.h; sourceTree = "<group>"; };
 		A531665E18EEF26F0049B90F /* dup2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dup2.c; sourceTree = "<group>"; };
 		A531665F18EEF26F0049B90F /* dup3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dup3.c; sourceTree = "<group>"; };
 		A531667218EEF3D00049B90F /* dup.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dup.c; sourceTree = "<group>"; };
@@ -753,6 +757,7 @@
 				A5D451F41905553D00ED9BDA /* closeout.h */,
 				A520306619057E0400C5B524 /* config.charset */,
 				A50A90BB18EE1D7B0096B616 /* creat-safer.c */,
+				A530AE9B2C3052DD00F48BE3 /* crypt.c */,
 				A5E742291A6B4072009DE252 /* cuserid.c */,
 				A50A90BC18EE1D7B0096B616 /* cycle-check.c */,
 				A50A90BD18EE1D7B0096B616 /* cycle-check.h */,
@@ -869,6 +874,7 @@
 				A50A912B18EE1E1A0096B616 /* memcmp2.h */,
 				A563262D19001FAB0024EB6A /* mempcpy.c */,
 				A531667818EEF5560049B90F /* memrchr.c */,
+				A530AE9D2C305ED600F48BE3 /* memrchr.h */,
 				A589B8FB19474F5800FA11DB /* mktime-internal.h */,
 				A589B8FC19474F5800FA11DB /* mktime.c */,
 				A5C41BD819100D3900279181 /* mntent.h */,
@@ -1122,6 +1128,7 @@
 				A52030B2190596EA00C5B524 /* canonicalize.h in Headers */,
 				A52030D819059A8000C5B524 /* careadlinkat.h in Headers */,
 				A50A90B518EE1D6E0096B616 /* chdir-long.h in Headers */,
+				A530AE9E2C305ED600F48BE3 /* memrchr.h in Headers */,
 				A50A90B718EE1D6E0096B616 /* chdir-safer.h in Headers */,
 				A50A90B918EE1D6E0096B616 /* cloexec.h in Headers */,
 				A5D4523C190555E300ED9BDA /* close-stream.h in Headers */,
@@ -1451,6 +1458,7 @@
 				A5DB80251905593D00F38DDF /* c-strncasecmp.c in Sources */,
 				A52030B0190596EA00C5B524 /* canonicalize-lgpl.c in Sources */,
 				A52030B1190596EA00C5B524 /* canonicalize.c in Sources */,
+				A530AE9C2C3052DE00F48BE3 /* crypt.c in Sources */,
 				A52030D719059A8000C5B524 /* careadlinkat.c in Sources */,
 				A50A90B418EE1D6E0096B616 /* chdir-long.c in Sources */,
 				A50A90B618EE1D6E0096B616 /* chdir-safer.c in Sources */,

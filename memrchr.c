@@ -35,6 +35,8 @@
 #include <string.h>
 #include <limits.h>
 
+#include "memrchr.h"
+
 #undef __memrchr
 #ifdef _LIBC
 # undef memrchr

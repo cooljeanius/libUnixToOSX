@@ -1642,8 +1642,10 @@ getopttest_CFLAGS = $(getopttest_CPPFLAGS) -Wall -Wextra -ggdb3
 
 ## extra test dependencies:
 check-local: all
-	if test -x "`which machocheck`" -a -d .libs; then \
+	if test -x "`which machocheck`" -a -d .libs -a -r .libs/libUnixToOSX.dylib; then \
 	  machocheck -progress .libs/libUnixToOSX.dylib; \
+	else \
+	  echo "skipping checks of mach-o format validity"; \
 	fi
 
 ## build just the test programs without also running them:
@@ -1813,7 +1815,8 @@ canonicalize-lgpl.o: canonicalize-lgpl.c config.h canonicalize.h \
 canonicalize.o: canonicalize.c config.h canonicalize.h areadlink.h \
   $(file_set_h) hash-triple.h pathmax.h $(xalloc_h) xgetcwd.h
 careadlinkat.o: careadlinkat.c config.h careadlinkat.h allocator.h
-chdir-long.o: chdir-long.c config.h chdir-long.h closeout.h error.h
+chdir-long.o: chdir-long.c config.h chdir-long.h closeout.h error.h \
+  memrchr.h
 chdir-safer.o: chdir-safer.c config.h chdir-safer.h same-inode.h
 chown.o: chown.c config.h rpl_misc_funcs.h
 cloexec.o: cloexec.c config.h cloexec.h
@@ -1904,7 +1907,7 @@ memchr2.o: memchr2.c config.h memchr2.h
 memcmp.o: memcmp.c config.h
 memcmp2.o: memcmp2.c config.h memcmp2.h
 mempcpy.o: mempcpy.c config.h
-memrchr.o: memrchr.c config.h
+memrchr.o: memrchr.c config.h memrchr.h
 mktime.o: mktime.c config.h mktime-internal.h
 mountlist.o: mountlist.c config.h mntent.h mountlist.h $(xalloc_h) \
   unlocked-io.h

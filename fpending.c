@@ -27,7 +27,12 @@
 size_t
 __fpending(FILE *fp)
 {
+  (void)fp;
+#if defined PENDING_OUTPUT_N_BYTES
   return (size_t)(PENDING_OUTPUT_N_BYTES);
+#else
+  return 0UL;
+#endif /* PENDING_OUTPUT_N_BYTES */
 }
 
 /* EOF */

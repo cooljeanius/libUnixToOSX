@@ -30,6 +30,8 @@
 #include <string.h>
 #include <stdio.h>
 
+#include "memrchr.h"
+
 #ifndef PATH_MAX
 # error "compile this file only if your system defines PATH_MAX"
 #endif /* !PATH_MAX (i.e. GNU/Hurd) */
