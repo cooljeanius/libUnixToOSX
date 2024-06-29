@@ -121,6 +121,10 @@ warnings_to_skip="${warnings_to_skip} -Wnarrowing"               # C++ only
 warnings_to_skip="${warnings_to_skip} -Wshadow-ivar"     # ObjC/ObjC++ only
 warnings_to_skip="${warnings_to_skip} -Wimplicit"  # default lately anyways
 warnings_to_skip="${warnings_to_skip} -Wimplicit-function-declaration" # ""
+warnings_to_skip="${warnings_to_skip} -Wformat=2" # we specify all subflags
+if test -z "`ls | grep pch`"; then
+  warnings_to_skip="${warnings_to_skip} -Winvalid-pch"
+fi
 case ${host_cpu} in
   aarch64 | powerpc64 | x86_64)
     warnings_to_skip="${warnings_to_skip} -Wlong-long"  # "long long"=64bit
@@ -135,6 +139,7 @@ if test x${CFLAGS+set} = xset; then
       warnings_to_skip="${warnings_to_skip} -Waggressive-loop-optimizations"
       warnings_to_skip="${warnings_to_skip} -Wdisabled-optimization"
       warnings_to_skip="${warnings_to_skip} -Wvector-operation-performance"
+      warnings_to_skip="${warnings_to_skip} -Winline"
       ;;
     *"-O"* )
       ;;
@@ -158,6 +163,7 @@ else
   warnings_to_skip="${warnings_to_skip} -Waggressive-loop-optimizations"
   warnings_to_skip="${warnings_to_skip} -Wdisabled-optimization"
   warnings_to_skip="${warnings_to_skip} -Wvector-operation-performance"
+  warnings_to_skip="${warnings_to_skip} -Winline"
   warnings_to_skip="${warnings_to_skip} -Wcoverage-mismatch"
   warnings_to_skip="${warnings_to_skip} -Wstack-protector"
 fi

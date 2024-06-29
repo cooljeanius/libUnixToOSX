@@ -161,7 +161,11 @@ rpl_fflush(FILE *stream)
     return fflush(stream);
   }
 
-#if defined(_IO_EOF_SEEN) || defined(_IO_ftrylockfile) || (defined(__GNU_LIBRARY__) && (__GNU_LIBRARY__ == 1))
+  /* Keep this preprocessor condition the same as the one around where
+   * clear_ungetc_buffer_preserving_position is defined: */
+#if (defined(_IO_EOF_SEEN) && defined(_IO_IN_BACKUP)) || \
+    (defined(_IO_ftrylockfile) && defined(_IO_IN_BACKUP)) || \
+    (defined(__GNU_LIBRARY__) && (__GNU_LIBRARY__ == 1))
   /* GNU libc, BeOS, Haiku, Linux libc5 */
   clear_ungetc_buffer_preserving_position(stream);
 
@@ -205,7 +209,11 @@ rpl_fflush(FILE *stream)
      * semantics of fpurge are now appropriate to clear the buffer.  To
      * avoid losing data, the lseek is also necessary.  */
     {
+# if defined(HAVE_FPURGE)
       int result = fpurge(stream);
+# else
+      int result = 0;
+# endif /* HAVE_FPURGE */
 	  if (result != 0) {
         return result;
 	  }

@@ -551,7 +551,7 @@ extern char *
 __argp_short_program_name(const struct argp_state *state) __THROW;
 
 
-#ifdef __USE_EXTERN_INLINES
+#if defined(__USE_EXTERN_INLINES) && !defined(_GL_EXTERN_INLINE_APPLE_BUG)
 
 # if !_LIBC
 #  define __argp_usage argp_usage
