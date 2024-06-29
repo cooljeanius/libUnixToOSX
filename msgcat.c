@@ -31,12 +31,21 @@ up-to-date.  Many thanks.
 ******************************************************************/
 
 #include <sys/cdefs.h>
+
+#ifndef __FBSDID
+# define __FBSDID(str) static const char *fbsdid_msgcat_c str
+#endif /* !__FBSDID */
+
 __FBSDID("$FreeBSD: src/lib/libc/nls/msgcat.c,v 1.49 2005/02/01 16:04:55 phantom Exp $");
 
 /*
  * We need a better way of handling errors than printing text.  I need
  * to add an error handling routine.
  */
+
+ #ifndef __has_include
+ # define __has_include(foo) 0
+ #endif /* !__has_include */
 
 #include "namespace.h"
 #include <sys/types.h>
@@ -45,7 +54,13 @@ __FBSDID("$FreeBSD: src/lib/libc/nls/msgcat.c,v 1.49 2005/02/01 16:04:55 phantom
 #include <errno.h>
 #include <fcntl.h>
 #include <limits.h>
-#include <xlocale.h>
+#if defined(HAVE_XLOCALE_H) || __has_include(<xlocale.h>)
+# include <xlocale.h>
+#else
+# if defined(__GNUC__) && !defined(__STRICT_ANSI__)
+#  warning "msgcat.c expects <xlocale.h> to be included."
+# endif /* __GNUC__ && !__STRICT_ANSI__ */
+#endif /* HAVE_XLOCALE_H */
 #include <nl_types.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -151,16 +166,16 @@ catopen(__const char *name, int type)
 						++nlspath;
 						/* fallthrough */
 					default:
-						if (pathP - path >=
-						    sizeof(path) - 1)
+						if ((pathP - path) >=
+						    (sizeof(path) - 1UL))
 							goto too_long;
 						*(pathP++) = *nlspath;
 						continue;
 					}
 					++nlspath;
 			put_tmpptr:
-					spcleft = sizeof(path) -
-						  (pathP - path) - 1;
+					spcleft = (sizeof(path) -
+						   (pathP - path) - 1UL);
 					if (strlcpy(pathP, tmpptr, spcleft) >=
 					    spcleft) {
 			too_long:
@@ -170,7 +185,7 @@ catopen(__const char *name, int type)
 					}
 					pathP += strlen(tmpptr);
 				} else {
-					if (pathP - path >= sizeof(path) - 1)
+					if ((pathP - path) >= (sizeof(path) - 1UL))
 						goto too_long;
 					*(pathP++) = *nlspath;
 				}

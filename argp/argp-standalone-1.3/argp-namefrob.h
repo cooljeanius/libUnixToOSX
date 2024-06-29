@@ -1,4 +1,4 @@
-/* argp-namefrob.h: Name frobnication for compiling argp outside of glibc
+/* argp-namefrob.h: Name frobnication for building argp out of glibc -*- C -*-
    Copyright (C) 1997 Free Software Foundation, Inc.
    This file is part of the GNU C Library.
    Written by Miles Bader <miles@gnu.ai.mit.edu>.
