@@ -1152,8 +1152,9 @@ void
 gl_locale_name_canonicalize(char *name)
 {
 	/* This conversion is based on a posting by
-	 * Deborah GoldSmith <goldsmit@apple.com> on 2005-03-08,
-	 * http://lists.apple.com/archives/carbon-dev/2005/Mar/msg00293.html */
+	 * Deborah GoldSmith <goldsmit@apple.com> on 2005-03-08:
+	 * https://web.archive.org/web/20140115121607/https://lists.apple.com/archives/carbon-dev/2005/Mar/msg00293.html
+	 */
 
 	/* Convert legacy (NeXTstep inherited) English names to Unix (ISO 639 and
 	 * ISO 3166) names.  Prior to Mac OS X 10.3, there is no API for doing this.
