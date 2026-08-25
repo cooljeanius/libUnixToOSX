@@ -73,7 +73,7 @@
  *				 Includes
 \*-----------------------------------------------------------------------*/
 
-#include <unistd.h>			     /* standard Unix definitions */
+#include <unistd.h>		 /* standard Unix definitions */
 #include <sys/types.h>           /* system types */
 #include <sys/time.h>            /* time definitions */
 #include <assert.h>              /* assertion macros */
@@ -110,7 +110,7 @@ map_poll_spec(struct pollfd *pArray, nfds_t n_fds, fd_set *pReadSet,
 
         if (pCur->fd < 0) {
             continue;
-		}
+        }
 
 	if (pCur->events & POLLIN) {
 	    /* "Input Ready" notification desired. */
@@ -160,32 +160,31 @@ map_timeout(int poll_timeout, struct timeval *pSelTimeout)
     assert(pSelTimeout != (struct timeval *)NULL);
 
     switch (poll_timeout) {
-		case -1:
-			/*
-			 * A NULL timeout structure tells select() to wait indefinitely.
-			 */
-			pResult = (struct timeval *)NULL;
-			break;
+	case -1:
+	    /*
+	     * A NULL timeout structure tells select() to wait indefinitely.
+	     */
+	    pResult = (struct timeval *)NULL;
+	    break;
 
-		case 0:
-			/*
-			 * "Return immediately" (test) is specified by all zeros in
-			 * a timeval structure.
-			 */
-			pSelTimeout->tv_sec  = 0;
-			pSelTimeout->tv_usec = 0;
-			pResult = pSelTimeout;
-			break;
+	case 0:
+	    /*
+	     * "Return immediately" (test) is specified by all zeros in
+	     * a timeval structure.
+	     */
+	    pSelTimeout->tv_sec  = 0;
+	    pSelTimeout->tv_usec = 0;
+	    pResult = pSelTimeout;
+	    break;
 
-		default:
-			/* Wait the specified number of milliseconds. */
-			pSelTimeout->tv_sec  = (poll_timeout / 1000); /* get seconds */
-			poll_timeout        %= 1000;                  /* remove seconds */
-			pSelTimeout->tv_usec = (poll_timeout * 1000); /* get microseconds */
-			pResult = pSelTimeout;
-			break;
+	default:
+	    /* Wait the specified number of milliseconds. */
+	    pSelTimeout->tv_sec  = (poll_timeout / 1000); /* get seconds */
+	    poll_timeout        %= 1000;                  /* remove seconds */
+	    pSelTimeout->tv_usec = (poll_timeout * 1000); /* get microseconds */
+	    pResult = pSelTimeout;
+	    break;
     }
-
 
     return pResult;
 }
@@ -196,26 +195,26 @@ map_select_results(struct pollfd *pArray, unsigned long n_fds,
                    fd_set *pReadSet, fd_set *pWriteSet, fd_set *pExceptSet)
 {
     register unsigned long  i;               /* loop control */
-    register struct	    pollfd *pCur;        /* current array element */
+    register struct	    pollfd *pCur;    /* current array element */
 
     for ((i = 0), (pCur = pArray); (i < n_fds); i++, pCur++) {
         /* Skip any bad FDs in the array. */
 
         if (pCur->fd < 0) {
             continue;
-		}
+        }
 
-		/* Exception events take priority over input events: */
-		pCur->revents = 0;
-		if (FD_ISSET(pCur->fd, pExceptSet)) {
-			pCur->revents |= POLLPRI;
-		} else if (FD_ISSET(pCur->fd, pReadSet)) {
-			pCur->revents |= POLLIN;
-		}
+	/* Exception events take priority over input events: */
+	pCur->revents = 0;
+	if (FD_ISSET(pCur->fd, pExceptSet)) {
+            pCur->revents |= POLLPRI;
+	} else if (FD_ISSET(pCur->fd, pReadSet)) {
+            pCur->revents |= POLLIN;
+	}
 
-		if (FD_ISSET(pCur->fd, pWriteSet)) {
-			pCur->revents |= POLLOUT;
-		}
+	if (FD_ISSET(pCur->fd, pWriteSet)) {
+            pCur->revents |= POLLOUT;
+	}
     }
 
     return;
@@ -246,18 +245,18 @@ poll(struct pollfd *pArray, unsigned long n_fds, int timeout)
     /* Map the poll() file descriptor list in the select() data structures. */
 
     max_fd = map_poll_spec(pArray, n_fds, &read_descs, &write_descs,
-						   &except_descs);
+                           &except_descs);
 
     /* Map the poll() timeout value in the select() timeout structure: */
     pTimeout = map_timeout(timeout, &stime);
 
     /* Make the select() call: */
     ready_descriptors = select((max_fd + 1), &read_descs, &write_descs,
-							   &except_descs, pTimeout);
+                               &except_descs, pTimeout);
 
     if (ready_descriptors >= 0) {
-		map_select_results(pArray, n_fds, &read_descs, &write_descs,
-						   &except_descs);
+        map_select_results(pArray, n_fds, &read_descs, &write_descs,
+                           &except_descs);
     }
 
     return ready_descriptors;
